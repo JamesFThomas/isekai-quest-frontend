@@ -10,35 +10,38 @@ type Form = {
   Completed: boolean;
 };
 
-// export const dynamic = 'force-dynamic';
+export const dynamic = 'force-dynamic';
 
 export default function Test() {
   const [forms, setForms] = useState<Form[]>([]);
-  //   const apiData = await fetch('http://127.0.0.1:5001/Forms');
-  //   const formsData: Form[] = await apiData.json();
 
   useEffect(() => {
-    if (forms.length === 0) {
-      fetch('http://127.0.0.1:5001/Forms')
+    const fetchData = async () => {
+      fetch('https://localhost:5001/Forms', {
+        method: 'GET',
+        headers: {
+          Accept: 'text/plain',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*', // Required for CORS support to work
+          'Access-Control-Allow-Credentials': 'true', // Required for cookies, authorization headers with HTTPS
+        },
+      })
         .then((response) => response.json())
-        .then((data) => setForms(data));
-    }
-  });
+        .then((data) => setForms(data))
+        .catch((error) => console.error('Fetch Error', error));
+    };
+    fetchData();
+  }, []);
+
+  console.log(forms);
+
+  if (!forms) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <div>
       <h1>Test</h1>
-      <ul>
-        {forms.map((form: Form) => (
-          <>
-            <li key={form.Id}>{form.Id}</li>
-            <li key={form.Id}>{form.FirstName}</li>
-            <li key={form.Id}>{form.LastName}</li>
-            <li key={form.Id}>{form.Message}</li>
-            <li key={form.Id}>{form.Completed}</li>
-          </>
-        ))}
-      </ul>
     </div>
   );
 }

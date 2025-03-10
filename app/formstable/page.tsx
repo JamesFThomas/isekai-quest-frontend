@@ -5,11 +5,11 @@ import { useEffect, useState } from 'react';
 import FormsTable from '@/components/FormsTable';
 
 export type Form = {
-  id: number;
-  firstName: string;
-  lastName: string;
-  message: string;
-  completed: boolean;
+  Id: number;
+  FirstName: string;
+  LastName: string;
+  Message: string;
+  Completed: boolean;
 };
 
 export const dynamic = 'force-dynamic';

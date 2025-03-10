@@ -39,12 +39,12 @@ const FormsTable = ({ formsData }: FormsTableProps) => {
           <tbody>
             {forms &&
               forms.map((forms) => (
-                <tr key={forms.id}>
-                  <td>{forms.id}</td>
-                  <td>{forms.firstName}</td>
-                  <td>{forms.lastName}</td>
-                  <td>{forms.message}</td>
-                  <td>{forms.completed ? '✔️' : '❌'}</td>
+                <tr key={forms.Id}>
+                  <td>{forms.Id}</td>
+                  <td>{forms.FirstName}</td>
+                  <td>{forms.LastName}</td>
+                  <td>{forms.Message}</td>
+                  <td>{forms.Completed ? '✔️' : '❌'}</td>
                 </tr>
               ))}
           </tbody>

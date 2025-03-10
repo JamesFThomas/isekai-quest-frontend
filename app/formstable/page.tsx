@@ -23,31 +23,48 @@ export default function FormsTableView() {
   const [forms, setForms] = useState<Form[]>([]);
 
   // TODO - Uncomment the fetchData function below to fetch data from the API
-  // const fetchData = useMemo(() => async () => {
-  //   fetch('https://localhost:5001/Forms', {
-  //     method: 'GET',
-  //     headers: {
-  //       Accept: 'text/plain',
-  //       'Content-Type': 'application/json',
-  //       'Access-Control-Allow-Origin': '*', // Required for CORS support to work
-  //       'Access-Control-Allow-Credentials': 'true', // Required for cookies, authorization headers with HTTPS
-  //     },
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => setForms(data))
-  //     .catch((error) => console.error('Fetch Error', error));
-  // }, []);
+  // const fetchData = useMemo(
+  //   () => async () => {
+  //     fetch('https://localhost:5001/Forms', {
+  //       method: 'GET',
+  //       headers: {
+  //         Accept: 'text/plain',
+  //         'Content-Type': 'application/json',
+  //         'Access-Control-Allow-Origin': '*', // Required for CORS support to work
+  //         'Access-Control-Allow-Credentials': 'true', // Required for cookies, authorization headers with HTTPS
+  //       },
+  //     })
+  //       .then((response) => response.json())
+  //       .then((data) => setForms(data))
+  //       .catch((error) => console.error('Fetch Error', error));
+  //   },
+  //   [],
+  // );
 
   useEffect(() => {
-    setForms(mockForms);
-    // fetchData();
+    // setForms(mockForms);
+    const fetchData = async () => {
+      fetch('https://localhost:5001/Forms', {
+        method: 'GET',
+        headers: {
+          Accept: 'text/plain',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*', // Required for CORS support to work
+          'Access-Control-Allow-Credentials': 'true', // Required for cookies, authorization headers with HTTPS
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => setForms(data))
+        .catch((error) => console.error('Fetch Error', error));
+    };
+    fetchData();
   }, []);
 
-  console.log(forms);
+  // console.log(forms);
 
-  if (!forms) {
+  if (forms.length === 0) {
     return <h1>Loading...</h1>;
   }
 
-  return <FormsTable forms={forms} />;
+  return <FormsTable forms={mockForms} />; // TODO - Change mockForms to forms once you figure out why fetched forms won't render
 }

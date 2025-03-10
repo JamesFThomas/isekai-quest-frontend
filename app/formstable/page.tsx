@@ -39,6 +39,7 @@ export default function FormsTableView() {
     }
   }, [forms]);
 
+  // TODO - Add loading spinner
   if (forms === undefined) {
     return <h1>Loading...</h1>;
   }

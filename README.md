@@ -1,36 +1,28 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Web Form Frontend
 
-## Getting Started
+Web Form Frontend is a Next.js 15 project to display and manipulate API data.
 
-First, run the development server:
+## Description
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+This project utilizes Next.js 15, Fetch, React Table, React Hook Forms, and MUI styled components to create an application that allows users to view, manipulate, and persist submitted form data.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Purpose
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+I worked on a finTech application for almost 3 years and before it went live the project was halted so I was never able to share the things I learned and built during that period with the world. My main reason for building this application is to be an example of the work I completed during that time and showcase my understanding as well as abilities regarding frontend design, form creation, data collection/presentation, and data persistence.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The second reason for building this application was to act as a companion for the C# API I built to further my skills as a full stack developer. The Web Form Frontend project is designed to work with the Web Form API project, and without both you will not be able to visualize any data.
 
-## Learn More
+### Features
 
-To learn more about Next.js, take a look at the following resources:
+Each page or component performs a different http request
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+GET - all forms
+GET - form by id
+GET - all completed forms
+PUT - update form by id#
+POST - add new form
+DELETE - remove form by id#
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Tests
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+he component tests for this application were created using the React Testing Library && Jest dependencies

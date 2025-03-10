@@ -1,7 +1,7 @@
 'use client';
 
 import {
-  // useEffect, // TODO - Uncomment this line to use useEffect
+  useEffect,
   // useMemo, // TODO - Uncomment this line to use useMemo
   useState,
 } from 'react';
@@ -20,10 +20,7 @@ export type Form = {
 export const dynamic = 'force-dynamic';
 
 export default function FormsTableView() {
-  const [
-    forms,
-    // setForms // TODO - Uncomment this line to set the forms state
-  ] = useState<Form[]>(mockForms);
+  const [forms, setForms] = useState<Form[]>([]);
 
   // TODO - Uncomment the fetchData function below to fetch data from the API
   // const fetchData = useMemo(() => async () => {
@@ -41,10 +38,10 @@ export default function FormsTableView() {
   //     .catch((error) => console.error('Fetch Error', error));
   // }, []);
 
-  // TODO - Uncomment the useEffect and fetchData lines below to fetch data from the API
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    setForms(mockForms);
+    // fetchData();
+  }, []);
 
   console.log(forms);
 

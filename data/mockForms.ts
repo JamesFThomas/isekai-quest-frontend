@@ -1,4 +1,4 @@
-import { Form } from '@/app/formsTableView/page';
+import { Form } from '@/app/formstable/page';
 
 export const mockForms: Form[] = [
     {

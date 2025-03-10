@@ -51,14 +51,14 @@ const AllFormsTable = ({ formsData }: FormTableProps) => {
       id: 'edit',
       header: () => 'Edit',
       cell: (info) => (
-        <EditIcon onClick={() => handleEdit(info.row.original)} />
+        <EditIcon onClick={() => handleEdit(info.row.original.Id)} />
       ),
     }),
     columnHelper.display({
       id: 'delete',
       header: () => 'Delete',
       cell: (info) => (
-        <DeleteIcon onClick={() => handleDelete(info.row.original)} />
+        <DeleteIcon onClick={() => handleDelete(info.row.original.Id)} />
       ),
     }),
   ];
@@ -69,13 +69,13 @@ const AllFormsTable = ({ formsData }: FormTableProps) => {
     getCoreRowModel: getCoreRowModel(),
   });
 
-  const handleEdit = (form: Form) => {
+  const handleEdit = (id: number) => {
     // Implement edit functionality here
-    console.log('Edit', form);
+    console.log('Edit icon was clicked for Form with id#:', id);
   };
 
-  const handleDelete = useCallback(async (form: Form) => {
-    await fetch(`https://localhost:5001/Forms/${form.Id}`, {
+  const handleDelete = useCallback(async (id: number) => {
+    await fetch(`https://localhost:5001/Forms/${id}`, {
       method: 'DELETE',
       headers: {
         Accept: 'text/plain',
@@ -86,7 +86,7 @@ const AllFormsTable = ({ formsData }: FormTableProps) => {
     })
       .then((response) => response.text())
       .then((data) =>
-        console.log(data + `Form with Id: ${form.Id} has been deleted`),
+        console.log(data + `Form with Id: ${id} has been deleted`),
       )
       .catch((error) => console.error('Fetch Error', error));
   }, []);

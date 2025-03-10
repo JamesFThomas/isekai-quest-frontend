@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import FormsTable from '@/components/FormsTable';
+import AllFormsTable from '@/components/AllFormsTable';
 
 export type Form = {
   Id: number;
@@ -43,5 +43,5 @@ export default function FormsTableView() {
     return <h1>Loading...</h1>;
   }
 
-  return forms && <FormsTable formsData={forms} />;
+  return forms && <AllFormsTable formsData={forms} />;
 }

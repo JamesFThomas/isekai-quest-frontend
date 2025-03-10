@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -25,12 +25,6 @@ type FormTableProps = {
 
 const AllFormsTable = ({ formsData }: FormTableProps) => {
   const [data, setData] = useState<Form[]>([]);
-
-  useEffect(() => {
-    if (data.length === 0) {
-      setData(formsData);
-    }
-  }, [data]);
 
   const columns = [
     columnHelper.accessor('Id', {
@@ -80,10 +74,28 @@ const AllFormsTable = ({ formsData }: FormTableProps) => {
     console.log('Edit', form);
   };
 
-  const handleDelete = (form: Form) => {
-    // Implement delete functionality here
-    console.log('Delete', form);
-  };
+  const handleDelete = useCallback(async (form: Form) => {
+    await fetch(`https://localhost:5001/Forms/${form.Id}`, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'text/plain',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*', // Required for CORS support to work
+        'Access-Control-Allow-Credentials': 'true', // Required for cookies, authorization headers with HTTPS
+      },
+    })
+      .then((response) => response.text())
+      .then((data) =>
+        console.log(data + `Form with Id: ${form.Id} has been deleted`),
+      )
+      .catch((error) => console.error('Fetch Error', error));
+  }, []);
+
+  useEffect(() => {
+    if (data.length === 0) {
+      setData(formsData);
+    }
+  }, [data, formsData, handleDelete]);
 
   return (
     <div>

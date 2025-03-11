@@ -4,6 +4,8 @@ import { useCallback, useEffect, useState } from 'react';
 
 import AllFormsTable from '@/components/AllFormsTable';
 
+import CircularProgress from '@mui/material/CircularProgress';
+
 export type Form = {
   Id: number;
   FirstName: string;
@@ -42,7 +44,7 @@ export default function FormsTableView() {
 
   // TODO - Add loading spinner
   if (forms === undefined) {
-    return <h1>Loading...</h1>;
+    return <CircularProgress size="3rem" />;
   }
 
   return (

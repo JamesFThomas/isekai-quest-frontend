@@ -21,9 +21,10 @@ const columnHelper = createColumnHelper<Form>();
 
 type FormTableProps = {
   formsData: Form[];
+  refreshData: () => Promise<void>;
 };
 
-const AllFormsTable = ({ formsData }: FormTableProps) => {
+const AllFormsTable = ({ formsData, refreshData }: FormTableProps) => {
   const [data, setData] = useState<Form[]>([]);
 
   const columns = [
@@ -58,7 +59,7 @@ const AllFormsTable = ({ formsData }: FormTableProps) => {
       id: 'delete',
       header: () => 'Delete',
       cell: (info) => (
-        <DeleteIcon onClick={() => handleDelete(info.row.original.Id)} />
+        <DeleteIcon onClick={() => deleteThenRefresh(info.row.original.Id)} />
       ),
     }),
   ];
@@ -91,11 +92,17 @@ const AllFormsTable = ({ formsData }: FormTableProps) => {
       .catch((error) => console.error('Fetch Error', error));
   }, []);
 
+  const deleteThenRefresh = useCallback(
+    async (id: number) => {
+      await handleDelete(id);
+      await refreshData();
+    },
+    [handleDelete, refreshData],
+  );
+
   useEffect(() => {
-    if (data.length === 0) {
-      setData(formsData);
-    }
-  }, [data, formsData, handleDelete]);
+    setData(formsData);
+  }, [formsData]);
 
   return (
     <div>

@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from 'react';
 import AllFormsTable from '@/components/AllFormsTable';
 
 import CircularProgress from '@mui/material/CircularProgress';
+import FormsModal from '@/components/FormsModal';
 
 export type Form = {
   Id: number;
@@ -18,22 +19,26 @@ export const dynamic = 'force-dynamic';
 
 export default function FormsTableView() {
   const [forms, setForms] = useState<Form[] | undefined>(undefined);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [formId, setFormId] = useState<number | undefined>(undefined);
 
   const fetchReFetchData = useCallback(async () => {
-    const fetchedData = await fetch('https://localhost:5001/Forms', {
-      method: 'GET',
-      headers: {
-        Accept: 'text/plain',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*', // Required for CORS support to work
-        'Access-Control-Allow-Credentials': 'true', // Required for cookies, authorization headers with HTTPS
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => data)
-      .catch((error) => console.error('Fetch Error', error));
+    try {
+      const fetchedData = await fetch('https://localhost:5001/Forms', {
+        method: 'GET',
+        headers: {
+          Accept: 'text/plain',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*', // Required for CORS support to work
+          'Access-Control-Allow-Credentials': 'true', // Required for cookies, authorization headers with HTTPS
+        },
+      });
 
-    setForms(fetchedData);
+      const data = await fetchedData.json();
+      setForms(data);
+    } catch (error) {
+      console.error('Fetch Error', error);
+    }
   }, []);
 
   useEffect(() => {
@@ -47,6 +52,22 @@ export default function FormsTableView() {
   }
 
   return (
-    forms && <AllFormsTable formsData={forms} refreshData={fetchReFetchData} />
+    <>
+      {forms && (
+        <AllFormsTable
+          formsData={forms}
+          refreshData={fetchReFetchData}
+          setIsModalOpen={setIsModalOpen}
+          setFormId={setFormId}
+        />
+      )}
+      {isModalOpen && (
+        <FormsModal
+          open={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+          formId={formId}
+        />
+      )}
+    </>
   );
 }

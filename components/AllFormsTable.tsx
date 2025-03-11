@@ -52,14 +52,20 @@ const AllFormsTable = ({ formsData, refreshData }: FormTableProps) => {
       id: 'edit',
       header: () => 'Edit',
       cell: (info) => (
-        <EditIcon onClick={() => handleEdit(info.row.original.Id)} />
+        <EditIcon
+          sx={{ cursor: 'pointer' }}
+          onClick={() => handleEdit(info.row.original.Id)}
+        />
       ),
     }),
     columnHelper.display({
       id: 'delete',
       header: () => 'Delete',
       cell: (info) => (
-        <DeleteIcon onClick={() => deleteThenRefresh(info.row.original.Id)} />
+        <DeleteIcon
+          sx={{ cursor: 'pointer' }}
+          onClick={() => deleteThenRefresh(info.row.original.Id)}
+        />
       ),
     }),
   ];

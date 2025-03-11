@@ -8,8 +8,15 @@ import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import ArticleIcon from '@mui/icons-material/Article';
 import { CardHeader, Stack, Typography } from '@mui/material';
+import TextField from '@mui/material/TextField';
+
+import ArticleIcon from '@mui/icons-material/Article';
+import InputIcon from '@mui/icons-material/Input';
+
+//TODO - Add login functionality
+//TODO - Add login form
+// TODO - Update Page format to only use MUI components and styles
 
 const Home = () => {
   const router = useRouter();
@@ -59,6 +66,23 @@ const Home = () => {
                   Please log in to access the forms.
                 </Typography>
               </Stack>
+              <Stack
+                direction={'row'}
+                spacing={2}
+                justifyContent={'center'}
+                mt={3}
+              >
+                <TextField
+                  id="outlined-basic"
+                  label="Username"
+                  variant="outlined"
+                />
+                <TextField
+                  id="outlined-basic"
+                  label="Email"
+                  variant="outlined"
+                />
+              </Stack>
             </CardContent>
             <CardActions
               sx={{
@@ -73,6 +97,13 @@ const Home = () => {
                 onClick={() => router.push('/formstable')}
               >
                 Log In
+              </Button>
+              <Button
+                variant="contained"
+                color="secondary"
+                startIcon={<InputIcon />}
+              >
+                Register
               </Button>
             </CardActions>
           </Card>

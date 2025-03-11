@@ -2,6 +2,8 @@ import { useCallback, useEffect, useState } from 'react';
 
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
 
 import {
   createColumnHelper,
@@ -17,7 +19,6 @@ import { Form } from '@/app/formstable/page';
 const columnHelper = createColumnHelper<Form>();
 
 // TODO add edit icon and functionality in display column
-// TODO add delete icon and functionality in display column
 
 type FormTableProps = {
   formsData: Form[];
@@ -46,7 +47,12 @@ const AllFormsTable = ({ formsData, refreshData }: FormTableProps) => {
     }),
     columnHelper.accessor('Completed', {
       header: () => 'Completed',
-      cell: (info) => (info.getValue().toString() === 'true' ? '✔️' : '❌'),
+      cell: (info) =>
+        info.getValue().toString() === 'true' ? (
+          <CheckIcon sx={{ color: '#4caf50' }} />
+        ) : (
+          <ClearIcon sx={{ color: '#f44336' }} />
+        ),
     }),
     columnHelper.display({
       id: 'edit',

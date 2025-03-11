@@ -42,7 +42,6 @@ export default function FormsTableView() {
     }
   }, [fetchReFetchData, forms]);
 
-  // TODO - Add loading spinner
   if (forms === undefined) {
     return <CircularProgress size="3rem" />;
   }

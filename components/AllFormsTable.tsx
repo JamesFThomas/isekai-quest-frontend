@@ -1,4 +1,10 @@
-import { useCallback, useEffect, useState } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -23,9 +29,16 @@ const columnHelper = createColumnHelper<Form>();
 type FormTableProps = {
   formsData: Form[];
   refreshData: () => Promise<void>;
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
+  setFormId: Dispatch<SetStateAction<number | undefined>>;
 };
 
-const AllFormsTable = ({ formsData, refreshData }: FormTableProps) => {
+const AllFormsTable = ({
+  formsData,
+  refreshData,
+  setIsModalOpen,
+  setFormId,
+}: FormTableProps) => {
   const [data, setData] = useState<Form[]>([]);
 
   const columns = [
@@ -85,6 +98,8 @@ const AllFormsTable = ({ formsData, refreshData }: FormTableProps) => {
   const handleEdit = (id: number) => {
     // Implement edit functionality here
     console.log('Edit icon was clicked for Form with id#:', id);
+    setIsModalOpen(true);
+    setFormId(id);
   };
 
   const handleDelete = useCallback(async (id: number) => {

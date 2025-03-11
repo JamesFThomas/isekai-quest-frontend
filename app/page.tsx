@@ -99,6 +99,7 @@ const Home = () => {
                 Log In
               </Button>
               <Button
+                disabled
                 variant="contained"
                 color="secondary"
                 startIcon={<InputIcon />}

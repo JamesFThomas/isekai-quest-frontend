@@ -21,7 +21,8 @@ export const dynamic = 'force-dynamic';
 export default function FormsTableView() {
   const [forms, setForms] = useState<Form[] | undefined>(undefined);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [formId, setFormId] = useState<number | undefined>(undefined);
+
+  const [formData, setFormData] = useState<Form | undefined>(undefined);
 
   const fetchReFetchData = useCallback(async () => {
     try {
@@ -68,14 +69,14 @@ export default function FormsTableView() {
           formsData={forms}
           refreshData={fetchReFetchData}
           setIsModalOpen={setIsModalOpen}
-          setFormId={setFormId}
+          setFormData={setFormData}
         />
       )}
       {isModalOpen && (
         <FormsModal
           open={isModalOpen}
           setIsModalOpen={setIsModalOpen}
-          formId={formId}
+          formData={formData}
         />
       )}
     </Container>

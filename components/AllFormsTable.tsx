@@ -19,25 +19,22 @@ import {
 } from '@tanstack/react-table';
 
 import { Form } from '@/app/formstable/page';
-
-// import { mockForms } from '@/data/mockForms';
+import { Card, CardHeader, Typography } from '@mui/material';
 
 const columnHelper = createColumnHelper<Form>();
-
-// TODO add edit icon and functionality in display column
 
 type FormTableProps = {
   formsData: Form[];
   refreshData: () => Promise<void>;
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
-  setFormId: Dispatch<SetStateAction<number | undefined>>;
+  setFormData: Dispatch<SetStateAction<Form | undefined>>;
 };
 
 const AllFormsTable = ({
   formsData,
   refreshData,
   setIsModalOpen,
-  setFormId,
+  setFormData,
 }: FormTableProps) => {
   const [data, setData] = useState<Form[]>([]);
 
@@ -73,7 +70,7 @@ const AllFormsTable = ({
       cell: (info) => (
         <EditIcon
           sx={{ cursor: 'pointer' }}
-          onClick={() => handleEdit(info.row.original.Id)}
+          onClick={() => handleEdit(info.row.original)}
         />
       ),
     }),
@@ -95,11 +92,10 @@ const AllFormsTable = ({
     getCoreRowModel: getCoreRowModel(),
   });
 
-  const handleEdit = (id: number) => {
-    // Implement edit functionality here
-    console.log('Edit icon was clicked for Form with id#:', id);
+  const handleEdit = (rowData: Form) => {
+    // TODO pass all form data to modal, you will submit the form from there
     setIsModalOpen(true);
-    setFormId(id);
+    setFormData(rowData);
   };
 
   const handleDelete = useCallback(async (id: number) => {
@@ -132,9 +128,19 @@ const AllFormsTable = ({
   }, [formsData]);
 
   return (
-    <div>
-      <h1>All Forms Table</h1>
-      <table>
+    <Card
+      sx={{
+        padding: 2,
+        width: '800px',
+      }}
+    >
+      <CardHeader
+        sx={{
+          textAlign: 'center',
+        }}
+        title={<Typography variant="h3">All Forms Table</Typography>}
+      />
+      <table style={{ width: '100%' }}>
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
@@ -161,7 +167,7 @@ const AllFormsTable = ({
           ))}
         </tbody>
       </table>
-    </div>
+    </Card>
   );
 };
 

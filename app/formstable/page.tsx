@@ -3,9 +3,10 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import AllFormsTable from '@/components/AllFormsTable';
-
-import CircularProgress from '@mui/material/CircularProgress';
 import FormsModal from '@/components/FormsModal';
+
+import Container from '@mui/material/Container';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export type Form = {
   Id: number;
@@ -52,7 +53,16 @@ export default function FormsTableView() {
   }
 
   return (
-    <>
+    <Container
+      sx={{
+        backgroundColor: '#f5f5f5',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+      }}
+      maxWidth={false}
+    >
       {forms && (
         <AllFormsTable
           formsData={forms}
@@ -68,6 +78,6 @@ export default function FormsTableView() {
           formId={formId}
         />
       )}
-    </>
+    </Container>
   );
 }

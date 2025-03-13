@@ -18,12 +18,27 @@ import TextField from '@mui/material/TextField';
 
 import ArticleIcon from '@mui/icons-material/Article';
 import InputIcon from '@mui/icons-material/Input';
+import { useState } from 'react';
 
 //TODO - Add login functionality
 //TODO - Add login form
 
+export type UserData = {
+  username: string | null;
+  email: string | null;
+};
+
 const Home = () => {
   const router = useRouter();
+  const [userData, setUserData] = useState<UserData>({
+    username: null,
+    email: null,
+  });
+  const handleSubmit = () => {
+    router.push(
+      `/formstable?username=${userData.username}&email=${userData.email}`,
+    );
+  };
 
   return (
     <Container
@@ -95,8 +110,20 @@ const Home = () => {
                 id="outlined-basic"
                 label="Username"
                 variant="outlined"
+                value={userData.username}
+                onChange={(e) =>
+                  setUserData({ ...userData, username: e.target.value })
+                }
               />
-              <TextField id="outlined-basic" label="Email" variant="outlined" />
+              <TextField
+                id="outlined-basic"
+                label="Email"
+                variant="outlined"
+                value={userData.email}
+                onChange={(e) =>
+                  setUserData({ ...userData, email: e.target.value })
+                }
+              />
             </Stack>
           </Box>
           {/* ################## Login /Registration Form  ################## */}
@@ -111,7 +138,8 @@ const Home = () => {
             variant="contained"
             color="primary"
             startIcon={<ArticleIcon />}
-            onClick={() => router.push('/formstable')}
+            onClick={handleSubmit}
+            disabled={!userData.username || !userData.email}
           >
             Log In
           </Button>

@@ -93,7 +93,6 @@ const AllFormsTable = ({
   });
 
   const handleEdit = (rowData: Form) => {
-    // TODO pass all form data to modal, you will submit the form from there
     setIsModalOpen(true);
     setFormData(rowData);
   };

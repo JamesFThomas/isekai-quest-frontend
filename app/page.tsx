@@ -6,7 +6,14 @@ import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import { CardHeader, Container, Stack, Typography } from '@mui/material';
+import {
+  Box,
+  CardHeader,
+  Container,
+  Link,
+  Stack,
+  Typography,
+} from '@mui/material';
 import TextField from '@mui/material/TextField';
 
 import ArticleIcon from '@mui/icons-material/Article';
@@ -34,7 +41,11 @@ const Home = () => {
           sx={{
             textAlign: 'center',
           }}
-          title="Welcome to the Web Forms App"
+          title={
+            <Typography variant="h4" component="div">
+              Web Forms Application
+            </Typography>
+          }
         />
         <CardContent>
           <Stack spacing={2} justifyContent={'center'} alignContent={'center'}>
@@ -44,8 +55,8 @@ const Home = () => {
               }}
               variant="subtitle1"
             >
-              This is a simple web application that must be coupled with the Web
-              Forms API application to work.
+              The Web Forms API provides the backend services for this
+              application to work.
             </Typography>
             <Typography
               sx={{
@@ -53,26 +64,42 @@ const Home = () => {
               }}
               variant="subtitle1"
             >
-              The Web Forms API application is a .NET Core Web API application
-              that provides the backend services for this application.
+              Source code download here :{' '}
+              <Link
+                href={'https://github.com/JamesFThomas/Web-Form-API'}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {' '}
+                Web Forms API{' '}
+              </Link>
             </Typography>
+          </Stack>
+          {/* ################## Login /Registration Form ################## */}
+          <Box sx={{ mt: 3 }}>
             <Typography
               sx={{
                 textAlign: 'center',
               }}
-              variant="body1"
+              variant="h5"
             >
-              Please log in to access the forms.
+              Log in to access the forms.
             </Typography>
-          </Stack>
-          <Stack direction={'row'} spacing={2} justifyContent={'center'} mt={3}>
-            <TextField
-              id="outlined-basic"
-              label="Username"
-              variant="outlined"
-            />
-            <TextField id="outlined-basic" label="Email" variant="outlined" />
-          </Stack>
+            <Stack
+              direction={'row'}
+              spacing={2}
+              justifyContent={'center'}
+              mt={3}
+            >
+              <TextField
+                id="outlined-basic"
+                label="Username"
+                variant="outlined"
+              />
+              <TextField id="outlined-basic" label="Email" variant="outlined" />
+            </Stack>
+          </Box>
+          {/* ################## Login /Registration Form  ################## */}
         </CardContent>
         <CardActions
           sx={{

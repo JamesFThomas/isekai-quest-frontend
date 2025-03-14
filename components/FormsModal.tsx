@@ -1,6 +1,7 @@
 import { Form } from '@/app/formstable/page';
 import { Box, Modal, Typography } from '@mui/material';
 import { Dispatch, SetStateAction } from 'react';
+import FormFill from './FormFill';
 
 const style = {
   position: 'absolute',
@@ -24,27 +25,10 @@ const FormsModal = ({ open, formData, setIsModalOpen }: FormsModalProps) => {
   return (
     <Modal open={open} onClose={() => setIsModalOpen(false)}>
       <Box sx={style}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
+        <Typography id="modal-modal-title" variant="h4" textAlign={'center'}>
           Forms Modal
         </Typography>
-        {formData && (
-          <Box>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              ID#: {formData.Id}
-            </Typography>
-            <Typography variant="body1">
-              FirstName: {formData.FirstName}
-            </Typography>
-            <Typography variant="body1">
-              LastName: {formData.LastName}
-            </Typography>
-            <Typography variant="body1">Message: {formData.Message}</Typography>
-            <Typography variant="body1">
-              Completed: {formData.Completed ? 'Yes' : 'No'}
-            </Typography>
-            {/* Add more fields as necessary */}
-          </Box>
-        )}
+        {formData && <FormFill formData={formData} />}
       </Box>
     </Modal>
   );

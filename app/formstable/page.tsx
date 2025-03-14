@@ -12,6 +12,7 @@ import { Box, Stack } from '@mui/material';
 import LogOutButton from '@/components/LogOutButton';
 import { UserData } from '../page';
 import UserChip from '@/components/UserChip';
+import NewFormButton from '@/components/NewFormButton';
 
 export type Form = {
   Id: number;
@@ -93,6 +94,10 @@ export default function FormsTableView() {
         >
           <LogOutButton />
           <UserChip user={urlParams} />
+          <NewFormButton
+            setIsModalOpen={setIsModalOpen}
+            setFormData={setFormData}
+          />
         </Stack>
         {forms && (
           <AllFormsTable

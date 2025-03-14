@@ -29,6 +29,9 @@ export default function FormsTableView() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // TODO complete formType state implementation
+  // const [formType, setFormType] = useState(1);
+
   const searchParams = useSearchParams();
 
   const [urlParams, setUrlParams] = useState<UserData>({

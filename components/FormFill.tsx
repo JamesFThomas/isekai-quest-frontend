@@ -67,14 +67,8 @@ const FormFill = ({ formData }: FormFillProps) => {
           onChange={handleChange}
         />
       </Stack>
-      <Stack
-        direction="row"
-        spacing={2}
-        justifyContent={'space-between'}
-        mt={2}
-      >
+      <Stack direction="row" spacing={2} justifyContent={'center'} mt={2}>
         <Button variant="contained">Submit</Button>
-        <Button variant="contained">Reset</Button>
         <Button variant="contained">Cancel</Button>
       </Stack>
     </form>

@@ -1,7 +1,7 @@
 import { Form } from '@/app/formstable/page';
 import { Box, Modal, Typography } from '@mui/material';
 import { Dispatch, SetStateAction } from 'react';
-import FormFill from './FormFill';
+import UserForm from './UserForm';
 
 const style = {
   position: 'absolute',
@@ -37,7 +37,7 @@ const FormsModal = ({
           {title ? title : 'Forms Modal'}
         </Typography>
         {formData && (
-          <FormFill
+          <UserForm
             formData={formData}
             formType={formType}
             setIsModalOpen={setIsModalOpen}

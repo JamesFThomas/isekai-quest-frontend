@@ -6,7 +6,7 @@ import { Button, Stack, TextField } from '@mui/material';
 
 import { Form } from '@/app/formstable/page';
 
-type FormFillProps = {
+type UserFormProps = {
   formData: Form;
   formType: number;
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
@@ -20,7 +20,7 @@ const initialFormData = {
   Completed: false,
 };
 
-const FormFill = ({ formData, formType, setIsModalOpen }: FormFillProps) => {
+const UserForm = ({ formData, formType, setIsModalOpen }: UserFormProps) => {
   const [form, setForm] = useState(initialFormData);
 
   // TODO create form using React Hook Form
@@ -128,4 +128,4 @@ const FormFill = ({ formData, formType, setIsModalOpen }: FormFillProps) => {
   );
 };
 
-export default FormFill;
+export default UserForm;

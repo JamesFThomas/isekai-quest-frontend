@@ -1,6 +1,10 @@
-import { Form } from '@/app/formstable/page';
-import { Button, Stack, TextField } from '@mui/material';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+
+import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+
+import { Button, Stack, TextField } from '@mui/material';
+
+import { Form } from '@/app/formstable/page';
 
 type FormFillProps = {
   formData: Form;
@@ -8,30 +12,40 @@ type FormFillProps = {
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
 };
 
+const initialFormData = {
+  Id: 0,
+  FirstName: '',
+  LastName: '',
+  Message: '',
+  Completed: false,
+};
+
 const FormFill = ({ formData, formType, setIsModalOpen }: FormFillProps) => {
-  const [form, setForm] = useState({
-    Id: 0,
-    FirstName: '',
-    LastName: '',
-    Message: '',
-    Completed: false,
+  const [form, setForm] = useState(initialFormData);
+
+  // TODO create form using React Hook Form
+  const { control, handleSubmit, reset } = useForm({
+    defaultValues: {
+      Id: form.Id,
+      FirstName: form.FirstName,
+      LastName: form.LastName,
+      Message: form.Message,
+      Completed: form.Completed,
+    },
   });
 
   useEffect(() => {
     if (formData) {
       setForm(formData);
+      reset(formData);
     }
-  }, [formData]);
+  }, [formData, reset]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = () => {
+  const handleSubmitMine: SubmitHandler<typeof form> = () => {
     console.log(formType);
+    console.log('form', form);
+    reset(initialFormData);
+    setIsModalOpen(false);
   };
 
   const handleCancel = () => {
@@ -39,46 +53,71 @@ const FormFill = ({ formData, formType, setIsModalOpen }: FormFillProps) => {
   };
 
   return (
-    <form>
+    <form onSubmit={handleSubmit(handleSubmitMine)}>
       <Stack direction='column' spacing={3} mt={2}>
-        <TextField
-          variant='outlined'
-          id='Id'
-          label='Id'
-          value={form.Id}
-          onChange={handleChange}
+        <Controller
+          name='Id'
+          control={control}
+          render={({ field }) => (
+            <TextField {...field} label='Id' id='Id' variant='outlined' />
+          )}
         />
-        <TextField
-          variant='outlined'
-          id='FirstName'
-          label='FirstName'
-          value={form.FirstName}
-          onChange={handleChange}
+
+        <Controller
+          name='FirstName'
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label='FirstName'
+              id='FirstName'
+              variant='outlined'
+            />
+          )}
         />
-        <TextField
-          variant='outlined'
-          id='LastName'
-          label='LastName'
-          value={form.LastName}
-          onChange={handleChange}
+
+        <Controller
+          name='LastName'
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label='LastName'
+              id='LastName'
+              variant='outlined'
+            />
+          )}
         />
-        <TextField
-          variant='outlined'
-          id='Message'
-          label='Message'
-          value={form.Message}
-          onChange={handleChange}
+
+        <Controller
+          name='Message'
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label='Message'
+              id='Message'
+              variant='outlined'
+              multiline
+            />
+          )}
         />
-        <TextField
-          variant='outlined'
-          id='Completed'
-          label='Completed'
-          value={form.Completed.toString()}
-          onChange={handleChange}
+
+        <Controller
+          name='Completed'
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label='Completed'
+              id='Completed'
+              variant='outlined'
+            />
+          )}
         />
       </Stack>
       <Stack direction='row' spacing={2} justifyContent={'center'} mt={2}>
-        <Button variant='contained' onClick={handleSubmit}>
+        <Button variant='contained' type='submit'>
           Submit
         </Button>
         <Button variant='contained' onClick={handleCancel}>

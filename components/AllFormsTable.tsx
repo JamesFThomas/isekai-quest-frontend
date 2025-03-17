@@ -28,6 +28,8 @@ type FormTableProps = {
   refreshData: () => Promise<void>;
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
   setFormData: Dispatch<SetStateAction<Form | undefined>>;
+  setFormType: Dispatch<SetStateAction<number>>;
+  setModalTitle: Dispatch<SetStateAction<string | undefined>>;
 };
 
 const AllFormsTable = ({
@@ -35,6 +37,8 @@ const AllFormsTable = ({
   refreshData,
   setIsModalOpen,
   setFormData,
+  setFormType,
+  setModalTitle,
 }: FormTableProps) => {
   const [data, setData] = useState<Form[]>([]);
 
@@ -94,6 +98,8 @@ const AllFormsTable = ({
 
   const handleEdit = (rowData: Form) => {
     setIsModalOpen(true);
+    setFormType(2);
+    setModalTitle('Edit Form');
     setFormData(rowData);
   };
 
@@ -109,7 +115,7 @@ const AllFormsTable = ({
     })
       .then((response) => response.text())
       .then((data) =>
-        console.log(data + `Form with Id: ${id} has been deleted`),
+        console.log(data + `Form with Id: ${id} has been deleted`)
       )
       .catch((error) => console.error('Fetch Error', error));
   }, []);
@@ -119,7 +125,7 @@ const AllFormsTable = ({
       await handleDelete(id);
       await refreshData();
     },
-    [handleDelete, refreshData],
+    [handleDelete, refreshData]
   );
 
   useEffect(() => {
@@ -137,7 +143,7 @@ const AllFormsTable = ({
         sx={{
           textAlign: 'center',
         }}
-        title={<Typography variant="h3">All Forms Table</Typography>}
+        title={<Typography variant='h3'>All Forms Table</Typography>}
       />
       <table style={{ width: '100%' }}>
         <thead>
@@ -147,7 +153,7 @@ const AllFormsTable = ({
                 <th key={header.id}>
                   {flexRender(
                     header.column.columnDef.header,
-                    header.getContext(),
+                    header.getContext()
                   )}
                 </th>
               ))}

@@ -17,18 +17,32 @@ const style = {
 
 type FormsModalProps = {
   open: boolean;
+  formType: number;
+  title?: string | undefined;
   formData: Form | undefined;
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-const FormsModal = ({ open, formData, setIsModalOpen }: FormsModalProps) => {
+const FormsModal = ({
+  open,
+  title,
+  formType,
+  formData,
+  setIsModalOpen,
+}: FormsModalProps) => {
   return (
-    <Modal open={open} onClose={() => setIsModalOpen(false)}>
+    <Modal open={open}>
       <Box sx={style}>
-        <Typography id="modal-modal-title" variant="h4" textAlign={'center'}>
-          Forms Modal
+        <Typography id='modal-modal-title' variant='h4' textAlign={'center'}>
+          {title ? title : 'Forms Modal'}
         </Typography>
-        {formData && <FormFill formData={formData} />}
+        {formData && (
+          <FormFill
+            formData={formData}
+            formType={formType}
+            setIsModalOpen={setIsModalOpen}
+          />
+        )}
       </Box>
     </Modal>
   );

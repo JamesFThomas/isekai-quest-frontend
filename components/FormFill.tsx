@@ -1,12 +1,14 @@
 import { Form } from '@/app/formstable/page';
 import { Button, Stack, TextField } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 type FormFillProps = {
   formData: Form;
+  formType: number;
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-const FormFill = ({ formData }: FormFillProps) => {
+const FormFill = ({ formData, formType, setIsModalOpen }: FormFillProps) => {
   const [form, setForm] = useState({
     Id: 0,
     FirstName: '',
@@ -28,48 +30,60 @@ const FormFill = ({ formData }: FormFillProps) => {
     });
   };
 
+  const handleSubmit = () => {
+    console.log(formType);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <form>
-      <Stack direction="column" spacing={3} mt={2}>
+      <Stack direction='column' spacing={3} mt={2}>
         <TextField
-          variant="outlined"
-          id="Id"
-          label="Id"
+          variant='outlined'
+          id='Id'
+          label='Id'
           value={form.Id}
           onChange={handleChange}
         />
         <TextField
-          variant="outlined"
-          id="FirstName"
-          label="FirstName"
+          variant='outlined'
+          id='FirstName'
+          label='FirstName'
           value={form.FirstName}
           onChange={handleChange}
         />
         <TextField
-          variant="outlined"
-          id="LastName"
-          label="LastName"
+          variant='outlined'
+          id='LastName'
+          label='LastName'
           value={form.LastName}
           onChange={handleChange}
         />
         <TextField
-          variant="outlined"
-          id="Message"
-          label="Message"
+          variant='outlined'
+          id='Message'
+          label='Message'
           value={form.Message}
           onChange={handleChange}
         />
         <TextField
-          variant="outlined"
-          id="Completed"
-          label="Completed"
+          variant='outlined'
+          id='Completed'
+          label='Completed'
           value={form.Completed.toString()}
           onChange={handleChange}
         />
       </Stack>
-      <Stack direction="row" spacing={2} justifyContent={'center'} mt={2}>
-        <Button variant="contained">Submit</Button>
-        <Button variant="contained">Cancel</Button>
+      <Stack direction='row' spacing={2} justifyContent={'center'} mt={2}>
+        <Button variant='contained' onClick={handleSubmit}>
+          Submit
+        </Button>
+        <Button variant='contained' onClick={handleCancel}>
+          Cancel
+        </Button>
       </Stack>
     </form>
   );

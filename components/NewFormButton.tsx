@@ -6,11 +6,20 @@ import { Form } from '@/app/formstable/page';
 type NewFormButtonProps = {
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
   setFormData: Dispatch<SetStateAction<Form | undefined>>;
+  setFormType: Dispatch<SetStateAction<number>>;
+  setModalTitle: Dispatch<SetStateAction<string | undefined>>;
 };
 
-const NewFormButton = ({ setIsModalOpen, setFormData }: NewFormButtonProps) => {
+const NewFormButton = ({
+  setIsModalOpen,
+  setFormData,
+  setFormType,
+  setModalTitle,
+}: NewFormButtonProps) => {
   const handleClick = () => {
     setIsModalOpen(true);
+    setFormType(1);
+    setModalTitle('New Form');
     setFormData({
       Id: 0,
       FirstName: '',
@@ -23,8 +32,8 @@ const NewFormButton = ({ setIsModalOpen, setFormData }: NewFormButtonProps) => {
   return (
     <Button
       onClick={handleClick}
-      variant="contained"
-      color="primary"
+      variant='contained'
+      color='primary'
       sx={{
         mt: 2,
         mb: 2,

@@ -29,8 +29,10 @@ export default function FormsTableView() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // TODO complete formType state implementation
-  // const [formType, setFormType] = useState(1);
+  // formType 1 = new , 2 = edit form
+  const [formType, setFormType] = useState(1);
+
+  const [modalTitle, setModalTitle] = useState<string | undefined>();
 
   const searchParams = useSearchParams();
 
@@ -48,8 +50,8 @@ export default function FormsTableView() {
         headers: {
           Accept: 'text/plain',
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*', // Required for CORS support to work
-          'Access-Control-Allow-Credentials': 'true', // Required for cookies, authorization headers with HTTPS
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': 'true',
         },
       });
 
@@ -73,7 +75,7 @@ export default function FormsTableView() {
   }, [fetchReFetchData, forms, searchParams]);
 
   if (forms === undefined) {
-    return <CircularProgress size="3rem" />;
+    return <CircularProgress size='3rem' />;
   }
 
   return (
@@ -90,7 +92,7 @@ export default function FormsTableView() {
     >
       <Box>
         <Stack
-          direction="row"
+          direction='row'
           justifyContent={'space-between'}
           alignItems={'center'}
           mb={1}
@@ -99,7 +101,9 @@ export default function FormsTableView() {
           <UserChip user={urlParams} />
           <NewFormButton
             setIsModalOpen={setIsModalOpen}
+            setModalTitle={setModalTitle}
             setFormData={setFormData}
+            setFormType={setFormType}
           />
         </Stack>
         {forms && (
@@ -107,13 +111,17 @@ export default function FormsTableView() {
             formsData={forms}
             refreshData={fetchReFetchData}
             setIsModalOpen={setIsModalOpen}
+            setModalTitle={setModalTitle}
             setFormData={setFormData}
+            setFormType={setFormType}
           />
         )}
       </Box>
       {isModalOpen && (
         <FormsModal
           open={isModalOpen}
+          formType={formType}
+          title={modalTitle}
           setIsModalOpen={setIsModalOpen}
           formData={formData}
         />

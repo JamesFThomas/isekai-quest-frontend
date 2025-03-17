@@ -1,56 +1,179 @@
-'use client';
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 
-import { useEffect, useState } from 'react';
-import { Form } from '../app/formstable/page';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
 
-type FormsTableProps = {
+import {
+  createColumnHelper,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
+
+import { Form } from '@/app/formstable/page';
+import { Card, CardHeader, Typography } from '@mui/material';
+
+const columnHelper = createColumnHelper<Form>();
+
+type FormTableProps = {
   formsData: Form[];
+  refreshData: () => Promise<void>;
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
+  setFormData: Dispatch<SetStateAction<Form | undefined>>;
+  setFormType: Dispatch<SetStateAction<number>>;
+  setModalTitle: Dispatch<SetStateAction<string | undefined>>;
 };
 
-const FormsTable = ({ formsData }: FormsTableProps) => {
-  const [forms, setForms] = useState<Form[] | undefined>(undefined);
+const FormsTable = ({
+  formsData,
+  refreshData,
+  setIsModalOpen,
+  setFormData,
+  setFormType,
+  setModalTitle,
+}: FormTableProps) => {
+  const [data, setData] = useState<Form[]>([]);
+
+  const columns = [
+    columnHelper.accessor('Id', {
+      header: () => 'ID',
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor('FirstName', {
+      header: () => 'First Name',
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor('LastName', {
+      header: () => 'Last Name',
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor('Message', {
+      header: () => 'Message',
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor('Completed', {
+      header: () => 'Completed',
+      cell: (info) =>
+        info.getValue().toString() === 'true' ? (
+          <CheckIcon sx={{ color: '#4caf50' }} />
+        ) : (
+          <ClearIcon sx={{ color: '#f44336' }} />
+        ),
+    }),
+    columnHelper.display({
+      id: 'edit',
+      header: () => 'Edit',
+      cell: (info) => (
+        <EditIcon
+          sx={{ cursor: 'pointer' }}
+          onClick={() => handleEdit(info.row.original)}
+        />
+      ),
+    }),
+    columnHelper.display({
+      id: 'delete',
+      header: () => 'Delete',
+      cell: (info) => (
+        <DeleteIcon
+          sx={{ cursor: 'pointer' }}
+          onClick={() => deleteThenRefresh(info.row.original.Id)}
+        />
+      ),
+    }),
+  ];
+
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  });
+
+  const handleEdit = (rowData: Form) => {
+    setIsModalOpen(true);
+    setFormType(2);
+    setModalTitle('Edit Form');
+    setFormData(rowData);
+  };
+
+  const handleDelete = useCallback(async (id: number) => {
+    await fetch(`https://localhost:5001/Forms/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'text/plain',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': 'true',
+      },
+    })
+      .then((response) => response.text())
+      .then((data) =>
+        console.log(data + `Form with Id: ${id} has been deleted`)
+      )
+      .catch((error) => console.error('Fetch Error', error));
+  }, []);
+
+  const deleteThenRefresh = useCallback(
+    async (id: number) => {
+      await handleDelete(id);
+      await refreshData();
+    },
+    [handleDelete, refreshData]
+  );
 
   useEffect(() => {
-    if (!forms) {
-      setForms(formsData);
-    }
-  }, [forms, formsData]);
-
-  console.log(formsData);
-
-  if (!forms) {
-    return <div>Loading...</div>;
-  }
+    setData(formsData);
+  }, [formsData]);
 
   return (
-    forms && (
-      <div>
-        <h1>Forms Table</h1>
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Message</th>
-              <th>Completed</th>
-            </tr>
-          </thead>
-          <tbody>
-            {forms &&
-              forms.map((forms) => (
-                <tr key={forms.Id}>
-                  <td>{forms.Id}</td>
-                  <td>{forms.FirstName}</td>
-                  <td>{forms.LastName}</td>
-                  <td>{forms.Message}</td>
-                  <td>{forms.Completed ? '✔️' : '❌'}</td>
-                </tr>
+    <Card
+      sx={{
+        padding: 2,
+        width: '800px',
+      }}
+    >
+      <CardHeader
+        sx={{
+          textAlign: 'center',
+        }}
+        title={<Typography variant='h3'>All Forms Table</Typography>}
+      />
+      <table style={{ width: '100%' }}>
+        <thead>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <th key={header.id}>
+                  {flexRender(
+                    header.column.columnDef.header,
+                    header.getContext()
+                  )}
+                </th>
               ))}
-          </tbody>
-        </table>
-      </div>
-    )
+            </tr>
+          ))}
+        </thead>
+        <tbody>
+          {table.getRowModel().rows.map((row) => (
+            <tr key={row.id}>
+              {row.getVisibleCells().map((cell) => (
+                <td key={cell.id}>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </Card>
   );
 };
+
 export default FormsTable;

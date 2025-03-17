@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 
-import AllFormsTable from '@/components/AllFormsTable';
+import FormsTable from '@/components/FormsTable';
 import FormsModal from '@/components/FormsModal';
 
 import Container from '@mui/material/Container';
@@ -107,7 +107,7 @@ export default function FormsTableView() {
           />
         </Stack>
         {forms && (
-          <AllFormsTable
+          <FormsTable
             formsData={forms}
             refreshData={fetchReFetchData}
             setIsModalOpen={setIsModalOpen}

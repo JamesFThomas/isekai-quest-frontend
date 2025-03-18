@@ -122,8 +122,9 @@ export default function FormsTableView() {
           open={isModalOpen}
           formType={formType}
           title={modalTitle}
-          setIsModalOpen={setIsModalOpen}
           formData={formData}
+          setIsModalOpen={setIsModalOpen}
+          fetchReFetchData={fetchReFetchData}
         />
       )}
     </Container>

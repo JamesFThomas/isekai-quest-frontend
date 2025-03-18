@@ -1,6 +1,7 @@
 import { Form } from '@/app/formstable/page';
 import { Box, Modal, Typography } from '@mui/material';
 import { Dispatch, SetStateAction } from 'react';
+
 import UserForm from './UserForm';
 
 const style = {
@@ -21,6 +22,7 @@ type FormsModalProps = {
   title?: string | undefined;
   formData: Form | undefined;
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
+  fetchReFetchData: () => Promise<void>;
 };
 
 const FormsModal = ({
@@ -29,6 +31,7 @@ const FormsModal = ({
   formType,
   formData,
   setIsModalOpen,
+  fetchReFetchData,
 }: FormsModalProps) => {
   return (
     <Modal open={open}>
@@ -41,6 +44,7 @@ const FormsModal = ({
             formData={formData}
             formType={formType}
             setIsModalOpen={setIsModalOpen}
+            fetchReFetchData={fetchReFetchData}
           />
         )}
       </Box>

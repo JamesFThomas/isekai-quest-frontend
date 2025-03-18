@@ -1,8 +1,21 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 
-import { Button, Stack, TextField } from '@mui/material';
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  Stack,
+  TextField,
+} from '@mui/material';
 
 import { Form } from '@/app/formstable/page';
 
@@ -10,6 +23,7 @@ type UserFormProps = {
   formData: Form;
   formType: number;
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
+  fetchReFetchData: () => Promise<void>;
 };
 
 const initialFormData = {
@@ -20,7 +34,12 @@ const initialFormData = {
   Completed: false,
 };
 
-const UserForm = ({ formData, formType, setIsModalOpen }: UserFormProps) => {
+const UserForm = ({
+  formData,
+  formType,
+  setIsModalOpen,
+  fetchReFetchData,
+}: UserFormProps) => {
   const [form, setForm] = useState(initialFormData);
 
   // TODO create form using React Hook Form
@@ -41,11 +60,71 @@ const UserForm = ({ formData, formType, setIsModalOpen }: UserFormProps) => {
     }
   }, [formData, reset]);
 
-  const handleSubmitMine: SubmitHandler<typeof form> = () => {
+  const submitNewForm = useCallback(async (form: Form) => {
+    try {
+      const response = await fetch('https://localhost:5001/Forms', {
+        method: 'POST',
+        headers: {
+          Accept: '*/*',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': 'true',
+        },
+        body: JSON.stringify(form),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.text();
+      console.log(result);
+    } catch (error) {
+      console.error('Fetch Error', error);
+    }
+  }, []);
+
+  const submitUpdatedForm = useCallback(async (form: Form, Id: number) => {
+    try {
+      const response = await fetch(`https://localhost:5001/Forms/${Id}`, {
+        method: 'PUT',
+        headers: {
+          Accept: '*/*',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': 'true',
+        },
+        body: JSON.stringify(form),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.text();
+      console.log(result);
+    } catch (error) {
+      console.error('Fetch Error', error);
+    }
+  }, []);
+
+  console.log('form before submit', form);
+
+  const submitForm: SubmitHandler<Form> = async (data) => {
     console.log(formType);
-    console.log('form', form);
+    console.log('formData in submit', data);
+
+    if (formType === 1) {
+      await submitNewForm(data);
+    } else {
+      await submitUpdatedForm(data, data.Id);
+    }
+
     reset(initialFormData);
+
     setIsModalOpen(false);
+
+    await fetchReFetchData();
   };
 
   const handleCancel = () => {
@@ -53,13 +132,19 @@ const UserForm = ({ formData, formType, setIsModalOpen }: UserFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(handleSubmitMine)}>
+    <form onSubmit={handleSubmit(submitForm)}>
       <Stack direction='column' spacing={3} mt={2}>
         <Controller
           name='Id'
           control={control}
           render={({ field }) => (
-            <TextField {...field} label='Id' id='Id' variant='outlined' />
+            <TextField
+              {...field}
+              onChange={(e) => field.onChange(Number(e.target.value))}
+              label='Id'
+              id='Id'
+              variant='outlined'
+            />
           )}
         />
 
@@ -107,12 +192,19 @@ const UserForm = ({ formData, formType, setIsModalOpen }: UserFormProps) => {
           name='Completed'
           control={control}
           render={({ field }) => (
-            <TextField
-              {...field}
-              label='Completed'
-              id='Completed'
-              variant='outlined'
-            />
+            <FormGroup>
+              <FormControlLabel
+                label='Completed'
+                control={
+                  <Checkbox
+                    {...field}
+                    id='Completed'
+                    checked={field.value}
+                    onChange={(e) => field.onChange(e.target.checked)}
+                  />
+                }
+              />
+            </FormGroup>
           )}
         />
       </Stack>

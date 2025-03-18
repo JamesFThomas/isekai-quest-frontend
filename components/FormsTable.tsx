@@ -1,5 +1,6 @@
 import {
   Dispatch,
+  ReactNode,
   SetStateAction,
   useCallback,
   useEffect,
@@ -39,7 +40,7 @@ const FormsTable = ({
   setFormData,
   setFormType,
   setModalTitle,
-}: FormTableProps) => {
+}: FormTableProps): ReactNode => {
   const [data, setData] = useState<Form[]>([]);
 
   const columns = [

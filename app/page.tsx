@@ -99,9 +99,7 @@ const Home = () => {
             variant='body2'
           >
             {"Don't have an account? "}
-            <Link href='#' onClick={handleRegisterOpen}>
-              Register
-            </Link>
+            <Link onClick={handleRegisterOpen}>Register</Link>
           </Typography>
         </CardActions>
       </Card>

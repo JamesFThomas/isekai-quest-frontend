@@ -6,6 +6,23 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 import ArticleIcon from '@mui/icons-material/Article';
 import InputIcon from '@mui/icons-material/Input';
+import StatusAlert from './StatusAlert';
+import { useState } from 'react';
+
+type LoginRegFormData = {
+  Username: string;
+  Email: string;
+};
+
+type LoginRegSubmissionData = {
+  Username: string;
+  Email: string;
+  Id: number;
+};
+
+type ErrorData = {
+  message: string;
+};
 
 const initialFormData = {
   Username: '',
@@ -19,23 +36,59 @@ type LoginRegFormProps = {
 const LoginRegForm = ({ currentStep }: LoginRegFormProps) => {
   const router = useRouter();
 
-  const { control, watch, handleSubmit } = useForm({
+  const [errorData, setErrorData] = useState<ErrorData | undefined>(undefined);
+
+  const { control, watch, reset, handleSubmit } = useForm({
     defaultValues: initialFormData,
   });
 
-  const handleLogin = (Username: string, Email: string) => {
+  const handleLogin = async ({ Email, Username }: LoginRegFormData) => {
+    // Login the user using GET by email request
+    // if successful redirect to forms page
+    // if failed open registration modal with error message
     router.push(`/formstable?username=${Username}&email=${Email}`);
   };
 
-  const handleRegister = (Username: string, Email: string) => {
-    router.push(`/formstable?username=${Username}&email=${Email}`);
+  const handleRegister = async (data: LoginRegFormData) => {
+    // Register the user using POST request
+    // if successful redirect to forms page
+    // if failed display error message
+    const submissionData: LoginRegSubmissionData = {
+      Username: data.Username,
+      Email: data.Email,
+      Id: 0, // auto incremented in DB so we can just set it to 0
+    };
+
+    const response = await fetch('https://localhost:5001/Users', {
+      method: 'POST',
+      headers: {
+        Accept: '*/*',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': 'true',
+      },
+      body: JSON.stringify(submissionData),
+    });
+
+    if (!response.ok) {
+      reset();
+      const errorData = await response.json();
+      // TODO trigger the fail Alert with the error message
+      setErrorData(errorData);
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    router.push(
+      `/formstable?username=${result.Username}&email=${result.Email}`
+    );
   };
 
   const onSubmit: SubmitHandler<typeof initialFormData> = (data) => {
     if (currentStep === 1) {
-      handleLogin(data.Username, data.Email);
+      handleLogin(data);
     } else {
-      handleRegister(data.Username, data.Email);
+      handleRegister(data);
     }
   };
 
@@ -44,6 +97,12 @@ const LoginRegForm = ({ currentStep }: LoginRegFormProps) => {
 
   return (
     <Box sx={{ mt: 3 }}>
+      {errorData && (
+        <StatusAlert
+          status='error'
+          message={errorData.message || 'Registration failed'}
+        />
+      )}
       <form onSubmit={handleSubmit(onSubmit)}>
         <Typography
           sx={{

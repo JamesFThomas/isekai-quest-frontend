@@ -1,5 +1,5 @@
 import { Button, Dialog, DialogActions, DialogContent } from '@mui/material';
-import LoginForm from './LoginForm';
+import LoginRegForm from './LoginRegForm';
 
 type RegisterModalProps = {
   open: boolean;
@@ -15,7 +15,7 @@ const RegisterModal = ({
   return (
     <Dialog open={open}>
       <DialogContent>
-        <LoginForm currentStep={currentStep} />
+        <LoginRegForm currentStep={currentStep} />
       </DialogContent>
       <DialogActions>
         <Button variant='text' onClick={closeDialog}>

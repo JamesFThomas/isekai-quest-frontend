@@ -36,23 +36,54 @@ type LoginRegFormProps = {
 const LoginRegForm = ({ currentStep }: LoginRegFormProps) => {
   const router = useRouter();
 
-  const [errorData, setErrorData] = useState<ErrorData | undefined>(undefined);
+  const [alertData, setAlertData] = useState<ErrorData>({ message: '' });
+  const [isAlertShowing, setIsAlertShowing] = useState(false);
 
   const { control, watch, reset, handleSubmit } = useForm({
     defaultValues: initialFormData,
   });
 
-  const handleLogin = async ({ Email, Username }: LoginRegFormData) => {
-    // Login the user using GET by email request
-    // if successful redirect to forms page
-    // if failed open registration modal with error message
-    router.push(`/formstable?username=${Username}&email=${Email}`);
+  const handleRegistrationError = () => {
+    reset();
+    setIsAlertShowing(true);
+    setAlertData({ message: 'Registration failed try again later' });
+  };
+
+  const handleLoginError = () => {
+    reset();
+    setIsAlertShowing(true);
+    setAlertData({ message: 'Login failed please register your user data' });
+  };
+
+  const handleLogin = async (data: LoginRegFormData) => {
+    const response = await fetch(`https://localhost:5001/Users/${data.Email}`, {
+      method: 'GET',
+      headers: {
+        Accept: '*/*',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': 'true',
+      },
+    });
+
+    if (!response.ok) {
+      handleLoginError();
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const result = await response.json();
+
+    if (!result) {
+      handleLoginError();
+      return;
+    }
+
+    router.push(
+      `/formstable?username=${result.Username}&email=${result.Email}`
+    );
   };
 
   const handleRegister = async (data: LoginRegFormData) => {
-    // Register the user using POST request
-    // if successful redirect to forms page
-    // if failed display error message
     const submissionData: LoginRegSubmissionData = {
       Username: data.Username,
       Email: data.Email,
@@ -71,10 +102,7 @@ const LoginRegForm = ({ currentStep }: LoginRegFormProps) => {
     });
 
     if (!response.ok) {
-      reset();
-      const errorData = await response.json();
-      // TODO trigger the fail Alert with the error message
-      setErrorData(errorData);
+      handleRegistrationError();
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
@@ -97,12 +125,12 @@ const LoginRegForm = ({ currentStep }: LoginRegFormProps) => {
 
   return (
     <Box sx={{ mt: 3 }}>
-      {errorData && (
-        <StatusAlert
-          status='error'
-          message={errorData.message || 'Registration failed'}
-        />
-      )}
+      <StatusAlert
+        status='error'
+        message={alertData.message || 'Registration failed'}
+        isShowing={isAlertShowing}
+        setIsAlertShowing={setIsAlertShowing}
+      />
       <form onSubmit={handleSubmit(onSubmit)}>
         <Typography
           sx={{

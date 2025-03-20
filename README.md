@@ -22,6 +22,18 @@ Web Form API => https://github.com/JamesFThomas/Web-Form-API
 
 ---
 
+## Installation
+
+- Clone this repo to local directory
+
+- Install packages
+
+```text
+npm i
+```
+
+- ensure you're using Node version ^14
+
 ### Features
 
 Each page or component performs a different http request
@@ -31,6 +43,12 @@ Home
 - GET - user by email
 - POST - add new user
 
+Home Page / LoginReg Form
+![Image](https://github.com/user-attachments/assets/331964f8-5efe-4b1b-b0fd-3def071d8dcb)
+
+Registration Modal / LoginReg Form
+![Image](https://github.com/user-attachments/assets/e1b165a2-70b7-4cd7-8c0d-d018376a7db4)
+
 FormsTable
 
 - GET - all forms
@@ -39,6 +57,12 @@ FormsTable
 - PUT - update form by id#
 - POST - add new form
 - DELETE - remove form by id#
+
+Forms Table
+![Image](https://github.com/user-attachments/assets/31383db7-0e3c-442b-a09d-0b0f3b8faa41)
+
+Forms Modal
+![Image](https://github.com/user-attachments/assets/e7458a98-d715-48a8-82e9-a7601a5e98ad)
 
 example API fetch
 

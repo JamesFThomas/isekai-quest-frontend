@@ -146,12 +146,40 @@ const LoginRegForm = ({ currentStep }: LoginRegFormProps) => {
           <Controller
             name='Username'
             control={control}
-            render={({ field }) => <TextField {...field} label='Username' />}
+            rules={{
+              required: 'A Username is required',
+              pattern: {
+                value: /^.{8,}$/,
+                message: 'The username must be at least 8 characters long',
+              },
+            }}
+            render={({ field, fieldState: { error } }) => (
+              <TextField
+                {...field}
+                label='Username'
+                error={!!error}
+                helperText={error ? error.message : null}
+              />
+            )}
           />
           <Controller
             name='Email'
             control={control}
-            render={({ field }) => <TextField {...field} label='Email' />}
+            rules={{
+              required: 'Email is required',
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                message: 'Please match pattern: email@address.com',
+              },
+            }}
+            render={({ field, fieldState: { error } }) => (
+              <TextField
+                {...field}
+                label='Email'
+                error={!!error}
+                helperText={error ? error.message : null}
+              />
+            )}
           />
         </Stack>
 

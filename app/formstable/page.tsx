@@ -27,6 +27,8 @@ export const dynamic = 'force-dynamic';
 export default function FormsTableView() {
   const [forms, setForms] = useState<Form[] | undefined>(undefined);
 
+  const [idNumbers, setIdNumbers] = useState<number[]>([]);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // formType 1 = new , 2 = edit form
@@ -56,6 +58,8 @@ export default function FormsTableView() {
       });
 
       const data = await fetchedData.json();
+      const formIds = data.map((form: Form) => form.Id);
+      setIdNumbers([0, ...formIds]);
       setForms(data);
     } catch (error) {
       console.error('Fetch Error', error);
@@ -123,6 +127,7 @@ export default function FormsTableView() {
           formType={formType}
           title={modalTitle}
           formData={formData}
+          idNumbers={idNumbers}
           setIsModalOpen={setIsModalOpen}
           fetchReFetchData={fetchReFetchData}
         />

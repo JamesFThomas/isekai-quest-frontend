@@ -20,6 +20,7 @@ type FormsModalProps = {
   open: boolean;
   formType: number;
   title?: string | undefined;
+  idNumbers: number[];
   formData: Form | undefined;
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
   fetchReFetchData: () => Promise<void>;
@@ -30,6 +31,7 @@ const FormsModal = ({
   title,
   formType,
   formData,
+  idNumbers,
   setIsModalOpen,
   fetchReFetchData,
 }: FormsModalProps) => {
@@ -43,6 +45,7 @@ const FormsModal = ({
           <UserForm
             formData={formData}
             formType={formType}
+            idNumbers={idNumbers}
             setIsModalOpen={setIsModalOpen}
             fetchReFetchData={fetchReFetchData}
           />

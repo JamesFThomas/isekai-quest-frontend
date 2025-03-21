@@ -17,15 +17,9 @@ import {
   TextField,
 } from '@mui/material';
 
-import { Form } from '@/app/formstable/page';
+import StatusAlert from './StatusAlert';
 
-type UserFormProps = {
-  formData: Form;
-  formType: number;
-  idNumbers: number[];
-  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
-  fetchReFetchData: () => Promise<void>;
-};
+import { Form } from '@/app/formstable/page';
 
 const initialFormData = {
   Id: 0,
@@ -33,6 +27,14 @@ const initialFormData = {
   LastName: '',
   Message: '',
   Completed: false,
+};
+
+type UserFormProps = {
+  formData: Form;
+  formType: number;
+  idNumbers: number[];
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
+  fetchReFetchData: () => Promise<void>;
 };
 
 const UserForm = ({
@@ -44,7 +46,9 @@ const UserForm = ({
 }: UserFormProps) => {
   const [form, setForm] = useState(initialFormData);
 
-  // console.log('idNumbers', idNumbers);
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+
+  const [alertMessage, setAlertMessage] = useState('');
 
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
@@ -63,7 +67,20 @@ const UserForm = ({
     }
   }, [formData, reset]);
 
-  const submitNewForm = useCallback(async (form: Form) => {
+  const handleNoUpdatedData = () => {
+    setIsAlertOpen(true);
+    setAlertMessage(
+      'No changes detected, please make changes before submitting'
+    );
+  };
+
+  const handleFailedFormSubmission = () => {
+    setIsAlertOpen(true);
+    setAlertMessage('Failed to submit the form. Please try again.');
+  };
+
+  const submitNewForm = useCallback(async (newForm: Form) => {
+    console.log('newForm', newForm);
     try {
       const response = await fetch('https://localhost:5001/Forms', {
         method: 'POST',
@@ -73,56 +90,99 @@ const UserForm = ({
           'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Credentials': 'true',
         },
-        body: JSON.stringify(form),
+        body: JSON.stringify({}),
       });
 
       if (!response.ok) {
+        handleFailedFormSubmission();
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const result = await response.text();
-      console.log(result);
+      const result = await response.json();
+      console.log('result', result);
+
+      if (
+        result.FirstName === null &&
+        result.LastName === null &&
+        result.Message === null
+      ) {
+        handleFailedFormSubmission();
+        return;
+      }
+
+      // Following successful submission reset the form and close the modal
+      if (!isAlertOpen) {
+        reset(initialFormData);
+        setIsModalOpen(false);
+        await fetchReFetchData();
+      }
     } catch (error) {
+      handleFailedFormSubmission();
       console.error('Fetch Error', error);
     }
   }, []);
 
-  const submitUpdatedForm = useCallback(async (form: Form, Id: number) => {
-    try {
-      const response = await fetch(`https://localhost:5001/Forms/${Id}`, {
-        method: 'PUT',
-        headers: {
-          Accept: '*/*',
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Credentials': 'true',
-        },
-        body: JSON.stringify(form),
-      });
+  const submitUpdatedForm = useCallback(
+    async (updatedForm: Form, formId: number) => {
+      try {
+        // TODO add logic to compare updated data to original data, do not submit if no changes
+        if (
+          updatedForm.FirstName === formData.FirstName &&
+          updatedForm.LastName === formData.LastName &&
+          updatedForm.Message === formData.Message &&
+          updatedForm.Completed === formData.Completed
+        ) {
+          handleNoUpdatedData();
+          return;
+        }
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const submissionObject: Form = {
+          Id: formId, // Id is not updated
+          FirstName: updatedForm.FirstName,
+          LastName: updatedForm.LastName,
+          Message: updatedForm.Message,
+          Completed: updatedForm.Completed,
+        };
+
+        const response = await fetch(`https://localhost:5001/Forms/${formId}`, {
+          method: 'PUT',
+          headers: {
+            Accept: '*/*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': 'true',
+          },
+          body: JSON.stringify(submissionObject),
+        });
+
+        if (!response.ok) {
+          handleFailedFormSubmission();
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        await response.text();
+
+        // Following successful submission reset the form and close the modal
+        if (!isAlertOpen) {
+          reset(initialFormData);
+          setIsModalOpen(false);
+          await fetchReFetchData();
+        }
+      } catch (error) {
+        handleFailedFormSubmission();
+        console.error('Fetch Error', error);
       }
-
-      const result = await response.text();
-      console.log(result);
-    } catch (error) {
-      console.error('Fetch Error', error);
-    }
-  }, []);
+    },
+    []
+  );
 
   const submitForm: SubmitHandler<Form> = async (data) => {
     if (formType === 1) {
       await submitNewForm(data);
     } else {
-      await submitUpdatedForm(data, data.Id);
+      // original form Id is disabled in form but not updated so we can pass it here
+      await submitUpdatedForm(data, form.Id);
     }
-
-    reset(initialFormData);
-
-    setIsModalOpen(false);
-
-    await fetchReFetchData();
   };
 
   const handleCancel = () => {
@@ -132,10 +192,16 @@ const UserForm = ({
   return (
     <form onSubmit={handleSubmit(submitForm)}>
       {/* TODO add status Alert for failed form submission here */}
+      <StatusAlert
+        isShowing={isAlertOpen}
+        setIsAlertShowing={setIsAlertOpen}
+        message={alertMessage}
+        status='error'
+      />
       <Stack direction='column' spacing={3} mt={2}>
         <Controller
-          name='Id'
           disabled={formType === 2}
+          name='Id'
           control={control}
           rules={{
             required: 'An Id is required',
@@ -250,7 +316,7 @@ const UserForm = ({
         />
       </Stack>
       <Stack direction='row' spacing={2} justifyContent={'center'} mt={2}>
-        <Button variant='contained' type='submit'>
+        <Button disabled={isAlertOpen} variant='contained' type='submit'>
           Submit
         </Button>
         <Button variant='contained' onClick={handleCancel}>

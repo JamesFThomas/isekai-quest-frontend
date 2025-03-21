@@ -22,6 +22,7 @@ import { Form } from '@/app/formstable/page';
 type UserFormProps = {
   formData: Form;
   formType: number;
+  idNumbers: number[];
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
   fetchReFetchData: () => Promise<void>;
 };
@@ -37,12 +38,14 @@ const initialFormData = {
 const UserForm = ({
   formData,
   formType,
+  idNumbers,
   setIsModalOpen,
   fetchReFetchData,
 }: UserFormProps) => {
   const [form, setForm] = useState(initialFormData);
 
-  // TODO create form using React Hook Form
+  // console.log('idNumbers', idNumbers);
+
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
       Id: form.Id,
@@ -108,12 +111,7 @@ const UserForm = ({
     }
   }, []);
 
-  console.log('form before submit', form);
-
   const submitForm: SubmitHandler<Form> = async (data) => {
-    console.log(formType);
-    console.log('formData in submit', data);
-
     if (formType === 1) {
       await submitNewForm(data);
     } else {
@@ -133,17 +131,30 @@ const UserForm = ({
 
   return (
     <form onSubmit={handleSubmit(submitForm)}>
+      {/* TODO add status Alert for failed form submission here */}
       <Stack direction='column' spacing={3} mt={2}>
         <Controller
           name='Id'
+          disabled={formType === 2}
           control={control}
-          render={({ field }) => (
+          rules={{
+            required: 'An Id is required',
+            validate: {
+              isNotInUse: (value) =>
+                idNumbers.includes(value)
+                  ? 'Please choose another Id# this one is already in use'
+                  : true,
+            },
+          }}
+          render={({ field, fieldState: { error } }) => (
             <TextField
               {...field}
               onChange={(e) => field.onChange(Number(e.target.value))}
               label='Id'
               id='Id'
               variant='outlined'
+              error={!!error}
+              helperText={error ? error.message : null}
             />
           )}
         />
@@ -151,12 +162,22 @@ const UserForm = ({
         <Controller
           name='FirstName'
           control={control}
-          render={({ field }) => (
+          rules={{
+            required: 'A FirstName is required',
+            pattern: {
+              value: /^[-\s'A-Za-z]+$/i,
+              message:
+                'FirstName can only have letters, spaces, apostrophes or hyphens',
+            },
+          }}
+          render={({ field, fieldState: { error } }) => (
             <TextField
               {...field}
               label='FirstName'
               id='FirstName'
               variant='outlined'
+              error={!!error}
+              helperText={error ? error.message : null}
             />
           )}
         />
@@ -164,12 +185,22 @@ const UserForm = ({
         <Controller
           name='LastName'
           control={control}
-          render={({ field }) => (
+          rules={{
+            required: 'A LastName is required',
+            pattern: {
+              value: /^[-\s'A-Za-z]+$/i,
+              message:
+                'LastName can only have letters, spaces, apostrophes or hyphens',
+            },
+          }}
+          render={({ field, fieldState: { error } }) => (
             <TextField
               {...field}
               label='LastName'
               id='LastName'
               variant='outlined'
+              error={!!error}
+              helperText={error ? error.message : null}
             />
           )}
         />
@@ -177,13 +208,23 @@ const UserForm = ({
         <Controller
           name='Message'
           control={control}
-          render={({ field }) => (
+          rules={{
+            required: 'Please enter a message',
+            pattern: {
+              value: /^.{2,300}$/i,
+              message: 'Message must be between 2 and 300 characters long',
+            },
+          }}
+          render={({ field, fieldState: { error } }) => (
             <TextField
               {...field}
               label='Message'
               id='Message'
               variant='outlined'
               multiline
+              rows={4}
+              error={!!error}
+              helperText={error ? error.message : null}
             />
           )}
         />

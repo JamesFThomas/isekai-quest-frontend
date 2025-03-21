@@ -80,7 +80,6 @@ const UserForm = ({
   };
 
   const submitNewForm = useCallback(async (newForm: Form) => {
-    console.log('newForm', newForm);
     try {
       const response = await fetch('https://localhost:5001/Forms', {
         method: 'POST',
@@ -90,7 +89,7 @@ const UserForm = ({
           'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Credentials': 'true',
         },
-        body: JSON.stringify({}),
+        body: JSON.stringify(newForm),
       });
 
       if (!response.ok) {

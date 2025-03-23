@@ -50,7 +50,7 @@ const UserForm = ({
 
   const [alertMessage, setAlertMessage] = useState('');
 
-  const { control, handleSubmit, reset } = useForm({
+  const { control, handleSubmit, reset, watch } = useForm({
     defaultValues: {
       Id: form.Id,
       FirstName: form.FirstName,
@@ -59,6 +59,11 @@ const UserForm = ({
       Completed: form.Completed,
     },
   });
+
+  const formValues = watch();
+  const { FirstName: FNvalue, LastName: LNvalue, Message: Mvalue } = formValues;
+
+  const isFormFieldsEmpty = !FNvalue || !LNvalue || !Mvalue;
 
   useEffect(() => {
     if (formData) {
@@ -224,51 +229,55 @@ const UserForm = ({
           )}
         />
 
-        <Controller
-          name='FirstName'
-          control={control}
-          rules={{
-            required: 'A FirstName is required',
-            pattern: {
-              value: /^[-\s'A-Za-z]+$/i,
-              message:
-                'FirstName can only have letters, spaces, apostrophes or hyphens',
-            },
-          }}
-          render={({ field, fieldState: { error } }) => (
-            <TextField
-              {...field}
-              label='FirstName'
-              id='FirstName'
-              variant='outlined'
-              error={!!error}
-              helperText={error ? error.message : null}
-            />
-          )}
-        />
+        <Stack direction='row' display='flex' spacing={2}>
+          <Controller
+            name='FirstName'
+            control={control}
+            rules={{
+              required: 'A FirstName is required',
+              pattern: {
+                value: /^[-\s'A-Za-z]+$/i,
+                message:
+                  'FirstName can only have letters, spaces, apostrophes or hyphens',
+              },
+            }}
+            render={({ field, fieldState: { error } }) => (
+              <TextField
+                {...field}
+                sx={{ flexGrow: 1 }}
+                label='FirstName'
+                id='FirstName'
+                variant='outlined'
+                error={!!error}
+                helperText={error ? error.message : null}
+              />
+            )}
+          />
 
-        <Controller
-          name='LastName'
-          control={control}
-          rules={{
-            required: 'A LastName is required',
-            pattern: {
-              value: /^[-\s'A-Za-z]+$/i,
-              message:
-                'LastName can only have letters, spaces, apostrophes or hyphens',
-            },
-          }}
-          render={({ field, fieldState: { error } }) => (
-            <TextField
-              {...field}
-              label='LastName'
-              id='LastName'
-              variant='outlined'
-              error={!!error}
-              helperText={error ? error.message : null}
-            />
-          )}
-        />
+          <Controller
+            name='LastName'
+            control={control}
+            rules={{
+              required: 'A LastName is required',
+              pattern: {
+                value: /^[-\s'A-Za-z]+$/i,
+                message:
+                  'LastName can only have letters, spaces, apostrophes or hyphens',
+              },
+            }}
+            render={({ field, fieldState: { error } }) => (
+              <TextField
+                {...field}
+                sx={{ flexGrow: 1 }}
+                label='LastName'
+                id='LastName'
+                variant='outlined'
+                error={!!error}
+                helperText={error ? error.message : null}
+              />
+            )}
+          />
+        </Stack>
 
         <Controller
           name='Message'
@@ -315,7 +324,11 @@ const UserForm = ({
         />
       </Stack>
       <Stack direction='row' spacing={2} justifyContent={'center'} mt={2}>
-        <Button disabled={isAlertOpen} variant='contained' type='submit'>
+        <Button
+          disabled={isAlertOpen || isFormFieldsEmpty}
+          variant='contained'
+          type='submit'
+        >
           Submit
         </Button>
         <Button variant='contained' onClick={handleCancel}>

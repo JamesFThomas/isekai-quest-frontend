@@ -142,7 +142,7 @@ const LoginRegForm = ({ currentStep }: LoginRegFormProps) => {
             ? 'Log in to access the forms.'
             : 'Enter Your Desired Username & Email'}
         </Typography>
-        <Stack direction={'row'} spacing={2} justifyContent={'center'} mt={3}>
+        <Stack direction={'row'} spacing={2} display='flex' mt={3}>
           <Controller
             name='Username'
             control={control}
@@ -156,6 +156,7 @@ const LoginRegForm = ({ currentStep }: LoginRegFormProps) => {
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
+                sx={{ flexGrow: 1 }}
                 label='Username'
                 error={!!error}
                 helperText={error ? error.message : null}
@@ -175,6 +176,7 @@ const LoginRegForm = ({ currentStep }: LoginRegFormProps) => {
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
+                sx={{ flexGrow: 1 }}
                 label='Email'
                 error={!!error}
                 helperText={error ? error.message : null}

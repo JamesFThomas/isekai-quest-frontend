@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 
 import LoginRegForm from '@/components/LoginRegForm';
-import RegisterModal from '@/components/RegisterModal';
+import RegisterDialog from '@/components/RegisterDialog';
 import { useState } from 'react';
 
 export type UserData = {
@@ -103,7 +103,7 @@ const Home = () => {
           </Typography>
         </CardActions>
       </Card>
-      <RegisterModal
+      <RegisterDialog
         open={isRegisterOpen}
         currentStep={currentStep}
         closeDialog={handleRegisterClose}

@@ -21,6 +21,7 @@ import {
 
 import { Form } from '@/app/formstable/page';
 import { Card, CardHeader, Typography } from '@mui/material';
+import { deployedURL } from './LoginRegForm';
 
 const columnHelper = createColumnHelper<Form>();
 
@@ -105,7 +106,7 @@ const FormsTable = ({
   };
 
   const handleDelete = useCallback(async (id: number) => {
-    await fetch(`https://localhost:5001/Forms/${id}`, {
+    await fetch(`${deployedURL}/Forms/${id}`, {
       method: 'DELETE',
       headers: {
         Accept: 'text/plain',

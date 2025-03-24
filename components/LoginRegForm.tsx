@@ -28,6 +28,8 @@ const initialFormData = {
   Username: '',
   Email: '',
 };
+export const deployedURL =
+  'https://webformapi-arc5emazemh4afay.centralus-01.azurewebsites.net';
 
 type LoginRegFormProps = {
   currentStep: number;
@@ -56,7 +58,7 @@ const LoginRegForm = ({ currentStep }: LoginRegFormProps) => {
   };
 
   const handleLogin = async (data: LoginRegFormData) => {
-    const response = await fetch(`https://localhost:5001/Users/${data.Email}`, {
+    const response = await fetch(`${deployedURL}/Users/${data.Email}`, {
       method: 'GET',
       headers: {
         Accept: '*/*',
@@ -90,7 +92,7 @@ const LoginRegForm = ({ currentStep }: LoginRegFormProps) => {
       Id: 0, // auto incremented in DB so we can just set it to 0
     };
 
-    const response = await fetch('https://localhost:5001/Users', {
+    const response = await fetch(`${deployedURL}/Users`, {
       method: 'POST',
       headers: {
         Accept: '*/*',

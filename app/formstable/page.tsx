@@ -13,6 +13,7 @@ import LogOutButton from '@/components/LogOutButton';
 import { UserData } from '../page';
 import UserChip from '@/components/UserChip';
 import NewFormButton from '@/components/NewFormButton';
+import { deployedURL } from '@/components/LoginRegForm';
 
 export type Form = {
   Id: number;
@@ -47,7 +48,7 @@ export default function FormsTableView() {
 
   const fetchReFetchData = useCallback(async () => {
     try {
-      const fetchedData = await fetch('https://localhost:5001/Forms', {
+      const fetchedData = await fetch(`${deployedURL}/Forms`, {
         method: 'GET',
         headers: {
           Accept: 'text/plain',

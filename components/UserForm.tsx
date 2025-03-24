@@ -20,6 +20,7 @@ import {
 import StatusAlert from './StatusAlert';
 
 import { Form } from '@/app/formstable/page';
+import { deployedURL } from './LoginRegForm';
 
 const initialFormData = {
   Id: 0,
@@ -86,7 +87,7 @@ const UserForm = ({
 
   const submitNewForm = useCallback(async (newForm: Form) => {
     try {
-      const response = await fetch('https://localhost:5001/Forms', {
+      const response = await fetch(`${deployedURL}/Forms`, {
         method: 'POST',
         headers: {
           Accept: '*/*',
@@ -148,7 +149,7 @@ const UserForm = ({
           Completed: updatedForm.Completed,
         };
 
-        const response = await fetch(`https://localhost:5001/Forms/${formId}`, {
+        const response = await fetch(`${deployedURL}/Forms/${formId}`, {
           method: 'PUT',
           headers: {
             Accept: '*/*',

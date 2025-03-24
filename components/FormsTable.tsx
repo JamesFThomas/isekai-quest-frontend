@@ -19,7 +19,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 
-import { Form } from '@/app/formstable/page';
+import { Form } from './FormsTabView';
 import { Card, CardHeader, Typography } from '@mui/material';
 import { deployedURL } from './LoginRegForm';
 

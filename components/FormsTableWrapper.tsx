@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
-import FormsTableView from './FormsTabView';
+import FormsTableView from './FormsTableView';
 
 export default function FormsTableViewWrapper() {
   return (

@@ -1,4 +1,4 @@
-import { Form } from '@/app/formstable/page';
+import { Form } from './FormsTableView';
 import { Dialog, DialogContent, DialogTitle, Typography } from '@mui/material';
 import { Dispatch, SetStateAction } from 'react';
 

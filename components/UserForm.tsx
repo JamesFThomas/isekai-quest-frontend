@@ -19,7 +19,7 @@ import {
 
 import StatusAlert from './StatusAlert';
 
-import { Form } from '@/app/formstable/page';
+import { Form } from './FormsTableView';
 import { deployedURL } from './LoginRegForm';
 
 const initialFormData = {

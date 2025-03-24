@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { Suspense, useCallback, useEffect, useState } from 'react';
 
 import FormsTable from '@/components/FormsTable';
 import FormsDialog from '@/components/FormsDialog';
@@ -103,7 +103,9 @@ export default function FormsTableView() {
           mb={1}
         >
           <LogOutButton />
-          <UserChip user={urlParams} />
+          <Suspense fallback={<CircularProgress size='2rem' />}>
+            <UserChip user={urlParams} />
+          </Suspense>
           <NewFormButton
             setIsModalOpen={setIsModalOpen}
             setModalTitle={setModalTitle}

@@ -1,4 +1,4 @@
-import FormsTableViewWrapper from '@/components/FormsTableWrapper';
+import FormsTableViewWrapper from '@/components/Tables/FormsTableWrapper';
 
 export default function Page() {
   return <FormsTableViewWrapper />;

@@ -11,8 +11,8 @@ import {
   Typography,
 } from '@mui/material';
 
-import LoginRegForm from '@/components/LoginRegForm';
-import RegisterDialog from '@/components/RegisterDialog';
+import LoginRegForm from '@/components/Forms/LoginRegForm';
+import RegisterDialog from '@/components/Dialogs/RegisterDialog';
 import { useState } from 'react';
 
 export type UserData = {

@@ -2,17 +2,17 @@
 
 import { useCallback, useEffect, useState } from 'react';
 
-import FormsTable from '@/components/FormsTable';
-import FormsDialog from '@/components/FormsDialog';
+import FormsTable from '@/components/Tables/FormsTable';
+import FormsDialog from '@/components/Dialogs/FormsDialog';
 
 import Container from '@mui/material/Container';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useSearchParams } from 'next/navigation';
 import { Box, Stack } from '@mui/material';
-import LogOutButton from '@/components/LogOutButton';
+import LogOutButton from '@/components/Buttons/LogOutButton';
 import UserChip from '@/components/UserChip';
-import NewFormButton from '@/components/NewFormButton';
-import { deployedURL } from '@/components/LoginRegForm';
+import NewFormButton from '@/components/Buttons/NewFormButton';
+import { deployedURL } from '@/components/Forms/LoginRegForm';
 
 type UserData = {
   username: string | null;

@@ -19,9 +19,9 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 
-import { Form } from './FormsTableView';
+import { Form } from '../FormsTableView';
 import { Card, CardHeader, Typography } from '@mui/material';
-import { deployedURL } from './LoginRegForm';
+import { deployedURL } from '../Forms/LoginRegForm';
 
 const columnHelper = createColumnHelper<Form>();
 

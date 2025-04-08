@@ -1,5 +1,5 @@
 import { Button, Dialog, DialogActions, DialogContent } from '@mui/material';
-import LoginRegForm from './LoginRegForm';
+import LoginRegForm from '../Forms/LoginRegForm';
 
 type RegisterDialogProps = {
   open: boolean;

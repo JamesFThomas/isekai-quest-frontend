@@ -17,9 +17,9 @@ import {
   TextField,
 } from '@mui/material';
 
-import StatusAlert from './StatusAlert';
+import StatusAlert from '../StatusAlert';
 
-import { Form } from './FormsTableView';
+import { Form } from '../Tables/FormsTableView';
 import { deployedURL } from './LoginRegForm';
 
 const initialFormData = {

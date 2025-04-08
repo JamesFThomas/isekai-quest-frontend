@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { Dispatch, SetStateAction } from 'react';
-import { Form } from './FormsTableView';
+import { Form } from '../Tables/FormsTableView';
 
 type NewFormButtonProps = {
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;

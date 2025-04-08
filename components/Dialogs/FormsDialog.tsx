@@ -1,8 +1,8 @@
-import { Form } from './FormsTableView';
+import { Form } from '../Tables/FormsTableView';
 import { Dialog, DialogContent, DialogTitle, Typography } from '@mui/material';
 import { Dispatch, SetStateAction } from 'react';
 
-import UserForm from './UserForm';
+import UserForm from '../Forms/UserForm';
 
 type FormsDialogProps = {
   open: boolean;

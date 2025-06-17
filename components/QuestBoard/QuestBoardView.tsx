@@ -1,4 +1,4 @@
-import { Container, Card, Grid } from '@mui/material';
+import { Container, Card, Grid, Box } from '@mui/material';
 import NavBar from '../Layout/NavBar';
 
 const cardStyle = {
@@ -10,6 +10,21 @@ const cardStyle = {
 const pageStyle = {
   backgroundColor: '#3b3b3b',
   minHeight: '100vh',
+};
+
+const masonryGrid = {
+  display: 'grid',
+  gap: '10px',
+  gridTemplateColumns: 'repeat(2, 1fr)',
+  gridAutoRows: 'masonry',
+  '@media (max-width: 600px)': { gridTemplateColumns: '1fr' },
+};
+
+const masonryItem = {
+  border: '2px solid #ffa94d',
+  borderRadius: '5px',
+  backgroundColor: '#ffd8a8',
+  color: '#d9480f',
 };
 
 export default function QuestBoardView() {
@@ -30,6 +45,20 @@ export default function QuestBoardView() {
           <Card sx={cardStyle}>Section 4</Card>
         </Grid>
       </Grid>
+      <Box padding={4} sx={masonryGrid}>
+        <Box sx={masonryItem}>
+          <Card sx={cardStyle}>Section 1</Card>
+        </Box>
+        <Box sx={masonryItem}>
+          <Card sx={cardStyle}>Section 2</Card>
+        </Box>
+        <Box sx={masonryItem}>
+          <Card sx={cardStyle}>Section 3</Card>
+        </Box>
+        <Box sx={masonryItem}>
+          <Card sx={cardStyle}>Section 4</Card>
+        </Box>
+      </Box>
     </Container>
   );
 }

@@ -10,7 +10,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useSearchParams } from 'next/navigation';
 import { Box, Stack } from '@mui/material';
 import LogOutButton from '@/components/Buttons/LogOutButton';
-import UserChip from '@/components/UserChip';
+import UserChip from '@/components/Display/UserChip';
 import NewFormButton from '@/components/Buttons/NewFormButton';
 import { deployedURL } from '@/components/Forms/LoginRegForm';
 

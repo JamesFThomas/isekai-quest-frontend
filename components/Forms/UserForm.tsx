@@ -17,7 +17,7 @@ import {
   TextField,
 } from '@mui/material';
 
-import StatusAlert from '../StatusAlert';
+import StatusAlert from '../Alerts/StatusAlert';
 
 import { Form } from '../Tables/FormsTableView';
 import { deployedURL } from './LoginRegForm';

@@ -6,7 +6,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 import ArticleIcon from '@mui/icons-material/Article';
 import InputIcon from '@mui/icons-material/Input';
-import StatusAlert from './StatusAlert';
+import StatusAlert from '../Alerts/StatusAlert';
 import { useState } from 'react';
 
 type LoginRegFormData = {

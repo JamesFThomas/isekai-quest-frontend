@@ -10,7 +10,6 @@ export default function Splash() {
     // Logic to start the quest
     console.log('Start Quest clicked');
   };
-
   return (
     <div
       className='flex flex-col items-center p-8 min-h-screen'
@@ -20,7 +19,7 @@ export default function Splash() {
     >
       <div className='flex flex-col items-center w-fit'>
         <header
-          className='text-center text-5xl text-white p-2'
+          className='text-center text-5xl text-white pt-3.5 pb-3.5'
           style={{
             backgroundColor: '#C87D7D',
             maxWidth: '600px',
@@ -38,7 +37,7 @@ export default function Splash() {
           />
         </figure>
         <p
-          className='text-center text-balance text-2xl text-white p-2'
+          className='text-center text-balance text-2xl text-white pt-3.5 pb-3.5 p-5'
           style={{
             backgroundColor: '#C87D7D',
             maxWidth: '600px',
@@ -53,19 +52,27 @@ export default function Splash() {
           updates will enhance social interaction and character attributes.
         </p>
         <div
-          className='flex justify-around w-full mt-3'
+          className='flex flex-col sm:flex-row justify-around w-full mt-3'
           style={{ backgroundColor: '#d9d9d9' }}
         >
           <button
-            className='rounded-full text-center text-2xl text-white p-4 hover:cursor-pointer'
-            style={{ backgroundColor: '#8E9CC9' }}
+            className='rounded-full text-center text-2xl text-white p-4 m-1 hover:cursor-pointer'
+            style={{
+              backgroundColor: '#8E9CC9',
+              flex: 1,
+              flexBasis: 0,
+            }}
             onClick={handleContinueQuest}
           >
             Continue Quest
           </button>
           <button
-            className='rounded-full text-center text-2xl text-white p-4 hover:cursor-pointer'
-            style={{ backgroundColor: '#8E9CC9' }}
+            className='rounded-full text-center text-2xl text-white p-4 m-1 hover:cursor-pointer'
+            style={{
+              backgroundColor: '#8E9CC9',
+              flex: 1,
+              flexBasis: 0,
+            }}
             onClick={handleStartQuest}
           >
             Start Quest

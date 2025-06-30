@@ -1,10 +1,15 @@
 'use client';
+import LoginModal from '@/components/LoginModal/LoginModal';
 import Image from 'next/image';
+import { useState } from 'react';
 
 export default function Splash() {
+  // TODO:
+
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(true);
+
   const handleContinueQuest = () => {
-    // Logic to continue the quest
-    console.log('Continue Quest clicked');
+    setIsLoginModalOpen(true); // Open the login modal when continuing the quest
   };
   const handleStartQuest = () => {
     // Logic to start the quest
@@ -79,6 +84,7 @@ export default function Splash() {
           </button>
         </div>
       </div>
+      <LoginModal isOpen={isLoginModalOpen} closeModal={setIsLoginModalOpen} />
     </div>
   );
 }

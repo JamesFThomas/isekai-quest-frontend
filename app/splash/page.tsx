@@ -1,20 +1,24 @@
 'use client';
-import LoginModal from '@/components/LoginModal/LoginModal';
-import Image from 'next/image';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+
+import LoginModal from '@/components/LoginModal/LoginModal';
+
+import Image from 'next/image';
 
 export default function Splash() {
-  // TODO:
+  const router = useRouter();
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const handleContinueQuest = () => {
     setIsLoginModalOpen(true);
   };
+
   const handleStartQuest = () => {
-    // Logic to start the quest
-    console.log('Start Quest clicked');
+    router.push('/createcharacter');
   };
+
   return (
     <div
       className='flex flex-col items-center p-8 min-h-screen'

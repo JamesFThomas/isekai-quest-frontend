@@ -28,7 +28,7 @@ export default function CreateCharacter() {
             width: '100%',
           }}
         >
-          <div className='grid grid-cols-3 gap-4 p-4'>
+          <div className='avatar-grid grid grid-cols-3 gap-4 p-4'>
             <div className='bg-gray-200 h-32 flex items-center justify-center'>
               Avatar 1
             </div>
@@ -54,11 +54,53 @@ export default function CreateCharacter() {
           style={{
             backgroundColor: '#C87D7D',
             maxWidth: '600px',
-            minHeight: '400px',
+            minHeight: 'fit-content',
             width: '100%',
           }}
         >
-          Avatar Preview + Data
+          <div className='character-grid p-4 flex flex-col md:flex-row md:space-x-6'>
+            <div className='character-image bg-gray-200 w-full md:w-1/3 flex items-center justify-center h-40 md:h-auto'>
+              Avatar 1
+            </div>
+
+            <div className='character-data w-full md:w-2/3'>
+              <div className='mb-4'>
+                <label className='block text-sm font-bold mb-2'>
+                  Character Name
+                </label>
+                <input
+                  className='bg-white shadow appearance-none rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
+                  id='character-name'
+                  type='text'
+                  placeholder='Character Name'
+                />
+              </div>
+
+              <div className='mb-4'>
+                <label className='block text-sm font-bold mb-2'>
+                  User Name
+                </label>
+                <input
+                  className='bg-white shadow appearance-none rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
+                  id='username'
+                  type='text'
+                  placeholder='User Name'
+                />
+              </div>
+
+              <div className='mb-4'>
+                <label className='block text-sm font-bold mb-2'>
+                  Email Address
+                </label>
+                <input
+                  className='bg-white shadow appearance-none rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
+                  id='email'
+                  type='email'
+                  placeholder='Email Address'
+                />
+              </div>
+            </div>
+          </div>
         </div>
         <div // Button Box
           className='flex flex-col sm:flex-row justify-around w-full mt-3'

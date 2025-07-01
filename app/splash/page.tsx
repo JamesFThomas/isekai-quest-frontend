@@ -6,10 +6,10 @@ import { useState } from 'react';
 export default function Splash() {
   // TODO:
 
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(true);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const handleContinueQuest = () => {
-    setIsLoginModalOpen(true); // Open the login modal when continuing the quest
+    setIsLoginModalOpen(true);
   };
   const handleStartQuest = () => {
     // Logic to start the quest

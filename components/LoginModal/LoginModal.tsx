@@ -28,7 +28,7 @@ export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
         />
 
         <div className='fixed inset-0 z-10 w-screen overflow-y-auto'>
-          <div className='flex min-h-full  justify-center p-4 text-center items-center sm:p-0'>
+          <div className='flex min-h-full justify-center p-4 text-center items-center sm:p-0'>
             <DialogPanel
               transition
               className='relative transform overflow-hidden text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95'
@@ -42,19 +42,37 @@ export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
                   backgroundColor: '#C87D7D',
                 }}
               >
-                <div className='sm:flex sm:items-start'>
+                <div className='items-center'>
                   <div className='mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left'>
                     <DialogTitle
                       as='h3'
-                      className='font-semibold text-white text-2xl'
+                      className='font-semibold text-white text-2xl item'
                     >
-                      Login in to continue your journey!
+                      Continue your quest!
                     </DialogTitle>
                     <div className='mt-2'>
-                      {/* TODO: add login inputs here */}
-                      <p className='text-sm text-white'>
-                        Login inputs will go here
-                      </p>
+                      <div className='mb-4'>
+                        <label className='block text-white text-sm font-bold mb-2'>
+                          Username
+                        </label>
+                        <input
+                          className='shadow appearance-none rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
+                          id='username'
+                          type='text'
+                          placeholder='Username'
+                        />
+                      </div>
+                      <div>
+                        <label className='block text-white text-sm font-bold mb-2'>
+                          Password
+                        </label>
+                        <input
+                          className='shadow appearance-none rounded w-full py-2 px-3 text-black mb-3 leading-tight focus:outline-none focus:shadow-outline'
+                          id='password'
+                          type='password'
+                          placeholder='Password'
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>

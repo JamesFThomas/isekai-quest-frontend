@@ -1,5 +1,7 @@
 'use client';
 
+import Image from 'next/image';
+
 export default function CreateCharacter() {
   return (
     <div
@@ -10,7 +12,7 @@ export default function CreateCharacter() {
     >
       <div className='flex flex-col items-center'>
         <header
-          className='text-center text-5xl text-white p-3.5'
+          className='text-center text-4xl text-white p-3.5'
           style={{
             backgroundColor: '#C87D7D',
             maxWidth: '600px',
@@ -28,25 +30,55 @@ export default function CreateCharacter() {
             width: '100%',
           }}
         >
-          <div className='avatar-grid grid grid-cols-3 gap-4 p-4'>
-            <div className='bg-gray-200 h-32 flex items-center justify-center'>
-              Avatar 1
-            </div>
-            <div className='bg-gray-200 h-32 flex items-center justify-center'>
-              Avatar 2
-            </div>
-            <div className='bg-gray-200 h-32 flex items-center justify-center'>
-              Avatar 3
-            </div>
-            <div className='bg-gray-200 h-32 flex items-center justify-center'>
-              Avatar 4
-            </div>
-            <div className='bg-gray-200 h-32 flex items-center justify-center'>
-              Avatar 5
-            </div>
-            <div className='bg-gray-200 h-32 flex items-center justify-center'>
-              Avatar 6
-            </div>
+          <div className='avatar-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4'>
+            <figure className='flex items-center justify-center'>
+              <Image
+                alt='Paladin Avatar'
+                src='/barbarian_avatar.png'
+                width={200}
+                height={200}
+              />
+            </figure>
+            <figure className='flex items-center justify-center'>
+              <Image
+                alt='Paladin Avatar'
+                src='/dwarf2_avatar.png'
+                width={200}
+                height={200}
+              />
+            </figure>
+            <figure className='flex items-center justify-center'>
+              <Image
+                alt='Paladin Avatar'
+                src='/paladin_avatar.png'
+                width={200}
+                height={200}
+              />
+            </figure>
+            <figure className='flex items-center justify-center'>
+              <Image
+                alt='Paladin Avatar'
+                src='/halfling_avatar.png'
+                width={200}
+                height={200}
+              />
+            </figure>
+            <figure className='flex items-center justify-center'>
+              <Image
+                alt='Paladin Avatar'
+                src='/necromancer_avatar.png'
+                width={200}
+                height={200}
+              />
+            </figure>
+            <figure className='flex items-center justify-center'>
+              <Image
+                alt='Paladin Avatar'
+                src='/wood_elf.png'
+                width={200}
+                height={200}
+              />
+            </figure>
           </div>
         </div>
         <div
@@ -59,9 +91,14 @@ export default function CreateCharacter() {
           }}
         >
           <div className='character-grid p-4 flex flex-col md:flex-row md:space-x-6'>
-            <div className='character-image bg-gray-200 w-full md:w-1/3 flex items-center justify-center h-40 md:h-auto'>
-              Avatar 1
-            </div>
+            <figure className='character-image w-full md:w-1/3 flex items-center justify-center md:h-auto'>
+              <Image
+                alt='Paladin Avatar'
+                src='/wood_elf.png'
+                width={300}
+                height={300}
+              />
+            </figure>
 
             <div className='character-data w-full md:w-2/3'>
               <div className='mb-4'>

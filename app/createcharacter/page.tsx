@@ -42,7 +42,7 @@ export default function CreateCharacter() {
             <figure className='flex items-center justify-center'>
               <Image
                 alt='Paladin Avatar'
-                src='/dwarf2_avatar.png'
+                src='/dwarf_avatar.png'
                 width={200}
                 height={200}
               />
@@ -74,7 +74,7 @@ export default function CreateCharacter() {
             <figure className='flex items-center justify-center'>
               <Image
                 alt='Paladin Avatar'
-                src='/wood_elf.png'
+                src='/snowElf_avatar.png'
                 width={200}
                 height={200}
               />
@@ -91,10 +91,10 @@ export default function CreateCharacter() {
           }}
         >
           <div className='character-grid p-4 flex flex-col md:flex-row md:space-x-6'>
-            <figure className='character-image w-full md:w-1/3 flex items-center justify-center md:h-auto'>
+            <figure className='bg-white character-image w-full md:w-1/3 flex items-center justify-center md:h-auto'>
               <Image
                 alt='Paladin Avatar'
-                src='/wood_elf.png'
+                src='/snowElf_avatar.png'
                 width={300}
                 height={300}
               />

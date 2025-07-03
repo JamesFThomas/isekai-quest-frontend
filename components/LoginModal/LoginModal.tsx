@@ -2,6 +2,8 @@
 
 import { Dispatch, SetStateAction } from 'react';
 
+import { useRouter } from 'next/navigation';
+
 import {
   Dialog,
   DialogBackdrop,
@@ -15,8 +17,17 @@ interface LoginModalProps {
 }
 
 export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
+  const router = useRouter();
+
   const setOpen = () => {
     closeModal(!isOpen);
+  };
+
+  const handleLogin = () => {
+    // Handle login logic here
+    // For now, just close the modal and redirect to the home screen
+    setOpen();
+    router.push('/homescreen');
   };
 
   return (
@@ -80,7 +91,7 @@ export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
               <div className=' px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6'>
                 <button
                   type='button'
-                  onClick={setOpen}
+                  onClick={handleLogin}
                   className='inline-flex w-full justify-center rounded-full px-3 py-2 text-sm font-semibold text-white sm:ml-3 hover:cursor-pointer'
                   style={{
                     backgroundColor: '#8E9CC9',

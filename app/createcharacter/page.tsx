@@ -1,8 +1,15 @@
 'use client';
-
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
 export default function CreateCharacter() {
+  const router = useRouter();
+
+  const handleCreateCharacter = () => {
+    // Logic to handle starting the quest can be added here
+    router.push('/homescreen');
+  };
+
   return (
     <div
       className='flex flex-col items-center justify-center p-8 min-h-screen'
@@ -150,7 +157,7 @@ export default function CreateCharacter() {
               flex: 1,
               flexBasis: 0,
             }}
-            // onClick={handleStartQuest}
+            onClick={handleCreateCharacter}
           >
             Create Character
           </button>

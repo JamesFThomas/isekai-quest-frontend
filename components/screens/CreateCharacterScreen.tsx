@@ -1,12 +1,75 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { useState } from 'react';
+
+type AvatarOption = {
+  id: number;
+  src: string;
+  alt: string;
+};
 
 export default function CreateCharacterScreen() {
   const router = useRouter();
 
+  const [avatarOptions] = useState<AvatarOption[]>([
+    {
+      id: 1,
+      src: '/barbarian_avatar.png',
+      alt: 'Barbarian Avatar',
+    },
+    {
+      id: 2,
+      src: '/dwarf_avatar.png',
+      alt: 'Dwarf Avatar',
+    },
+    {
+      id: 3,
+      src: '/paladin_avatar.png',
+      alt: 'Paladin Avatar',
+    },
+    {
+      id: 4,
+      src: '/halfling_avatar.png',
+      alt: 'Halfling Avatar',
+    },
+    {
+      id: 5,
+      src: '/necromancer_avatar.png',
+      alt: 'Necromancer Avatar',
+    },
+    {
+      id: 6,
+      src: '/snowElf_avatar.png',
+      alt: 'Snow Elf Avatar',
+    },
+  ]);
+
+  const [selectedAvatar, setSelectedAvatar] = useState<AvatarOption | null>(
+    null
+  );
+
+  const [newPlayerData, setNewPlayerData] = useState({
+    avatar: '',
+    characterName: '',
+    userName: '',
+    emailAddress: '',
+  });
+
+  const handleAvatarSelect = (src: string) => {
+    const selected = avatarOptions.find((avatar) => avatar.src === src);
+    if (selected) {
+      setSelectedAvatar(selected);
+      setNewPlayerData({
+        ...newPlayerData,
+        avatar: selected.src,
+      });
+    }
+  };
+
+  console.log('New Player Data:', newPlayerData);
+
   const handleCreateCharacter = () => {
-    // Logic to handle starting the quest can be added here
     router.push('/homescreen');
   };
 
@@ -38,54 +101,22 @@ export default function CreateCharacterScreen() {
           }}
         >
           <div className='avatar-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4'>
-            <figure className='flex items-center justify-center'>
-              <Image
-                alt='Paladin Avatar'
-                src='/barbarian_avatar.png'
-                width={200}
-                height={200}
-              />
-            </figure>
-            <figure className='flex items-center justify-center'>
-              <Image
-                alt='Paladin Avatar'
-                src='/dwarf_avatar.png'
-                width={200}
-                height={200}
-              />
-            </figure>
-            <figure className='flex items-center justify-center'>
-              <Image
-                alt='Paladin Avatar'
-                src='/paladin_avatar.png'
-                width={200}
-                height={200}
-              />
-            </figure>
-            <figure className='flex items-center justify-center'>
-              <Image
-                alt='Paladin Avatar'
-                src='/halfling_avatar.png'
-                width={200}
-                height={200}
-              />
-            </figure>
-            <figure className='flex items-center justify-center'>
-              <Image
-                alt='Paladin Avatar'
-                src='/necromancer_avatar.png'
-                width={200}
-                height={200}
-              />
-            </figure>
-            <figure className='flex items-center justify-center'>
-              <Image
-                alt='Paladin Avatar'
-                src='/snowElf_avatar.png'
-                width={200}
-                height={200}
-              />
-            </figure>
+            {avatarOptions.map((avatar) => (
+              <button
+                onClick={() => handleAvatarSelect(avatar.src)}
+                key={avatar.id}
+                className='flex items-center justify-center cursor-crosshair'
+              >
+                <Image
+                  key={avatar.id}
+                  className='flex items-center justify-center'
+                  alt={avatar.alt}
+                  src={avatar.src}
+                  width={200}
+                  height={200}
+                />
+              </button>
+            ))}
           </div>
         </div>
         <div
@@ -100,8 +131,10 @@ export default function CreateCharacterScreen() {
           <div className='character-grid p-4 flex flex-col md:flex-row md:space-x-6'>
             <figure className='bg-white character-image w-full md:w-1/3 flex items-center justify-center md:h-auto'>
               <Image
-                alt='Paladin Avatar'
-                src='/snowElf_avatar.png'
+                alt={selectedAvatar ? selectedAvatar.alt : 'Default Avatar'}
+                src={
+                  selectedAvatar ? selectedAvatar.src : '/default_avatar.png'
+                }
                 width={300}
                 height={300}
               />
@@ -117,6 +150,13 @@ export default function CreateCharacterScreen() {
                   id='character-name'
                   type='text'
                   placeholder='Character Name'
+                  value={newPlayerData.characterName}
+                  onChange={(e) =>
+                    setNewPlayerData({
+                      ...newPlayerData,
+                      characterName: e.target.value,
+                    })
+                  }
                 />
               </div>
 
@@ -129,6 +169,13 @@ export default function CreateCharacterScreen() {
                   id='username'
                   type='text'
                   placeholder='User Name'
+                  value={newPlayerData.userName}
+                  onChange={(e) =>
+                    setNewPlayerData({
+                      ...newPlayerData,
+                      userName: e.target.value,
+                    })
+                  }
                 />
               </div>
 
@@ -141,6 +188,13 @@ export default function CreateCharacterScreen() {
                   id='email'
                   type='email'
                   placeholder='Email Address'
+                  value={newPlayerData.emailAddress}
+                  onChange={(e) =>
+                    setNewPlayerData({
+                      ...newPlayerData,
+                      emailAddress: e.target.value,
+                    })
+                  }
                 />
               </div>
             </div>

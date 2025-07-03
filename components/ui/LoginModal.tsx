@@ -1,6 +1,6 @@
 'use client';
 
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
@@ -19,20 +19,25 @@ interface LoginModalProps {
 export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
   const router = useRouter();
 
+  const [username, setUsername] = useState('');
+  const [emailAddress, setEmailAddress] = useState('');
+
+  console.log('username', username);
+
+  console.log('email', emailAddress);
+
   const setOpen = () => {
     closeModal(!isOpen);
   };
 
   const handleLogin = () => {
-    // Handle login logic here
-    // For now, just close the modal and redirect to the home screen
     setOpen();
     router.push('/homescreen');
   };
 
   return (
     <div>
-      <Dialog open={isOpen} onClose={setOpen} className='relative z-10'>
+      <Dialog open={isOpen} onClose={() => {}} className='relative z-10'>
         <DialogBackdrop
           transition
           className='fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in'
@@ -67,10 +72,12 @@ export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
                           Username
                         </label>
                         <input
-                          className='shadow appearance-none rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
+                          className='bg-white shadow appearance-none rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
                           id='username'
                           type='text'
-                          placeholder='Username'
+                          placeholder='User Name'
+                          value={username}
+                          onChange={(e) => setUsername(e.target.value)}
                         />
                       </div>
                       <div>
@@ -78,10 +85,12 @@ export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
                           Password
                         </label>
                         <input
-                          className='shadow appearance-none rounded w-full py-2 px-3 text-black mb-3 leading-tight focus:outline-none focus:shadow-outline'
-                          id='password'
-                          type='password'
-                          placeholder='Password'
+                          className='bg-white shadow appearance-none rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
+                          id='email'
+                          type='email'
+                          placeholder='Email Address'
+                          value={emailAddress}
+                          onChange={(e) => setEmailAddress(e.target.value)}
                         />
                       </div>
                     </div>

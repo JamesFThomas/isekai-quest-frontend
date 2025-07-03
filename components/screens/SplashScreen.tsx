@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import LoginModal from '@/components/LoginModal/ui/LoginModal';
+import LoginModal from '@/components/ui/LoginModal';
 
 import Image from 'next/image';
 

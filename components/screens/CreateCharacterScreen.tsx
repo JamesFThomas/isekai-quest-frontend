@@ -1,7 +1,10 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
 import { useState } from 'react';
+
+import Image from 'next/image';
+
+import avatarImages from '@/data/avatarOptions';
 
 type AvatarOption = {
   id: number;
@@ -12,38 +15,7 @@ type AvatarOption = {
 export default function CreateCharacterScreen() {
   const router = useRouter();
 
-  const [avatarOptions] = useState<AvatarOption[]>([
-    {
-      id: 1,
-      src: '/barbarian_avatar.png',
-      alt: 'Barbarian Avatar',
-    },
-    {
-      id: 2,
-      src: '/dwarf_avatar.png',
-      alt: 'Dwarf Avatar',
-    },
-    {
-      id: 3,
-      src: '/paladin_avatar.png',
-      alt: 'Paladin Avatar',
-    },
-    {
-      id: 4,
-      src: '/halfling_avatar.png',
-      alt: 'Halfling Avatar',
-    },
-    {
-      id: 5,
-      src: '/necromancer_avatar.png',
-      alt: 'Necromancer Avatar',
-    },
-    {
-      id: 6,
-      src: '/snowElf_avatar.png',
-      alt: 'Snow Elf Avatar',
-    },
-  ]);
+  const [avatarOptions] = useState<AvatarOption[]>(avatarImages);
 
   const [selectedAvatar, setSelectedAvatar] = useState<AvatarOption | null>(
     null
@@ -200,7 +172,7 @@ export default function CreateCharacterScreen() {
             </div>
           </div>
         </div>
-        <div // Button Box
+        <div
           className='flex flex-col sm:flex-row justify-around w-full mt-3'
           style={{ backgroundColor: '#d9d9d9' }}
         >

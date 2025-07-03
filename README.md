@@ -1,98 +1,68 @@
-# Web Form Frontend
+# Isekai Quest Frontend
 
-Web Form Frontend is a Next.js 15 project to display and manipulate API data.
+**Isekai Quest** is a single-player, turn-based fantasy adventure game that evokes the feel of retro RPGs. Players create a custom character, choose from a diverse cast of pixel-art avatars, and explore a nostalgic UI inspired by classic quest boards and fantasy towns.
 
-## Description
-
-This project utilizes Next.js 15, Fetch, React Table, React Hook Forms, and MUI styled components to create an application that allows users to view, manipulate, and persist submitted form data.
-
-## Purpose
-
-I worked on a finTech application for almost 3 years and before it went live the project was halted so I was never able to share the things I learned and built during that period with the world. My main reason for building this application is to be an example of the work I completed during that time and showcase my understanding as well as abilities regarding frontend design, form creation, data collection/presentation, and data persistence.
-
-The second reason for building this application was to act as a companion for the C# API I built to further my skills as a software engineer.
+This repository contains the frontend for Isekai Quest, built with **Next.js 15** and styled with **Tailwind CSS**. The project emphasizes component-driven architecture, immersive design, and a strong visual identity centered around dark-skinned fantasy characters.
 
 ---
 
-Web Form Frontend is designed to work with the Web Form API application
+## 🔗 Live Demo
 
-Without both running you will not be able to visualize any data.
+👉 [isekai-quest.netlify.app](https://isekai-quest.netlify.app/)
 
-Web Form API => https://github.com/JamesFThomas/Web-Form-API
+## 📜 Game Design Document
+
+📝 [Isekai Quest – Specification Document](https://medium.com/@jamesfeltonthomas/isekai-quest-specification-document-da2325cbbea2)
 
 ---
 
-## Installation
+## ⚙️ Tech Stack
 
-- Clone this repo to local directory
+- **Framework**: Next.js 15 (App Router)
+- **Styling**: Tailwind CSS + Headless UI
+- **Forms**: React Hook Form
+- **Language**: TypeScript
+- **Assets**: Custom Pixel Art
+- **CI/CD**: Netlify
 
-- Install packages
+---
 
-```text
-npm i
+## 🎮 Current Features
+
+- Splash screen with quest introduction and animated call-to-action
+- Login modal to continue an existing quest
+- Create Character screen with responsive avatar grid
+- Character preview with dynamic name input
+- Mobile-first, responsive layout
+- Themed experience with a consistent palette and nostalgic visual cues
+
+---
+
+## 🚧 Planned Enhancements
+
+- C#/.NET backend integration for account and character persistence
+- In-town interactions (market, guild, inn)
+- Quest board with task acceptance and rewards
+- Turn-based combat with class-specific skills
+- Inventory, character leveling, and save/load support
+
+---
+
+## 🛠️ Getting Started
+
+```bash
+git clone https://github.com/JamesFThomas/isekai-quest-frontend.git
+cd isekai-quest-frontend
+npm install
+npm run dev
 ```
 
-- ensure you're using Node version ^14
+---
 
-### Features
+## 🧙🏿‍♂️ About the Project
 
-Each page or component performs a different http request
+Isekai Quest is more than a portfolio piece — it's an evolving personal project that lets me experiment with game-inspired UI, client-server architecture, and responsive design. Built from scratch after sunsetting an older codebase, it's designed to reflect my current approach to frontend development and visual storytelling.
 
-Home
+---
 
-- GET - user by email
-- POST - add new user
-
-Home Page / LoginReg Form
-![Image](https://github.com/user-attachments/assets/331964f8-5efe-4b1b-b0fd-3def071d8dcb)
-
-Registration Modal / LoginReg Form
-![Image](https://github.com/user-attachments/assets/e1b165a2-70b7-4cd7-8c0d-d018376a7db4)
-
-FormsTable
-
-- GET - all forms
-- GET - form by id
-- GET - all completed forms
-- PUT - update form by id#
-- POST - add new form
-- DELETE - remove form by id#
-
-Forms Table
-![Image](https://github.com/user-attachments/assets/31383db7-0e3c-442b-a09d-0b0f3b8faa41)
-
-Forms Modal
-![Image](https://github.com/user-attachments/assets/e7458a98-d715-48a8-82e9-a7601a5e98ad)
-
-example API fetch
-
-```typescript
-const fetchReFetchData = useCallback(async () => {
-  try {
-    const fetchedData = await fetch('https://localhost:5001/Forms', {
-      method: 'GET',
-      headers: {
-        Accept: 'text/plain',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': 'true',
-      },
-    });
-
-    const data = await fetchedData.json();
-    setForms(data); // set data to local component state
-  } catch (error) {
-    console.error('Fetch Error', error);
-  }
-}, []);
-```
-
-### Tests
-
-The component tests for this application were created using the React Testing Library && Jest dependencies
-
-### TODO
-
-- Complete component testing suites
-- Imagine users for this application and upgrade with them in mind
-- Add/Create different form types
+Happy coding, y’all! 👨🏿‍💻

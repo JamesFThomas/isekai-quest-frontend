@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Questlist',
+  title: 'Isekai Quest',
   description: 'A fantasy job board for adventurers',
 };
 

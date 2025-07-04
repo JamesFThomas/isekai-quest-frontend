@@ -72,8 +72,9 @@ export default function RegistrationModal({
                     >
                       Your Player Data!
                     </DialogTitle>
-                    <div className=' playerData-grid mt-2'>
-                      <figure className='bg-white character-image w-full md:w-1/3 flex items-center justify-center md:h-auto'>
+                    <div className='playerData-grid mt-2 flex flex-col md:flex-row gap-4'>
+                      {/* Avatar */}
+                      <figure className='bg-white character-image w-full md:w-1/3 flex items-center justify-center'>
                         <Image
                           alt='Chosen player avatar'
                           src={playerData?.avatar || '/default-avatar.png'}
@@ -81,38 +82,35 @@ export default function RegistrationModal({
                           height={300}
                         />
                       </figure>
-                      <div className='mb-4'>
-                        <label className='block text-white text-sm font-bold mb-2'>
-                          Character Name:
-                        </label>
-                        <input
-                          className='bg-white shadow appearance-none rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
-                          id='characterName'
-                          type='text'
-                          value={playerData?.characterName || ''}
-                        />
-                      </div>
-                      <div>
-                        <label className='block text-white text-sm font-bold mb-2'>
-                          User Name
-                        </label>
-                        <input
-                          className='bg-white shadow appearance-none rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
-                          id='username'
-                          type='text'
-                          value={playerData?.userName || ''}
-                        />
-                      </div>
-                      <div>
-                        <label className='block text-white text-sm font-bold mb-2'>
-                          Email Address
-                        </label>
-                        <input
-                          className='bg-white shadow appearance-none rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
-                          id='emailAddress'
-                          type='text'
-                          value={playerData?.emailAddress || ''}
-                        />
+
+                      {/* Player info */}
+                      <div className='flex-1 flex flex-col gap-3 justify-center'>
+                        <div className='flex flex-col md:flex-row md:items-center gap-2'>
+                          <label className='text-white text-sm font-bold md:w-40'>
+                            Character Name:
+                          </label>
+                          <div className='text-white px-3 py-2'>
+                            {playerData?.characterName || '—'}
+                          </div>
+                        </div>
+
+                        <div className='flex flex-col md:flex-row md:items-center gap-2'>
+                          <label className='text-white text-sm font-bold md:w-40'>
+                            User Name:
+                          </label>
+                          <div className='text-white px-3 py-2'>
+                            {playerData?.userName || '—'}
+                          </div>
+                        </div>
+
+                        <div className='flex flex-col md:flex-row md:items-center gap-2'>
+                          <label className='text-white text-sm font-bold md:w-40'>
+                            Email Address:
+                          </label>
+                          <div className='text-white px-3 py-2 '>
+                            {playerData?.emailAddress || '—'}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>

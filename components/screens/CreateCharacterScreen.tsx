@@ -1,19 +1,27 @@
 'use client';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 
+import { useState } from 'react';
 import Image from 'next/image';
+
+import RegistrationModal from '../ui/RegistrationModal';
 
 import avatarImages from '@/data/avatarOptions';
 
-type AvatarOption = {
+export type AvatarOption = {
   id: number;
   src: string;
   alt: string;
 };
 
+export type NewPlayerData = {
+  avatar: string;
+  characterName: string;
+  userName: string;
+  emailAddress: string;
+};
+
 export default function CreateCharacterScreen() {
-  const router = useRouter();
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const [avatarOptions] = useState<AvatarOption[]>(avatarImages);
 
@@ -21,7 +29,7 @@ export default function CreateCharacterScreen() {
     null
   );
 
-  const [newPlayerData, setNewPlayerData] = useState({
+  const [newPlayerData, setNewPlayerData] = useState<NewPlayerData>({
     avatar: '',
     characterName: '',
     userName: '',
@@ -42,7 +50,7 @@ export default function CreateCharacterScreen() {
   console.log('New Player Data:', newPlayerData);
 
   const handleCreateCharacter = () => {
-    router.push('/homescreen');
+    setIsLoginModalOpen(true);
   };
 
   return (
@@ -111,7 +119,6 @@ export default function CreateCharacterScreen() {
                 height={300}
               />
             </figure>
-
             <div className='character-data w-full md:w-2/3'>
               <div className='mb-4'>
                 <label className='block text-sm font-bold mb-2'>
@@ -177,7 +184,7 @@ export default function CreateCharacterScreen() {
           style={{ backgroundColor: '#d9d9d9' }}
         >
           <button
-            className='rounded-full text-center text-2xl text-white p-4 m-1 hover:cursor-pointer'
+            className='rounded-full text-center text-2xl text-white p-4 m-1 hover:cursor-crosshair'
             style={{
               backgroundColor: '#8E9CC9',
               flex: 1,
@@ -189,6 +196,11 @@ export default function CreateCharacterScreen() {
           </button>
         </div>
       </div>
+      <RegistrationModal
+        isOpen={isLoginModalOpen}
+        playerData={newPlayerData ?? undefined}
+        closeModal={setIsLoginModalOpen}
+      />
     </div>
   );
 }

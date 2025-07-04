@@ -65,7 +65,7 @@ export default function SplashScreen() {
           style={{ backgroundColor: '#d9d9d9' }}
         >
           <button
-            className='rounded-full text-center text-2xl text-white p-4 m-1 hover:cursor-pointer'
+            className='rounded-full text-center text-2xl text-white p-4 m-1 hover:cursor-crosshair'
             style={{
               backgroundColor: '#8E9CC9',
               flex: 1,
@@ -76,7 +76,7 @@ export default function SplashScreen() {
             Continue Quest
           </button>
           <button
-            className='rounded-full text-center text-2xl text-white p-4 m-1 hover:cursor-pointer'
+            className='rounded-full text-center text-2xl text-white p-4 m-1 hover:cursor-crosshair'
             style={{
               backgroundColor: '#8E9CC9',
               flex: 1,

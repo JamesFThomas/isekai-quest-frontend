@@ -1,6 +1,14 @@
 'use client';
 
-import { Dispatch, SetStateAction, useState } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  // useState
+} from 'react';
+
+import Image from 'next/image';
+
+import { NewPlayerData } from '../screens/CreateCharacterScreen';
 
 import { useRouter } from 'next/navigation';
 
@@ -11,26 +19,24 @@ import {
   DialogTitle,
 } from '@headlessui/react';
 
-interface LoginModalProps {
+interface RegistrationModalProps {
   isOpen: boolean;
+  playerData?: NewPlayerData;
   closeModal: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
+export default function RegistrationModal({
+  isOpen,
+  playerData,
+  closeModal,
+}: RegistrationModalProps) {
   const router = useRouter();
-
-  const [username, setUsername] = useState('');
-  const [emailAddress, setEmailAddress] = useState('');
-
-  console.log('username', username);
-
-  console.log('email', emailAddress);
 
   const setOpen = () => {
     closeModal(!isOpen);
   };
 
-  const handleLogin = () => {
+  const handleRegistration = () => {
     setOpen();
     router.push('/homescreen');
   };
@@ -64,33 +70,48 @@ export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
                       as='h3'
                       className='font-semibold text-white text-2xl item'
                     >
-                      Continue your quest!
+                      Your Player Data!
                     </DialogTitle>
                     <div className='mt-2'>
+                      <figure className='bg-white character-image w-full md:w-1/3 flex items-center justify-center md:h-auto'>
+                        <Image
+                          alt='Chosen player avatar'
+                          src={playerData?.avatar || '/default-avatar.png'}
+                          width={300}
+                          height={300}
+                        />
+                      </figure>
                       <div className='mb-4'>
                         <label className='block text-white text-sm font-bold mb-2'>
-                          Username
+                          Character Name:
+                        </label>
+                        <input
+                          className='bg-white shadow appearance-none rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
+                          id='characterName'
+                          type='text'
+                          value={playerData?.characterName || ''}
+                        />
+                      </div>
+                      <div>
+                        <label className='block text-white text-sm font-bold mb-2'>
+                          User Name
                         </label>
                         <input
                           className='bg-white shadow appearance-none rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
                           id='username'
                           type='text'
-                          placeholder='User Name'
-                          value={username}
-                          onChange={(e) => setUsername(e.target.value)}
+                          value={playerData?.userName || ''}
                         />
                       </div>
                       <div>
                         <label className='block text-white text-sm font-bold mb-2'>
-                          Password
+                          Email Address
                         </label>
                         <input
                           className='bg-white shadow appearance-none rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
-                          id='email'
-                          type='email'
-                          placeholder='Email Address'
-                          value={emailAddress}
-                          onChange={(e) => setEmailAddress(e.target.value)}
+                          id='emailAddress'
+                          type='text'
+                          value={playerData?.emailAddress || ''}
                         />
                       </div>
                     </div>
@@ -100,21 +121,21 @@ export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
               <div className=' px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6'>
                 <button
                   type='button'
-                  onClick={handleLogin}
-                  className='inline-flex w-full justify-center rounded-full px-3 py-2 text-sm font-semibold text-white sm:ml-3 hover:cursor-crosshair'
+                  onClick={handleRegistration}
+                  className='inline-flex w-full justify-center rounded-full px-3 py-2 text-sm font-semibold text-white sm:ml-3 hover:cursor-pointer'
                   style={{
                     backgroundColor: '#8E9CC9',
                     flex: 1,
                     flexBasis: 0,
                   }}
                 >
-                  Login
+                  Create
                 </button>
                 <button
                   type='button'
                   data-autofocus
                   onClick={setOpen}
-                  className='mt-3 inline-flex w-full justify-center rounded-full bg-white px-3 py-2 text-sm font-semibold text-white sm:mt-0 hover:cursor-crosshair'
+                  className='mt-3 inline-flex w-full justify-center rounded-full bg-white px-3 py-2 text-sm font-semibold text-white sm:mt-0 hover:cursor-pointer'
                   style={{
                     backgroundColor: '#8E9CC9',
                     flex: 1,

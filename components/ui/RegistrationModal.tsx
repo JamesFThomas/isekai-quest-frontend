@@ -72,7 +72,7 @@ export default function RegistrationModal({
                     >
                       Your Player Data!
                     </DialogTitle>
-                    <div className='mt-2'>
+                    <div className=' playerData-grid mt-2'>
                       <figure className='bg-white character-image w-full md:w-1/3 flex items-center justify-center md:h-auto'>
                         <Image
                           alt='Chosen player avatar'

@@ -1,5 +1,7 @@
 'use client';
 
+import LogoutButton from '../ui/LogoutButton';
+
 export default function HomeScreen() {
   return (
     <div
@@ -8,6 +10,10 @@ export default function HomeScreen() {
         backgroundColor: '#d9d9d9',
       }}
     >
+      <div className='flex flex-col items-center w-fit'>
+        <LogoutButton />
+      </div>
+
       <div className='flex flex-col items-center'>
         <header
           className='text-center text-4xl text-white p-3.5'

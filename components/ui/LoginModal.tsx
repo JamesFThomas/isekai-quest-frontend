@@ -21,18 +21,60 @@ export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
 
   const [username, setUsername] = useState('');
   const [emailAddress, setEmailAddress] = useState('');
+  const [usernameError, setUsernameError] = useState('');
+  const [emailError, setEmailError] = useState('');
 
-  console.log('username', username);
+  const [touched, setTouched] = useState({
+    username: false,
+    emailAddress: false,
+  });
 
-  console.log('email', emailAddress);
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  const valuesAreValid =
+    !usernameError && !emailError && username && emailAddress;
+
+  const validateUsername = (): void => {
+    if (username.trim() === '') {
+      setUsernameError('Username is required');
+    } else {
+      setUsernameError('');
+    }
+  };
+
+  const validateEmailAddress = (): void => {
+    if (emailAddress === '') {
+      setEmailError('Email address is required');
+    } else if (!emailPattern.test(emailAddress)) {
+      setEmailError('Invalid email address format');
+    } else {
+      setEmailError('');
+    }
+  };
+
+  const handleBlur = (field: 'username' | 'emailAddress') => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+    if (field === 'username') {
+      validateUsername();
+    }
+
+    if (field === 'emailAddress') {
+      validateEmailAddress();
+    }
+  };
 
   const setOpen = () => {
     closeModal(!isOpen);
   };
 
   const handleLogin = () => {
-    setOpen();
-    router.push('/homescreen');
+    validateUsername();
+    validateEmailAddress();
+
+    if (!usernameError && !emailError) {
+      setOpen();
+      router.push('/homescreen');
+    }
   };
 
   return (
@@ -78,7 +120,16 @@ export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
                           placeholder='User Name'
                           value={username}
                           onChange={(e) => setUsername(e.target.value)}
+                          onBlur={() => handleBlur('username')}
+                          onFocus={() =>
+                            setTouched((prev) => ({ ...prev, username: true }))
+                          }
                         />
+                        {touched.username && usernameError && (
+                          <p className='text-red-500 text-sm mt-1'>
+                            {usernameError}
+                          </p>
+                        )}
                       </div>
                       <div>
                         <label className='block text-white text-sm font-bold mb-2'>
@@ -91,7 +142,19 @@ export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
                           placeholder='Email Address'
                           value={emailAddress}
                           onChange={(e) => setEmailAddress(e.target.value)}
+                          onBlur={() => handleBlur('emailAddress')}
+                          onFocus={() =>
+                            setTouched((prev) => ({
+                              ...prev,
+                              emailAddress: true,
+                            }))
+                          }
                         />
+                        {touched.emailAddress && emailError && (
+                          <p className='text-red-500 text-sm mt-1'>
+                            {emailError}
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -100,10 +163,11 @@ export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
               <div className=' px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6'>
                 <button
                   type='button'
+                  disabled={!valuesAreValid}
                   onClick={handleLogin}
-                  className='inline-flex w-full justify-center rounded-full px-3 py-2 text-sm font-semibold text-white sm:ml-3 hover:cursor-crosshair'
+                  className='inline-flex w-full justify-center rounded-full px-3 py-2 text-sm font-semibold text-white sm:ml-3 hover:cursor-crosshair disabled:bg-gray-400 disabled:cursor-not-allowed'
                   style={{
-                    backgroundColor: '#8E9CC9',
+                    backgroundColor: !valuesAreValid ? 'gray-400' : '#8E9CC9',
                     flex: 1,
                     flexBasis: 0,
                   }}

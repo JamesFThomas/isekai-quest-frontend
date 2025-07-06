@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "node --experimental-vm-modules node_modules/.bin/jest"
+    "test": "jest --watchAll"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

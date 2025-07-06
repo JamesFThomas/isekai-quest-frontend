@@ -86,28 +86,28 @@ export default function RegistrationModal({
                       {/* Player info */}
                       <div className='flex-1 flex flex-col gap-3 justify-center'>
                         <div className='flex flex-col md:flex-row md:items-center gap-2'>
-                          <label className='text-white text-sm font-bold md:w-40'>
+                          <label className='text-white text-sm font-bold text-center'>
                             Character Name:
                           </label>
-                          <div className='text-white px-3 py-2'>
+                          <div className='text-white px-3 py-2 text-center'>
                             {playerData?.characterName || '—'}
                           </div>
                         </div>
 
                         <div className='flex flex-col md:flex-row md:items-center gap-2'>
-                          <label className='text-white text-sm font-bold md:w-40'>
+                          <label className='text-white text-sm font-bold text-center'>
                             User Name:
                           </label>
-                          <div className='text-white px-3 py-2'>
+                          <div className='text-white px-3 py-2 text-center'>
                             {playerData?.userName || '—'}
                           </div>
                         </div>
 
                         <div className='flex flex-col md:flex-row md:items-center gap-2'>
-                          <label className='text-white text-sm font-bold md:w-40'>
+                          <label className='text-white text-sm font-bold text-center'>
                             Email Address:
                           </label>
-                          <div className='text-white px-3 py-2 '>
+                          <div className='text-white px-3 py-2 text-center'>
                             {playerData?.emailAddress || '—'}
                           </div>
                         </div>

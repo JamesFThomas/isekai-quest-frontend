@@ -21,6 +21,8 @@ export type NewPlayerData = {
 };
 
 export default function CreateCharacterScreen() {
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const [avatarOptions] = useState<AvatarOption[]>(avatarImages);
@@ -36,6 +38,64 @@ export default function CreateCharacterScreen() {
     emailAddress: '',
   });
 
+  const [characterNameError, setCharacterNameError] = useState('');
+  const [usernameError, setUsernameError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [touched, setTouched] = useState({
+    characterName: false,
+    username: false,
+    emailAddress: false,
+  });
+
+  const valuesAreValid =
+    !usernameError &&
+    !emailError &&
+    !characterNameError &&
+    newPlayerData.characterName &&
+    newPlayerData.userName &&
+    newPlayerData.emailAddress;
+
+  const validateCharacterName = (): void => {
+    if (newPlayerData.characterName.trim() === '') {
+      setCharacterNameError('Character name is required');
+    } else {
+      setCharacterNameError('');
+    }
+  };
+
+  const validateUsername = (): void => {
+    if (newPlayerData.userName.trim() === '') {
+      setUsernameError('Username is required');
+    } else {
+      setUsernameError('');
+    }
+  };
+
+  const validateEmailAddress = (): void => {
+    if (newPlayerData.emailAddress === '') {
+      setEmailError('Email address is required');
+    } else if (!emailPattern.test(newPlayerData.emailAddress)) {
+      setEmailError('Invalid email address format');
+    } else {
+      setEmailError('');
+    }
+  };
+
+  const handleBlur = (field: 'characterName' | 'username' | 'emailAddress') => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+    if (field === 'characterName') {
+      validateCharacterName();
+    }
+
+    if (field === 'username') {
+      validateUsername();
+    }
+
+    if (field === 'emailAddress') {
+      validateEmailAddress();
+    }
+  };
+
   const handleAvatarSelect = (src: string) => {
     const selected = avatarOptions.find((avatar) => avatar.src === src);
     if (selected) {
@@ -46,8 +106,6 @@ export default function CreateCharacterScreen() {
       });
     }
   };
-
-  console.log('New Player Data:', newPlayerData);
 
   const handleCreateCharacter = () => {
     setIsLoginModalOpen(true);
@@ -136,7 +194,19 @@ export default function CreateCharacterScreen() {
                       characterName: e.target.value,
                     })
                   }
+                  onBlur={() => handleBlur('characterName')}
+                  onFocus={() =>
+                    setTouched((prev) => ({
+                      ...prev,
+                      characterName: true,
+                    }))
+                  }
                 />
+                {touched.characterName && characterNameError && (
+                  <p className='text-red-500 text-sm mt-1'>
+                    {characterNameError}
+                  </p>
+                )}
               </div>
 
               <div className='mb-4'>
@@ -155,7 +225,14 @@ export default function CreateCharacterScreen() {
                       userName: e.target.value,
                     })
                   }
+                  onBlur={() => handleBlur('username')}
+                  onFocus={() =>
+                    setTouched((prev) => ({ ...prev, username: true }))
+                  }
                 />
+                {touched.username && usernameError && (
+                  <p className='text-red-500 text-sm mt-1'>{usernameError}</p>
+                )}
               </div>
 
               <div className='mb-4'>
@@ -174,7 +251,17 @@ export default function CreateCharacterScreen() {
                       emailAddress: e.target.value,
                     })
                   }
+                  onBlur={() => handleBlur('emailAddress')}
+                  onFocus={() =>
+                    setTouched((prev) => ({
+                      ...prev,
+                      emailAddress: true,
+                    }))
+                  }
                 />
+                {touched.emailAddress && emailError && (
+                  <p className='text-red-500 text-sm mt-1'>{emailError}</p>
+                )}
               </div>
             </div>
           </div>
@@ -184,9 +271,10 @@ export default function CreateCharacterScreen() {
           style={{ backgroundColor: '#d9d9d9' }}
         >
           <button
-            className='rounded-full text-center text-2xl text-white p-4 m-1 hover:cursor-crosshair'
+            className='rounded-full text-center text-2xl text-white p-4 m-1 hover:cursor-crosshair disabled:cursor-not-allowed'
+            disabled={!valuesAreValid}
             style={{
-              backgroundColor: '#8E9CC9',
+              backgroundColor: !valuesAreValid ? '#9CA3AF' : '#8E9CC9',
               flex: 1,
               flexBasis: 0,
             }}

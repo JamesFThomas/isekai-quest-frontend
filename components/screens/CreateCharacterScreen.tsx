@@ -113,7 +113,7 @@ export default function CreateCharacterScreen() {
 
   return (
     <div
-      className='flex flex-col items-center justify-center p-8 min-h-screen'
+      className='flex flex-col items-center justify-center p-8 min-h-screen bg-[url("/town_background.png")] bg-cover bg-no-repeat bg-center'
       style={{
         backgroundColor: '#d9d9d9',
       }}
@@ -266,10 +266,7 @@ export default function CreateCharacterScreen() {
             </div>
           </div>
         </div>
-        <div
-          className='flex flex-col sm:flex-row justify-around w-full mt-3'
-          style={{ backgroundColor: '#d9d9d9' }}
-        >
+        <div className='flex flex-col sm:flex-row justify-around w-full mt-3 bg-transparent'>
           <button
             className='rounded-full text-center text-2xl text-white p-4 m-1 hover:cursor-crosshair disabled:cursor-not-allowed'
             disabled={!valuesAreValid}

@@ -21,7 +21,7 @@ export default function SplashScreen() {
 
   return (
     <div
-      className='flex flex-col items-center p-8 min-h-screen'
+      className="flex flex-col items-center p-8 min-h-screen bg-[url('/avatars_townScene.png')] bg-cover bg-no-repeat bg-center"
       style={{
         backgroundColor: '#d9d9d9',
       }}
@@ -60,10 +60,7 @@ export default function SplashScreen() {
           Experience nostalgia with a simple UI and immersive gameplay. Future
           updates will enhance social interaction and character attributes.
         </p>
-        <div
-          className='flex flex-col sm:flex-row justify-around w-full mt-3'
-          style={{ backgroundColor: '#d9d9d9' }}
-        >
+        <div className='flex flex-col sm:flex-row justify-around w-full mt-3 bg-transparent'>
           <button
             className='rounded-full text-center text-2xl text-white p-4 m-1 hover:cursor-crosshair'
             style={{

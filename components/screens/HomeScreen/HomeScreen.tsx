@@ -1,6 +1,6 @@
 'use client';
 
-import LogoutButton from '../ui/LogoutButton';
+import LogoutButton from '../../ui/LogoutButton/LogoutButton';
 
 export default function HomeScreen() {
   return (

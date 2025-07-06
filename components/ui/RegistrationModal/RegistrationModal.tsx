@@ -8,7 +8,7 @@ import {
 
 import Image from 'next/image';
 
-import { NewPlayerData } from '../screens/CreateCharacterScreen';
+import { NewPlayerData } from '../../screens/CreateCharacterScreen/CreateCharacterScreen';
 
 import { useRouter } from 'next/navigation';
 

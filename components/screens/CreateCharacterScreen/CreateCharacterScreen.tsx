@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 
-import RegistrationModal from '../ui/RegistrationModal';
+import RegistrationModal from '../../ui/RegistrationModal/RegistrationModal';
 
 import avatarImages from '@/data/avatarOptions';
 

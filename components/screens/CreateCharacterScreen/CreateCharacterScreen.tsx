@@ -148,6 +148,12 @@ export default function CreateCharacterScreen() {
                 <Image
                   key={avatar.id}
                   className='flex items-center justify-center'
+                  style={{
+                    border:
+                      selectedAvatar?.src === avatar.src
+                        ? '5px solid #000000'
+                        : 'none',
+                  }}
                   alt={avatar.alt}
                   src={avatar.src}
                   width={200}

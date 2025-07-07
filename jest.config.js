@@ -13,6 +13,7 @@ const config = {
   globals: {
     'ts-jest': {
       useESM: true,
+      tsconfig: '<rootDir>/tsconfig.json',
     },
   },
 };

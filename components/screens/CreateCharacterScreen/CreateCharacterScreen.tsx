@@ -11,6 +11,7 @@ export type AvatarOption = {
   id: number;
   src: string;
   alt: string;
+  type: string;
 };
 
 export type NewPlayerData = {
@@ -143,7 +144,7 @@ export default function CreateCharacterScreen() {
               <button
                 onClick={() => handleAvatarSelect(avatar.src)}
                 key={avatar.id}
-                className='flex items-center justify-center cursor-crosshair'
+                className='flex flex-col items-center justify-center cursor-crosshair'
               >
                 <Image
                   key={avatar.id}
@@ -159,6 +160,9 @@ export default function CreateCharacterScreen() {
                   width={200}
                   height={200}
                 />
+                <span className='text-center text-sm text-black mt-2'>
+                  {avatar.type}
+                </span>
               </button>
             ))}
           </div>

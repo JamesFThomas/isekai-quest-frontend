@@ -1,7 +1,50 @@
 'use client';
 
-import InteractionPanel from '@/components/ui/InteractionPanel/InteractionPanel';
+import InteractionPanel, {
+  PanelOption,
+} from '@/components/ui/InteractionPanel/InteractionPanel';
 import LogoutButton from '../../ui/LogoutButton/LogoutButton';
+
+const controlOptions: PanelOption[] = [
+  {
+    id: 1,
+    name: 'Map',
+    pageRoute: '/mapscreen',
+    src: '/homescreen_icons/map_image.png',
+    altText: 'Map Icon',
+  },
+  {
+    id: 2,
+    name: 'Party',
+    pageRoute: '/partyscreen',
+    src: '/homescreen_icons/party_image.png',
+    altText: 'Party Icon',
+  },
+];
+
+const startsVilleOptions: PanelOption[] = [
+  {
+    id: 1,
+    name: 'Guild',
+    pageRoute: '/guildscreen',
+    src: '/homescreen_icons/guild_building.png',
+    altText: 'Guild Icon',
+  },
+  {
+    id: 2,
+    name: 'Inn',
+    pageRoute: '/innscreen',
+    src: '/homescreen_icons/inn_building.png',
+    altText: 'Inn Icon',
+  },
+  {
+    id: 3,
+    name: 'Market',
+    pageRoute: '/marketscreen',
+    src: '/homescreen_icons/market_stall.png',
+    altText: 'Market Icon',
+  },
+];
 
 export default function HomeScreen() {
   return (
@@ -16,13 +59,10 @@ export default function HomeScreen() {
       </div>
 
       <div className='home-screen-container flex flex-col items-center gap-4'>
-        <InteractionPanel
-          title='Controls'
-          optionArray={[{ name: 'Map' }, { name: 'Party' }]}
-        />
+        <InteractionPanel title='Controls' optionArray={controlOptions} />
         <InteractionPanel
           title='StartsVille'
-          optionArray={[{ name: 'Guild' }, { name: 'Inn' }, { name: 'Market' }]}
+          optionArray={startsVilleOptions}
         />
       </div>
     </div>

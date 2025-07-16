@@ -181,7 +181,9 @@ export default function CreateCharacterScreen() {
               <Image
                 alt={selectedAvatar ? selectedAvatar.alt : 'Default Avatar'}
                 src={
-                  selectedAvatar ? selectedAvatar.src : '/default_avatar.png'
+                  selectedAvatar
+                    ? selectedAvatar.src
+                    : '/character_avatars/default_avatar.png'
                 }
                 width={300}
                 height={300}

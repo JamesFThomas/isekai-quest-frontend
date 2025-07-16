@@ -4,49 +4,14 @@ import InteractionPanel, {
   PanelOption,
 } from '@/components/ui/InteractionPanel/InteractionPanel';
 import LogoutButton from '../../ui/LogoutButton/LogoutButton';
-
-const controlOptions: PanelOption[] = [
-  {
-    id: 1,
-    name: 'Map',
-    pageRoute: '/mapscreen',
-    src: '/homescreen_icons/map_image.png',
-    altText: 'Map Icon',
-  },
-  {
-    id: 2,
-    name: 'Party',
-    pageRoute: '/partyscreen',
-    src: '/homescreen_icons/party_image.png',
-    altText: 'Party Icon',
-  },
-];
-
-const startsVilleOptions: PanelOption[] = [
-  {
-    id: 1,
-    name: 'Guild',
-    pageRoute: '/guildscreen',
-    src: '/homescreen_icons/guild_building.png',
-    altText: 'Guild Icon',
-  },
-  {
-    id: 2,
-    name: 'Inn',
-    pageRoute: '/innscreen',
-    src: '/homescreen_icons/inn_building.png',
-    altText: 'Inn Icon',
-  },
-  {
-    id: 3,
-    name: 'Market',
-    pageRoute: '/marketscreen',
-    src: '/homescreen_icons/market_stall.png',
-    altText: 'Market Icon',
-  },
-];
+import controlOptions from '@/data/contolOptions';
+import startsVilleOptions from '@/data/startsVilleOptions';
+import { useState } from 'react';
 
 export default function HomeScreen() {
+  const [controlArray] = useState<PanelOption[]>(controlOptions);
+  const [startsVilleArray] = useState<PanelOption[]>(startsVilleOptions);
+
   return (
     <div
       className='flex flex-col items-center justify-center p-8 min-h-screen'
@@ -59,11 +24,8 @@ export default function HomeScreen() {
       </div>
 
       <div className='home-screen-container flex flex-col items-center gap-4'>
-        <InteractionPanel title='Controls' optionArray={controlOptions} />
-        <InteractionPanel
-          title='StartsVille'
-          optionArray={startsVilleOptions}
-        />
+        <InteractionPanel title='Controls' optionArray={controlArray} />
+        <InteractionPanel title='StartsVille' optionArray={startsVilleArray} />
       </div>
     </div>
   );

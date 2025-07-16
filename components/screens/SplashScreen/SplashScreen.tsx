@@ -31,7 +31,7 @@ export default function SplashScreen() {
           className='text-center text-5xl text-white pt-3.5 pb-3.5'
           style={{
             backgroundColor: '#C87D7D',
-            maxWidth: '600px',
+            maxWidth: '500px',
             width: '100%',
           }}
         >
@@ -41,7 +41,7 @@ export default function SplashScreen() {
           <Image
             alt='Isekai Quest world map'
             src='/WorldMap.svg'
-            width={600}
+            width={500}
             height={400}
           />
         </figure>
@@ -49,7 +49,7 @@ export default function SplashScreen() {
           className='text-center text-balance text-2xl text-white pt-3.5 pb-3.5 p-5'
           style={{
             backgroundColor: '#C87D7D',
-            maxWidth: '600px',
+            maxWidth: '500px',
             width: '100%',
           }}
         >

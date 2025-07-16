@@ -40,9 +40,10 @@ const InteractionPanel = ({ title, optionArray }: InteractionPanelProps) => {
         {title}
       </header>
       <div
-        className='options-grid grid grid-cols-1 sm:grid-cols-2 gap-4'
+        className='options-grid grid grid-cols-1 sm:grid-cols-2 gap-4 p-4'
         style={{
           width: '100%',
+          backgroundColor: 'white',
         }}
       >
         {optionArray.map((option) => (
@@ -56,8 +57,8 @@ const InteractionPanel = ({ title, optionArray }: InteractionPanelProps) => {
                 key={option.id}
                 src={option.src}
                 alt={option.altText || option.name}
-                width={300}
-                height={300}
+                width={200}
+                height={200}
                 className='flex items-center justify-center'
               />
             ) : (
@@ -68,7 +69,7 @@ const InteractionPanel = ({ title, optionArray }: InteractionPanelProps) => {
                 <span className='text-gray-500'>No Image</span>
               </div>
             )}
-            <span className='text-center text-sm text-black mt-1'>
+            <span className='text-center text-sm text-black mb-2'>
               {option.name}
             </span>
           </button>

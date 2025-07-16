@@ -17,7 +17,7 @@ export default function HomeScreen() {
 
   return (
     <div
-      className='flex flex-col items-center justify-center p-8 min-h-screen'
+      className='flex flex-col items-center justify-center p-8 min-h-screen bg-[url("/background_images/table_background.png")] bg-cover bg-no-repeat bg-center'
       style={{
         backgroundColor: '#d9d9d9',
       }}

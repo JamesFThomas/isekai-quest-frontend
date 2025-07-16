@@ -1,12 +1,15 @@
 'use client';
 
+import { useState } from 'react';
+
 import InteractionPanel, {
   PanelOption,
 } from '@/components/ui/InteractionPanel/InteractionPanel';
+
 import LogoutButton from '../../ui/LogoutButton/LogoutButton';
+
 import controlOptions from '@/data/contolOptions';
 import startsVilleOptions from '@/data/startsVilleOptions';
-import { useState } from 'react';
 
 export default function HomeScreen() {
   const [controlArray] = useState<PanelOption[]>(controlOptions);

@@ -215,7 +215,7 @@ export default function CreateCharacterScreen() {
                   }
                 />
                 {touched.characterName && characterNameError && (
-                  <p className='text-red-500 text-sm mt-1'>
+                  <p className='text-red-800 font-bold text-sm mt-1'>
                     {characterNameError}
                   </p>
                 )}
@@ -243,7 +243,9 @@ export default function CreateCharacterScreen() {
                   }
                 />
                 {touched.username && usernameError && (
-                  <p className='text-red-500 text-sm mt-1'>{usernameError}</p>
+                  <p className='text-red-800 font-bold text-sm mt-1'>
+                    {usernameError}
+                  </p>
                 )}
               </div>
 
@@ -272,7 +274,9 @@ export default function CreateCharacterScreen() {
                   }
                 />
                 {touched.emailAddress && emailError && (
-                  <p className='text-red-500 text-sm mt-1'>{emailError}</p>
+                  <p className='text-red-800 font-bold text-sm mt-1'>
+                    {emailError}
+                  </p>
                 )}
               </div>
             </div>

@@ -126,7 +126,7 @@ export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
                           }
                         />
                         {touched.username && usernameError && (
-                          <p className='text-red-500 text-sm mt-1'>
+                          <p className='text-red-800 font-bold text-sm mt-1'>
                             {usernameError}
                           </p>
                         )}
@@ -151,7 +151,7 @@ export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
                           }
                         />
                         {touched.emailAddress && emailError && (
-                          <p className='text-red-500 text-sm mt-1'>
+                          <p className='text-red-800 font-bold text-sm mt-1'>
                             {emailError}
                           </p>
                         )}

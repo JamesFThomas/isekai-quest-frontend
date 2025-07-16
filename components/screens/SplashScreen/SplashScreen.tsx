@@ -21,7 +21,7 @@ export default function SplashScreen() {
 
   return (
     <div
-      className="flex flex-col items-center p-8 min-h-screen bg-[url('/avatars_townScene.png')] bg-cover bg-no-repeat bg-center"
+      className="flex flex-col items-center p-8 min-h-screen bg-[url('/background_images/avatars_townScene.png')] bg-cover bg-no-repeat bg-center"
       style={{
         backgroundColor: '#d9d9d9',
       }}

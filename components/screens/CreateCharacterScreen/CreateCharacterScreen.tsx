@@ -144,7 +144,7 @@ export default function CreateCharacterScreen() {
               <button
                 onClick={() => handleAvatarSelect(avatar.src)}
                 key={avatar.id}
-                className='flex flex-col items-center justify-center cursor-crosshair'
+                className='flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-200'
               >
                 <Image
                   key={avatar.id}

@@ -20,64 +20,34 @@ export default function SplashScreen() {
   };
 
   return (
-    <div
-      className="flex flex-col items-center p-8 min-h-screen bg-[url('/background_images/avatars_townScene.png')] bg-cover bg-no-repeat bg-center"
-      style={{
-        backgroundColor: '#d9d9d9',
-      }}
-    >
-      <div className='flex flex-col items-center w-fit'>
-        <header
-          className='text-center text-5xl text-white pt-3.5 pb-3.5'
-          style={{
-            backgroundColor: '#C87D7D',
-            maxWidth: '500px',
-            width: '100%',
-          }}
-        >
-          Isekai Quest
-        </header>
-        <figure>
-          <Image
-            alt='Isekai Quest world map'
-            src='/WorldMap.svg'
-            width={500}
-            height={400}
-          />
-        </figure>
-        <p
-          className='text-center text-balance text-2xl text-white pt-3.5 pb-3.5 p-5'
-          style={{
-            backgroundColor: '#C87D7D',
-            maxWidth: '500px',
-            width: '100%',
-          }}
-        >
-          Isekai Quest is a single-player adventure where you create your
-          character and explore a vibrant fantasy world. Engage in quests,
-          battle monsters in turn-based combat, and collect rewards. Navigate
-          through towns, visit guilds for quests, and shop for supplies.
-          Experience nostalgia with a simple UI and immersive gameplay. Future
-          updates will enhance social interaction and character attributes.
-        </p>
-        <div className='flex flex-col sm:flex-row justify-around w-full mt-3 bg-transparent'>
+    <div className="flex justify-center items-center min-h-screen bg-[url('/background_images/avatars_townScene.png')] bg-cover bg-no-repeat bg-center p-8">
+      <div className='flex flex-col items-center'>
+        <div className='logo-container max-w-[600px] w-full flex justify-center'>
+          <figure>
+            <Image
+              alt='Isekai Quest Logo'
+              src='/logos/SplashLogo.png'
+              width={600}
+              height={400}
+              className='w-full h-auto'
+            />
+          </figure>
+        </div>
+
+        <div className='w-full max-w-[600px] flex flex-col sm:flex-row justify-around items-center gap-4'>
           <button
-            className='rounded-full text-center text-2xl text-white p-4 m-1 hover:cursor-crosshair'
+            className='rounded-full text-center text-2xl text-white p-4 hover:cursor-pointer w-full sm:w-auto flex-1'
             style={{
               backgroundColor: '#8E9CC9',
-              flex: 1,
-              flexBasis: 0,
             }}
             onClick={handleContinueQuest}
           >
             Continue Quest
           </button>
           <button
-            className='rounded-full text-center text-2xl text-white p-4 m-1 hover:cursor-crosshair'
+            className='rounded-full text-center text-2xl text-white p-4 hover:cursor-pointer w-full sm:w-auto flex-1'
             style={{
               backgroundColor: '#8E9CC9',
-              flex: 1,
-              flexBasis: 0,
             }}
             onClick={handleStartQuest}
           >
@@ -85,6 +55,7 @@ export default function SplashScreen() {
           </button>
         </div>
       </div>
+
       <LoginModal isOpen={isLoginModalOpen} closeModal={setIsLoginModalOpen} />
     </div>
   );

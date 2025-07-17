@@ -165,7 +165,7 @@ export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
                   type='button'
                   disabled={!valuesAreValid}
                   onClick={handleLogin}
-                  className='inline-flex w-full justify-center rounded-full px-3 py-2 text-sm font-semibold text-white sm:ml-3 hover:cursor-crosshair disabled:bg-gray-400 disabled:cursor-not-allowed'
+                  className='inline-flex w-full justify-center rounded-full px-3 py-2 text-sm font-semibold text-white sm:ml-3 hover:cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed'
                   style={{
                     backgroundColor: !valuesAreValid ? 'gray-400' : '#8E9CC9',
                     flex: 1,
@@ -178,7 +178,7 @@ export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
                   type='button'
                   data-autofocus
                   onClick={setOpen}
-                  className='mt-3 inline-flex w-full justify-center rounded-full bg-white px-3 py-2 text-sm font-semibold text-white sm:mt-0 hover:cursor-crosshair'
+                  className='mt-3 inline-flex w-full justify-center rounded-full bg-white px-3 py-2 text-sm font-semibold text-white sm:mt-0 hover:cursor-pointer'
                   style={{
                     backgroundColor: '#8E9CC9',
                     flex: 1,

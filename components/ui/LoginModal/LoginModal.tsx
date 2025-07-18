@@ -10,13 +10,19 @@ import {
   DialogPanel,
   DialogTitle,
 } from '@headlessui/react';
+import { User } from '@/lib/features/auth/AuthSlice';
 
 interface LoginModalProps {
   isOpen: boolean;
   closeModal: Dispatch<SetStateAction<boolean>>;
+  handleLogin: (user: User) => void;
 }
 
-export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
+export default function LoginModal({
+  isOpen,
+  closeModal,
+  handleLogin,
+}: LoginModalProps) {
   const router = useRouter();
 
   const [username, setUsername] = useState('');
@@ -67,11 +73,16 @@ export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
     closeModal(!isOpen);
   };
 
-  const handleLogin = () => {
+  const handleLoginClick = () => {
     validateUsername();
     validateEmailAddress();
 
     if (!usernameError && !emailError) {
+      const user = {
+        userId: emailAddress,
+        username: username,
+      };
+      handleLogin(user);
       setOpen();
       router.push('/homescreen');
     }
@@ -164,7 +175,7 @@ export default function LoginModal({ isOpen, closeModal }: LoginModalProps) {
                 <button
                   type='button'
                   disabled={!valuesAreValid}
-                  onClick={handleLogin}
+                  onClick={handleLoginClick}
                   className='inline-flex w-full justify-center rounded-full px-3 py-2 text-sm font-semibold text-white sm:ml-3 hover:cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed'
                   style={{
                     backgroundColor: !valuesAreValid ? 'gray-400' : '#8E9CC9',

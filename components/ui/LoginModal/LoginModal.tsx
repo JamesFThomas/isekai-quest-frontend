@@ -11,6 +11,7 @@ import {
   DialogTitle,
 } from '@headlessui/react';
 import { User } from '@/lib/features/auth/AuthSlice';
+// import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -183,6 +184,8 @@ export default function LoginModal({
                     flexBasis: 0,
                   }}
                 >
+                  {/* TODO implement loading spinner and isLoading state */}
+                  {/* <LoadingSpinner /> */}
                   Login
                 </button>
                 <button

@@ -8,7 +8,7 @@ import Image from 'next/image';
 
 import { useAppDispatch } from '@/lib/hooks';
 
-import { login, User, logout } from '../../../lib/features/auth/AuthSlice';
+import { login, User } from '../../../lib/features/auth/AuthSlice';
 
 export default function SplashScreen() {
   const router = useRouter();
@@ -25,34 +25,13 @@ export default function SplashScreen() {
 
   const dispatch = useAppDispatch();
 
-  const testUser = {
-    userId: '12345',
-    username: 'Test Worked',
-  };
-
   const handleLogin = (user: User) => {
     dispatch(login(user));
-  };
-
-  const handleLogout = () => {
-    dispatch(logout());
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-[url('/background_images/avatars_townScene.png')] bg-cover bg-no-repeat bg-center p-8">
       <div className='flex flex-col items-center'>
-        <button
-          className='absolute top-4 left-4 text-white text-lg'
-          onClick={() => handleLogin(testUser)}
-        >
-          Login
-        </button>
-        <button
-          className='absolute top-4 right-4 text-white text-lg'
-          onClick={handleLogout}
-        >
-          Logout
-        </button>
         <div className='logo-container max-w-[600px] w-full flex justify-center'>
           <figure>
             <Image

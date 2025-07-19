@@ -10,16 +10,19 @@ import LogoutButton from '../../ui/LogoutButton/LogoutButton';
 
 import { useRouter } from 'next/navigation';
 
-import { useAppDispatch } from '@/lib/hooks';
+import { useAppDispatch } from '@/lib/reduxHooks';
 
 import { logout } from '../../../lib/features/auth/AuthSlice';
 
 import controlOptions from '@/data/contolOptions';
 
 import startsVilleOptions from '@/data/startsVilleOptions';
+import useProtectedRoute from '@/lib/hooks/ useProtectedRoute';
 
 export default function HomeScreen() {
   const router = useRouter();
+
+  useProtectedRoute();
 
   const [controlArray] = useState<PanelOption[]>(controlOptions);
 

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { useAppDispatch } from '@/lib/hooks';
+import { useAppDispatch } from '@/lib/reduxHooks';
 
 import { login, User } from '../../../lib/features/auth/AuthSlice';
 

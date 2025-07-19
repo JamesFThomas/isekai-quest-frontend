@@ -6,7 +6,7 @@ import LoginModal from '../..//ui/LoginModal/LoginModal';
 
 import Image from 'next/image';
 
-import { useAppDispatch } from '@/lib/hooks';
+import { useAppDispatch } from '@/lib/reduxHooks';
 
 import { login, User } from '../../../lib/features/auth/AuthSlice';
 

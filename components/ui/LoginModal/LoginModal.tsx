@@ -10,8 +10,10 @@ import {
   DialogPanel,
   DialogTitle,
 } from '@headlessui/react';
+
 import { User } from '@/lib/features/auth/AuthSlice';
-// import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
+
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -30,6 +32,7 @@ export default function LoginModal({
   const [emailAddress, setEmailAddress] = useState('');
   const [usernameError, setUsernameError] = useState('');
   const [emailError, setEmailError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const [touched, setTouched] = useState({
     username: false,
@@ -79,13 +82,18 @@ export default function LoginModal({
     validateEmailAddress();
 
     if (!usernameError && !emailError) {
-      const user = {
-        userId: emailAddress,
-        username: username,
-      };
-      handleLogin(user);
-      setOpen();
-      router.push('/homescreen');
+      setIsLoading(true);
+      setTimeout(() => {
+        const user = {
+          userId: emailAddress,
+          username: username,
+        };
+
+        handleLogin(user);
+        setIsLoading(false);
+        router.push('/homescreen');
+        setOpen();
+      }, 1500);
     }
   };
 
@@ -184,9 +192,7 @@ export default function LoginModal({
                     flexBasis: 0,
                   }}
                 >
-                  {/* TODO implement loading spinner and isLoading state */}
-                  {/* <LoadingSpinner /> */}
-                  Login
+                  {isLoading ? <LoadingSpinner /> : 'Login'}
                 </button>
                 <button
                   type='button'

@@ -1,6 +1,6 @@
 export default function LoadingSpinner() {
   return (
-    <svg className='mr-3 size-5 animate-spin ...' viewBox='0 0 24 24'>
+    <svg className='size-6 animate-spin' viewBox='0 0 24 24'>
       <circle
         className='opacity-25'
         cx='12'

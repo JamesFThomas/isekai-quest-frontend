@@ -18,7 +18,7 @@ export type NewPlayerData = {
   avatar: string;
   characterName: string;
   userName: string;
-  emailAddress: string;
+  password: string;
 };
 
 export default function CreateCharacterScreen() {
@@ -36,25 +36,26 @@ export default function CreateCharacterScreen() {
     avatar: '',
     characterName: '',
     userName: '',
-    emailAddress: '',
+    password: '',
   });
 
   const [characterNameError, setCharacterNameError] = useState('');
   const [usernameError, setUsernameError] = useState('');
-  const [emailError, setEmailError] = useState('');
+  // const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const [touched, setTouched] = useState({
     characterName: false,
     username: false,
-    emailAddress: false,
+    password: false,
   });
 
   const valuesAreValid =
     !usernameError &&
-    !emailError &&
+    !passwordError &&
     !characterNameError &&
     newPlayerData.characterName &&
     newPlayerData.userName &&
-    newPlayerData.emailAddress;
+    newPlayerData.password;
 
   const validateCharacterName = (): void => {
     if (newPlayerData.characterName.trim() === '') {
@@ -67,22 +68,24 @@ export default function CreateCharacterScreen() {
   const validateUsername = (): void => {
     if (newPlayerData.userName.trim() === '') {
       setUsernameError('Username is required');
+    } else if (!emailPattern.test(newPlayerData.userName)) {
+      setUsernameError('Username should be an email@address.com format');
     } else {
       setUsernameError('');
     }
   };
 
-  const validateEmailAddress = (): void => {
-    if (newPlayerData.emailAddress === '') {
-      setEmailError('Email address is required');
-    } else if (!emailPattern.test(newPlayerData.emailAddress)) {
-      setEmailError('Invalid email address format');
+  const validatePassword = (): void => {
+    if (newPlayerData.password?.trim() === '') {
+      setPasswordError('Password is required');
+    } else if (newPlayerData.password?.length <= 6) {
+      setPasswordError('Password must be at least 7 characters long');
     } else {
-      setEmailError('');
+      setPasswordError('');
     }
   };
 
-  const handleBlur = (field: 'characterName' | 'username' | 'emailAddress') => {
+  const handleBlur = (field: 'characterName' | 'username' | 'password') => {
     setTouched((prev) => ({ ...prev, [field]: true }));
     if (field === 'characterName') {
       validateCharacterName();
@@ -92,8 +95,8 @@ export default function CreateCharacterScreen() {
       validateUsername();
     }
 
-    if (field === 'emailAddress') {
-      validateEmailAddress();
+    if (field === 'password') {
+      validatePassword();
     }
   };
 
@@ -228,7 +231,7 @@ export default function CreateCharacterScreen() {
                 <input
                   className='bg-white shadow appearance-none rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
                   id='username'
-                  type='text'
+                  type='email'
                   placeholder='User Name'
                   value={newPlayerData.userName}
                   onChange={(e) =>
@@ -250,32 +253,30 @@ export default function CreateCharacterScreen() {
               </div>
 
               <div className='mb-4'>
-                <label className='block text-sm font-bold mb-2'>
-                  Email Address
-                </label>
+                <label className='block text-sm font-bold mb-2'>Password</label>
                 <input
                   className='bg-white shadow appearance-none rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
-                  id='email'
-                  type='email'
+                  id='password'
+                  type='password'
                   placeholder='Email Address'
-                  value={newPlayerData.emailAddress}
+                  value={newPlayerData.password}
                   onChange={(e) =>
                     setNewPlayerData({
                       ...newPlayerData,
-                      emailAddress: e.target.value,
+                      password: e.target.value,
                     })
                   }
-                  onBlur={() => handleBlur('emailAddress')}
+                  onBlur={() => handleBlur('password')}
                   onFocus={() =>
                     setTouched((prev) => ({
                       ...prev,
-                      emailAddress: true,
+                      password: true,
                     }))
                   }
                 />
-                {touched.emailAddress && emailError && (
+                {touched.password && passwordError && (
                   <p className='text-red-800 font-bold text-sm mt-1'>
-                    {emailError}
+                    {passwordError}
                   </p>
                 )}
               </div>
@@ -284,7 +285,7 @@ export default function CreateCharacterScreen() {
         </div>
         <div className='flex flex-col sm:flex-row justify-around w-full mt-3 bg-transparent'>
           <button
-            className='rounded-full text-center text-2xl text-white p-4 m-1 hover:cursor-crosshair disabled:cursor-not-allowed'
+            className='rounded-full text-center text-2xl text-white p-4 m-1 hover:cursor-pointer disabled:cursor-not-allowed'
             disabled={!valuesAreValid}
             style={{
               backgroundColor: !valuesAreValid ? '#9CA3AF' : '#8E9CC9',

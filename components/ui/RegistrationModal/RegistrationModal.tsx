@@ -102,15 +102,6 @@ export default function RegistrationModal({
                             {playerData?.userName || '—'}
                           </div>
                         </div>
-
-                        <div className='flex flex-col md:flex-row md:items-center gap-2'>
-                          <label className='text-white text-sm font-bold text-center'>
-                            Email Address:
-                          </label>
-                          <div className='text-white px-3 py-2 text-center'>
-                            {playerData?.emailAddress || '—'}
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>

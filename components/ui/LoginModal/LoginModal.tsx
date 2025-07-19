@@ -28,9 +28,6 @@ export default function LoginModal({
 }: LoginModalProps) {
   const router = useRouter();
 
-  // const [emailAddress, setEmailAddress] = useState('');
-  // const [emailError, setEmailError] = useState('');
-
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [usernameError, setUsernameError] = useState('');
@@ -67,16 +64,6 @@ export default function LoginModal({
     }
   };
 
-  // const validateEmailAddress = (): void => {
-  //   if (emailAddress === '') {
-  //     setEmailError('Email address is required');
-  //   } else if (!emailPattern.test(emailAddress)) {
-  //     setEmailError('Invalid email address format');
-  //   } else {
-  //     setEmailError('');
-  //   }
-  // };
-
   const handleBlur = (field: 'username' | 'password') => {
     setTouched((prev) => ({ ...prev, [field]: true }));
     if (field === 'username') {
@@ -94,7 +81,6 @@ export default function LoginModal({
 
   const handleLoginClick = () => {
     validateUsername();
-    // validateEmailAddress();
     validatePassword();
 
     if (!usernameError && !passwordError) {

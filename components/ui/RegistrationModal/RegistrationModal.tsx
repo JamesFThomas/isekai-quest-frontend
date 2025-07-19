@@ -3,6 +3,7 @@
 import {
   Dispatch,
   SetStateAction,
+  useState,
   // useState
 } from 'react';
 
@@ -18,27 +19,43 @@ import {
   DialogPanel,
   DialogTitle,
 } from '@headlessui/react';
+import { User } from '@/lib/features/auth/AuthSlice';
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
 interface RegistrationModalProps {
   isOpen: boolean;
   playerData?: NewPlayerData;
   closeModal: Dispatch<SetStateAction<boolean>>;
+  handleLogin: (user: User) => void;
 }
 
 export default function RegistrationModal({
   isOpen,
   playerData,
   closeModal,
+  handleLogin,
 }: RegistrationModalProps) {
   const router = useRouter();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const setOpen = () => {
     closeModal(!isOpen);
   };
 
   const handleRegistration = () => {
-    setOpen();
-    router.push('/homescreen');
+    setIsLoading(true);
+    setTimeout(() => {
+      const user = {
+        userId: `${Math.floor(Math.random() * 10000)}`, // Simulating a user ID
+        username: playerData?.userName || 'Guest',
+      };
+
+      handleLogin(user);
+      setIsLoading(false);
+      router.push('/homescreen');
+      setOpen();
+    }, 1500);
   };
 
   return (
@@ -118,7 +135,7 @@ export default function RegistrationModal({
                     flexBasis: 0,
                   }}
                 >
-                  Create
+                  {isLoading ? <LoadingSpinner /> : 'Create'}
                 </button>
                 <button
                   type='button'

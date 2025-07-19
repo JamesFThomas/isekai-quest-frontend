@@ -1,6 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+
+import { useAppDispatch } from '@/lib/hooks';
+
+import { login, User } from '../../../lib/features/auth/AuthSlice';
+
 import Image from 'next/image';
 
 import RegistrationModal from '../../ui/RegistrationModal/RegistrationModal';
@@ -23,6 +28,12 @@ export type NewPlayerData = {
 
 export default function CreateCharacterScreen() {
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  const dispatch = useAppDispatch();
+
+  const handleLogin = (user: User) => {
+    dispatch(login(user));
+  };
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
@@ -302,6 +313,7 @@ export default function CreateCharacterScreen() {
         isOpen={isLoginModalOpen}
         playerData={newPlayerData ?? undefined}
         closeModal={setIsLoginModalOpen}
+        handleLogin={handleLogin}
       />
     </div>
   );

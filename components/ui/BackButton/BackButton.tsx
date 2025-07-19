@@ -11,7 +11,7 @@ export default function BackButton() {
 
   return (
     <button
-      className='rounded-full text-center text-2xl text-white p-3 m-1 hover:cursor-crosshair'
+      className='rounded-full text-center text-2xl text-white p-3 m-1 hover:cursor-pointer'
       style={{
         backgroundColor: '#8E9CC9',
         flex: 1,

@@ -36,7 +36,7 @@ export default function SplashScreen() {
           <figure>
             <Image
               alt='Isekai Quest Logo'
-              src='/logos/SplashLogo.png'
+              src='/logos/SplashLogo_ShortSword.png'
               width={600}
               height={400}
               className='w-full h-auto'

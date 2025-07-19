@@ -48,7 +48,7 @@ const InteractionPanel = ({ title, optionArray }: InteractionPanelProps) => {
       >
         {optionArray.map((option) => (
           <button
-            className='flex flex-col items-center justify-center cursor-crosshair'
+            className='flex flex-col items-center justify-center cursor-pointer'
             key={option.id}
             onClick={() => handleOptionClick(option)}
           >

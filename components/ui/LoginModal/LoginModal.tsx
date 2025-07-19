@@ -28,48 +28,63 @@ export default function LoginModal({
 }: LoginModalProps) {
   const router = useRouter();
 
+  // const [emailAddress, setEmailAddress] = useState('');
+  // const [emailError, setEmailError] = useState('');
+
   const [username, setUsername] = useState('');
-  const [emailAddress, setEmailAddress] = useState('');
+  const [password, setPassword] = useState('');
   const [usernameError, setUsernameError] = useState('');
-  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const [touched, setTouched] = useState({
     username: false,
-    emailAddress: false,
+    password: false,
   });
 
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const valuesAreValid =
-    !usernameError && !emailError && username && emailAddress;
+    !usernameError && !passwordError && username && password;
 
   const validateUsername = (): void => {
     if (username.trim() === '') {
       setUsernameError('Username is required');
+    } else if (!emailPattern.test(username)) {
+      setUsernameError('Username should be an email@domain.com format');
     } else {
       setUsernameError('');
     }
   };
 
-  const validateEmailAddress = (): void => {
-    if (emailAddress === '') {
-      setEmailError('Email address is required');
-    } else if (!emailPattern.test(emailAddress)) {
-      setEmailError('Invalid email address format');
+  const validatePassword = (): void => {
+    if (password.trim() === '') {
+      setPasswordError('Password is required');
+    } else if (password.length <= 6) {
+      setPasswordError('Password must be at least 7 characters long');
     } else {
-      setEmailError('');
+      setPasswordError('');
     }
   };
 
-  const handleBlur = (field: 'username' | 'emailAddress') => {
+  // const validateEmailAddress = (): void => {
+  //   if (emailAddress === '') {
+  //     setEmailError('Email address is required');
+  //   } else if (!emailPattern.test(emailAddress)) {
+  //     setEmailError('Invalid email address format');
+  //   } else {
+  //     setEmailError('');
+  //   }
+  // };
+
+  const handleBlur = (field: 'username' | 'password') => {
     setTouched((prev) => ({ ...prev, [field]: true }));
     if (field === 'username') {
       validateUsername();
     }
 
-    if (field === 'emailAddress') {
-      validateEmailAddress();
+    if (field === 'password') {
+      validatePassword();
     }
   };
 
@@ -79,13 +94,14 @@ export default function LoginModal({
 
   const handleLoginClick = () => {
     validateUsername();
-    validateEmailAddress();
+    // validateEmailAddress();
+    validatePassword();
 
-    if (!usernameError && !emailError) {
+    if (!usernameError && !passwordError) {
       setIsLoading(true);
       setTimeout(() => {
         const user = {
-          userId: emailAddress,
+          userId: `${Math.floor(Math.random() * 10000)}`, // Simulating a user ID
           username: username,
         };
 
@@ -136,8 +152,8 @@ export default function LoginModal({
                         <input
                           className='bg-white shadow appearance-none rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
                           id='username'
-                          type='text'
-                          placeholder='User Name'
+                          type='email'
+                          placeholder='email@address.com '
                           value={username}
                           onChange={(e) => setUsername(e.target.value)}
                           onBlur={() => handleBlur('username')}
@@ -157,22 +173,22 @@ export default function LoginModal({
                         </label>
                         <input
                           className='bg-white shadow appearance-none rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
-                          id='email'
-                          type='email'
-                          placeholder='Email Address'
-                          value={emailAddress}
-                          onChange={(e) => setEmailAddress(e.target.value)}
-                          onBlur={() => handleBlur('emailAddress')}
+                          id='password'
+                          type='password'
+                          placeholder='Password'
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          onBlur={() => handleBlur('password')}
                           onFocus={() =>
                             setTouched((prev) => ({
                               ...prev,
-                              emailAddress: true,
+                              password: true,
                             }))
                           }
                         />
-                        {touched.emailAddress && emailError && (
+                        {touched.password && passwordError && (
                           <p className='text-red-800 font-bold text-sm mt-1'>
-                            {emailError}
+                            {passwordError}
                           </p>
                         )}
                       </div>

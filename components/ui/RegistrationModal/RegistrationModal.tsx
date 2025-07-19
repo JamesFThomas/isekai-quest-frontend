@@ -140,7 +140,7 @@ export default function RegistrationModal({
                     flexBasis: 0,
                   }}
                 >
-                  Cancel
+                  Back
                 </button>
               </div>
             </DialogPanel>

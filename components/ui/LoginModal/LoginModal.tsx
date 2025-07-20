@@ -87,8 +87,15 @@ export default function LoginModal({
       setIsLoading(true);
       setTimeout(() => {
         const user = {
-          userId: `${Math.floor(Math.random() * 10000)}`, // Simulating a user ID
+          userId: `${Math.floor(Math.random() * 10000)}`,
           username: username,
+          characters: [
+            {
+              characterId: `${Math.floor(Math.random() * 10000)}`,
+              characterName: 'Default Character',
+              avatar: '/default-avatar.png',
+            },
+          ],
         };
 
         handleLogin(user);

@@ -47,8 +47,15 @@ export default function RegistrationModal({
     setIsLoading(true);
     setTimeout(() => {
       const user = {
-        userId: `${Math.floor(Math.random() * 10000)}`, // Simulating a user ID
+        userId: `${Math.floor(Math.random() * 10000)}`,
         username: playerData?.userName || 'Guest',
+        characters: [
+          {
+            characterId: `${Math.floor(Math.random() * 10000)}`,
+            characterName: playerData?.characterName || 'Default Character',
+            avatar: playerData?.avatar || '/default-avatar.png',
+          },
+        ],
       };
 
       handleLogin(user);

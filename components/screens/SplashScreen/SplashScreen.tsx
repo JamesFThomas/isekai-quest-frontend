@@ -1,4 +1,5 @@
 'use client';
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -36,6 +37,7 @@ export default function SplashScreen() {
           <figure>
             <Image
               alt='Isekai Quest Logo'
+              aria-label='Isekai Quest Logo'
               src='/logos/SplashLogo_ShortSword.png'
               width={600}
               height={400}
@@ -44,26 +46,25 @@ export default function SplashScreen() {
           </figure>
         </div>
 
-        <div className='w-full max-w-[600px] flex flex-col sm:flex-row justify-around items-center gap-4'>
+        <section
+          aria-label='Quest Actions'
+          className='w-full max-w-[600px] flex flex-col sm:flex-row justify-around items-center gap-4'
+        >
           <button
-            className='rounded-full text-center text-2xl text-white p-4 hover:cursor-pointer w-full sm:w-auto flex-1'
-            style={{
-              backgroundColor: '#8E9CC9',
-            }}
+            aria-label='Continue Quest Button'
+            className='rounded-full text-center text-2xl text-white p-4 hover:cursor-pointer w-full sm:w-auto flex-1 bg-[#8E9CC9] hover:bg-[#7A8FB6] transition-colors duration-300e'
             onClick={handleContinueQuest}
           >
             Continue Quest
           </button>
           <button
-            className='rounded-full text-center text-2xl text-white p-4 hover:cursor-pointer w-full sm:w-auto flex-1'
-            style={{
-              backgroundColor: '#8E9CC9',
-            }}
+            aria-label='Start Quest Button'
+            className='rounded-full text-center text-2xl text-white p-4 hover:cursor-pointer w-full sm:w-auto flex-1 bg-[#8E9CC9] hover:bg-[#7A8FB6] transition-colors duration-300e'
             onClick={handleStartQuest}
           >
             Start Quest
           </button>
-        </div>
+        </section>
       </div>
 
       <LoginModal

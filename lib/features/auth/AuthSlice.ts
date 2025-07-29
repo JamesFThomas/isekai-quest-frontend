@@ -1,12 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../../store';
+import type { Character } from '../character/CharacterSlice';
 
-export interface Character {
-  characterId: string;
-  characterName: string;
-  avatar: string;
-}
 export interface User {
   userId: string;
   username: string;

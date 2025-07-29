@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import authReducer from './features/auth/AuthSlice';
+import characterReducer from './features/character/CharacterSlice';
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       auth: authReducer,
+      character: characterReducer,
     },
   });
 };

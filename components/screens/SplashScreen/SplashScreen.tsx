@@ -62,6 +62,7 @@ export default function SplashScreen() {
             className='rounded-full text-center text-2xl text-white p-4 hover:cursor-pointer w-full sm:w-auto flex-1 bg-[#8E9CC9] hover:bg-[#7A8FB6] transition-colors duration-300e'
             onClick={handleStartQuest}
           >
+            {/* TODO add loading spinner here for CreateCharacter screen redirection  */}
             Start Quest
           </button>
         </section>

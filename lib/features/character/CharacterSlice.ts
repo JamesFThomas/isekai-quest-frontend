@@ -1,0 +1,54 @@
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import type { RootState } from '../../store';
+
+export interface Character {
+  characterId: string;
+  characterName: string;
+  avatar: string;
+  isActive?: boolean;
+  hp: number;
+  mp: number;
+}
+
+interface CharacterState {
+  ActiveCharacter: Character | null;
+  party: Character[];
+}
+
+const initialState: CharacterState = {
+  ActiveCharacter: null,
+  party: [],
+};
+
+export const characterSlice = createSlice({
+  name: 'character',
+  initialState,
+  reducers: {
+    setActiveCharacter: (state, action: PayloadAction<Character | null>) => {
+      state.ActiveCharacter = action.payload;
+    },
+    addCharacterToParty: (state, action: PayloadAction<Character>) => {
+      state.party.push(action.payload);
+    },
+    removeCharacterFromParty: (state, action: PayloadAction<string>) => {
+      state.party = state.party.filter(
+        (character) => character.characterId !== action.payload
+      );
+    },
+  },
+});
+
+// export actions when made
+export const {
+  setActiveCharacter,
+  // Will use later when implementing party screen
+  addCharacterToParty,
+  removeCharacterFromParty,
+} = characterSlice.actions;
+
+export const selectActiveCharacter = (state: RootState) =>
+  state.character.ActiveCharacter;
+export const selectParty = (state: RootState) => state.character.party;
+
+export default characterSlice.reducer;

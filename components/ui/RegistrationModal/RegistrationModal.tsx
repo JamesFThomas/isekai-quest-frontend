@@ -1,17 +1,14 @@
 'use client';
 
-import {
-  Dispatch,
-  SetStateAction,
-  useState,
-  // useState
-} from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
+
+import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
 
 import Image from 'next/image';
 
 import { NewPlayerData } from '../../screens/CreateCharacterScreen/CreateCharacterScreen';
-
-import { useRouter } from 'next/navigation';
+import { setActiveCharacter } from '@/lib/features/character/CharacterSlice';
 
 import {
   Dialog,
@@ -36,6 +33,7 @@ export default function RegistrationModal({
   handleLogin,
 }: RegistrationModalProps) {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -46,19 +44,22 @@ export default function RegistrationModal({
   const handleRegistration = () => {
     setIsLoading(true);
     setTimeout(() => {
-      const user = {
-        userId: `${Math.floor(Math.random() * 10000)}`,
-        username: playerData?.userName || 'Guest',
-        characters: [
-          {
-            characterId: `${Math.floor(Math.random() * 10000)}`,
-            characterName: playerData?.characterName || 'Default Character',
-            avatar: playerData?.avatar || '/default-avatar.png',
-          },
-        ],
+      const newCharacter = {
+        characterId: `${Math.floor(Math.random() * 10000)}`,
+        characterName: playerData?.characterName || 'Default Character',
+        avatar: playerData?.avatar || '/default-avatar.png',
+        hp: 100, // Default HP
+        mp: 50, // Default MP
       };
 
-      handleLogin(user);
+      const newUser = {
+        userId: `${Math.floor(Math.random() * 10000)}`,
+        username: playerData?.userName || 'Guest',
+        characters: [newCharacter],
+      };
+
+      handleLogin(newUser);
+      dispatch(setActiveCharacter(newCharacter));
       setIsLoading(false);
       router.push('/homescreen');
       setOpen();

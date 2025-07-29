@@ -12,6 +12,7 @@ import {
 } from '@headlessui/react';
 
 import { User } from '@/lib/features/auth/AuthSlice';
+import useMockCharacter from '@/lib/hooks/useMockCharacter';
 
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
@@ -79,6 +80,8 @@ export default function LoginModal({
     closeModal(!isOpen);
   };
 
+  useMockCharacter();
+
   const handleLoginClick = () => {
     validateUsername();
     validatePassword();
@@ -89,13 +92,7 @@ export default function LoginModal({
         const user = {
           userId: `${Math.floor(Math.random() * 10000)}`,
           username: username,
-          characters: [
-            {
-              characterId: `${Math.floor(Math.random() * 10000)}`,
-              characterName: 'Default Character',
-              avatar: '/default-avatar.png',
-            },
-          ],
+          characters: [], // Assuming characters will be set later   ],
         };
 
         handleLogin(user);

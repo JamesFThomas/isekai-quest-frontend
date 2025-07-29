@@ -6,7 +6,6 @@ export interface Character {
   characterId: string;
   characterName: string;
   avatar: string;
-  isActive?: boolean;
   hp: number;
   mp: number;
 }
@@ -49,6 +48,7 @@ export const {
 
 export const selectActiveCharacter = (state: RootState) =>
   state.character.ActiveCharacter;
+
 export const selectParty = (state: RootState) => state.character.party;
 
 export default characterSlice.reducer;

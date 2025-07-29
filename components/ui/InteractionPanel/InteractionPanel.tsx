@@ -9,6 +9,7 @@ export interface PanelOption {
   pageRoute: string; // Optional route for navigation
   src?: string; // Optional image source for the panel
   altText?: string; // Optional alt text for the image
+  disabled?: boolean; // Optional flag to disable the option
 }
 
 type InteractionPanelProps = {
@@ -48,9 +49,14 @@ const InteractionPanel = ({ title, optionArray }: InteractionPanelProps) => {
       >
         {optionArray.map((option) => (
           <button
-            className='flex flex-col items-center justify-center cursor-pointer'
+            className={`flex flex-col items-center justify-center ${
+              option.disabled
+                ? 'opacity-50 cursor-not-allowed'
+                : 'cursor-pointer'
+            }`}
             key={option.id}
             onClick={() => handleOptionClick(option)}
+            disabled={option.disabled}
           >
             {option.src ? (
               <Image

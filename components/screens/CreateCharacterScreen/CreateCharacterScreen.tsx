@@ -128,7 +128,7 @@ export default function CreateCharacterScreen() {
 
   return (
     <div
-      className='flex flex-col items-center justify-center p-8 min-h-screen bg-[url("/background_images/town_background.png")] bg-cover bg-no-repeat bg-center'
+      className='flex flex-col items-center justify-center p-8 min-h-screen bg-[url("/background_images/town_background2.png")] bg-cover bg-no-repeat bg-center'
       style={{
         backgroundColor: '#d9d9d9',
       }}

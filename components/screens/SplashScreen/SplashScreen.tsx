@@ -31,7 +31,7 @@ export default function SplashScreen() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-[url('/background_images/avatars_townScene.png')] bg-cover bg-no-repeat bg-center p-8">
+    <div className="flex p-8 justify-center items-center min-h-screen bg-[url('/background_images/avatars_townScene2.png')] bg-cover bg-center bg-no-repeat">
       <div className='flex flex-col items-center'>
         <div className='logo-container max-w-[600px] w-full flex justify-center'>
           <figure>

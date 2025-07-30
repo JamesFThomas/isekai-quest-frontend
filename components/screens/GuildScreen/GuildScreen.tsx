@@ -8,7 +8,7 @@ import guildOptions from '@/data/guildOptions';
 export default function GuildScreen() {
   useProtectedRoute();
   return (
-    <div className='flex flex-col items-center justify-center p-8 min-h-screen bg-[url("/background_images/guild_background3.png")] bg-cover bg-no-repeat bg-center'>
+    <div className='flex flex-col items-center justify-center p-8 min-h-screen bg-[url("/background_images/guild_background2.png")] bg-cover bg-no-repeat bg-center'>
       <div className='mt-2'>
         <BackButton />
       </div>

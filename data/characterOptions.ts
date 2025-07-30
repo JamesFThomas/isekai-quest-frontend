@@ -4,7 +4,7 @@ const characterOptions: Character[] = [
   {
     characterId: 'char-1',
     characterName: 'Barbosa',
-    avatar: '/character_avatars/barbarian_avatar.png',
+    avatar: '/character_avatars/barbarian_avatar2.png',
     hp: 100,
     mp: 50,
   },

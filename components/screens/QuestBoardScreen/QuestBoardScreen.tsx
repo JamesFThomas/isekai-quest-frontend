@@ -1,12 +1,22 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
 
 import BackButton from '@/components/ui/BackButton/BackButton';
 import useProtectedRoute from '@/lib/hooks/ useProtectedRoute';
 import questStories from '../../../data/questsOptions';
+import DetailsModal from '@/components/ui/DetailsModal/DetailsModal';
+import { QuestStory } from '@/types/quest';
 
 export default function QuestBoardScreen() {
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+  const [selectedQuest, setSelectedQuest] = useState<QuestStory | null>(null);
+
+  const handleQuestClick = (quest: QuestStory) => {
+    setSelectedQuest(quest);
+    setIsDetailsModalOpen(true);
+  };
   useProtectedRoute();
   return (
     <div className='flex flex-col items-center justify-center p-6 min-h-screen bg-[url("/background_images/guild_wall.png")] bg-cover bg-no-repeat bg-center'>
@@ -15,6 +25,7 @@ export default function QuestBoardScreen() {
           <button
             key={quest.id}
             className='flex flex-col items-center justify-center cursor-pointer hover:scale-125 transition-transform duration-200'
+            onClick={() => handleQuestClick(quest)}
           >
             <Image
               key={quest.id}
@@ -33,6 +44,11 @@ export default function QuestBoardScreen() {
       <div>
         <BackButton />
       </div>
+      <DetailsModal
+        isOpen={isDetailsModalOpen}
+        closeModal={setIsDetailsModalOpen}
+        quest={selectedQuest}
+      />
     </div>
   );
 }

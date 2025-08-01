@@ -42,14 +42,16 @@ export default function QuestBoardScreen() {
               <Image
                 key={quest.id}
                 className={`flex items-center justify-center ${
-                  isAccepted ? 'opacity-30 scale-110' : 'hover:scale-125'
+                  isAccepted
+                    ? 'opacity-60 ring-1 ring-yellow-300 scale-110'
+                    : 'hover:scale-125'
                 }`}
                 alt={`${quest.name} Quest Image`}
                 src={'/guildscreen_icons/scrollimage.png'}
                 height={120}
                 width={120}
               />
-              <span className='text-center text-sm text-black font-semibold'>
+              <span className='text-center text-sm text-white font-semibold z-1'>
                 {quest.name}
               </span>
             </button>

@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import authReducer from './features/auth/AuthSlice';
 import characterReducer from './features/character/CharacterSlice';
+import questReducer from './features/quest/QuestSlice';
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       auth: authReducer,
       character: characterReducer,
+      quest: questReducer,
     },
   });
 };

@@ -16,12 +16,14 @@ interface DetailsModalProps {
   isOpen: boolean;
   closeModal: Dispatch<SetStateAction<boolean>>;
   quest: QuestStory | null;
+  acceptQuest: (quest: QuestStory) => void;
 }
 
 export default function DetailsModal({
   isOpen,
-  closeModal,
   quest,
+  closeModal,
+  acceptQuest,
 }: DetailsModalProps) {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -33,7 +35,10 @@ export default function DetailsModal({
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      setOpen();
+      if (quest) {
+        acceptQuest(quest);
+        setOpen();
+      }
     }, 1500);
   };
 

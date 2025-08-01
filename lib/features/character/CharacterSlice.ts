@@ -2,14 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../../store';
 
-export interface Character {
-  characterId: string;
-  characterName: string;
-  avatar: string;
-  hp: number;
-  mp: number;
-}
-
+import { Character } from '@/types/character';
 interface CharacterState {
   ActiveCharacter: Character | null;
   party: Character[];

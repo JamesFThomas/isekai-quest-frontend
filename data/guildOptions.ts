@@ -2,7 +2,7 @@ const guildOptions = [
   {
     id: 1,
     name: 'Quest Board',
-    pageRoute: '/guild/quests',
+    pageRoute: '/guild/questboard',
     src: '/guildscreen_icons/questboard.png',
     altText: 'Quest Board Icon',
   },
@@ -12,6 +12,7 @@ const guildOptions = [
     pageRoute: '/guild/exchange',
     src: '/guildscreen_icons/exchangedesk.png',
     altText: 'Exchange Desk Icon',
+    disabled: true,
   },
   {
     id: 3,

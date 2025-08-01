@@ -1,4 +1,4 @@
-import { Character } from '@/lib/features/character/CharacterSlice';
+import { Character } from '@/types/character';
 
 const characterOptions: Character[] = [
   {

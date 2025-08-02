@@ -52,7 +52,6 @@ export default function CreateCharacterScreen() {
 
   const [characterNameError, setCharacterNameError] = useState('');
   const [usernameError, setUsernameError] = useState('');
-  // const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [touched, setTouched] = useState({
     characterName: false,

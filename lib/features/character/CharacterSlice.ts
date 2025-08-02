@@ -5,11 +5,13 @@ import type { RootState } from '../../store';
 import { Character } from '@/types/character';
 interface CharacterState {
   ActiveCharacter: Character | null;
+  characterLocation: string | null;
   party: Character[];
 }
 
 const initialState: CharacterState = {
   ActiveCharacter: null,
+  characterLocation: null,
   party: [],
 };
 
@@ -19,6 +21,9 @@ export const characterSlice = createSlice({
   reducers: {
     setActiveCharacter: (state, action: PayloadAction<Character | null>) => {
       state.ActiveCharacter = action.payload;
+    },
+    setCharacterLocation: (state, action: PayloadAction<string | null>) => {
+      state.characterLocation = action.payload;
     },
     addCharacterToParty: (state, action: PayloadAction<Character>) => {
       state.party.push(action.payload);
@@ -34,6 +39,7 @@ export const characterSlice = createSlice({
 // export actions when made
 export const {
   setActiveCharacter,
+  setCharacterLocation,
   // Will use later when implementing party screen
   addCharacterToParty,
   removeCharacterFromParty,

@@ -8,7 +8,10 @@ import { useDispatch } from 'react-redux';
 import Image from 'next/image';
 
 import { NewPlayerData } from '../../screens/CreateCharacterScreen/CreateCharacterScreen';
-import { setActiveCharacter } from '@/lib/features/character/CharacterSlice';
+import {
+  setActiveCharacter,
+  setCharacterLocation,
+} from '@/lib/features/character/CharacterSlice';
 
 import {
   Dialog,
@@ -60,6 +63,7 @@ export default function RegistrationModal({
 
       handleLogin(newUser);
       dispatch(setActiveCharacter(newCharacter));
+      dispatch(setCharacterLocation('StartsVille'));
       setIsLoading(false);
       router.push('/homescreen');
       setOpen();

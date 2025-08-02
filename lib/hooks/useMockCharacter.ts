@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import {
   selectActiveCharacter,
   setActiveCharacter,
+  setCharacterLocation,
 } from '../features/character/CharacterSlice';
 
 import characterOptions from '../../data/characterOptions';
@@ -20,6 +21,7 @@ export default function useMockCharacter() {
       const randomIndex = Math.floor(Math.random() * characterOptions.length);
       const mockCharacter = characterOptions[randomIndex];
       dispatch(setActiveCharacter(mockCharacter));
+      dispatch(setCharacterLocation('StartsVille'));
     }
   }, [activeCharacter, dispatch]);
 }

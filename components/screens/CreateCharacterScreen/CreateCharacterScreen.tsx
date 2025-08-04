@@ -164,7 +164,7 @@ export default function CreateCharacterScreen() {
                   style={{
                     border:
                       selectedAvatar?.src === avatar.src
-                        ? '1px solid #FCE300'
+                        ? '3px solid #FCE300'
                         : 'none',
                   }}
                   alt={avatar.alt}

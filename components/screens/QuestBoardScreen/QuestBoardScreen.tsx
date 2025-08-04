@@ -43,7 +43,7 @@ export default function QuestBoardScreen() {
                 key={quest.id}
                 className={`flex items-center justify-center ${
                   isAccepted
-                    ? 'opacity-60 ring-1 ring-yellow-300 scale-110'
+                    ? 'opacity-60 ring-3 ring-yellow-300 scale-110'
                     : 'hover:scale-125'
                 }`}
                 alt={`${quest.name} Quest Image`}

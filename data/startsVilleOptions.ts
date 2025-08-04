@@ -12,6 +12,7 @@ const startsVilleOptions = [
     pageRoute: '/innscreen',
     src: '/homescreen_icons/inn_building.png',
     altText: 'Inn Icon',
+    disabled: true, // Assuming the Inn is not yet implemented
   },
   {
     id: 3,
@@ -19,6 +20,7 @@ const startsVilleOptions = [
     pageRoute: '/marketscreen',
     src: '/homescreen_icons/market_stall.png',
     altText: 'Market Icon',
+    disabled: true, // Assuming the Inn is not yet implemented
   },
 ];
 

@@ -32,9 +32,9 @@ const InteractionPanel = ({ title, optionArray }: InteractionPanelProps) => {
   return (
     <div className='interactionPanel-container flex flex-col items-center justify-center gap-3 w-full'>
       <header
-        className='panel-title text-center text-4xl text-white p-3.5'
+        className='panel-title text-center text-4xl text-white p-3.5  bg-[url("/background_images/parchment_paper.png")] bg-cover bg-no-repeat bg-center'
         style={{
-          backgroundColor: '#C87D7D',
+          // backgroundColor: '#C87D7D',
           width: '100%',
         }}
       >
@@ -44,7 +44,7 @@ const InteractionPanel = ({ title, optionArray }: InteractionPanelProps) => {
         className='options-grid grid grid-cols-1 sm:grid-cols-2 gap-4 p-4'
         style={{
           width: '100%',
-          backgroundColor: 'white',
+          // backgroundColor: 'white',
         }}
       >
         {optionArray.map((option) => (
@@ -75,7 +75,7 @@ const InteractionPanel = ({ title, optionArray }: InteractionPanelProps) => {
                 <span className='text-gray-500'>No Image</span>
               </div>
             )}
-            <span className='text-center text-sm text-black mb-2'>
+            <span className='text-center text-sm text-white font-bold mb-2'>
               {option.name}
             </span>
           </button>

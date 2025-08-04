@@ -82,13 +82,13 @@ export default function RegistrationModal({
           <div className='flex min-h-full justify-center p-4 text-center items-center sm:p-0'>
             <DialogPanel
               transition
-              className='relative transform overflow-hidden text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95'
+              className='relative transform overflow-hidden text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95 bg-[url("/background_images/parchment_paper.png")] bg-cover bg-no-repeat bg-center'
               style={{
                 backgroundColor: '#C87D7D',
               }}
             >
               <div
-                className=' px-4 pt-5 pb-4 sm:p-6 sm:pb-4'
+                className=' px-4 pt-5 pb-4 sm:p-6 sm:pb-4 bg-[url("/background_images/parchment_paper.png")] bg-cover bg-no-repeat bg-center'
                 style={{
                   backgroundColor: '#C87D7D',
                 }}
@@ -103,7 +103,7 @@ export default function RegistrationModal({
                     </DialogTitle>
                     <div className='playerData-grid mt-2 flex flex-col md:flex-row gap-4'>
                       {/* Avatar */}
-                      <figure className='bg-white character-image w-full md:w-1/3 flex items-center justify-center'>
+                      <figure className='character-image w-full md:w-1/3 flex items-center justify-center'>
                         <Image
                           alt='Chosen player avatar'
                           src={playerData?.avatar || '/default-avatar.png'}

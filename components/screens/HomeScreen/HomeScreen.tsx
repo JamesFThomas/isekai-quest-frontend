@@ -36,16 +36,13 @@ export default function HomeScreen() {
   };
 
   return (
-    <div
-      className='flex flex-col items-center justify-center p-8 min-h-screen bg-[url("/background_images/table_background.png")] bg-cover bg-no-repeat bg-center'
-    >
-      <div className='flex flex-col items-center w-fit m-2'>
-        <LogoutButton onLogout={handleLogout} />
-      </div>
-
+    <div className='flex flex-col items-center justify-center p-8 min-h-screen bg-[url("/background_images/table_background.png")] bg-cover bg-no-repeat bg-center'>
       <div className='home-screen-container flex flex-col items-center gap-4'>
         <InteractionPanel title='Controls' optionArray={controlArray} />
         <InteractionPanel title='StartsVille' optionArray={startsVilleArray} />
+      </div>
+      <div className='flex flex-col items-center w-fit m-2'>
+        <LogoutButton onLogout={handleLogout} />
       </div>
     </div>
   );

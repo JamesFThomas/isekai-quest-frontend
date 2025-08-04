@@ -51,19 +51,23 @@ export default function CommenceModal({
           <div className='flex min-h-full justify-center p-4 text-center items-center sm:p-0'>
             <DialogPanel
               transition
-              className='relative transform overflow-hidden text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95'
-              style={{
-                backgroundColor: '#C87D7D',
-              }}
+              className='relative transform overflow-hidden text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95 bg-[url("/background_images/parchment_paper.png")] bg-cover bg-no-repeat bg-center'
+              style={
+                {
+                  // backgroundColor: '#C87D7D',
+                }
+              }
             >
               <div
-                className=' px-4 pt-5 pb-4 sm:p-6 sm:pb-4'
-                style={{
-                  backgroundColor: '#C87D7D',
-                }}
+                className=' px-4 pt-5 pb-4 sm:p-6 sm:pb-4 bg-[url("/background_images/parchment_paper.png")] bg-cover bg-no-repeat bg-center'
+                style={
+                  {
+                    // backgroundColor: '#C87D7D',
+                  }
+                }
               >
                 <div className='items-center'>
-                  <div className='mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left'>
+                  <div className='mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left '>
                     <DialogTitle
                       as='h3'
                       className='font-semibold text-white text-2xl item'

@@ -134,9 +134,9 @@ export default function CreateCharacterScreen() {
     >
       <div className='flex flex-col items-center'>
         <header
-          className='text-center text-4xl text-white p-3.5'
+          className='text-center text-4xl text-white font-bold p-3.5 bg-[url("/background_images/parchment_paper.png")] bg-cover bg-no-repeat bg-center'
           style={{
-            backgroundColor: '#C87D7D',
+            // backgroundColor: '#C87D7D',
             maxWidth: '600px',
             width: '100%',
           }}
@@ -144,9 +144,8 @@ export default function CreateCharacterScreen() {
           Choose Your Avatar
         </header>
         <div
-          className='mt-4'
+          className='mt-4 bg-[url("/background_images/parchment_paper.png")] bg-cover bg-no-repeat bg-center'
           style={{
-            backgroundColor: 'white',
             maxWidth: '600px',
             minHeight: 'fit-content',
             width: '100%',
@@ -165,7 +164,7 @@ export default function CreateCharacterScreen() {
                   style={{
                     border:
                       selectedAvatar?.src === avatar.src
-                        ? '5px solid #000000'
+                        ? '1px solid #FCE300'
                         : 'none',
                   }}
                   alt={avatar.alt}
@@ -173,7 +172,7 @@ export default function CreateCharacterScreen() {
                   width={200}
                   height={200}
                 />
-                <span className='text-center text-sm text-black mt-2'>
+                <span className='text-center text-sm text-white font-bold mt-2'>
                   {avatar.type}
                 </span>
               </button>
@@ -181,16 +180,15 @@ export default function CreateCharacterScreen() {
           </div>
         </div>
         <div
-          className='mt-4 text-white'
+          className='mt-4 text-white bg-[url("/background_images/parchment_paper.png")] bg-cover bg-no-repeat bg-center'
           style={{
-            backgroundColor: '#C87D7D',
             maxWidth: '600px',
             minHeight: 'fit-content',
             width: '100%',
           }}
         >
           <div className='character-grid p-4 flex flex-col md:flex-row md:space-x-6'>
-            <figure className='bg-white character-image w-full md:w-1/3 flex items-center justify-center md:h-auto'>
+            <figure className='character-image w-full md:w-1/3 flex items-center justify-center md:h-auto'>
               <Image
                 alt={selectedAvatar ? selectedAvatar.alt : 'Default Avatar'}
                 src={

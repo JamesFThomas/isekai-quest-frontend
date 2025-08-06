@@ -3,6 +3,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './features/auth/AuthSlice';
 import characterReducer from './features/character/CharacterSlice';
 import questReducer from './features/quest/QuestSlice';
+import battleReducer from './features/battle/BattleSlice';
 
 export const makeStore = () => {
   return configureStore({
@@ -10,6 +11,7 @@ export const makeStore = () => {
       auth: authReducer,
       character: characterReducer,
       quest: questReducer,
+      battle: battleReducer,
     },
   });
 };

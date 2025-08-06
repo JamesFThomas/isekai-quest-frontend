@@ -1,3 +1,5 @@
+import { Opponent } from '@/lib/features/battle/BattleSlice';
+
 export type QuestStory = {
   id: string;
   name: string;
@@ -5,8 +7,10 @@ export type QuestStory = {
   storyPoints: StoryPoint[];
 };
 
+type StoryPointId = string;
+
 export type StoryPoint = {
-  id: string;
+  id: StoryPointId;
   imageSrc: string;
   text: string;
   battle?: BattleDetails;
@@ -17,14 +21,27 @@ export type StoryPointChoice = {
   label: 'a' | 'b' | 'c' | 'd';
   text: string;
   outcome?: StoryPointOutcome;
-  nextPointId: string;
+  nextPointId: StoryPointId | null; // null if it ends the quest
 };
 
+// export type StoryPointOutcome = (character: Character) => void;
+
 export type StoryPointOutcome = {
-  statChanges?: {
+  effects?: {
+    // Character state changes
+    // Game state changes
     health?: number;
     xp?: number;
     gold?: number;
   };
-  itemReward?: string;
+  reward?: string;
+  battle?: BattleDetails;
+};
+
+export type BattleDetails = {
+  opponent: Opponent; // imported from BattleSlice
+  backgroundImage?: string;
+  escapeAllowed?: boolean;
+  escapePenalty?: StoryPointOutcome;
+  nextPointId?: StoryPointId; // ID of the next story point after battle
 };

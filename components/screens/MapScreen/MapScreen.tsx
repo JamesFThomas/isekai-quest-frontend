@@ -1,31 +1,44 @@
 'use client';
 
+import { useState } from 'react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+
 import BackButton from '@/components/ui/BackButton/BackButton';
 import CommenceModal from '@/components/ui/CommenceModal /CommenceModal';
 import LocationModal from '@/components/ui/LocationModal /LocationModal ';
 import useProtectedRoute from '@/lib/hooks/ useProtectedRoute';
-import {
-  // useAppDispatch,
-  useAppSelector,
-} from '@/lib/reduxHooks';
 
-import Image from 'next/image';
-import { useState } from 'react';
+import { useAppSelector } from '@/lib/reduxHooks';
+
+import { selectAcceptedQuest } from '@/lib/features/quest/QuestSlice';
 
 export default function MapScreen() {
+  const router = useRouter();
   useProtectedRoute();
 
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
   const [isCommenceModalOpen, setIsCommenceModalOpen] = useState(false);
 
-  // const dispatch = useAppDispatch();
+  const acceptedQuest = useAppSelector(selectAcceptedQuest);
 
-  const handleLocationChange = () => {
+  console.log('Accepted Quest:', acceptedQuest);
+
+  const openLocationModal = () => {
     setIsLocationModalOpen(true);
   };
 
-  const handleCommenceQuest = () => {
+  const openCommenceModal = () => {
     setIsCommenceModalOpen(true);
+  };
+
+  const onCommenceQuest = () => {
+    // Logic to handle quest commencement
+    if (acceptedQuest) {
+      // redirect user to storyScreen if quest was accepted
+      router.push('/storyscreen');
+      setIsCommenceModalOpen(false);
+    }
   };
 
   const currentLocation = useAppSelector(
@@ -38,7 +51,7 @@ export default function MapScreen() {
     <div className='flex flex-col items-center justify-center p-8 min-h-screen bg-[url("/background_images/map_hands.png")] bg-cover bg-no-repeat bg-center'>
       <button
         className='compass-image flex flex-col items-center justify-center cursor-pointer'
-        onClick={handleLocationChange}
+        onClick={openLocationModal}
       >
         <Image
           alt={'Compass Icon'}
@@ -52,7 +65,7 @@ export default function MapScreen() {
       </button>
       <button
         className='shield-image flex flex-col items-center justify-center cursor-pointer'
-        onClick={handleCommenceQuest}
+        onClick={openCommenceModal}
       >
         <Image
           alt={'Compass Icon'}
@@ -73,8 +86,9 @@ export default function MapScreen() {
       />
       <CommenceModal
         isOpen={isCommenceModalOpen}
+        quest={acceptedQuest ? acceptedQuest : null}
         closeModal={setIsCommenceModalOpen}
-        quest={null} // Replace with actual quest data if needed
+        commenceQuest={onCommenceQuest}
       />
     </div>
   );

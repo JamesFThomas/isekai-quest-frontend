@@ -28,8 +28,7 @@ export type StoryPointChoice = {
 
 export type StoryPointOutcome = {
   effects?: {
-    // Character state changes
-    // Game state changes
+    // Character & Game state changes
     health?: number;
     xp?: number;
     gold?: number;

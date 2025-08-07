@@ -73,7 +73,7 @@ export default function StoryScreen() {
   }, [acceptedQuest]);
 
   return (
-    <div className='story-screen-container flex flex-col items-center justify-center h-screen bg-[url("/background_images/dark_hills.png")] bg-cover bg-no-repeat bg-center'>
+    <div className='story-screen-container p-4 flex flex-col items-center justify-center h-screen bg-[url("/background_images/dark_hills.png")] bg-cover bg-no-repeat bg-center'>
       <div className='story-screen-content flex flex-col items-center justify-center w-fit h-fit bg-[url("/background_images/parchment_paper.png")] bg-cover bg-no-repeat bg-center'>
         {quest && <h2 className='text-2xl font-semibold'>{quest.name}</h2>}
         {currentStoryPoint && (
@@ -86,26 +86,24 @@ export default function StoryScreen() {
               className='mt-4 rounded-lg'
             />
             <p className='mt-2 w-fit'>{currentStoryPoint.text}</p>
-            <div className='mt-4 gap-1'>
+            <div className='choice-button-grid grid gap-3 mt-4 p-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'>
               {currentStoryPoint.choices.map((choice, index) => (
                 <button
                   key={index}
-                  className='mt-3 inline-flex justify-center rounded-full bg-[#8E9CC9] px-3 py-2 text-sm font-semibold text-white sm:mt-0 hover:cursor-pointer'
+                  className='bg-[#8E9CC9] w-full inline-flex justify-center rounded-full px-3 py-2 text-sm font-semibold text-white hover:cursor-pointer'
                   onClick={() => {
                     handleChoiceSelection(choice);
                   }}
                 >
-                  {/* {choice.label} -  */}
                   {choice.text}
-                  {/* <p>{choice.text}</p> */}
                 </button>
               ))}
             </div>
           </div>
         )}
-        <div className='mt-2'>
-          <BackButton />
-        </div>
+      </div>
+      <div className='mt-2'>
+        <BackButton />
       </div>
     </div>
   );

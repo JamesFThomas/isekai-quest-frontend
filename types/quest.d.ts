@@ -1,5 +1,7 @@
 import { Opponent } from '@/lib/features/battle/BattleSlice';
 
+export type StoryPointId = string;
+
 export type QuestStory = {
   id: string;
   name: string;
@@ -7,8 +9,6 @@ export type QuestStory = {
   storyPoints: StoryPoint[];
   coverImageSrc: string; // Optional cover image for the quest
 };
-
-type StoryPointId = string;
 
 export type StoryPoint = {
   id: StoryPointId;

@@ -9,7 +9,7 @@ export const banditWatchQuest: QuestStory = {
   storyPoints: [
     {
       id: 'bw-p1',
-      imageSrc: '/images/quests/bandit_watch/start.png',
+      imageSrc: '/quests/bandit_watch/cover_image.png',
       text: 'You arrive at the outskirts of town where the guards have set up a temporary watch. The road ahead is quiet, but tension hangs in the air.',
       choices: [
         {

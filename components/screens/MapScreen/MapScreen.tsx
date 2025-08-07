@@ -22,8 +22,6 @@ export default function MapScreen() {
 
   const acceptedQuest = useAppSelector(selectAcceptedQuest);
 
-  console.log('Accepted Quest:', acceptedQuest);
-
   const openLocationModal = () => {
     setIsLocationModalOpen(true);
   };

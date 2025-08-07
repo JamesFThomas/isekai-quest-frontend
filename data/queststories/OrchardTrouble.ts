@@ -9,7 +9,7 @@ export const orchardTroubleQuest: QuestStory = {
   storyPoints: [
     {
       id: 'ot-p1',
-      imageSrc: '/images/quests/orchard_trouble/start.png',
+      imageSrc: '/quests/orchard_trouble/cover_image.png',
       text: 'You arrive at the orchard just as the sun sets. The air is filled with the sweet scent of ripe fruit, but something feels off.',
       choices: [
         {

@@ -9,7 +9,7 @@ export const missingScoutQuest: QuestStory = {
   storyPoints: [
     {
       id: 'ms-p1',
-      imageSrc: '/images/quests/missing_scout/start.png',
+      imageSrc: '/quests/missing_scout/cover_image.png',
       text: 'You arrive at the last known location of the scout. The area is eerily quiet, with only the sound of rustling leaves.',
       choices: [
         {

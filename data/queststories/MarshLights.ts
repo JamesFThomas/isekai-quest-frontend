@@ -9,7 +9,7 @@ export const marshLightsQuest: QuestStory = {
   storyPoints: [
     {
       id: 'ml-p1',
-      imageSrc: '/images/quests/marsh_lights/start.png',
+      imageSrc: '/quests/marsh_lights/cover_image.png',
       text: 'You arrive at the edge of the marsh as dusk falls. The air is thick with mist, and faint lights flicker in the distance.',
       choices: [
         {

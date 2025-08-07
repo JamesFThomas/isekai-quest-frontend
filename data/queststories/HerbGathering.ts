@@ -9,7 +9,7 @@ export const herbGatheringQuest: QuestStory = {
   storyPoints: [
     {
       id: 'q1-p1',
-      imageSrc: '/images/quests/herb_gathering/path_choice.png',
+      imageSrc: '/quests/herb_gathering/cover_image.png',
       text: 'You head out of town toward the nearby mountains in search of the herbs needed to complete the quest. You reach a sign on the path that points out the paths into the mountains in front of you.',
       choices: [
         {

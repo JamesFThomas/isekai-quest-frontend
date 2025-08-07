@@ -4,7 +4,8 @@ export const marshLightsQuest: QuestStory = {
   id: 'marshLights',
   name: 'Marsh Lights',
   description:
-    'Locals whisper of lights in the distant wetlands. Investigate the cause — magical or mundane.',
+    'Strange lights have been seen drifting across the wetlands beyond the village. Some say they’re spirits, others claim smugglers or arcane forces at work. Travel to the marshes and uncover the truth behind the glowing phenomenon',
+  coverImageSrc: '/quests/marsh_lights/cover_image.png',
   storyPoints: [
     {
       id: 'ml-p1',

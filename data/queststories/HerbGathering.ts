@@ -3,7 +3,9 @@ import { QuestStory } from '@/types/quest';
 export const herbGatheringQuest: QuestStory = {
   id: 'q1',
   name: 'Herb Gathering',
-  description: 'Help the village gather herbs for the upcoming festival.',
+  description:
+    'The village healer needs herbs from the foothills. Follow the trails outside town and collect what you can from the wild.',
+  coverImageSrc: '/quests/herb_gathering/cover_image.png',
   storyPoints: [
     {
       id: 'q1-p1',

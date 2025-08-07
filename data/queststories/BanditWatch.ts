@@ -4,7 +4,8 @@ export const banditWatchQuest: QuestStory = {
   id: 'banditWatch',
   name: 'Bandit Watch',
   description:
-    'Town guards report increased bandit activity. Assist in fortifying the road or ambushing raiders.',
+    'A merchant seeks safe passage through a dangerous stretch of road known for bandit ambushes. Join the escort and ensure their goods and life arrive safely at the next village.',
+  coverImageSrc: '/quests/bandit_watch/cover_image.png',
   storyPoints: [
     {
       id: 'bw-p1',

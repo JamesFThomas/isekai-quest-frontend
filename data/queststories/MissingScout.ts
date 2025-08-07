@@ -4,7 +4,8 @@ export const missingScoutQuest: QuestStory = {
   id: 'missingScout',
   name: 'Missing Scout',
   description:
-    'A guild scout failed to return from a routine perimeter check. Find out what happened.',
+    'One of the guild’s scouts went missing during a routine perimeter sweep. Your task is to investigate their last known location and uncover what led to their disappearance—be it accident, ambush, or something stranger.',
+  coverImageSrc: '/quests/missing_scout/cover_image.png',
   storyPoints: [
     {
       id: 'ms-p1',

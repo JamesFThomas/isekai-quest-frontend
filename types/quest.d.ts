@@ -5,6 +5,7 @@ export type QuestStory = {
   name: string;
   description: string;
   storyPoints: StoryPoint[];
+  coverImageSrc: string; // Optional cover image for the quest
 };
 
 type StoryPointId = string;

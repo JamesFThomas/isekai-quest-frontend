@@ -4,7 +4,8 @@ export const orchardTroubleQuest: QuestStory = {
   id: 'orchardTrouble',
   name: 'Orchard Trouble',
   description:
-    'Local farmers report strange creatures raiding their orchard at night.',
+    'Unusual creatures have been spotted raiding the village orchard after dark. Investigate the source of the disturbances and protect the harvest before more is lost.',
+  coverImageSrc: '/quests/orchard_trouble/cover_image.png',
   storyPoints: [
     {
       id: 'ot-p1',

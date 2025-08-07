@@ -11,6 +11,7 @@ import {
 
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import { QuestStory } from '@/types/quest';
+import Image from 'next/image';
 
 interface DetailsModalProps {
   isOpen: boolean;
@@ -55,11 +56,6 @@ export default function DetailsModal({
             <DialogPanel
               transition
               className='relative transform overflow-hidden text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95 bg-[url("/background_images/parchment_paper.png")] bg-cover bg-no-repeat bg-center'
-              style={
-                {
-                  // backgroundColor: '#C87D7D',
-                }
-              }
             >
               <div
                 className=' px-4 pt-5 pb-4 sm:p-6 sm:pb-4 bg-[url("/background_images/parchment_paper.png")] bg-cover bg-no-repeat bg-center'
@@ -75,6 +71,17 @@ export default function DetailsModal({
                     >
                       {quest ? quest.name : 'Quest Details'}
                     </DialogTitle>
+                    <Image
+                      src={
+                        quest
+                          ? quest.coverImageSrc
+                          : '/quests/default_cover.png'
+                      }
+                      alt='Quest Cover Image'
+                      width={500}
+                      height={300}
+                      className='mt-4 rounded-lg'
+                    />
                     <div className='mt-2'>
                       <p className='text-sm text-white'>
                         {quest ? quest.description : 'No details available.'}

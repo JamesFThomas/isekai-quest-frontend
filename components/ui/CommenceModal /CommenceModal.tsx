@@ -2,6 +2,8 @@
 
 import { Dispatch, SetStateAction, useState } from 'react';
 
+import Image from 'next/image';
+
 import {
   Dialog,
   DialogBackdrop,
@@ -65,6 +67,17 @@ export default function CommenceModal({
                     >
                       {quest ? quest.name : 'Quest Details'}
                     </DialogTitle>
+                    <Image
+                      src={
+                        quest
+                          ? quest.coverImageSrc
+                          : '/quests/default_cover.png'
+                      }
+                      alt='Quest Cover Image'
+                      width={500}
+                      height={300}
+                      className='mt-4 rounded-lg'
+                    />
                     <div className='mt-2'>
                       <p className='text-sm text-white'>
                         {quest ? quest.description : 'No quest accepted.'}

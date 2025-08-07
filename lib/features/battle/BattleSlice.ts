@@ -2,14 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../../store';
 import { Character } from '@/types/character';
-
-export interface Opponent {
-  opponentId: string;
-  name: string;
-  hp: number;
-  mp: number;
-  attackIds: string[]; // Available attacks
-}
+import { Opponent } from '@/types/battle';
 
 export interface BattleState {
   activeCharacter: Character | null; // Player participant

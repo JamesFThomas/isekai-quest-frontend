@@ -8,6 +8,14 @@ import {
   selectAcceptedQuest,
   setCurrentStoryPointId,
 } from '@/lib/features/quest/QuestSlice';
+
+import {
+  setActiveCharacter,
+  setActiveOpponent,
+} from '@/lib/features/battle/BattleSlice';
+
+import { selectActiveCharacter } from '@/lib/features/character/CharacterSlice';
+
 import { useEffect, useState } from 'react';
 import { QuestStory, StoryPoint, StoryPointChoice } from '@/types/quest';
 
@@ -21,6 +29,7 @@ export default function StoryScreen() {
   const router = useRouter();
 
   const acceptedQuest = useAppSelector(selectAcceptedQuest);
+  const activeCharacter = useAppSelector(selectActiveCharacter);
 
   const [quest, setQuest] = useState<QuestStory | null>(null);
   const [currentStoryPoint, setCurrentStoryPoint] = useState<StoryPoint | null>(
@@ -34,6 +43,12 @@ export default function StoryScreen() {
     if (choice.outcome?.battle) {
       // set the next story point ID in the quest state
       dispatch(setCurrentStoryPointId(choice.nextPointId));
+
+      // set the active opponent and character for the battle
+      dispatch(setActiveOpponent(choice.outcome.battle.opponent));
+      dispatch(setActiveCharacter(activeCharacter));
+
+      // redirect to battle screen
       router.push('/battlescreen');
       return;
     }

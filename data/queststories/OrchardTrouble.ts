@@ -1,4 +1,13 @@
+import { Opponent } from '@/types/battle';
 import { QuestStory } from '@/types/quest';
+
+const mockOpponent: Opponent = {
+  opponentId: 'bandit-leader',
+  name: 'Bandit Leader',
+  hp: 100,
+  mp: 30,
+  attackIds: ['slash', 'intimidate'],
+};
 
 export const orchardTroubleQuest: QuestStory = {
   id: 'orchardTrouble',
@@ -26,6 +35,16 @@ export const orchardTroubleQuest: QuestStory = {
           label: 'c',
           text: 'Talk to the farmers about their observations',
           nextPointId: 'ot-p4',
+        },
+        {
+          label: 'd',
+          text: 'Battle the air',
+          nextPointId: 'bw-p5',
+          outcome: {
+            battle: {
+              opponent: mockOpponent,
+            },
+          },
         },
       ],
     },

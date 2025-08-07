@@ -1,4 +1,15 @@
+import { Opponent } from '@/types/battle';
 import { QuestStory } from '@/types/quest';
+
+const mockOpponent: Opponent = {
+  opponentId: 'bandit-leader',
+  name: 'Bandit Leader',
+  hp: 100,
+  mp: 30,
+  attackIds: ['slash', 'intimidate'],
+};
+
+export default mockOpponent;
 
 export const banditWatchQuest: QuestStory = {
   id: 'banditWatch',
@@ -26,6 +37,16 @@ export const banditWatchQuest: QuestStory = {
           label: 'c',
           text: 'Set an ambush for the bandits',
           nextPointId: 'bw-p4',
+        },
+        {
+          label: 'd',
+          text: 'Battle the air',
+          nextPointId: 'bw-p5',
+          outcome: {
+            battle: {
+              opponent: mockOpponent,
+            },
+          },
         },
       ],
     },

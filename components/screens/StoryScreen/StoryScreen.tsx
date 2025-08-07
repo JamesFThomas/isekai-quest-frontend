@@ -75,7 +75,9 @@ export default function StoryScreen() {
   return (
     <div className='story-screen-container p-4 flex flex-col items-center justify-center h-screen bg-[url("/background_images/dark_hills.png")] bg-cover bg-no-repeat bg-center'>
       <div className='story-screen-content flex flex-col items-center justify-center w-fit h-fit bg-[url("/background_images/parchment_paper.png")] bg-cover bg-no-repeat bg-center'>
-        {quest && <h2 className='text-2xl font-semibold'>{quest.name}</h2>}
+        {quest && (
+          <h1 className='text-4xl text-white font-bold mt-3'>{quest.name}</h1>
+        )}
         {currentStoryPoint && (
           <div className='story-point-content flex flex-col items-center justify-center p-4 w-max-[900px]'>
             <Image
@@ -85,7 +87,9 @@ export default function StoryScreen() {
               height={500}
               className='mt-4 rounded-lg'
             />
-            <p className='mt-2 w-fit'>{currentStoryPoint.text}</p>
+            <p className='mt-2 w-fit text-white font-bold font'>
+              {currentStoryPoint.text}
+            </p>
             <div className='choice-button-grid grid gap-3 mt-4 p-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'>
               {currentStoryPoint.choices.map((choice, index) => (
                 <button

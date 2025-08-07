@@ -12,7 +12,7 @@ const controlOptions = [
     pageRoute: '/partyscreen',
     src: '/homescreen_icons/party_image.png',
     altText: 'Party Icon',
-    disabled: true,
+    disabled: false, // Set to true if party screen is not implemented
   },
 ];
 

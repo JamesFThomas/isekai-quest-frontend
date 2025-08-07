@@ -27,6 +27,10 @@ export default function MapScreen() {
   };
 
   const openCommenceModal = () => {
+    if (!acceptedQuest) {
+      console.warn('No quest accepted to commence');
+      return;
+    }
     setIsCommenceModalOpen(true);
   };
 
@@ -62,7 +66,9 @@ export default function MapScreen() {
         </span>
       </button>
       <button
-        className='shield-image flex flex-col items-center justify-center cursor-pointer'
+        className={`shield-image flex flex-col items-center justify-center ${
+          acceptedQuest ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
+        }`}
         onClick={openCommenceModal}
       >
         <Image

@@ -136,7 +136,6 @@ export default function CreateCharacterScreen() {
         <header
           className='text-center text-4xl text-white font-bold p-3.5 bg-[url("/background_images/parchment_paper.png")] bg-cover bg-no-repeat bg-center'
           style={{
-            // backgroundColor: '#C87D7D',
             maxWidth: '600px',
             width: '100%',
           }}

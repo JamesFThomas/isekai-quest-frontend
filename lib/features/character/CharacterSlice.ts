@@ -48,6 +48,11 @@ export const {
 export const selectActiveCharacter = (state: RootState) =>
   state.character.ActiveCharacter;
 
+export const selectCharacterParty = (state: RootState) => state.character.party;
+
+export const selectCharacterLocation = (state: RootState) =>
+  state.character.characterLocation;
+
 export const selectParty = (state: RootState) => state.character.party;
 
 export default characterSlice.reducer;

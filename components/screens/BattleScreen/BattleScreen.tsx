@@ -1,9 +1,9 @@
 'use client';
 
 import BackButton from '@/components/ui/BackButton/BackButton';
-import useProtectedRoute from '@/lib/hooks/ useProtectedRoute';
+import useProtectedRoute from '@/lib/hooks/useProtectedRoute';
 
-export default function PartyScreen() {
+export default function BattleScreen() {
   useProtectedRoute();
   return (
     <div className='flex flex-col items-center justify-center h-screen'>

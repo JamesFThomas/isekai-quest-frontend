@@ -1,7 +1,7 @@
 'use client';
 
 import BackButton from '@/components/ui/BackButton/BackButton';
-import useProtectedRoute from '@/lib/hooks/ useProtectedRoute';
+import useProtectedRoute from '@/lib/hooks/useProtectedRoute';
 
 import { useAppDispatch, useAppSelector } from '@/lib/reduxHooks';
 import {

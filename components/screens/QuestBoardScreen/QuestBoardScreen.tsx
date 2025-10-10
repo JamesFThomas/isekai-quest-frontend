@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 
 import BackButton from '@/components/ui/BackButton/BackButton';
-import useProtectedRoute from '@/lib/hooks/ useProtectedRoute';
+import useProtectedRoute from '@/lib/hooks/useProtectedRoute';
 import questStories from '../../../data/questsOptions';
 import DetailsModal from '@/components/ui/DetailsModal/DetailsModal';
 import { QuestStory } from '@/types/quest';
@@ -41,11 +41,10 @@ export default function QuestBoardScreen() {
             >
               <Image
                 key={quest.id}
-                className={`flex items-center justify-center ${
-                  isAccepted
+                className={`flex items-center justify-center ${isAccepted
                     ? 'opacity-60 ring-3 ring-yellow-300 scale-110'
                     : 'hover:scale-125'
-                }`}
+                  }`}
                 alt={`${quest.name} Quest Image`}
                 src={'/guildscreen_icons/scrollimage.png'}
                 height={120}

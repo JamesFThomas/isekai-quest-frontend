@@ -17,7 +17,7 @@ import { logout } from '../../../lib/features/auth/AuthSlice';
 import controlOptions from '@/data/contolOptions';
 
 import startsVilleOptions from '@/data/startsVilleOptions';
-import useProtectedRoute from '@/lib/hooks/ useProtectedRoute';
+import useProtectedRoute from '@/lib/hooks/useProtectedRoute';
 
 export default function HomeScreen() {
   const router = useRouter();

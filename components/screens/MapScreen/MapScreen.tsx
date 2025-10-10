@@ -5,9 +5,9 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 import BackButton from '@/components/ui/BackButton/BackButton';
-import CommenceModal from '@/components/ui/CommenceModal /CommenceModal';
-import LocationModal from '@/components/ui/LocationModal /LocationModal ';
-import useProtectedRoute from '@/lib/hooks/ useProtectedRoute';
+import CommenceModal from '@/components/ui/CommenceModal/CommenceModal';
+import LocationModal from '@/components/ui/LocationModal/LocationModal';
+import useProtectedRoute from '@/lib/hooks/useProtectedRoute';
 
 import { useAppSelector } from '@/lib/reduxHooks';
 
@@ -66,9 +66,8 @@ export default function MapScreen() {
         </span>
       </button>
       <button
-        className={`shield-image flex flex-col items-center justify-center ${
-          acceptedQuest ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
-        }`}
+        className={`shield-image flex flex-col items-center justify-center ${acceptedQuest ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
+          }`}
         onClick={openCommenceModal}
       >
         <Image

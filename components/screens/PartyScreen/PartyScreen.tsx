@@ -1,7 +1,7 @@
 'use client';
 
 import BackButton from '@/components/ui/BackButton/BackButton';
-import useProtectedRoute from '@/lib/hooks/ useProtectedRoute';
+import useProtectedRoute from '@/lib/hooks/useProtectedRoute';
 
 import Image from 'next/image';
 
@@ -63,7 +63,7 @@ export default function PartyScreen() {
               <label className='block text-white text-sm font-bold mb-2'>
                 Attacks:
                 {activeCharacter?.baseAttackIds &&
-                activeCharacter.baseAttackIds.length > 0
+                  activeCharacter.baseAttackIds.length > 0
                   ? activeCharacter.baseAttackIds.join(', ')
                   : 'None'}
               </label>

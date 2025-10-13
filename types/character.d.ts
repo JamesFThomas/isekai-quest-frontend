@@ -1,6 +1,6 @@
 export interface Character {
-  characterId: string;
-  characterName: string;
+  id: string;
+  name: string;
   avatar: string;
   hp: number;
   mp: number;

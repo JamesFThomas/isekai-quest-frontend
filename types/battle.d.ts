@@ -1,5 +1,5 @@
 export interface Opponent {
-  opponentId: string;
+  id: string;
   name: string;
   hp: number;
   mp: number;

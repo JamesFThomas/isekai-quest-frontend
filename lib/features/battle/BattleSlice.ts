@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../../store';
 import { Character } from '@/types/character';
@@ -14,20 +14,46 @@ export interface BattleState // battleSlice initial state shape (typo/casing fix
   activeOpponent: Opponent | null,    // fixed: activeOpenent → activeOpponent
   isPlayerTurn: boolean,
   battleLog: string[],                  // fixed: battlelog → battleLog
-  phase: BattlePhase,
+  phase?: BattlePhase,
   result: BattleResult,
+  round?: number | null
 }
 
 export interface BattleAction {
   actorId: string;
   targetId: string;
-  phase: BattlePhase;
   actionDetails: { id: string, title: string, type: string };
   effects: {
     hp?: number,
     mp?: number
   }
 }
+
+const initialTestState: BattleState = {
+  battleId: "test-001",
+  activeCharacter: {
+    id: "char-1",
+    name: "Adele the Dev",
+    avatar: "/avatars/adele.png",
+    hp: 30,
+    mp: 10,
+    baseAttackIds: ["basic-attack"],
+    equippedWeaponId: "wooden-sword",
+    learnedSkillIds: ["focus"],
+  },
+  activeOpponent: {
+    id: "opp-1",
+    name: "Training Dummy",
+    hp: 25,
+    mp: 0,
+    attackIds: ["bonk"],
+  },
+  isPlayerTurn: true,
+  battleLog: [],
+  phase: "chooseAction",
+  result: null,
+  round: 1
+};
 
 
 const initialState: BattleState = {
@@ -37,12 +63,63 @@ const initialState: BattleState = {
   isPlayerTurn: true,
   battleLog: [],
   phase: null,
-  result: null
+  result: null,
+  round: null
 };
 
+export const performBattleAction = createAsyncThunk<
+  void,                // return type
+  BattleAction,        // argument type
+  { state: RootState } // thunkAPI typings
+>(
+  "battle/performBattleAction",   // action type name
+  async (battleAction, { dispatch, getState }) => {
+    // thunk logic here
+
+    const { result, activeCharacter, activeOpponent } = getState().battle;
+
+    // ensure payload has needed values, and screen state 
+    if (result !== null) return;                    // terminal battle → stop
+    if (!activeCharacter || !activeOpponent) return; // missing combatants → stop
+
+
+    // ensure payload ids match battle particpants
+    const validIds = [activeCharacter.id, activeOpponent.id];
+
+    const isValidActor = validIds.includes(battleAction.actorId);
+    const isValidTarget = validIds.includes(battleAction.targetId);
+
+    if (!isValidActor || !isValidTarget) return;
+
+
+    dispatch(updateBattleState(battleAction)); // the thunk return 
+
+    // new state check 
+    const { result: r2, phase: p2, activeCharacter: aC2, activeOpponent: aO2, } = getState().battle;
+
+    // read fresh state for oppoent auto response
+    if (r2 === null && p2 === "idle" && aC2 && aO2) {
+
+      const testBattleAction_OpponentAutoAttack: BattleAction = {
+        actorId: aO2.id,
+        targetId: aC2.id,
+        actionDetails: { id: "auto attack", title: "Auto Slap", type: "auto" },
+        effects: { hp: -2 }
+      };
+
+      dispatch(updateBattleState(testBattleAction_OpponentAutoAttack));
+
+    }
+
+
+
+  }
+);
+
+// Battle Slice Stroe
 export const battleSlice = createSlice({
   name: 'battle',
-  initialState,
+  initialState: initialTestState,
   reducers: {
     setActiveCharacter: (state, action: PayloadAction<Character | null>) => {
       state.activeCharacter = action.payload;
@@ -93,9 +170,10 @@ export const battleSlice = createSlice({
       state.isPlayerTurn = !state.isPlayerTurn;
 
       // derive battle phase from current state
-      state.isPlayerTurn === true ? state.phase = "chooseAction" : state.phase = "idle"
+      state.isPlayerTurn === true ? state.phase = "chooseAction" : state.phase = "idle";
 
       // increment round if state.phase = "chooseAction"
+      if (state.round && state.isPlayerTurn) state.round++;
     }
   },
 });
@@ -106,6 +184,7 @@ export const {
   setActiveOpponent,
   togglePlayerTurn,
   logBattleAction,
+  updateBattleState,
 } = battleSlice.actions;
 
 export const selectActiveCharacter = (state: RootState) =>

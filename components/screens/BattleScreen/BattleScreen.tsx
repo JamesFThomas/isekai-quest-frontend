@@ -8,6 +8,8 @@ import useProtectedRoute from '@/lib/hooks/useProtectedRoute';
 import { BattleAction, performBattleAction } from '@/lib/features/battle/BattleSlice';
 
 import { useAppDispatch } from '@/lib/reduxHooks';
+import Battlefield from './components/Battlefield';
+import HeadsUpDisplay from './components/HeadsUpDisplay';
 
 const testBattleAction_PlayerHitsOpponent: BattleAction = {
   actorId: "char-1",
@@ -29,21 +31,8 @@ export default function BattleScreen() {
 
   return (
     <div className='flex flex-col h-screen'>
-      <div
-        id='Battlefield'
-        className="basis-3/4 bg-blue-200"
-      >
-        <h1 className='text-4xl font-bold'>Battlefield</h1>
-        <BackButton />
-        <div className={`${styles.paladin} ${styles.paladinAttack}`} />
-      </div>
-      <div
-        id='HUD'
-        className="basis-1/4 bg-green-200"
-      >
-        <h2 className='text-4xl font-bold'>Heads Up Display</h2>
-        <button onClick={testCall}> Test Call</button>
-      </div>
+      <Battlefield />
+      < HeadsUpDisplay />
     </div>
   );
 }

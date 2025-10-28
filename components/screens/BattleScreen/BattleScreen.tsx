@@ -28,7 +28,6 @@ export default function BattleScreen() {
     dispatch(performBattleAction(testBattleAction_PlayerHitsOpponent));
   }
 
-
   return (
     <div className='flex flex-col h-screen'>
       <Battlefield />

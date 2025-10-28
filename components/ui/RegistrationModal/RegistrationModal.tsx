@@ -48,8 +48,8 @@ export default function RegistrationModal({
     setIsLoading(true);
     setTimeout(() => {
       const newCharacter = {
-        characterId: `${Math.floor(Math.random() * 10000)}`,
-        characterName: playerData?.characterName || 'Default Character',
+        id: `${Math.floor(Math.random() * 10000)}`,
+        name: playerData?.characterName || 'Default Character',
         avatar: playerData?.avatar || '/default-avatar.png',
         hp: 100, // Default HP
         mp: 50, // Default MP
@@ -72,7 +72,7 @@ export default function RegistrationModal({
 
   return (
     <div>
-      <Dialog open={isOpen} onClose={() => {}} className='relative z-10'>
+      <Dialog open={isOpen} onClose={() => { }} className='relative z-10'>
         <DialogBackdrop
           transition
           className='fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in'

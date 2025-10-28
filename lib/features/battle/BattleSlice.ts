@@ -34,7 +34,7 @@ const initialTestState: BattleState = {
   activeCharacter: {
     id: "char-1",
     name: "Adele the Dev",
-    avatar: "/avatars/adele.png",
+    avatar: "/character_avatars/necromancer_avatar2.png",
     hp: 30,
     mp: 10,
     baseAttackIds: ["basic-attack"],
@@ -44,6 +44,7 @@ const initialTestState: BattleState = {
   activeOpponent: {
     id: "opp-1",
     name: "Training Dummy",
+    avatar: '/character_avatars/snowElf_avatar2.png',
     hp: 25,
     mp: 0,
     attackIds: ["bonk"],

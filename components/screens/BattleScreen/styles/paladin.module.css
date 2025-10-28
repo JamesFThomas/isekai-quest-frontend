@@ -1,0 +1,26 @@
+/* /app/battle/styles/paladin.module.css */
+
+.paladin {
+    width: 600px;
+    height: 448px;
+    background-image: url('/sprites/paladin/paladin_slash_aligned.png');
+    background-repeat: no-repeat;
+    /* background-size: 1600% 100%; */
+    /* 16 frames in a single row */
+    /* image-rendering: auto; */
+}
+
+/* Looping attack at ~10 fps => 1.6s for 16 frames */
+.paladinAttack {
+    animation: paladin-slash 1s steps(16) infinite;
+}
+
+@keyframes paladin-slash {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: -9600px 0;
+    }
+}

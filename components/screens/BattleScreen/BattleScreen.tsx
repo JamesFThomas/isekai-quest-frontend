@@ -1,5 +1,7 @@
 'use client';
 
+import styles from './styles/paladin.module.css';
+
 import BackButton from '@/components/ui/BackButton/BackButton';
 import useProtectedRoute from '@/lib/hooks/useProtectedRoute';
 
@@ -14,14 +16,6 @@ const testBattleAction_PlayerHitsOpponent: BattleAction = {
   effects: { hp: -5 }
 };
 
-// Optional: use this to test the reverse direction
-// const testBattleAction_OpponentHitsPlayer: BattleAction = {
-//   actorId: "opp-1",
-//   targetId: "char-1",
-//   actionDetails: { id: "bonk", title: "Bonk", type: "attack" },
-//   effects: { hp: -4 }
-// };
-
 
 export default function BattleScreen() {
   // useProtectedRoute();
@@ -29,18 +23,26 @@ export default function BattleScreen() {
   const dispatch = useAppDispatch();
 
   const testCall = () => {
-    // dispatch(updateBattleState(testBattleAction_PlayerHitsOpponent));
     dispatch(performBattleAction(testBattleAction_PlayerHitsOpponent));
   }
 
 
   return (
-    <div className='flex flex-col items-center justify-center h-screen'>
-      <h1 className='text-4xl font-bold'>Battle Screen</h1>
-      <p className='mt-4'>Coming Soon!</p>
-      <div className='mt-2'>
-        <button onClick={testCall}> Test Call</button>
+    <div className='flex flex-col h-screen'>
+      <div
+        id='Battlefield'
+        className="basis-3/4 bg-blue-200"
+      >
+        <h1 className='text-4xl font-bold'>Battlefield</h1>
         <BackButton />
+        <div className={`${styles.paladin} ${styles.paladinAttack}`} />
+      </div>
+      <div
+        id='HUD'
+        className="basis-1/4 bg-green-200"
+      >
+        <h2 className='text-4xl font-bold'>Heads Up Display</h2>
+        <button onClick={testCall}> Test Call</button>
       </div>
     </div>
   );

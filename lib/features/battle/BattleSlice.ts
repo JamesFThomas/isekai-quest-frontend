@@ -136,7 +136,7 @@ export const battleSlice = createSlice({
     },
     updateBattleState: (state, action: PayloadAction<BattleAction>) => {
       // identify the action target
-      let target, actor, logEntry;
+      let target, actor;
 
       // set the actor
       action.payload.actorId === state.activeCharacter?.id ? actor = state.activeCharacter
@@ -163,7 +163,7 @@ export const battleSlice = createSlice({
       }
 
       // update battle log
-      logEntry = `${actor?.name} performed ${action.payload.actionDetails.title} on ${target?.name}`
+      const logEntry = `${actor?.name} performed ${action.payload.actionDetails.title} on ${target?.name}`
       state.battleLog.push(logEntry)
 
 

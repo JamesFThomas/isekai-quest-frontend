@@ -30,7 +30,7 @@ export const characterSlice = createSlice({
     },
     removeCharacterFromParty: (state, action: PayloadAction<string>) => {
       state.party = state.party.filter(
-        (character) => character.characterId !== action.payload
+        (character) => character.id !== action.payload
       );
     },
   },

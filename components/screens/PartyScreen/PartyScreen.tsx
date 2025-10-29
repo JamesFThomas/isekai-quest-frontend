@@ -34,7 +34,7 @@ export default function PartyScreen() {
         <div className='character-grid p-4 flex flex-col md:flex-row md:space-x-6'>
           <figure className='character-image w-full md:w-1/3 flex items-center justify-center md:h-auto'>
             <Image
-              alt={activeCharacter?.characterName || 'Default Avatar'}
+              alt={activeCharacter?.name || 'Default Avatar'}
               src={activeCharacter?.avatar || '/default_avatar.png'}
               width={400}
               height={400}
@@ -43,7 +43,7 @@ export default function PartyScreen() {
           <div className='character-data w-full md:w-2/3'>
             <div className='mb-4'>
               <label className='block text-white text-sm font-bold mb-2'>
-                Name: {activeCharacter?.characterName || 'No Active Character'}
+                Name: {activeCharacter?.name || 'No Active Character'}
               </label>
             </div>
 
@@ -74,23 +74,23 @@ export default function PartyScreen() {
           {characterParty.length > 0 ? (
             characterParty.map((character) => (
               <button
-                key={character.characterId}
+                key={character.id}
                 className='flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-200'
                 onClick={() =>
                   console.log(
-                    `Party member icon clicked: ${character.characterName}`
+                    `Party member icon clicked: ${character.name}`
                   )
                 }
               >
                 <Image
                   className='flex items-center justify-center'
                   src={character.avatar}
-                  alt={character.characterName}
+                  alt={character.name}
                   width={200}
                   height={200}
                 />
                 <span className='text-center text-sm text-white font-bold mt-2'>
-                  {character.characterName}
+                  {character.name}
                 </span>
               </button>
             ))

@@ -1,17 +1,41 @@
 'use client';
 
-import BackButton from '@/components/ui/BackButton/BackButton';
-import useProtectedRoute from '@/lib/hooks/useProtectedRoute';
+// import styles from './styles/paladin.module.css';
+// import BackButton from '@/components/ui/BackButton/BackButton';
+// import useProtectedRoute from '@/lib/hooks/useProtectedRoute';
+
+// import { 
+//   BattleAction, 
+//   performBattleAction 
+// } from '@/lib/features/battle/BattleSlice';
+
+// import { useAppDispatch } from '@/lib/reduxHooks';
+import Battlefield from './components/Battlefield';
+import HeadsUpDisplay from './components/HeadsUpDisplay';
+
+// const testBattleAction_PlayerHitsOpponent: BattleAction = {
+//   actorId: "char-1",
+//   targetId: "opp-1",
+//   actionDetails: { id: "basic-attack", title: "Basic Attack", type: "attack" },
+//   effects: { hp: -5 }
+// };
+
 
 export default function BattleScreen() {
-  useProtectedRoute();
+  // useProtectedRoute();
+
+  // const dispatch = useAppDispatch();
+
+  // const testCall = () => {
+  //   dispatch(performBattleAction(testBattleAction_PlayerHitsOpponent));
+  // }
+
   return (
-    <div className='flex flex-col items-center justify-center h-screen'>
-      <h1 className='text-4xl font-bold'>Battle Screen</h1>
-      <p className='mt-4'>Coming Soon!</p>
-      <div className='mt-2'>
-        <BackButton />
-      </div>
+    <div
+      className="flex flex-col min-h-screen p-4 bg-[url('/battlescreen_images/forest_battle2.png')] bg-cover bg-center bg-no-repeat"
+    >
+      <Battlefield />
+      < HeadsUpDisplay />
     </div>
   );
 }

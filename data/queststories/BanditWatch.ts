@@ -2,7 +2,8 @@ import { Opponent } from '@/types/battle';
 import { QuestStory } from '@/types/quest';
 
 const mockOpponent: Opponent = {
-  opponentId: 'bandit-leader',
+  id: 'bandit-leader',
+  avatar: '/opponent_avatars/goblin_avatar.png',
   name: 'Bandit Leader',
   hp: 100,
   mp: 30,

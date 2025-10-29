@@ -136,15 +136,14 @@ export const battleSlice = createSlice({
     },
     updateBattleState: (state, action: PayloadAction<BattleAction>) => {
       // identify the action target
-      let target, actor;
 
       // set the actor
-      action.payload.actorId === state.activeCharacter?.id ? actor = state.activeCharacter
-        : actor = state.activeOpponent;
+      const actor = action.payload.actorId === state.activeCharacter?.id ? state.activeCharacter : state.activeOpponent;
+
 
       // set the target
-      action.payload.targetId === state.activeCharacter?.id ? target = state.activeCharacter
-        : target = state.activeOpponent;
+      const target = action.payload.targetId === state.activeCharacter?.id ? state.activeCharacter : state.activeOpponent;
+
 
 
       // apply action.payload.effects to the target
@@ -157,9 +156,10 @@ export const battleSlice = createSlice({
 
       // check for death
       if (!actor?.hp || !target?.hp) {
-        !actor?.hp && action.payload.actorId === state.activeCharacter?.id ? state.result = 'lose' : state.result = 'win'
+        state.result = !actor?.hp && action.payload.actorId === state.activeCharacter?.id ? 'lose' : 'win';
 
-        !target?.hp && action.payload.targetId === state.activeOpponent?.id ? state.result = 'win' : state.result = 'lose'
+        state.result = !target?.hp && action.payload.targetId === state.activeOpponent?.id ? 'win' : 'lose';
+
       }
 
       // update battle log
@@ -171,7 +171,8 @@ export const battleSlice = createSlice({
       state.isPlayerTurn = !state.isPlayerTurn;
 
       // derive battle phase from current state
-      state.isPlayerTurn === true ? state.phase = "chooseAction" : state.phase = "idle";
+      state.phase = state.isPlayerTurn ? 'chooseAction' : 'idle';
+
 
       // increment round if state.phase = "chooseAction"
       if (state.round && state.isPlayerTurn) state.round++;

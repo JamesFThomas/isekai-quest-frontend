@@ -5,4 +5,4 @@ export interface Opponent {
   hp: number;
   mp: number;
   attackIds: string[]; // Available attacks
-}{ actorId: action.payload.actorId, targetId: action.payload.targetId }
+}

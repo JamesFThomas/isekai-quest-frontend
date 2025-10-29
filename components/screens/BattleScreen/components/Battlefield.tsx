@@ -1,6 +1,5 @@
 import Image from 'next/image';
 
-import BackButton from "@/components/ui/BackButton/BackButton"
 // import styles from '../styles/paladin.module.css'
 
 const Battlefield = () => {

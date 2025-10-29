@@ -57,16 +57,16 @@ const initialTestState: BattleState = {
 };
 
 
-const initialState: BattleState = {
-  battleId: null,
-  activeCharacter: null,
-  activeOpponent: null,
-  isPlayerTurn: true,
-  battleLog: [],
-  phase: null,
-  result: null,
-  round: null
-};
+// const initialState: BattleState = {
+//   battleId: null,
+//   activeCharacter: null,
+//   activeOpponent: null,
+//   isPlayerTurn: true,
+//   battleLog: [],
+//   phase: null,
+//   result: null,
+//   round: null
+// };
 
 export const performBattleAction = createAsyncThunk<
   void,                // return type

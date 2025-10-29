@@ -135,16 +135,9 @@ export const battleSlice = createSlice({
       state.battleLog.push(action.payload);
     },
     updateBattleState: (state, action: PayloadAction<BattleAction>) => {
-      // identify the action target
-
-      // set the actor
+      // identify the action target - set the actor & target
       const actor = action.payload.actorId === state.activeCharacter?.id ? state.activeCharacter : state.activeOpponent;
-
-
-      // set the target
       const target = action.payload.targetId === state.activeCharacter?.id ? state.activeCharacter : state.activeOpponent;
-
-
 
       // apply action.payload.effects to the target
       if (target && action.payload.effects.hp) {

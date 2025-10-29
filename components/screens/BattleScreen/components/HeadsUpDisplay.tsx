@@ -17,7 +17,7 @@ const HeadsUpDisplay = ({ testCall }: HeadsUpDisplayProps) => {
     return (
         <div
             id="HUD"
-            className="h-full box-border flex flex-col md:flex-row gap-3"
+            className="basis-1/4 box-border flex flex-col md:flex-row gap-3 md:gap-0"
         >
 
 
@@ -32,14 +32,13 @@ const HeadsUpDisplay = ({ testCall }: HeadsUpDisplayProps) => {
                 />
             }
 
-            <BattleActionsPanel isVisible={true} className="basis-full md:basis-[40%] shrink-0 md:order-none" />
+            <BattleActionsPanel isVisible={true} className="basis-full md:basis-[40%] shrink-0 md:order-none bg-transparent" />
 
 
             {activeOpponent &&
                 <BattleStatsPanel
                     title="Opponent Stats"
                     className="basis-full md:basis-[30%] shrink-0"
-
                     subject={activeOpponent}
                 />
             }

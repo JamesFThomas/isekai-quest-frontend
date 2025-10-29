@@ -7,9 +7,8 @@ const Battlefield = () => {
     return (
         <div
             id='Battlefield'
-            className="basis-3/4"
+            className="flex-1"
         >
-            <BackButton />
             {/* <div className={`${styles.paladin} ${styles.paladinAttack}`} /> */}
             <div
                 id='image-rail'

@@ -30,7 +30,7 @@ export default function BattleScreen() {
 
   return (
     <div
-      className="flex flex-col h-screen p-4 bg-[url('/battlescreen_images/forest_battle2.png')] bg-cover bg-center bg-no-repeat"
+      className="flex flex-col min-h-screen p-4 bg-[url('/battlescreen_images/forest_battle2.png')] bg-cover bg-center bg-no-repeat"
     >
       <Battlefield />
       < HeadsUpDisplay />

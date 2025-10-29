@@ -17,28 +17,31 @@ const HeadsUpDisplay = ({ testCall }: HeadsUpDisplayProps) => {
     return (
         <div
             id="HUD"
-            className="basis-1/4 box-border flex flex-col md:flex-row gap-3 md:gap-0"
+            className="shrink-0 box-border flex flex-col md:flex-row md:justify-between gap-3 md:gap-6 xl:gap-12"
+
         >
-
-
 
             {activeCharacter &&
 
                 <BattleStatsPanel
                     title="Player Stats"
-                    className="basis-full md:basis-[30%] shrink-0"
+                    className="basis-full md:basis-[27%] shrink-0"
+
 
                     subject={activeCharacter}
                 />
             }
 
-            <BattleActionsPanel isVisible={true} className="basis-full md:basis-[40%] shrink-0 md:order-none bg-transparent" />
+            <BattleActionsPanel
+                isVisible={true}
+                className="basis-full md:basis-[34%] shrink-0"
+            />
 
 
             {activeOpponent &&
                 <BattleStatsPanel
                     title="Opponent Stats"
-                    className="basis-full md:basis-[30%] shrink-0"
+                    className="basis-full md:basis-[27%] shrink-0"
                     subject={activeOpponent}
                 />
             }

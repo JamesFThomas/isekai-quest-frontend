@@ -15,16 +15,20 @@ import Image from 'next/image';
 
 interface BattleActionsModalProps {
     isOpen: boolean;
+    player: string;
     type: 'Attack' | 'Skill' | 'Item';
     modalOptions: string[] | undefined
     closeModal: Dispatch<SetStateAction<boolean>>;
+    handleActionSelect: (actionId: string) => void
 }
 
 export default function BattleActionsModal({
     isOpen,
     type,
     modalOptions,
+    player,
     closeModal,
+    handleActionSelect
 }: BattleActionsModalProps) {
     // const [isLoading, setIsLoading] = useState(false);
 
@@ -33,6 +37,8 @@ export default function BattleActionsModal({
     const setOpen = () => {
         closeModal(!isOpen);
     };
+
+    const noAvailableOptions = !modalOptions || modalOptions.length === 0;
 
     // const handleOptionSelect = (option: string) => {
     //     // setSelectedAction(option);
@@ -49,9 +55,22 @@ export default function BattleActionsModal({
     //     }, 1500);
     // };
 
+    // const testBattleAction_PlayerHitsOpponent: BattleAction = {
+    //   actorId: "char-1",
+    //   targetId: "opp-1",
+    //   actionDetails: { id: "basic-attack", title: "Basic Attack", type: "attack" },
+    //   effects: { hp: -5 }
+    // };
+
+    // const dispatch = useAppDispatch();
+
+    // const testCall = () => {
+    //   dispatch(performBattleAction(testBattleAction_PlayerHitsOpponent));
+    // }
+
     return (
         <div>
-            <Dialog open={isOpen} onClose={() => { }} className='relative z-10'>
+            <Dialog open={isOpen} onClose={setOpen} className='relative z-10'>
                 <DialogBackdrop
                     transition
                     className='fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in'
@@ -81,11 +100,12 @@ export default function BattleActionsModal({
                                     </div>
                                 </div>
                                 {
-                                    !modalOptions || !modalOptions.length && <div>No options available.</div>
+                                    noAvailableOptions && <div> {player} have no {type}s </div>
                                 }
                                 {modalOptions?.map((option, _ind) => (
                                     <button
-                                        // onClick={() => handleAvatarSelect(avatar.src)}
+                                        type="button"
+                                        onClick={() => handleActionSelect(option)}
                                         key={`${option}-${_ind}`}
                                         className='flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-200'
                                     >

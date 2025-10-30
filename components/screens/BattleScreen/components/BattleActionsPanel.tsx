@@ -3,10 +3,15 @@ import { useRouter } from "next/navigation"
 import {
     selectCharacterAttacks,
     selectCharacterSkills,
-    selectCharacterPotions
+    selectCharacterPotions,
+    selectActiveCharacter,
+    selectActiveOpponent,
+    performBattleAction
 } from "@/lib/features/battle/BattleSlice"
 
-import { useAppSelector } from "@/lib/reduxHooks";
+
+
+import { useAppSelector, useAppDispatch } from "@/lib/reduxHooks";
 import { useState } from "react";
 import BattleActionsModal from "./BattleActionsModal";
 
@@ -17,6 +22,7 @@ interface BattleActionsPanelProps {
 
 const BattleActionsPanel = ({ isVisible, className }: BattleActionsPanelProps) => {
     const router = useRouter();
+    const dispatch = useAppDispatch();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalOptions, setModalOptions] = useState<string[]>()
@@ -25,6 +31,8 @@ const BattleActionsPanel = ({ isVisible, className }: BattleActionsPanelProps) =
     const characterAttacks = useAppSelector(selectCharacterAttacks);
     const characterSkills = useAppSelector(selectCharacterSkills);
     const characterPotions = useAppSelector(selectCharacterPotions);
+    const activeCharacter = useAppSelector(selectActiveCharacter);
+    const activeOpponent = useAppSelector(selectActiveOpponent);
 
     const handleModalState = () => {
         setIsModalOpen(!isModalOpen);
@@ -46,6 +54,28 @@ const BattleActionsPanel = ({ isVisible, className }: BattleActionsPanelProps) =
         setModalOptions(characterPotions ?? []);
         handleModalState();
         setModalType('Item');
+    }
+
+    const handleActionSelect = (actionId: string) => {
+        // Once testing create a proper action object based on selected action
+        const battleAction = {
+            actorId: activeCharacter?.id ?? '',
+            targetId: activeOpponent?.id ?? '',
+            actionDetails: {
+                id: actionId,
+                title: actionId,
+                type: modalType.toLowerCase()
+            },
+            effects: { hp: -5 }
+        }
+
+        if (battleAction.actorId === '' || battleAction.targetId === '') {
+            console.error("Invalid battle action: missing actorId or targetId");
+            return;
+        }
+
+        dispatch(performBattleAction(battleAction));
+        handleModalState();
     }
 
     return (
@@ -76,6 +106,8 @@ const BattleActionsPanel = ({ isVisible, className }: BattleActionsPanelProps) =
                 closeModal={setIsModalOpen}
                 modalOptions={modalOptions}
                 type={modalType}
+                handleActionSelect={handleActionSelect}
+                player={activeCharacter?.name ?? 'Player'}
             />
 
         </div >

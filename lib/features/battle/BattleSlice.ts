@@ -37,9 +37,12 @@ const initialTestState: BattleState = {
     avatar: "/character_avatars/paladin_avatar2.png",
     hp: 30,
     mp: 10,
-    baseAttackIds: ["basic-attack"],
-    equippedWeaponId: "wooden-sword",
-    learnedSkillIds: ["focus"],
+    attacks: ["basic-attack", "heavy-swing", "quick-stab"],
+    equippedWeapon: "wooden-sword",
+    skills: [],
+    inventory: {
+      potions: ["small-health-potion", "small-mana-potion", "antidote"],
+    }
   },
   activeOpponent: {
     id: "opp-1",
@@ -191,6 +194,16 @@ export const selectActiveOpponent = (state: RootState) =>
 export const selectIsPlayerTurn = (state: RootState) =>
   state.battle.isPlayerTurn;
 
-export const selectBattleLog = (state: RootState) => state.battle.battleLog;
+export const selectBattleLog = (state: RootState) =>
+  state.battle.battleLog;
+
+export const selectCharacterAttacks = (state: RootState) =>
+  state.battle.activeCharacter?.attacks;
+
+export const selectCharacterSkills = (state: RootState) =>
+  state.battle.activeCharacter?.skills;
+
+export const selectCharacterPotions = (state: RootState) =>
+  state.battle.activeCharacter?.inventory?.potions;
 
 export default battleSlice.reducer;

@@ -62,9 +62,9 @@ export default function PartyScreen() {
             <div className='mb-4'>
               <label className='block text-white text-sm font-bold mb-2'>
                 Attacks:
-                {activeCharacter?.baseAttackIds &&
-                  activeCharacter.baseAttackIds.length > 0
-                  ? activeCharacter.baseAttackIds.join(', ')
+                {activeCharacter?.attacks &&
+                  activeCharacter.attacks.length > 0
+                  ? activeCharacter.attacks.join(', ')
                   : 'None'}
               </label>
             </div>

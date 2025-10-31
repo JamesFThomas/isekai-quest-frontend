@@ -37,11 +37,11 @@ const initialTestState: BattleState = {
     avatar: "/character_avatars/paladin_avatar2.png",
     hp: 30,
     mp: 10,
-    attacks: ["basic-attack", "heavy-swing", "quick-stab"],
+    attacks: ["basic-attack", "heavy-swing", "quick-stab", "power-strike", "mighty-blow", "sneak-attack"],
     equippedWeapon: "wooden-sword",
     skills: [],
     inventory: {
-      potions: ["small-health-potion", "small-mana-potion", "antidote"],
+      potions: ["small-health-potion", "small-mana-potion", "antidote", "small-health-potion", "small-health-potion"],
     }
   },
   activeOpponent: {

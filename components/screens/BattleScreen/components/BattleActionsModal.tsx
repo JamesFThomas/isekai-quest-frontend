@@ -99,36 +99,49 @@ export default function BattleActionsModal({
 
                                     </div>
                                 </div>
-                                {
-                                    noAvailableOptions && <div> {player} have no {type}s </div>
-                                }
-                                {modalOptions?.map((option, _ind) => (
-                                    <button
-                                        type="button"
-                                        onClick={() => handleActionSelect(option)}
-                                        key={`${option}-${_ind}`}
-                                        className='flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-200'
-                                    >
-                                        {/* Use Image later when Attacks, Skills, Potions have avatars */}
-                                        {/* <Image
+                                <div
+                                    id='action button wrapper'
+                                    // className="flex flex-wrap justify-center gap-4 [&>*]:basis-1/4 [&>*]:shrink-0"
+                                    className="flex flex-wrap justify-center gap-4 sm:gap-5 py-2 [&>*]:basis-1/4 [&>*]:shrink-0"
+
+                                >
+                                    {
+                                        noAvailableOptions && <div> {player} have no {type}s </div>
+                                    }
+                                    {modalOptions?.map((option, _ind) => (
+                                        <button
+                                            type="button"
+                                            onClick={() => handleActionSelect(option)}
                                             key={`${option}-${_ind}`}
-                                            className='flex items-center justify-center'
-                                            style={{
-                                                border:
-                                                    selectedAction === option
-                                                        ? '3px solid #FCE300'
-                                                        : 'none',
-                                            }}
-                                            alt={''}
-                                            src={''}
-                                            width={200}
-                                            height={200}
-                                        /> */}
-                                        <span className='text-center text-sm text-white font-bold mt-2'>
-                                            {option}
-                                        </span>
-                                    </button>
-                                ))}
+                                            className="inline-flex flex-col items-center justify-center
+                                                min-w-[fit-content] p-4
+                                                rounded-md
+                                                bg-transparent hover:bg-slate-200/20
+                                                text-sm font-bold text-white
+                                                
+                                                transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
+                                        >
+                                            <Image
+                                                key={`${option}-${_ind}`}
+                                                className='flex items-center justify-center'
+                                                // style={{
+                                                //     border:
+                                                //         selectedAction === option
+                                                //             ? '3px solid #FCE300'
+                                                //             : 'none',
+                                                // }}
+                                                alt={''}
+                                                src={'/battleaction_icons/sword_icon2.png'}
+                                                width={50}
+                                                height={50}
+                                            />
+                                            <span className="mt-2 text-sm text-white font-bold text-center"
+                                            >
+                                                {option}
+                                            </span>
+                                        </button>
+                                    ))}
+                                </div>
                             </div>
                             <div className=' px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6'>
                                 <button

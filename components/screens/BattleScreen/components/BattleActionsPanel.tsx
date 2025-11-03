@@ -61,7 +61,7 @@ const BattleActionsPanel = ({ isVisible, className }: BattleActionsPanelProps) =
         const battleAction = {
             actorId: activeCharacter?.id ?? '',
             targetId: activeOpponent?.id ?? '',
-            actionDetails: {
+            details: {
                 id: actionId,
                 title: actionId,
                 type: modalType.toLowerCase()

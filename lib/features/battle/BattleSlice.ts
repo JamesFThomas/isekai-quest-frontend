@@ -4,60 +4,13 @@ import type { RootState } from '../../store';
 import { Character } from '@/types/character';
 import { Opponent } from '@/types/battle';
 
-type BattlePhase = null | 'idle' | 'chooseAction' | 'resolving' | 'result';
-type BattleResult = null | 'win' | 'lose' | 'flee';
-
-export interface BattleState // battleSlice initial state shape (typo/casing fixes)
-{
-  battleId: string | null,
-  activeCharacter: Character | null,   // fixed: activeCharater → activeCharacter
-  activeOpponent: Opponent | null,    // fixed: activeOpenent → activeOpponent
-  isPlayerTurn: boolean,
-  battleLog: string[],                  // fixed: battlelog → battleLog
-  phase?: BattlePhase,
-  result: BattleResult,
-  round?: number | null
-}
-
-export interface BattleAction {
-  actorId: string;
-  targetId: string;
-  actionDetails: { id: string, title: string, type: string };
-  effects: {
-    hp?: number,
-    mp?: number
-  }
-}
-
-const initialTestState: BattleState = {
-  battleId: "test-001",
-  activeCharacter: {
-    id: "char-1",
-    name: "Adele the Dev",
-    avatar: "/character_avatars/paladin_avatar2.png",
-    hp: 30,
-    mp: 10,
-    attacks: ["basic-attack", "heavy-swing", "quick-stab", "power-strike", "mighty-blow", "sneak-attack"],
-    equippedWeapon: "wooden-sword",
-    skills: [],
-    inventory: {
-      potions: ["small-health-potion", "small-mana-potion", "antidote", "small-health-potion", "small-health-potion"],
-    }
-  },
-  activeOpponent: {
-    id: "opp-1",
-    name: "Training Dummy",
-    avatar: '/opponent_avatars/goblin_avatar.png',
-    hp: 25,
-    mp: 0,
-    attackIds: ["bonk"],
-  },
-  isPlayerTurn: true,
-  battleLog: [],
-  phase: "chooseAction",
-  result: null,
-  round: 1
-};
+import {
+  // BattlePhase,
+  // BattleResult,
+  BattleAction,
+  // BattleState,
+  initialTestState
+} from '@/types/battle';
 
 
 // const initialState: BattleState = {
@@ -107,7 +60,7 @@ export const performBattleAction = createAsyncThunk<
       const testBattleAction_OpponentAutoAttack: BattleAction = {
         actorId: aO2.id,
         targetId: aC2.id,
-        actionDetails: { id: "auto attack", title: "Auto Slap", type: "auto" },
+        details: { id: "auto attack", title: "Auto Slap", type: "auto" },
         effects: { hp: -2 }
       };
 
@@ -159,7 +112,7 @@ export const battleSlice = createSlice({
       }
 
       // update battle log
-      const logEntry = `${actor?.name} performed ${action.payload.actionDetails.title} on ${target?.name}`
+      const logEntry = `${actor?.name} performed ${action.payload.details.title} on ${target?.name}`
       state.battleLog.push(logEntry)
 
 

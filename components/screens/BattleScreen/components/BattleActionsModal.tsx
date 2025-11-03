@@ -101,9 +101,7 @@ export default function BattleActionsModal({
                                 </div>
                                 <div
                                     id='action button wrapper'
-                                    // className="flex flex-wrap justify-center gap-4 [&>*]:basis-1/4 [&>*]:shrink-0"
                                     className="flex flex-wrap justify-center gap-4 sm:gap-5 py-2 [&>*]:basis-1/4 [&>*]:shrink-0"
-
                                 >
                                     {
                                         noAvailableOptions && <div> {player} have no {type}s </div>
@@ -124,12 +122,6 @@ export default function BattleActionsModal({
                                             <Image
                                                 key={`${option}-${_ind}`}
                                                 className='flex items-center justify-center'
-                                                // style={{
-                                                //     border:
-                                                //         selectedAction === option
-                                                //             ? '3px solid #FCE300'
-                                                //             : 'none',
-                                                // }}
                                                 alt={''}
                                                 src={'/battleaction_icons/sword_icon2.png'}
                                                 width={50}

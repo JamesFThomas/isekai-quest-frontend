@@ -2,16 +2,9 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../../store';
 import { Character } from '@/types/character';
-import { Opponent } from '@/types/battle';
+import { BattleAction, Opponent } from '@/types/battle';
 
-import {
-  // BattlePhase,
-  // BattleResult,
-  BattleAction,
-  // BattleState,
-  initialTestState
-} from '@/types/battle';
-
+import { initialTestState } from '@/data/battleTestData';
 
 // const initialState: BattleState = {
 //   battleId: null,
@@ -61,7 +54,7 @@ export const performBattleAction = createAsyncThunk<
         actorId: aO2.id,
         targetId: aC2.id,
         details: { id: "auto attack", title: "Auto Slap", type: "auto" },
-        effects: { hp: -2 }
+        effect: { hp: -2 }
       };
 
       dispatch(updateBattleState(testBattleAction_OpponentAutoAttack));
@@ -96,11 +89,11 @@ export const battleSlice = createSlice({
       const target = action.payload.targetId === state.activeCharacter?.id ? state.activeCharacter : state.activeOpponent;
 
       // apply action.payload.effects to the target
-      if (target && action.payload.effects.hp) {
-        target.hp += action.payload.effects.hp
+      if (target && action.payload.effect.hp) {
+        target.hp += action.payload.effect.hp
       }
-      if (target && action.payload.effects.mp) {
-        target.mp += action.payload.effects.mp
+      if (target && action.payload.effect.mp) {
+        target.mp += action.payload.effect.mp
       }
 
       // check for death

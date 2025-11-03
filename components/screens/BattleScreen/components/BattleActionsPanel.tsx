@@ -14,6 +14,7 @@ import {
 import { useAppSelector, useAppDispatch } from "@/lib/reduxHooks";
 import { useState } from "react";
 import BattleActionsModal from "./BattleActionsModal";
+import { BattleAction, BattleOption } from "@/types/battle";
 
 interface BattleActionsPanelProps {
     isVisible: boolean
@@ -25,7 +26,7 @@ const BattleActionsPanel = ({ isVisible, className }: BattleActionsPanelProps) =
     const dispatch = useAppDispatch();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalOptions, setModalOptions] = useState<string[]>()
+    const [modalOptions, setModalOptions] = useState<BattleOption[]>()
     const [modalType, setModalType] = useState<'Attack' | 'Skill' | 'Item'>('Attack');
 
     const characterAttacks = useAppSelector(selectCharacterAttacks);
@@ -56,17 +57,18 @@ const BattleActionsPanel = ({ isVisible, className }: BattleActionsPanelProps) =
         setModalType('Item');
     }
 
-    const handleActionSelect = (actionId: string) => {
-        // Once testing create a proper action object based on selected action
-        const battleAction = {
+    const handleActionSelect = (battleOption: BattleOption) => {
+
+        // Create BattleAction object and dispatch action
+        const battleAction: BattleAction = {
             actorId: activeCharacter?.id ?? '',
             targetId: activeOpponent?.id ?? '',
             details: {
-                id: actionId,
-                title: actionId,
-                type: modalType.toLowerCase()
+                id: battleOption.id,
+                title: battleOption.title,
+                type: battleOption.type
             },
-            effects: { hp: -5 }
+            effect: battleOption.effect
         }
 
         if (battleAction.actorId === '' || battleAction.targetId === '') {

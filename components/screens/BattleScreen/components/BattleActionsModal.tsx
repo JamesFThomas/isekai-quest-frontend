@@ -12,14 +12,15 @@ import {
 import LoadingSpinner from '../../../ui/LoadingSpinner/LoadingSpinner';
 import { QuestStory } from '@/types/quest';
 import Image from 'next/image';
+import { BattleOption } from '@/types/battle';
 
 interface BattleActionsModalProps {
     isOpen: boolean;
     player: string;
     type: 'Attack' | 'Skill' | 'Item';
-    modalOptions: string[] | undefined
+    modalOptions: BattleOption[] | undefined
     closeModal: Dispatch<SetStateAction<boolean>>;
-    handleActionSelect: (actionId: string) => void
+    handleActionSelect: (battleOption: BattleOption) => void;
 }
 
 export default function BattleActionsModal({
@@ -106,30 +107,30 @@ export default function BattleActionsModal({
                                     {
                                         noAvailableOptions && <div> {player} have no {type}s </div>
                                     }
-                                    {modalOptions?.map((option, _ind) => (
+                                    {modalOptions?.map((option) => (
                                         <button
                                             type="button"
                                             onClick={() => handleActionSelect(option)}
-                                            key={`${option}-${_ind}`}
+                                            key={`${option.id}-${option.title}`}
                                             className="inline-flex flex-col items-center justify-center
-                                                min-w-[fit-content] p-4
-                                                rounded-md
-                                                bg-transparent hover:bg-slate-200/20
-                                                text-sm font-bold text-white
-                                                
-                                                transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
+                                            min-w-[fit-content] p-4
+                                            rounded-md
+                                            bg-transparent hover:bg-slate-200/20
+                                            text-sm font-bold text-white
+                                            
+                                            transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
                                         >
                                             <Image
-                                                key={`${option}-${_ind}`}
+                                                key={`${option.id}-${option.title}`}
                                                 className='flex items-center justify-center'
                                                 alt={''}
-                                                src={'/battleaction_icons/sword_icon2.png'}
+                                                src={option.icon}
                                                 width={50}
                                                 height={50}
                                             />
                                             <span className="mt-2 text-sm text-white font-bold text-center"
                                             >
-                                                {option}
+                                                {option.title}
                                             </span>
                                         </button>
                                     ))}

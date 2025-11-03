@@ -8,15 +8,6 @@ export type BattleActionDetails = {
   type: string;
 }
 
-export interface Opponent {
-  id: string;
-  name: string;
-  avatar: string,
-  hp: number;
-  mp: number;
-  attackIds: string[]; // Available attacks
-}
-
 export interface BattleState // battleSlice initial state shape (typo/casing fixes)
 {
   battleId: string | null,
@@ -31,7 +22,7 @@ export interface BattleState // battleSlice initial state shape (typo/casing fix
 
 export interface BattleOption {
   id: string;
-  src: string;
+  icon: string;
   title: string;
   type: string;
   effect: number;
@@ -52,6 +43,47 @@ export interface BattleAction {
   }
 }
 
+export interface Opponent {
+  id: string;
+  name: string;
+  avatar: string,
+  hp: number;
+  mp: number;
+  attacks: BattleOption[]; // Available attacks
+}
+
+const testAttack: BattleOption = {
+  id: "basic-attack",
+  icon: "/battle_actions/basic-attack.png",
+  title: "Basic Attack",
+  type: "attack",
+  effect: { hp: -7 }
+};
+
+const testOpponentAttack: BattleOption = {
+  id: "bonk",
+  icon: "/battle_actions/bonk.png",
+  title: "Bonk",
+  type: "attack",
+  effect: { hp: -4 }
+};
+
+const testSkill: BattleOption = {
+  id: "evade attack",
+  icon: "/battle_actions/evade-attack.png",
+  title: "Evade Attack",
+  type: "skill",
+  effect: { mp: -2 }
+};
+
+const testPotion: BattleOption = {
+  id: "small-health-potion",
+  icon: "/battle_actions/small-health-potion.png",
+  title: "Health Potion/S",
+  type: "potion",
+  effect: { hp: +3 }
+};
+
 export const initialTestState: BattleState = {
   battleId: "test-001",
   activeCharacter: {
@@ -60,11 +92,11 @@ export const initialTestState: BattleState = {
     avatar: "/character_avatars/paladin_avatar2.png",
     hp: 30,
     mp: 10,
-    attacks: ["basic-attack", "heavy-swing", "quick-stab", "power-strike", "mighty-blow", "sneak-attack"],
+    attacks: [testAttack],
     equippedWeapon: "wooden-sword",
-    skills: [],
+    skills: [testSkill],
     inventory: {
-      potions: ["small-health-potion", "small-mana-potion", "antidote", "small-health-potion", "small-health-potion"],
+      potions: [testPotion],
     }
   },
   activeOpponent: {
@@ -73,7 +105,7 @@ export const initialTestState: BattleState = {
     avatar: '/opponent_avatars/goblin_avatar.png',
     hp: 25,
     mp: 0,
-    attackIds: ["bonk"],
+    attacks: [testOpponentAttack],
   },
   isPlayerTurn: true,
   battleLog: [],

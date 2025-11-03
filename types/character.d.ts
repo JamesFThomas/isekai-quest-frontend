@@ -1,12 +1,14 @@
+import { BattleOption } from "./battle";
+
 export interface Character {
   id: string;
   name: string;
   avatar: string;
   hp: number;
   mp: number;
-  attacks?: string[];
+  attacks?: BattleOption[];
   equippedWeapon?: string;
-  skills?: string[];
+  skills?: BattleOption[];
   inventory?: Inventory;
 }
 
@@ -16,7 +18,7 @@ export interface Inventory {
   weapons?: string[]; // Unequipped weapons
   equipment?: string[]; // Armor, accessories, etc.
   rations?: number; // Count of Rations for out-of-battle healing
-  potions?: string[]; // Potions with specific effects (stored by ID)
+  potions?: BattleOption[]; // Potions with specific effects (stored by ID)
 }
 
 export interface Coins {

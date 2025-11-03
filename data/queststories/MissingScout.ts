@@ -7,7 +7,7 @@ const mockOpponent: Opponent = {
   name: 'Bandit Leader',
   hp: 100,
   mp: 30,
-  attackIds: ['slash', 'intimidate'],
+  attacks: ['slash', 'intimidate'],
 };
 
 export const missingScoutQuest: QuestStory = {

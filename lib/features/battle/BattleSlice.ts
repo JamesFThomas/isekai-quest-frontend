@@ -4,7 +4,6 @@ import type { RootState } from '../../store';
 import { Character } from '@/types/character';
 import { BattleAction, BattleState, Opponent } from '@/types/battle';
 
-// import { initialTestState } from '@/data/battleTestData';
 
 const initialState: BattleState = {
   battleId: null,

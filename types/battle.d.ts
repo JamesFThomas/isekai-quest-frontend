@@ -57,3 +57,4 @@ export interface Opponent {
   mp: number;
   attacks: BattleOption[]; // Available attacks
 }
+

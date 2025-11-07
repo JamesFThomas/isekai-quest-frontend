@@ -1,6 +1,6 @@
 'use client';
 
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 
 import {
     Dialog,
@@ -9,8 +9,6 @@ import {
     DialogTitle,
 } from '@headlessui/react';
 
-import LoadingSpinner from '../../../ui/LoadingSpinner/LoadingSpinner';
-import { QuestStory } from '@/types/quest';
 import Image from 'next/image';
 import { BattleOption } from '@/types/battle';
 

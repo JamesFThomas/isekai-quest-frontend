@@ -1,4 +1,6 @@
 import { BattleOption, BattleState } from "@/types/battle";
+import { block, evade } from "./gameData/skills";
+import { headButt, witherTouch, fistSmash, quickJab, forstPalm, holyJab } from "./gameData/attacks";
 
 const testAttack: BattleOption = {
     id: "basic-attack",
@@ -40,9 +42,9 @@ export const initialTestState: BattleState = {
         avatar: "/character_avatars/paladin_avatar2.png",
         hp: 30,
         mp: 10,
-        attacks: [testAttack],
+        attacks: [headButt, witherTouch, fistSmash, quickJab, forstPalm, holyJab],
         equippedWeapon: "wooden-sword",
-        skills: [testSkill],
+        skills: [evade, block],
         inventory: {
             potions: [testPotion],
         }

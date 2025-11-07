@@ -12,7 +12,7 @@ export const evade: BattleOption = {
 
 export const block: BattleOption = {
     id: "general-block",
-    icon: "/battleaction_icons/sword_icon2.png", // placeholder, update later
+    icon: "/battleaction_icons/block_icon.png", // placeholder, update later
     title: "Block",
     type: "skill",
     description: "Raise your guard to lessen the impact of the opponent's next attack.",

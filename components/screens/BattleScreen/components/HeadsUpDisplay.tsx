@@ -5,9 +5,6 @@ import { useAppSelector } from "@/lib/reduxHooks";
 
 import { selectActiveCharacter, selectActiveOpponent } from "@/lib/features/battle/BattleSlice";
 
-// interface HeadsUpDisplayProps {
-//     testCall?: () => void
-// }
 
 const HeadsUpDisplay = () => {
 

@@ -2,71 +2,19 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../../store';
 import { Character } from '@/types/character';
-import { Opponent } from '@/types/battle';
+import { BattleAction, BattleState, Opponent } from '@/types/battle';
 
-type BattlePhase = null | 'idle' | 'chooseAction' | 'resolving' | 'result';
-type BattleResult = null | 'win' | 'lose' | 'flee';
 
-export interface BattleState // battleSlice initial state shape (typo/casing fixes)
-{
-  battleId: string | null,
-  activeCharacter: Character | null,   // fixed: activeCharater → activeCharacter
-  activeOpponent: Opponent | null,    // fixed: activeOpenent → activeOpponent
-  isPlayerTurn: boolean,
-  battleLog: string[],                  // fixed: battlelog → battleLog
-  phase?: BattlePhase,
-  result: BattleResult,
-  round?: number | null
-}
-
-export interface BattleAction {
-  actorId: string;
-  targetId: string;
-  actionDetails: { id: string, title: string, type: string };
-  effects: {
-    hp?: number,
-    mp?: number
-  }
-}
-
-const initialTestState: BattleState = {
-  battleId: "test-001",
-  activeCharacter: {
-    id: "char-1",
-    name: "Adele the Dev",
-    avatar: "/character_avatars/paladin_avatar2.png",
-    hp: 30,
-    mp: 10,
-    baseAttackIds: ["basic-attack"],
-    equippedWeaponId: "wooden-sword",
-    learnedSkillIds: ["focus"],
-  },
-  activeOpponent: {
-    id: "opp-1",
-    name: "Training Dummy",
-    avatar: '/opponent_avatars/goblin_avatar.png',
-    hp: 25,
-    mp: 0,
-    attackIds: ["bonk"],
-  },
+const initialState: BattleState = {
+  battleId: null,
+  activeCharacter: null,
+  activeOpponent: null,
   isPlayerTurn: true,
   battleLog: [],
-  phase: "chooseAction",
+  phase: null,
   result: null,
-  round: 1
+  round: null
 };
-
-
-// const initialState: BattleState = {
-//   battleId: null,
-//   activeCharacter: null,
-//   activeOpponent: null,
-//   isPlayerTurn: true,
-//   battleLog: [],
-//   phase: null,
-//   result: null,
-//   round: null
-// };
 
 export const performBattleAction = createAsyncThunk<
   void,                // return type
@@ -101,14 +49,21 @@ export const performBattleAction = createAsyncThunk<
     // read fresh state for oppoent auto response
     if (r2 === null && p2 === "idle" && aC2 && aO2) {
 
-      const testBattleAction_OpponentAutoAttack: BattleAction = {
+      // TODO: improve opponent AI logic later with randomness, strategy, etc.
+      const opponentAttack = aO2.attacks[0];
+
+      const battleAction: BattleAction = {
         actorId: aO2.id,
         targetId: aC2.id,
-        actionDetails: { id: "auto attack", title: "Auto Slap", type: "auto" },
-        effects: { hp: -2 }
-      };
+        details: {
+          id: aO2.id,
+          title: opponentAttack.title,
+          type: opponentAttack.type
+        },
+        effect: opponentAttack.effect
+      }
 
-      dispatch(updateBattleState(testBattleAction_OpponentAutoAttack));
+      dispatch(updateBattleState(battleAction));
 
     }
 
@@ -120,7 +75,7 @@ export const performBattleAction = createAsyncThunk<
 // Battle Slice Stroe
 export const battleSlice = createSlice({
   name: 'battle',
-  initialState: initialTestState,
+  initialState: initialState,
   reducers: {
     setActiveCharacter: (state, action: PayloadAction<Character | null>) => {
       state.activeCharacter = action.payload;
@@ -135,23 +90,16 @@ export const battleSlice = createSlice({
       state.battleLog.push(action.payload);
     },
     updateBattleState: (state, action: PayloadAction<BattleAction>) => {
-      // identify the action target
-
-      // set the actor
+      // identify the action target - set the actor & target
       const actor = action.payload.actorId === state.activeCharacter?.id ? state.activeCharacter : state.activeOpponent;
-
-
-      // set the target
       const target = action.payload.targetId === state.activeCharacter?.id ? state.activeCharacter : state.activeOpponent;
 
-
-
       // apply action.payload.effects to the target
-      if (target && action.payload.effects.hp) {
-        target.hp += action.payload.effects.hp
+      if (target && action.payload.effect.hp) {
+        target.hp += action.payload.effect.hp
       }
-      if (target && action.payload.effects.mp) {
-        target.mp += action.payload.effects.mp
+      if (target && action.payload.effect.mp) {
+        target.mp += action.payload.effect.mp
       }
 
       // check for death
@@ -163,7 +111,7 @@ export const battleSlice = createSlice({
       }
 
       // update battle log
-      const logEntry = `${actor?.name} performed ${action.payload.actionDetails.title} on ${target?.name}`
+      const logEntry = `${actor?.name} performed ${action.payload.details.title} on ${target?.name}`
       state.battleLog.push(logEntry)
 
 
@@ -198,6 +146,16 @@ export const selectActiveOpponent = (state: RootState) =>
 export const selectIsPlayerTurn = (state: RootState) =>
   state.battle.isPlayerTurn;
 
-export const selectBattleLog = (state: RootState) => state.battle.battleLog;
+export const selectBattleLog = (state: RootState) =>
+  state.battle.battleLog;
+
+export const selectCharacterAttacks = (state: RootState) =>
+  state.battle.activeCharacter?.attacks;
+
+export const selectCharacterSkills = (state: RootState) =>
+  state.battle.activeCharacter?.skills;
+
+export const selectCharacterPotions = (state: RootState) =>
+  state.battle.activeCharacter?.inventory?.potions;
 
 export default battleSlice.reducer;

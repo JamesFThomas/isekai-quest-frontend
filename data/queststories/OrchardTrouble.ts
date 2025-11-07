@@ -1,14 +1,5 @@
-import { Opponent } from '@/types/battle';
 import { QuestStory } from '@/types/quest';
-
-const mockOpponent: Opponent = {
-  id: 'bandit-leader',
-  avatar: '/opponent_avatars/goblin_avatar.png',
-  name: 'Bandit Leader',
-  hp: 100,
-  mp: 30,
-  attackIds: ['slash', 'intimidate'],
-};
+import { goblin } from '../gameData/opponents';
 
 export const orchardTroubleQuest: QuestStory = {
   id: 'orchardTrouble',
@@ -43,7 +34,7 @@ export const orchardTroubleQuest: QuestStory = {
           nextPointId: 'bw-p5',
           outcome: {
             battle: {
-              opponent: mockOpponent,
+              opponent: goblin,
             },
           },
         },

@@ -1,32 +1,53 @@
+import { selectActiveOpponent, selectActiveCharacter } from '@/lib/features/battle/BattleSlice';
+import { useAppSelector } from '@/lib/reduxHooks';
 import Image from 'next/image';
 
-// import styles from '../styles/paladin.module.css'
 
 const Battlefield = () => {
+    const activeCharacter = useAppSelector(selectActiveCharacter);
+    const activeOpponent = useAppSelector(selectActiveOpponent);
+
+    const isBattlefieldActive = activeCharacter && activeOpponent;
+
+    if (!isBattlefieldActive) {
+        return null;
+    }
+
     return (
         <div
             id='Battlefield'
             className="flex-1"
         >
-            {/* <div className={`${styles.paladin} ${styles.paladinAttack}`} /> */}
             <div
                 id='image-rail'
                 className="h-full flex flex-col md:flex-row md:justify-between items-center p-6"
             >
+                {
+                    activeCharacter && (
 
-                <Image
-                    alt='Chosen player avatar'
-                    src={'/character_avatars/paladin_avatar3.png'}
-                    width={125}
-                    height={125}
-                />
-                <Image
-                    alt='Chosen player avatar'
-                    src={'/opponent_avatars/goblin_avatar.png'}
-                    className='transform -scale-x-100'
-                    width={125}
-                    height={125}
-                />
+                        <Image
+                            alt='Chosen player avatar'
+                            src={activeCharacter.avatar}
+                            width={125}
+                            height={125}
+                        />
+                    )
+
+
+                }
+
+                {
+                    activeOpponent && (
+                        <Image
+                            alt='Chosen player avatar'
+                            src={activeOpponent.avatar}
+                            className='transform -scale-x-100'
+                            width={125}
+                            height={125}
+                        />
+                    )
+                }
+
             </div>
         </div>
     )

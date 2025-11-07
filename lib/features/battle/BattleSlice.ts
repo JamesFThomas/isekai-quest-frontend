@@ -50,14 +50,21 @@ export const performBattleAction = createAsyncThunk<
     // read fresh state for oppoent auto response
     if (r2 === null && p2 === "idle" && aC2 && aO2) {
 
-      const testBattleAction_OpponentAutoAttack: BattleAction = {
+      // TODO: improve opponent AI logic later with randomness, strategy, etc.
+      const opponentAttack = aO2.attacks[0];
+
+      const battleAction: BattleAction = {
         actorId: aO2.id,
         targetId: aC2.id,
-        details: { id: "auto attack", title: "Auto Slap", type: "auto" },
-        effect: { hp: -2 }
-      };
+        details: {
+          id: aO2.id,
+          title: opponentAttack.title,
+          type: opponentAttack.type
+        },
+        effect: opponentAttack.effect
+      }
 
-      dispatch(updateBattleState(testBattleAction_OpponentAutoAttack));
+      dispatch(updateBattleState(battleAction));
 
     }
 

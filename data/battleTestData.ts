@@ -1,6 +1,7 @@
 import { BattleOption, BattleState } from "@/types/battle";
 import { block, evade } from "./gameData/skills";
 import { headButt, witherTouch, fistSmash, quickJab, forstPalm, holyJab } from "./gameData/attacks";
+import { goblin } from "./gameData/opponents";
 
 const testAttack: BattleOption = {
     id: "basic-attack",
@@ -49,14 +50,7 @@ export const initialTestState: BattleState = {
             potions: [testPotion],
         }
     },
-    activeOpponent: {
-        id: "opp-1",
-        name: "Training Dummy",
-        avatar: '/opponent_avatars/goblin_avatar.png',
-        hp: 25,
-        mp: 0,
-        attacks: [testOpponentAttack],
-    },
+    activeOpponent: goblin,
     isPlayerTurn: true,
     battleLog: [],
     phase: "chooseAction",

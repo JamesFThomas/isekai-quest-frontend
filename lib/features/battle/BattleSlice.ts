@@ -2,20 +2,20 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../../store';
 import { Character } from '@/types/character';
-import { BattleAction, Opponent } from '@/types/battle';
+import { BattleAction, BattleState, Opponent } from '@/types/battle';
 
-import { initialTestState } from '@/data/battleTestData';
+// import { initialTestState } from '@/data/battleTestData';
 
-// const initialState: BattleState = {
-//   battleId: null,
-//   activeCharacter: null,
-//   activeOpponent: null,
-//   isPlayerTurn: true,
-//   battleLog: [],
-//   phase: null,
-//   result: null,
-//   round: null
-// };
+const initialState: BattleState = {
+  battleId: null,
+  activeCharacter: null,
+  activeOpponent: null,
+  isPlayerTurn: true,
+  battleLog: [],
+  phase: null,
+  result: null,
+  round: null
+};
 
 export const performBattleAction = createAsyncThunk<
   void,                // return type
@@ -69,7 +69,7 @@ export const performBattleAction = createAsyncThunk<
 // Battle Slice Stroe
 export const battleSlice = createSlice({
   name: 'battle',
-  initialState: initialTestState,
+  initialState: initialState,
   reducers: {
     setActiveCharacter: (state, action: PayloadAction<Character | null>) => {
       state.activeCharacter = action.payload;

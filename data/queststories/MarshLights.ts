@@ -1,14 +1,6 @@
-import { Opponent } from '@/types/battle';
 import { QuestStory } from '@/types/quest';
+import { goblin } from '../gameData/opponents';
 
-const mockOpponent: Opponent = {
-  id: 'bandit-leader',
-  avatar: '/opponent_avatars/goblin_avatar.png',
-  name: 'Bandit Leader',
-  hp: 100,
-  mp: 30,
-  attacks: ['slash', 'intimidate'],
-};
 
 export const marshLightsQuest: QuestStory = {
   id: 'marshLights',
@@ -43,7 +35,7 @@ export const marshLightsQuest: QuestStory = {
           nextPointId: 'bw-p5',
           outcome: {
             battle: {
-              opponent: mockOpponent,
+              opponent: goblin,
             },
           },
         },

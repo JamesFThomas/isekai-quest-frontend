@@ -31,43 +31,12 @@ export default function BattleActionsModal({
     closeModal,
     handleActionSelect
 }: BattleActionsModalProps) {
-    // const [isLoading, setIsLoading] = useState(false);
-
-    // const [ selectedAction, setSelectedAction ] = useState<string | null>(null);
 
     const setOpen = () => {
         closeModal(!isOpen);
     };
 
     const noAvailableOptions = !modalOptions || modalOptions.length === 0;
-
-    // const handleOptionSelect = (option: string) => {
-    //     // setSelectedAction(option);
-    // }
-
-    // const handleAcceptClick = () => {
-    //     setIsLoading(true);
-    //     setTimeout(() => {
-    //         setIsLoading(false);
-    //         if (quest) {
-    //             acceptQuest(quest);
-    //             setOpen();
-    //         }
-    //     }, 1500);
-    // };
-
-    // const testBattleAction_PlayerHitsOpponent: BattleAction = {
-    //   actorId: "char-1",
-    //   targetId: "opp-1",
-    //   actionDetails: { id: "basic-attack", title: "Basic Attack", type: "attack" },
-    //   effects: { hp: -5 }
-    // };
-
-    // const dispatch = useAppDispatch();
-
-    // const testCall = () => {
-    //   dispatch(performBattleAction(testBattleAction_PlayerHitsOpponent));
-    // }
 
     return (
         <div>

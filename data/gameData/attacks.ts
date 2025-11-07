@@ -66,3 +66,14 @@ export const headButt: BattleOption = {
     },
 };
 
+
+// Opponent Attacks
+export const slash: BattleOption = {
+    id: 'opponent-basic-attack',
+    icon: "/battleaction_icons/unarmedAttack_icon.png",
+    title: 'Slash',
+    type: 'attack',
+    effect: {
+        hp: -1,
+    },
+};

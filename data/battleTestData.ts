@@ -3,30 +3,6 @@ import { block, evade } from "./gameData/skills";
 import { headButt, witherTouch, fistSmash, quickJab, forstPalm, holyJab } from "./gameData/attacks";
 import { goblin } from "./gameData/opponents";
 
-const testAttack: BattleOption = {
-    id: "basic-attack",
-    icon: "/battleaction_icons/sword_icon2.png",
-    title: "Basic Attack",
-    type: "attack",
-    effect: { hp: -7 }
-};
-
-const testOpponentAttack: BattleOption = {
-    id: "bonk",
-    icon: "/battleaction_icons/sword_ico2.png",
-    title: "Bonk",
-    type: "attack",
-    effect: { hp: -4 }
-};
-
-const testSkill: BattleOption = {
-    id: "evade attack",
-    icon: "/battleaction_icons/evade_icon.png",
-    title: "Evade Attack",
-    type: "skill",
-    effect: { mp: -2 }
-};
-
 const testPotion: BattleOption = {
     id: "small-health-potion",
     icon: "/battleaction_icons/potion_icon.png",

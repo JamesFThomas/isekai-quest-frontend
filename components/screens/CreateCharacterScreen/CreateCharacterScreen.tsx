@@ -114,6 +114,8 @@ export default function CreateCharacterScreen() {
     const selected = avatarOptions.find((avatar) => avatar.src === src);
     if (selected) {
       setSelectedAvatar(selected);
+
+      // TODO: add Character class based on avatar selection
       setNewPlayerData({
         ...newPlayerData,
         avatar: selected.src,

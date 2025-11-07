@@ -1,7 +1,24 @@
 import { BattleOption } from "@/types/battle";
 
+// General Skills
+export const evade: BattleOption = {
+    id: "general-evade",
+    icon: "/battleaction_icons/evade_icon.png",
+    title: "Evade",
+    type: "skill",
+    description: "Attempt to dodge the opponent's next attack, reducing or avoiding damage.",
+    effect: {},
+};
 
-// Genral skills 
+export const block: BattleOption = {
+    id: "general-block",
+    icon: "/battleaction_icons/sword_icon2.png", // placeholder, update later
+    title: "Block",
+    type: "skill",
+    description: "Raise your guard to lessen the impact of the opponent's next attack.",
+    effect: {},
+};
+
 
 // Paladin Skills
 export const radiantPalm: BattleOption = {

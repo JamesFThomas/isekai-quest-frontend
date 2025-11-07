@@ -1,11 +1,14 @@
 import { BattleOption } from "./battle";
 
+export type characterClass = 'paladin' | 'elf' | 'halfling' | 'barbarian' | 'necromancer' | 'dwarf';
+
 export interface Character {
   id: string;
   name: string;
   avatar: string;
   hp: number;
   mp: number;
+  class?: characterClass;
   attacks?: BattleOption[];
   equippedWeapon?: string;
   skills?: BattleOption[];

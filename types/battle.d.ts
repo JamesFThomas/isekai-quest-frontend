@@ -25,6 +25,7 @@ export interface BattleOption {
   icon: string;
   title: string;
   type: string;
+  description?: string;
   effect: {
     hp?: number,
     mp?: number

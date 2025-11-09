@@ -17,6 +17,7 @@ export type AvatarOption = {
   src: string;
   alt: string;
   type: string;
+  class: string;
 };
 
 export type NewPlayerData = {
@@ -24,6 +25,7 @@ export type NewPlayerData = {
   characterName: string;
   userName: string;
   password: string;
+  characterClass: string;
 };
 
 export default function CreateCharacterScreen() {
@@ -46,6 +48,7 @@ export default function CreateCharacterScreen() {
   const [newPlayerData, setNewPlayerData] = useState<NewPlayerData>({
     avatar: '',
     characterName: '',
+    characterClass: '',
     userName: '',
     password: '',
   });
@@ -119,6 +122,7 @@ export default function CreateCharacterScreen() {
       setNewPlayerData({
         ...newPlayerData,
         avatar: selected.src,
+        characterClass: selected.class,
       });
     }
   };

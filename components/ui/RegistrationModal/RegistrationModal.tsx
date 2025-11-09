@@ -21,6 +21,8 @@ import {
 } from '@headlessui/react';
 import { User } from '@/lib/features/auth/AuthSlice';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
+import { characterClass } from '@/types/character';
+import { getOptionsByCharacterClass } from '@/components/ui/RegistrationModal/util/getOptionsByCharacterClass';
 
 interface RegistrationModalProps {
   isOpen: boolean;
@@ -46,6 +48,9 @@ export default function RegistrationModal({
 
   const handleRegistration = () => {
     setIsLoading(true);
+    const defaultOptions = getOptionsByCharacterClass(
+      playerData?.characterClass as characterClass
+    );
     setTimeout(() => {
       const newCharacter = {
         id: `${Math.floor(Math.random() * 10000)}`,
@@ -53,6 +58,9 @@ export default function RegistrationModal({
         avatar: playerData?.avatar || '/default-avatar.png',
         hp: 100, // Default HP
         mp: 50, // Default MP
+        class: playerData?.characterClass as characterClass,
+        attacks: [...defaultOptions.defaultAttacks],
+        skills: [...defaultOptions.defaultSkills],
       };
 
       const newUser = {

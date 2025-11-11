@@ -6,7 +6,7 @@ import { evade, block, radiantPalm, iceGust, luckyHook, ragingSlam, lifeSiphon, 
 const Tony: Character = {
   id: 'char-1',
   name: 'Tony',
-  avatar: '/character_avatars/barbarian_avatar2.png',
+  avatar: '/character_avatars/barbarian_avatar3.png',
   hp: 100,
   maxHp: 100,
   mp: 50,
@@ -21,7 +21,7 @@ const Tony: Character = {
 const Barbosa: Character = {
   id: 'char-1',
   name: 'Barbosa',
-  avatar: '/character_avatars/barbarian_avatar2.png',
+  avatar: '/character_avatars/barbarian_avatar3.png',
   hp: 100,
   maxHp: 100,
   mp: 50,
@@ -37,7 +37,7 @@ const Barbosa: Character = {
 const Durgan: Character = {
   id: 'char-2',
   name: 'Durgan',
-  avatar: '/character_avatars/dwarf_avatar2.png',
+  avatar: '/character_avatars/dwarf_avatar3.png',
   hp: 75,
   maxHp: 100,
   mp: 40,
@@ -53,7 +53,7 @@ const Durgan: Character = {
 const Perrin: Character = {
   id: 'char-3',
   name: 'Perrin',
-  avatar: '/character_avatars/paladin_avatar2.png',
+  avatar: '/character_avatars/paladin_avatar3.png',
   hp: 50,
   maxHp: 100,
   mp: 60,
@@ -69,7 +69,7 @@ const Perrin: Character = {
 const Hobbin: Character = {
   id: 'char-4',
   name: 'Hobbin',
-  avatar: '/character_avatars/halfling_avatar2.png',
+  avatar: '/character_avatars/halfling_avatar3.png',
   hp: 25,
   maxHp: 100,
   mp: 25,
@@ -85,7 +85,7 @@ const Hobbin: Character = {
 const Nereza: Character = {
   id: 'char-5',
   name: 'Nereza',
-  avatar: '/character_avatars/necromancer_avatar2.png',
+  avatar: '/character_avatars/necromancer_avatar3.png',
   hp: 70,
   maxHp: 100,
   mp: 120,
@@ -101,7 +101,7 @@ const Nereza: Character = {
 const Seryn: Character = {
   id: 'char-6',
   name: 'Seryn',
-  avatar: '/character_avatars/snowElf_avatar2.png',
+  avatar: '/character_avatars/snowElf_avatar3.png',
   hp: 80,
   maxHp: 100,
   mp: 90,

@@ -114,50 +114,32 @@ export default function PartyScreen() {
           </div>
         </div>
 
-        <div className='avatar-grid w-full gap-4 p-4'>
-          <div
-            id="party-members-grid"
-            className="w-full"
-          >
-            <div className="border-2 border-white rounded-lg bg-black/50 p-4">
-              <div className="flex flex-col items-center gap-4 md:flex-row md:flex-wrap md:justify-start">
-                {characterParty.length > 0 ? (
-                  characterParty.map((character) => (
-                    <button
-                      key={character.id}
-                      className="flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-200 md:basis-1/4 flex-shrink-0"
-                      onClick={() =>
-                        console.log(`Party member icon clicked: ${character.name}`)
-                      }
-                    >
-                      <Image
-                        className="mb-2"
-                        src={character.avatar}
-                        alt={character.name}
-                        width={120}
-                        height={120}
-                      />
-                      <span className="text-center text-sm text-white font-bold">
-                        {character.name}
-                      </span>
-                    </button>
-                  ))
-                ) : (
-                  <p className="text-white text-center font-semibold">
-                    {
-                      activeCharacter?.partyMembers && activeCharacter.partyMembers.length === 0
-                        ? 'You have no party members yet. Complete quests to recruit allies.'
-
-                        : <CharacterDisplayCard character={activeCharacter!} />
-                    }
-                  </p>
-                )}
-              </div>
-            </div>
+        <div id="party-members-grid" className="w-full p-4">
+          <div className="flex flex-row flex-wrap gap-2 border-2 border-white rounded-lg bg-black/50 p-4">
+            {characterParty.length > 0 ? (
+              characterParty.map((character) => (
+                <CharacterDisplayCard
+                  key={character.id}
+                  character={character}
+                />
+              ))
+            ) : activeCharacter?.partyMembers &&
+              activeCharacter.partyMembers.length > 0 ? (
+              activeCharacter.partyMembers.map((character) => (
+                <CharacterDisplayCard
+                  key={character.id}
+                  character={character}
+                />
+              ))
+            ) : (
+              <p className="w-full text-white text-center font-semibold">
+                You have no party members yet. Complete quests to recruit allies.
+              </p>
+            )}
           </div>
-
-
         </div>
+
+
       </div>
       <div className='mt-2'>
         <BackButton />

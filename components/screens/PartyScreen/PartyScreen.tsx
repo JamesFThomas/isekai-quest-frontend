@@ -14,6 +14,7 @@ import {
   selectActiveCharacter,
   selectCharacterParty,
 } from '@/lib/features/character/CharacterSlice';
+import CharacterDisplayCard from '@/components/ui/CharacterDisplayCard/CharacterDisplayCard';
 
 export default function PartyScreen() {
   useProtectedRoute();
@@ -143,7 +144,12 @@ export default function PartyScreen() {
                   ))
                 ) : (
                   <p className="text-white text-center font-semibold">
-                    No party members yet. Complete quests to recruit allies.
+                    {
+                      activeCharacter?.partyMembers && activeCharacter.partyMembers.length === 0
+                        ? 'You have no party members yet. Complete quests to recruit allies.'
+
+                        : <CharacterDisplayCard character={activeCharacter!} />
+                    }
                   </p>
                 )}
               </div>

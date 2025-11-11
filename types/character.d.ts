@@ -13,6 +13,7 @@ export interface Character {
   class?: characterClass;
   level?: number;
   inventory?: Inventory;
+  partyMembers?: Character[];
 }
 
 // Characters will have an inventory of items, coins, and equipment

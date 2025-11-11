@@ -31,7 +31,10 @@ export default function PartyScreen() {
           width: '100%',
         }}
       >
-        <div className='character-grid p-4 flex flex-col md:flex-row md:space-x-6'>
+        <div
+          id="character-data"
+          className="character-data p-4 flex flex-col md:flex-row md:space-x-6 md:items-stretch"
+        >
           <figure className='character-image w-full md:w-1/3 flex items-center justify-center md:h-auto'>
             <Image
               alt={activeCharacter?.name || 'Default Avatar'}
@@ -40,7 +43,10 @@ export default function PartyScreen() {
               height={400}
             />
           </figure>
-          <div className='character-data w-full md:w-2/3'>
+          <div
+            id="character-stats-display"
+            className="w-full md:w-2/3 border-2 border-white rounded-lg bg-black/50 text-white flex flex-col justify-center px-6 py-4 space-y-2"
+          >
             <div className='mb-4'>
               <label className='block text-white text-sm font-bold mb-2'>
                 Name: {activeCharacter?.name || 'No Active Character'}
@@ -70,35 +76,79 @@ export default function PartyScreen() {
             </div>
           </div>
         </div>
-        <div className='avatar-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4'>
-          {characterParty.length > 0 ? (
-            characterParty.map((character) => (
-              <button
-                key={character.id}
-                className='flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-200'
-                onClick={() =>
-                  console.log(
-                    `Party member icon clicked: ${character.name}`
-                  )
-                }
-              >
-                <Image
-                  className='flex items-center justify-center'
-                  src={character.avatar}
-                  alt={character.name}
-                  width={200}
-                  height={200}
-                />
-                <span className='text-center text-sm text-white font-bold mt-2'>
-                  {character.name}
-                </span>
-              </button>
-            ))
-          ) : (
-            <p className='text-white text-center font-semibold col-span-full'>
-              No party members yet. Complete quests to recruit allies.
-            </p>
-          )}
+        <div className="character-inventory p-4 flex flex-col md:flex-row md:space-x-4 md:items-stretch">
+          <div
+            id="inventory-buttons"
+            className="w-full md:w-1/3 mb-4 md:mb-0 flex flex-col border-2 border-white rounded-md bg-black/40 overflow-hidden"
+          >
+            <button
+              className="w-full px-4 py-3 text-sm font-semibold text-white border-b border-white last:border-b-0 hover:bg-white/10 focus:outline-none focus:bg-white/15"
+            >
+              Attacks
+            </button>
+            <button className="w-full px-4 py-3 text-sm font-semibold text-white border-b border-white last:border-b-0 hover:bg-white/10 focus:outline-none focus:bg-white/15">
+              Skills
+            </button>
+            <button className="w-full px-4 py-3 text-sm font-semibold text-white border-b border-white last:border-b-0 hover:bg-white/10 focus:outline-none focus:bg-white/15">
+              Coins
+            </button>
+            <button className="w-full px-4 py-3 text-sm font-semibold text-white border-b border-white last:border-b-0 hover:bg-white/10 focus:outline-none focus:bg-white/15">
+              Weapons
+            </button>
+            <button className="w-full px-4 py-3 text-sm font-semibold text-white border-b border-white last:border-b-0 hover:bg-white/10 focus:outline-none focus:bg-white/15">
+              Equipment
+            </button>
+            <button className="w-full px-4 py-3 text-sm font-semibold text-white border-b border-white last:border-b-0 hover:bg-white/10 focus:outline-none focus:bg-white/15">
+              Rations
+            </button>
+            <button className="w-full px-4 py-3 text-sm font-semibold text-white border-b border-white last:border-b-0 hover:bg-white/10 focus:outline-none focus:bg-white/15">
+              Potions
+            </button>
+          </div>
+          <div
+            id="inventory-display"
+            className="w-full md:w-2/3 min-h-[220px] border-2 border-white bg-black/50 rounded-lg"
+          ></div>
+        </div>
+
+        <div className='avatar-grid w-full gap-4 p-4'>
+          <div
+            id="party-members-grid"
+            className="w-full"
+          >
+            <div className="border-2 border-white rounded-lg bg-black/50 p-4">
+              <div className="flex flex-col items-center gap-4 md:flex-row md:flex-wrap md:justify-start">
+                {characterParty.length > 0 ? (
+                  characterParty.map((character) => (
+                    <button
+                      key={character.id}
+                      className="flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-200 md:basis-1/4 flex-shrink-0"
+                      onClick={() =>
+                        console.log(`Party member icon clicked: ${character.name}`)
+                      }
+                    >
+                      <Image
+                        className="mb-2"
+                        src={character.avatar}
+                        alt={character.name}
+                        width={120}
+                        height={120}
+                      />
+                      <span className="text-center text-sm text-white font-bold">
+                        {character.name}
+                      </span>
+                    </button>
+                  ))
+                ) : (
+                  <p className="text-white text-center font-semibold">
+                    No party members yet. Complete quests to recruit allies.
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+
+
         </div>
       </div>
       <div className='mt-2'>

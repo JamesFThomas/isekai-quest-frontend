@@ -22,9 +22,9 @@ export interface Inventory {
   equippedWeapon?: string;
   skills?: BattleOption[];
   coins?: Coins;  // accessible via inventory.coins.gold, etc.
-  weapons?: string[]; // Unequipped weapons
-  equipment?: string[]; // Armor, accessories, etc.
-  rations?: number; // Count of Rations for out-of-battle healing
+  weapons?: Weapon[]; // Unequipped weapons
+  equipment?: Equipment[]; // Armor, accessories, etc.
+  rations?: Ration[]; // Count of Rations for out-of-battle healing
   potions?: BattleOption[]; // Potions with specific effects (stored by ID)
 }
 
@@ -33,3 +33,20 @@ export interface Coins {
   silver: number;
   copper: number;
 }
+
+export type InventoryItemType = 'weapon' | 'equipment' | 'potion' | 'ration' | 'coin';
+
+
+export interface InventoryItemBase {
+  id: string;
+  icon: string;
+  title: string;
+  type: InventoryItemType;
+  description: string;
+}
+
+export interface Weapon extends InventoryItemBase { };
+
+export interface Equipment extends InventoryItemBase { };
+
+export interface Ration extends InventoryItemBase { };

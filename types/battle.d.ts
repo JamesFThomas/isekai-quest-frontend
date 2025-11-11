@@ -1,3 +1,5 @@
+import { InventoryItemBase } from "./character"
+
 type BattlePhase = null | 'idle' | 'chooseAction' | 'resolving' | 'result';
 
 type BattleResult = null | 'win' | 'lose' | 'flee';
@@ -20,12 +22,12 @@ export interface BattleState // battleSlice initial state shape (typo/casing fix
   round?: number | null
 }
 
-export interface BattleOption {
-  id: string;
-  icon: string;
-  title: string;
-  type: string;
-  description?: string;
+
+export type BattleOptionType = 'attack' | 'skill' | 'potion'
+
+
+export interface BattleOption extends InventoryItemBase {
+  type: BattleOptionType;
   effect: {
     hp?: number,
     mp?: number

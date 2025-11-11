@@ -16,7 +16,8 @@ import {
 } from '@/lib/features/character/CharacterSlice';
 import CharacterDisplayCard from '@/components/ui/CharacterDisplayCard/CharacterDisplayCard';
 import { useState } from 'react';
-import { BattleAction, BattleOption } from '@/types/battle';
+import { BattleOption } from '@/types/battle';
+
 
 export default function PartyScreen() {
   useProtectedRoute();
@@ -148,7 +149,7 @@ export default function PartyScreen() {
             className="w-full md:w-2/3 min-h-[220px] border-2 border-white bg-black/50 rounded-lg"
           >
             {/* Inventory details will be displayed here based on selected category */}
-            {selectedItems?.map((option) => (
+            {selectedItems?.map((option: BattleOption) => (
               <button
                 type="button"
                 // onClick={() => handleActionSelect(option)}

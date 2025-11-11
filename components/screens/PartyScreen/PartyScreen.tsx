@@ -65,15 +65,15 @@ export default function PartyScreen() {
               </label>
             </div>
 
-            <div className='mb-4'>
-              <label className='block text-white text-sm font-bold mb-2'>
+            {/*<div className='mb-4'>
+               <label className='block text-white text-sm font-bold mb-2'>
                 Attacks:
-                {activeCharacter?.attacks &&
-                  activeCharacter.attacks.length > 0
-                  ? activeCharacter.attacks.join(', ')
+                {activeCharacter?.inventory?.attacks &&
+                  activeCharacter.inventory.attacks.length > 0
+                  ? activeCharacter.inventory.attacks.join(', ')
                   : 'None'}
               </label>
-            </div>
+            </div>*/}
           </div>
         </div>
         <div className="character-inventory p-4 flex flex-col md:flex-row md:space-x-4 md:items-stretch">
@@ -108,7 +108,9 @@ export default function PartyScreen() {
           <div
             id="inventory-display"
             className="w-full md:w-2/3 min-h-[220px] border-2 border-white bg-black/50 rounded-lg"
-          ></div>
+          >
+            {/* Inventory details will be displayed here based on selected category */}
+          </div>
         </div>
 
         <div className='avatar-grid w-full gap-4 p-4'>

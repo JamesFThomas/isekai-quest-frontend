@@ -7,17 +7,20 @@ export interface Character {
   name: string;
   avatar: string;
   hp: number;
+  maxHp?: number;
   mp: number;
+  maxMp?: number;
   class?: characterClass;
-  attacks?: BattleOption[];
-  equippedWeapon?: string;
-  skills?: BattleOption[];
+  level?: number;
   inventory?: Inventory;
 }
 
 // Characters will have an inventory of items, coins, and equipment
 export interface Inventory {
-  coins?: Coins;
+  attacks?: BattleOption[];
+  equippedWeapon?: string;
+  skills?: BattleOption[];
+  coins?: Coins;  // accessible via inventory.coins.gold, etc.
   weapons?: string[]; // Unequipped weapons
   equipment?: string[]; // Armor, accessories, etc.
   rations?: number; // Count of Rations for out-of-battle healing

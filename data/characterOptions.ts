@@ -11,8 +11,10 @@ const characterOptions: Character[] = [
     hp: 100,
     mp: 50,
     class: 'barbarian',
-    attacks: [fistSmash],
-    skills: [evade, block, ragingSlam],
+    inventory: {
+      attacks: [fistSmash],
+      skills: [evade, block, ragingSlam],
+    },
   },
   {
     id: 'char-2',
@@ -21,8 +23,10 @@ const characterOptions: Character[] = [
     hp: 110,
     mp: 40,
     class: 'dwarf',
-    attacks: [headButt],
-    skills: [evade, block, earthshakerStomp],
+    inventory: {
+      attacks: [headButt],
+      skills: [evade, block, earthshakerStomp],
+    },
   },
   {
     id: 'char-3',
@@ -31,8 +35,10 @@ const characterOptions: Character[] = [
     hp: 90,
     mp: 60,
     class: 'paladin',
-    attacks: [holyJab],
-    skills: [evade, block, radiantPalm],
+    inventory: {
+      attacks: [holyJab],
+      skills: [evade, block, radiantPalm],
+    },
   },
   {
     id: 'char-4',
@@ -41,8 +47,10 @@ const characterOptions: Character[] = [
     hp: 85,
     mp: 55,
     class: 'halfling',
-    attacks: [quickJab],
-    skills: [evade, block, luckyHook],
+    inventory: {
+      attacks: [quickJab],
+      skills: [evade, block, luckyHook],
+    },
   },
   {
     id: 'char-5',
@@ -51,8 +59,10 @@ const characterOptions: Character[] = [
     hp: 70,
     mp: 100,
     class: 'necromancer',
-    attacks: [witherTouch],
-    skills: [evade, block, lifeSiphon],
+    inventory: {
+      attacks: [witherTouch],
+      skills: [evade, block, lifeSiphon],
+    },
   },
   {
     id: 'char-6',
@@ -61,8 +71,10 @@ const characterOptions: Character[] = [
     hp: 80,
     mp: 90,
     class: 'elf',
-    attacks: [forstPalm],
-    skills: [evade, block, iceGust],
+    inventory: {
+      attacks: [forstPalm],
+      skills: [evade, block, iceGust],
+    },
   },
 ];
 

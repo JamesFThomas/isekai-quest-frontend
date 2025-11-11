@@ -150,10 +150,10 @@ export const selectBattleLog = (state: RootState) =>
   state.battle.battleLog;
 
 export const selectCharacterAttacks = (state: RootState) =>
-  state.battle.activeCharacter?.attacks;
+  state.battle.activeCharacter?.inventory?.attacks;
 
 export const selectCharacterSkills = (state: RootState) =>
-  state.battle.activeCharacter?.skills;
+  state.battle.activeCharacter?.inventory?.skills;
 
 export const selectCharacterPotions = (state: RootState) =>
   state.battle.activeCharacter?.inventory?.potions;

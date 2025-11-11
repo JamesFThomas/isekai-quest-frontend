@@ -23,7 +23,8 @@ export default function PartyScreen() {
   const characterParty = useAppSelector(selectCharacterParty);
 
   return (
-    <div className='flex flex-col items-center justify-center h-screen bg-[url("/background_images/supply_room.png")] bg-cover bg-no-repeat bg-center'>
+    <div className='flex flex-col items-center min-h-screen p-4 bg-[url("/background_images/supply_room.png")] bg-cover bg-no-repeat bg-center'>
+
       <div
         className='mt-4 bg-[url("/background_images/parchment_paper.png")] bg-cover bg-no-repeat bg-center'
         style={{

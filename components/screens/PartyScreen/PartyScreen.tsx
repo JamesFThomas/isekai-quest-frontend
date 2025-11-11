@@ -15,17 +15,53 @@ import {
   selectCharacterParty,
 } from '@/lib/features/character/CharacterSlice';
 import CharacterDisplayCard from '@/components/ui/CharacterDisplayCard/CharacterDisplayCard';
+import { useState } from 'react';
+import { BattleAction, BattleOption } from '@/types/battle';
 
 export default function PartyScreen() {
   useProtectedRoute();
+
+  const [selectedItems, SetSelectedItems] = useState<BattleOption[]>()
   // const dispatch = useAppDispatch();
   const activeCharacter = useAppSelector(selectActiveCharacter);
   const characterParty = useAppSelector(selectCharacterParty);
 
+  const handleInventoryButtonClick = (buttonType: string) => {
+    if (activeCharacter && activeCharacter.inventory) {
+      switch (buttonType) {
+        // attacks, skills, coins, weapons, equipment, rations, potions
+        case 'attacks':
+          SetSelectedItems(activeCharacter.inventory.attacks)
+          break;
+        case 'skills':
+          SetSelectedItems(activeCharacter.inventory.skills)
+          break;
+        case 'potions':
+          SetSelectedItems(activeCharacter.inventory.potions)
+          break;
+        // case 'coins':
+        //   SetSelectedItems(activeCharacter.inventory.coins)
+        //   break;
+        // case 'weapons':
+        //   SetSelectedItems(activeCharacter.inventory.weapons)
+        //   break;
+        // case 'equipment':
+        //   SetSelectedItems(activeCharacter.inventory.equipment)
+        //   break;
+        // case 'rations':
+        //   SetSelectedItems(activeCharacter.inventory.rations)
+        //   break;
+      }
+    }
+  }
+
   return (
-    <div className='flex flex-col items-center min-h-screen p-4 bg-[url("/background_images/supply_room.png")] bg-cover bg-no-repeat bg-center'>
+    <div
+      id='PartyScreen-wrapper'
+      className='flex flex-col items-center min-h-screen p-4 bg-[url("/background_images/supply_room.png")] bg-cover bg-no-repeat bg-center'>
 
       <div
+        id='PartyScreen-content'
         className='mt-4 bg-[url("/background_images/parchment_paper.png")] bg-cover bg-no-repeat bg-center'
         style={{
           maxWidth: '600px',
@@ -66,33 +102,33 @@ export default function PartyScreen() {
                 MP: {activeCharacter?.mp ?? 'N/A'}
               </label>
             </div>
-
-            {/*<div className='mb-4'>
-               <label className='block text-white text-sm font-bold mb-2'>
-                Attacks:
-                {activeCharacter?.inventory?.attacks &&
-                  activeCharacter.inventory.attacks.length > 0
-                  ? activeCharacter.inventory.attacks.join(', ')
-                  : 'None'}
-              </label>
-            </div>*/}
           </div>
         </div>
-        <div className="character-inventory p-4 flex flex-col md:flex-row md:space-x-4 md:items-stretch">
+
+        <div
+          id="character-inventory"
+          className="character-inventory p-4 flex flex-col md:flex-row md:space-x-4 md:items-stretch">
           <div
             id="inventory-buttons"
             className="w-full md:w-1/3 mb-4 md:mb-0 flex flex-col border-2 border-white rounded-md bg-black/40 overflow-hidden"
           >
             <button
               className="w-full px-4 py-3 text-sm font-semibold text-white border-b border-white last:border-b-0 hover:bg-white/10 focus:outline-none focus:bg-white/15"
+              onClick={() => handleInventoryButtonClick('attacks')}
             >
               Attacks
             </button>
-            <button className="w-full px-4 py-3 text-sm font-semibold text-white border-b border-white last:border-b-0 hover:bg-white/10 focus:outline-none focus:bg-white/15">
+            <button
+              className="w-full px-4 py-3 text-sm font-semibold text-white border-b border-white last:border-b-0 hover:bg-white/10 focus:outline-none focus:bg-white/15"
+              onClick={() => handleInventoryButtonClick('skills')}
+            >
               Skills
             </button>
-            <button className="w-full px-4 py-3 text-sm font-semibold text-white border-b border-white last:border-b-0 hover:bg-white/10 focus:outline-none focus:bg-white/15">
-              Coins
+            <button
+              className="w-full px-4 py-3 text-sm font-semibold text-white border-b border-white last:border-b-0 hover:bg-white/10 focus:outline-none focus:bg-white/15"
+              onClick={() => handleInventoryButtonClick('potions')}
+            >
+              Potions
             </button>
             <button className="w-full px-4 py-3 text-sm font-semibold text-white border-b border-white last:border-b-0 hover:bg-white/10 focus:outline-none focus:bg-white/15">
               Weapons
@@ -104,14 +140,41 @@ export default function PartyScreen() {
               Rations
             </button>
             <button className="w-full px-4 py-3 text-sm font-semibold text-white border-b border-white last:border-b-0 hover:bg-white/10 focus:outline-none focus:bg-white/15">
-              Potions
+              Coins
             </button>
           </div>
           <div
-            id="inventory-display"
+            id="inventory-items-display"
             className="w-full md:w-2/3 min-h-[220px] border-2 border-white bg-black/50 rounded-lg"
           >
             {/* Inventory details will be displayed here based on selected category */}
+            {selectedItems?.map((option) => (
+              <button
+                type="button"
+                // onClick={() => handleActionSelect(option)}
+                key={`${option.id}-${option.title}`}
+                className="inline-flex flex-col items-center justify-center
+                          min-w-[fit-content] p-4
+                          rounded-md
+                          bg-transparent hover:bg-slate-200/20
+                          text-sm font-bold text-white
+                          
+                          transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
+              >
+                <Image
+                  key={`${option.id}-${option.title}`}
+                  className='flex items-center justify-center'
+                  alt={''}
+                  src={option.icon}
+                  width={50}
+                  height={50}
+                />
+                <span className="mt-2 text-sm text-white font-bold text-center"
+                >
+                  {option.title}
+                </span>
+              </button>
+            ))}
           </div>
         </div>
 

@@ -25,6 +25,8 @@ export default function PartyScreen() {
   useProtectedRoute();
 
   const [selectedItems, SetSelectedItems] = useState<BattleOption[] | InventoryItemBase[]>()
+  const [selectedCategory, setSelectedCategory] = useState<'coins' | 'items' | undefined>();
+
   // const dispatch = useAppDispatch();
   const activeCharacter = useAppSelector(selectActiveCharacter);
   const characterParty = useAppSelector(selectCharacterParty);
@@ -32,28 +34,34 @@ export default function PartyScreen() {
   const handleInventoryButtonClick = (buttonType: string) => {
     if (activeCharacter && activeCharacter.inventory) {
       switch (buttonType) {
-        // attacks, skills, coins, weapons, equipment, rations, potions
         case 'attacks':
           SetSelectedItems(activeCharacter.inventory.attacks)
+          setSelectedCategory('items')
           break;
         case 'skills':
           SetSelectedItems(activeCharacter.inventory.skills)
+          setSelectedCategory('items')
           break;
         case 'potions':
+          setSelectedCategory('items')
           SetSelectedItems(activeCharacter.inventory.potions)
           break;
         case 'weapons':
           SetSelectedItems(activeCharacter.inventory.weapons)
+          setSelectedCategory('items')
           break;
         case 'equipment':
           SetSelectedItems(activeCharacter.inventory.equipment)
+          setSelectedCategory('items')
           break;
         case 'rations':
           SetSelectedItems(activeCharacter.inventory.rations)
+          setSelectedCategory('items')
           break;
-        // case 'coins':
-        //   SetSelectedItems(activeCharacter.inventory.coins)
-        //   break;
+        case 'coins':
+          SetSelectedItems([])
+          setSelectedCategory('coins')
+          break;
       }
     }
   }
@@ -151,7 +159,10 @@ export default function PartyScreen() {
             >
               Rations
             </button>
-            <button className="w-full px-4 py-3 text-sm font-semibold text-white border-b border-white last:border-b-0 hover:bg-white/10 focus:outline-none focus:bg-white/15">
+            <button
+              className="w-full px-4 py-3 text-sm font-semibold text-white border-b border-white last:border-b-0 hover:bg-white/10 focus:outline-none focus:bg-white/15"
+              onClick={() => handleInventoryButtonClick('coins')}
+            >
               Coins
             </button>
           </div>
@@ -160,34 +171,36 @@ export default function PartyScreen() {
             className="w-full md:w-2/3 min-h-[220px] border-2 border-white bg-black/50 rounded-lg"
           >
             {/* Inventory details will be displayed here based on selected category */}
-            {selectedItems?.map((option: BattleOption | InventoryItemBase) => (
-              <button
-                type="button"
-                // onClick={() => handleActionSelect(option)}
-                key={`${option.id}-${option.title}`}
-                className="inline-flex flex-col items-center justify-center
+            {selectedCategory === 'coins'
+              ? <CoinsPanel coins={activeCharacter?.inventory?.coins} />
+              : selectedItems?.map((option: BattleOption | InventoryItemBase) => (
+                <button
+                  type="button"
+                  // onClick={() => handleActionSelect(option)}
+                  key={`${option.id}-${option.title}`}
+                  className="inline-flex flex-col items-center justify-center
                           min-w-[fit-content] p-4
                           rounded-md
                           bg-transparent hover:bg-slate-200/20
                           text-sm font-bold text-white
                           
                           transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
-              >
-                <Image
-                  key={`${option.id}-${option.title}`}
-                  className='flex items-center justify-center'
-                  alt={''}
-                  src={option.icon}
-                  width={50}
-                  height={50}
-                />
-                <span className="mt-2 text-sm text-white font-bold text-center"
                 >
-                  {option.title}
-                </span>
-              </button>
-            ))}
-            <CoinsPanel coins={activeCharacter?.inventory?.coins} />
+                  <Image
+                    key={`${option.id}-${option.title}`}
+                    className='flex items-center justify-center'
+                    alt={''}
+                    src={option.icon}
+                    width={50}
+                    height={50}
+                  />
+                  <span className="mt-2 text-sm text-white font-bold text-center"
+                  >
+                    {option.title}
+                  </span>
+                </button>
+              ))}
+
           </div>
         </div>
 

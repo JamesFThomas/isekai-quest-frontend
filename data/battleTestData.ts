@@ -7,6 +7,7 @@ const testPotion: BattleOption = {
     id: "small-health-potion",
     icon: "/battleaction_icons/potion_icon.png",
     title: "Health Potion/S",
+    description: 'a small helath potion recover 3 hp',
     type: "potion",
     effect: { hp: +3 }
 };

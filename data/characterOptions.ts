@@ -2,6 +2,10 @@ import { Character } from '@/types/character';
 
 import { fistSmash, headButt, holyJab, quickJab, forstPalm, witherTouch } from './gameData/attacks';
 import { evade, block, radiantPalm, iceGust, luckyHook, ragingSlam, lifeSiphon, earthshakerStomp } from './gameData/skills';
+import { dwarfBasicHammer, necromancerBasicWand, barbarianBasicAxe, halflingBasicSling, elfBasicBow, paladinBasicMace } from './gameData/weapons'
+import { paladinStarterArmor, elfStarterCloak, halflingStarterVest, barbarianStarterHarness, necromancerStarterRobe, dwarfStarterMail, travelersCloak, leatherBracers, sturdyBoots } from './gameData/equipment';
+import { driedRations, heartyStew, sweetTrailMix, waybreadLoaf } from './gameData/rations';
+import { minorHealingPotion, majorHealingPotion, manaTonic, greaterManaTonic, rejuvenationElixir, elixirOfVigor } from './gameData/potions';
 
 const Tony: Character = {
   id: 'char-1',
@@ -30,6 +34,10 @@ const Barbosa: Character = {
   inventory: {
     attacks: [fistSmash],
     skills: [evade, block, ragingSlam],
+    weapons: [halflingBasicSling, elfBasicBow, paladinBasicMace],
+    equipment: [paladinStarterArmor, elfStarterCloak, halflingStarterVest],
+    rations: [driedRations, heartyStew, sweetTrailMix],
+    potions: [minorHealingPotion, majorHealingPotion]
   },
   partyMembers: [Tony],
 }
@@ -46,6 +54,10 @@ const Durgan: Character = {
   inventory: {
     attacks: [headButt],
     skills: [evade, block, earthshakerStomp],
+    weapons: [dwarfBasicHammer, necromancerBasicWand, barbarianBasicAxe],
+    equipment: [barbarianStarterHarness, necromancerStarterRobe, dwarfStarterMail],
+    rations: [waybreadLoaf],
+    potions: [greaterManaTonic, rejuvenationElixir, elixirOfVigor]
   },
   partyMembers: [Tony, Barbosa],
 };
@@ -61,7 +73,11 @@ const Perrin: Character = {
   class: 'paladin',
   inventory: {
     attacks: [holyJab],
-    skills: [evade, block, radiantPalm],
+    skills: [evade, block, earthshakerStomp],
+    weapons: [dwarfBasicHammer, necromancerBasicWand, barbarianBasicAxe],
+    equipment: [barbarianStarterHarness, necromancerStarterRobe, dwarfStarterMail],
+    rations: [waybreadLoaf],
+    potions: [rejuvenationElixir, elixirOfVigor]
   },
   partyMembers: [Tony, Barbosa, Durgan],
 };
@@ -78,6 +94,10 @@ const Hobbin: Character = {
   inventory: {
     attacks: [quickJab],
     skills: [evade, block, luckyHook],
+    weapons: [dwarfBasicHammer, necromancerBasicWand, barbarianBasicAxe],
+    equipment: [barbarianStarterHarness, necromancerStarterRobe, dwarfStarterMail],
+    rations: [waybreadLoaf],
+    potions: [minorHealingPotion, majorHealingPotion,]
   },
   partyMembers: [Tony, Barbosa, Durgan, Perrin],
 }
@@ -94,6 +114,10 @@ const Nereza: Character = {
   inventory: {
     attacks: [witherTouch],
     skills: [evade, block, lifeSiphon],
+    weapons: [dwarfBasicHammer, necromancerBasicWand, barbarianBasicAxe],
+    equipment: [barbarianStarterHarness, necromancerStarterRobe, dwarfStarterMail],
+    rations: [waybreadLoaf],
+    potions: [majorHealingPotion, manaTonic, rejuvenationElixir,]
   },
   partyMembers: [Tony, Durgan, Perrin, Hobbin],
 };
@@ -110,6 +134,10 @@ const Seryn: Character = {
   inventory: {
     attacks: [forstPalm],
     skills: [evade, block, iceGust],
+    weapons: [dwarfBasicHammer, necromancerBasicWand, barbarianBasicAxe],
+    equipment: [barbarianStarterHarness, necromancerStarterRobe, dwarfStarterMail],
+    rations: [waybreadLoaf],
+    potions: [majorHealingPotion, manaTonic, greaterManaTonic, elixirOfVigor]
   },
   partyMembers: [Barbosa, Nereza, Hobbin, Tony],
 };

@@ -17,12 +17,13 @@ import {
 import CharacterDisplayCard from '@/components/ui/CharacterDisplayCard/CharacterDisplayCard';
 import { useState } from 'react';
 import { BattleOption } from '@/types/battle';
+import { InventoryItemBase } from '@/types/character';
 
 
 export default function PartyScreen() {
   useProtectedRoute();
 
-  const [selectedItems, SetSelectedItems] = useState<BattleOption[]>()
+  const [selectedItems, SetSelectedItems] = useState<BattleOption[] | InventoryItemBase[]>()
   // const dispatch = useAppDispatch();
   const activeCharacter = useAppSelector(selectActiveCharacter);
   const characterParty = useAppSelector(selectCharacterParty);
@@ -40,17 +41,17 @@ export default function PartyScreen() {
         case 'potions':
           SetSelectedItems(activeCharacter.inventory.potions)
           break;
+        case 'weapons':
+          SetSelectedItems(activeCharacter.inventory.weapons)
+          break;
+        case 'equipment':
+          SetSelectedItems(activeCharacter.inventory.equipment)
+          break;
+        case 'rations':
+          SetSelectedItems(activeCharacter.inventory.rations)
+          break;
         // case 'coins':
         //   SetSelectedItems(activeCharacter.inventory.coins)
-        //   break;
-        // case 'weapons':
-        //   SetSelectedItems(activeCharacter.inventory.weapons)
-        //   break;
-        // case 'equipment':
-        //   SetSelectedItems(activeCharacter.inventory.equipment)
-        //   break;
-        // case 'rations':
-        //   SetSelectedItems(activeCharacter.inventory.rations)
         //   break;
       }
     }
@@ -131,13 +132,22 @@ export default function PartyScreen() {
             >
               Potions
             </button>
-            <button className="w-full px-4 py-3 text-sm font-semibold text-white border-b border-white last:border-b-0 hover:bg-white/10 focus:outline-none focus:bg-white/15">
+            <button
+              className="w-full px-4 py-3 text-sm font-semibold text-white border-b border-white last:border-b-0 hover:bg-white/10 focus:outline-none focus:bg-white/15"
+              onClick={() => handleInventoryButtonClick('weapons')}
+            >
               Weapons
             </button>
-            <button className="w-full px-4 py-3 text-sm font-semibold text-white border-b border-white last:border-b-0 hover:bg-white/10 focus:outline-none focus:bg-white/15">
+            <button
+              className="w-full px-4 py-3 text-sm font-semibold text-white border-b border-white last:border-b-0 hover:bg-white/10 focus:outline-none focus:bg-white/15"
+              onClick={() => handleInventoryButtonClick('equipment')}
+            >
               Equipment
             </button>
-            <button className="w-full px-4 py-3 text-sm font-semibold text-white border-b border-white last:border-b-0 hover:bg-white/10 focus:outline-none focus:bg-white/15">
+            <button
+              className="w-full px-4 py-3 text-sm font-semibold text-white border-b border-white last:border-b-0 hover:bg-white/10 focus:outline-none focus:bg-white/15"
+              onClick={() => handleInventoryButtonClick('rations')}
+            >
               Rations
             </button>
             <button className="w-full px-4 py-3 text-sm font-semibold text-white border-b border-white last:border-b-0 hover:bg-white/10 focus:outline-none focus:bg-white/15">
@@ -149,7 +159,7 @@ export default function PartyScreen() {
             className="w-full md:w-2/3 min-h-[220px] border-2 border-white bg-black/50 rounded-lg"
           >
             {/* Inventory details will be displayed here based on selected category */}
-            {selectedItems?.map((option: BattleOption) => (
+            {selectedItems?.map((option: BattleOption | InventoryItemBase) => (
               <button
                 type="button"
                 // onClick={() => handleActionSelect(option)}

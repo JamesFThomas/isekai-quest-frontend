@@ -18,6 +18,7 @@ import CharacterDisplayCard from '@/components/ui/CharacterDisplayCard/Character
 import { useState } from 'react';
 import { BattleOption } from '@/types/battle';
 import { InventoryItemBase } from '@/types/character';
+import CoinsPanel from './components/CoinsPanel';
 
 
 export default function PartyScreen() {
@@ -186,6 +187,7 @@ export default function PartyScreen() {
                 </span>
               </button>
             ))}
+            <CoinsPanel coins={activeCharacter?.inventory?.coins} />
           </div>
         </div>
 

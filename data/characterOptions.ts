@@ -37,7 +37,12 @@ const Barbosa: Character = {
     weapons: [halflingBasicSling, elfBasicBow, paladinBasicMace],
     equipment: [paladinStarterArmor, elfStarterCloak, halflingStarterVest],
     rations: [driedRations, heartyStew, sweetTrailMix],
-    potions: [minorHealingPotion, majorHealingPotion]
+    potions: [minorHealingPotion, majorHealingPotion],
+    coins: {
+      gold: 4,
+      silver: 8,
+      copper: 7,
+    }
   },
   partyMembers: [Tony],
 }
@@ -57,7 +62,12 @@ const Durgan: Character = {
     weapons: [dwarfBasicHammer, necromancerBasicWand, barbarianBasicAxe],
     equipment: [barbarianStarterHarness, necromancerStarterRobe, dwarfStarterMail],
     rations: [waybreadLoaf],
-    potions: [greaterManaTonic, rejuvenationElixir, elixirOfVigor]
+    potions: [greaterManaTonic, rejuvenationElixir, elixirOfVigor],
+    coins: {
+      gold: 7,
+      silver: 8,
+      copper: 9,
+    }
   },
   partyMembers: [Tony, Barbosa],
 };
@@ -77,7 +87,12 @@ const Perrin: Character = {
     weapons: [dwarfBasicHammer, necromancerBasicWand, barbarianBasicAxe],
     equipment: [barbarianStarterHarness, necromancerStarterRobe, dwarfStarterMail],
     rations: [waybreadLoaf],
-    potions: [rejuvenationElixir, elixirOfVigor]
+    potions: [rejuvenationElixir, elixirOfVigor],
+    coins: {
+      gold: 1,
+      silver: 2,
+      copper: 93,
+    }
   },
   partyMembers: [Tony, Barbosa, Durgan],
 };
@@ -97,7 +112,12 @@ const Hobbin: Character = {
     weapons: [dwarfBasicHammer, necromancerBasicWand, barbarianBasicAxe],
     equipment: [barbarianStarterHarness, necromancerStarterRobe, dwarfStarterMail],
     rations: [waybreadLoaf],
-    potions: [minorHealingPotion, majorHealingPotion,]
+    potions: [minorHealingPotion, majorHealingPotion,],
+    coins: {
+      gold: 4,
+      silver: 3,
+      copper: 2,
+    }
   },
   partyMembers: [Tony, Barbosa, Durgan, Perrin],
 }
@@ -117,7 +137,12 @@ const Nereza: Character = {
     weapons: [dwarfBasicHammer, necromancerBasicWand, barbarianBasicAxe],
     equipment: [barbarianStarterHarness, necromancerStarterRobe, dwarfStarterMail],
     rations: [waybreadLoaf],
-    potions: [majorHealingPotion, manaTonic, rejuvenationElixir,]
+    potions: [majorHealingPotion, manaTonic, rejuvenationElixir,],
+    coins: {
+      gold: 1,
+      silver: 2,
+      copper: 3,
+    }
   },
   partyMembers: [Tony, Durgan, Perrin, Hobbin],
 };
@@ -137,7 +162,12 @@ const Seryn: Character = {
     weapons: [dwarfBasicHammer, necromancerBasicWand, barbarianBasicAxe],
     equipment: [barbarianStarterHarness, necromancerStarterRobe, dwarfStarterMail],
     rations: [waybreadLoaf],
-    potions: [majorHealingPotion, manaTonic, greaterManaTonic, elixirOfVigor]
+    potions: [majorHealingPotion, manaTonic, greaterManaTonic, elixirOfVigor],
+    coins: {
+      gold: 17,
+      silver: 18,
+      copper: 19,
+    }
   },
   partyMembers: [Barbosa, Nereza, Hobbin, Tony],
 };

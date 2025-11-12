@@ -26,6 +26,7 @@ export const radiantPalm: BattleOption = {
     icon: "/battleaction_icons/sword_icon2.png",
     title: 'Radiant Palm',
     type: 'skill',
+    description: '',
     effect: {
         hp: -1,
     },
@@ -36,6 +37,7 @@ export const iceGust: BattleOption = {
     id: 'snow-elf-basic-skill',
     icon: "/battleaction_icons/sword_icon2.png",
     title: 'Ice Gust',
+    description: '',
     type: 'skill',
     effect: {
         hp: -1,
@@ -47,6 +49,7 @@ export const luckyHook: BattleOption = {
     id: 'halfling-basic-skill',
     icon: "/battleaction_icons/sword_icon2.png",
     title: 'Lucky Hook',
+    description: '',
     type: 'skill',
     effect: {
         hp: -1,
@@ -58,6 +61,7 @@ export const ragingSlam: BattleOption = {
     id: 'barbarian-basic-skill',
     icon: "/battleaction_icons/sword_icon2.png",
     title: 'Raging Slam',
+    description: '',
     type: 'skill',
     effect: {
         hp: -1,
@@ -69,6 +73,7 @@ export const lifeSiphon: BattleOption = {
     id: 'necromancer-basic-skill',
     icon: "/battleaction_icons/sword_icon2.png",
     title: 'Life Siphon',
+    description: '',
     type: 'skill',
     effect: {
         hp: -1,
@@ -80,6 +85,7 @@ export const earthshakerStomp: BattleOption = {
     id: 'dwarf-basic-skill',
     icon: "/battleaction_icons/sword_icon2.png",
     title: 'Earthshaker Stomp',
+    description: '',
     type: 'skill',
     effect: {
         hp: -1,

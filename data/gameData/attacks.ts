@@ -5,6 +5,7 @@ export const holyJab: BattleOption = {
     id: 'paladin-basic-attack',
     icon: "/battleaction_icons/unarmedAttack_icon.png",
     title: 'Holy Jab',
+    description: '',
     type: 'attack',
     effect: {
         hp: -1,
@@ -17,6 +18,7 @@ export const forstPalm: BattleOption = {
     icon: "/battleaction_icons/unarmedAttack_icon.png",
     title: 'Frost Palm',
     type: 'attack',
+    description: '',
     effect: {
         hp: -1,
     },
@@ -28,6 +30,7 @@ export const quickJab: BattleOption = {
     icon: "/battleaction_icons/unarmedAttack_icon.png",
     title: 'Quick Jab',
     type: 'attack',
+    description: '',
     effect: {
         hp: -1,
     },
@@ -38,6 +41,7 @@ export const fistSmash: BattleOption = {
     id: 'barbarian-basic-attack',
     icon: "/battleaction_icons/unarmedAttack_icon.png",
     title: 'Fist Smash',
+    description: '',
     type: 'attack',
     effect: {
         hp: -1,
@@ -50,6 +54,7 @@ export const witherTouch: BattleOption = {
     icon: "/battleaction_icons/unarmedAttack_icon.png",
     title: 'Wither Touch',
     type: 'attack',
+    description: '',
     effect: {
         hp: -1,
     },
@@ -60,6 +65,7 @@ export const headButt: BattleOption = {
     id: 'dwarf-basic-attack',
     icon: "/battleaction_icons/unarmedAttack_icon.png",
     title: 'Head Butt',
+    description: '',
     type: 'attack',
     effect: {
         hp: -1,
@@ -73,6 +79,7 @@ export const slash: BattleOption = {
     icon: "/battleaction_icons/unarmedAttack_icon.png",
     title: 'Slash',
     type: 'attack',
+    description: '',
     effect: {
         hp: -1,
     },

@@ -24,32 +24,31 @@ const CoinsPanel = ({ coins }: CoinsPanelProps) => {
     return (
         <div
             id="CoinPanel-wrapper"
-            className=" flex flex-row md:flex-col md:items-stretch p-2"
+            className=" flex flex-row p-2 gap-3"
         >
             {coinData.map((coin, _ind) => (
                 <div
                     id="coin-display-wrapper"
                     key={`${coin.title}-${_ind}`}
+                    className="flex flex-col items-center"
                 >
                     <figure
                         id={`CoinPanel-${coin.title}-image`}
-                        className='CoinPanel-image w-full'>
+                        className='CoinPanel-image w-full flex justify-center'>
                         <Image
                             alt={`${coin.title}Coin-image`}
                             src={coin.icon ?? '/character_avatars/default_avatar.png'}
-                            width={100}
-                            height={100}
+                            width={50}
+                            height={50}
                         />
                     </figure>
                     <div
                         id={`CoinPanel-${coin.title}-count`}
                         className="CoinPanel-count w-full text-white flex flex-col justify-center gap-1 p-1"
                     >
-                        <div className=''>
-                            <p className='block text-white text-sm font-bold'>
-                                {coin.title} - {coin.count}
-                            </p>
-                        </div>
+                        <p className='block text-white text-sm font-bold'>
+                            {coin.title}: {coin.count}
+                        </p>
                     </div>
                 </div>
             ))}

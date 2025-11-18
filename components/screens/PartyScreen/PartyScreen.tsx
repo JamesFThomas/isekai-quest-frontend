@@ -118,7 +118,8 @@ export default function PartyScreen() {
 
         <div
           id="character-inventory"
-          className="character-inventory p-4 flex flex-col md:flex-row md:space-x-4 md:items-stretch">
+          className="character-inventory p-4 flex flex-col md:flex-row md:space-x-4 md:items-stretch"
+        >
           <div
             id="inventory-buttons"
             className="w-full md:w-1/3 mb-4 md:mb-0 flex flex-col border-2 border-white rounded-md bg-black/40 overflow-hidden"

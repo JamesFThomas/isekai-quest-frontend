@@ -5,7 +5,7 @@ import {
     DialogTitle,
 } from '@headlessui/react';
 
-import { Dispatch, ReactNode, SetStateAction } from 'react';
+import { ReactNode, Dispatch, SetStateAction } from 'react';
 
 type ModalBaseProps = {
     isOpen: boolean;

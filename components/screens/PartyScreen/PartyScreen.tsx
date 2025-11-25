@@ -19,6 +19,8 @@ import { useState } from 'react';
 import { BattleOption } from '@/types/battle';
 import { InventoryItemBase } from '@/types/character';
 import CoinsPanel from './components/CoinsPanel';
+import { InventoryItemModal } from './components/InventoryItemModal';
+
 
 
 export default function PartyScreen() {
@@ -79,7 +81,6 @@ export default function PartyScreen() {
     }
   }
 
-  console.log("sleceted Item", selectedInventoryItem)
 
   return (
     <div
@@ -255,6 +256,15 @@ export default function PartyScreen() {
             )}
           </div>
         </div>
+
+        {
+          selectedInventoryItem &&
+          < InventoryItemModal
+            isOpen={isItemModalOpen}
+            closeModal={setIsItemModalOpen}
+            inventoryItem={selectedInventoryItem}
+          />
+        }
 
 
       </div>

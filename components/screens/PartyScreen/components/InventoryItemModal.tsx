@@ -30,9 +30,9 @@ export const InventoryItemModal = ({ isOpen, closeModal, inventoryItem }: Invent
 
                     </p>
                 </div>
-                <div className="mt-4 flex justify-center gap-4">
+                <div className="p-4 flex justify-center gap-4">
                     <button
-                        className='rounded-full text-center text-2xl text-white p-4 m-1 hover:cursor-pointer disabled:cursor-not-allowed'
+                        className='rounded-full text-lg text-white px-6 py-3 w-32 m-1 hover:cursor-pointer disabled:cursor-not-allowed'
                         style={{
                             backgroundColor: '#8E9CC9',
 
@@ -42,7 +42,7 @@ export const InventoryItemModal = ({ isOpen, closeModal, inventoryItem }: Invent
                     </button>
                     <button
                         onClick={handleClose}
-                        className='rounded-full text-center text-2xl text-white p-4 m-1 hover:cursor-pointer disabled:cursor-not-allowed'
+                        className='rounded-full text-lg text-white px-6 py-3 w-32 m-1 hover:cursor-pointer disabled:cursor-not-allowed'
                         style={{
                             backgroundColor: '#8E9CC9',
                         }}

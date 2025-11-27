@@ -15,6 +15,21 @@ export const InventoryItemModal = ({ isOpen, closeModal, inventoryItem }: Invent
         closeModal(false)
     }
 
+    let modalType: string = "";
+    let actionButtonLabel: string = "";
+
+    if (inventoryItem?.type === "attack" || inventoryItem?.type === "skill") {
+        modalType = "read-only";
+    } else if (inventoryItem?.type === "potion" || inventoryItem?.type === "ration") {
+        actionButtonLabel = "Use"
+        modalType = "action"
+    } else if (inventoryItem?.type === "weapon" || inventoryItem?.type === "equipment") {
+        actionButtonLabel = "Equip"
+        modalType = "action"
+    }
+
+
+
     const modalContent = (inventoryItem: BattleOption | InventoryItemBase | undefined) => {
         return (
             inventoryItem &&
@@ -30,38 +45,59 @@ export const InventoryItemModal = ({ isOpen, closeModal, inventoryItem }: Invent
 
                     </p>
                 </div>
-                <div className="p-4 flex justify-center gap-4">
-                    <button
-                        className='rounded-full text-lg text-white px-6 py-3 w-32 m-1 hover:cursor-pointer disabled:cursor-not-allowed'
-                        style={{
-                            backgroundColor: '#8E9CC9',
+                {
+                    modalType === "action" &&
 
-                        }}
-                    >
-                        Use/Equip
-                    </button>
-                    <button
-                        onClick={handleClose}
-                        className='rounded-full text-lg text-white px-6 py-3 w-32 m-1 hover:cursor-pointer disabled:cursor-not-allowed'
-                        style={{
-                            backgroundColor: '#8E9CC9',
-                        }}
-                    >
-                        Close
-                    </button>
-                </div>
+                    <div className="p-4 flex justify-center gap-4">
+                        <button
+                            className='rounded-full text-lg text-white px-6 py-3 w-32 m-1 hover:cursor-pointer disabled:cursor-not-allowed'
+                            style={{
+                                backgroundColor: '#8E9CC9',
+
+                            }}
+                        >
+                            {actionButtonLabel}
+                        </button>
+                        <button
+                            onClick={handleClose}
+                            className='rounded-full text-lg text-white px-6 py-3 w-32 m-1 hover:cursor-pointer disabled:cursor-not-allowed'
+                            style={{
+                                backgroundColor: '#8E9CC9',
+                            }}
+                        >
+                            Close
+                        </button>
+                    </div>
+                }
             </div>
         )
     }
 
-    if (!inventoryItem) null;
+    if (!inventoryItem) return null;
 
-    return (
-        <ModalBase
-            isOpen={isOpen}
-            type={"action"}
-            closeModal={closeModal}
-            title={"Inventory Item"}
-            children={modalContent(inventoryItem)}
-        />)
+    if (modalType === "read-only") {
+
+        return (
+            <ModalBase
+                isOpen={isOpen}
+                type={modalType}
+                closeModal={closeModal}
+                title={"Inventory Item"}
+                children={modalContent(inventoryItem)}
+            />
+        )
+    }
+
+
+    if (modalType === "action") {
+        return (
+            <ModalBase
+                isOpen={isOpen}
+                type={modalType}
+                closeModal={closeModal}
+                title={"Inventory Item"}
+                children={modalContent(inventoryItem)}
+            />
+        )
+    }
 };

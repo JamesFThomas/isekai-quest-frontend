@@ -57,16 +57,15 @@ export const ModalBase = ({
                             {type === "read-only" && (
                                 <div
                                     id='ModalBase-Footer'
-                                    className='sm:flex sm:flex-row-reverse sm:px-6'>
+                                    className="flex justify-center p-4"
+                                >
                                     <button
                                         type='button'
                                         data-autofocus
                                         onClick={setOpen}
-                                        className='mt-3 inline-flex w-full justify-center rounded-full bg-white px-3 py-2 text-sm font-semibold text-white sm:mt-0 hover:cursor-pointer'
+                                        className='rounded-full text-lg text-white px-6 py-3 w-32 m-1 hover:cursor-pointer disabled:cursor-not-allowed'
                                         style={{
-                                            backgroundColor: '#8E9CC9',
-                                            flex: 1,
-                                            flexBasis: 0,
+                                            backgroundColor: '#8E9CC9'
                                         }}
                                     >
                                         Close

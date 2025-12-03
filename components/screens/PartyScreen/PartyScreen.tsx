@@ -27,7 +27,7 @@ import { InventoryItemModal } from './components/InventoryItemModal';
 export default function PartyScreen() {
   useProtectedRoute();
 
-  const [selectedItems, setSelectedItems] = useState<BattleOption[] | InventoryItemBase[]>();
+  const [selectedItems, setSelectedItems] = useState<(BattleOption | InventoryItemBase)[]>();
   const [selectedCategory, setSelectedCategory] = useState<'coins' | 'items' | undefined>();
 
   const [selectedInventoryItem, setSelectedInventoryItem] = useState<BattleOption | InventoryItemBase>();
@@ -83,6 +83,12 @@ export default function PartyScreen() {
   }
 
   const handleItemSelect = (item: BattleOption | InventoryItemBase) => {
+    // remove item from selectedItems component state
+    // upgrade later to direvive lists from redux state directery not through component state
+    setSelectedItems(prev =>
+      prev?.filter(invItem => invItem.id !== item.id) || []
+    );
+
     dispatch(useInventoryItemThunk(item));
   }
 

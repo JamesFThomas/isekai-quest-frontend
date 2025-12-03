@@ -14,8 +14,8 @@ export interface Character {
   level?: number;
   inventory?: Inventory;
   partyMembers?: Character[];
-  // equippedWeapon?: string;
-  // equippedArmor?: string;
+  equippedWeapon?: string;
+  equippedArmor?: string;
 }
 
 // Characters will have an inventory of items, coins, and equipment

@@ -85,9 +85,11 @@ export default function PartyScreen() {
   const handleItemSelect = (item: BattleOption | InventoryItemBase) => {
     // remove item from selectedItems component state
     // upgrade later to direvive lists from redux state directery not through component state
-    setSelectedItems(prev =>
-      prev?.filter(invItem => invItem.id !== item.id) || []
-    );
+    if (item.type === 'potion' || item.type === 'ration') {
+      setSelectedItems(prev =>
+        prev?.filter(invItem => invItem.id !== item.id) || []
+      );
+    }
 
     dispatch(useInventoryItemThunk(item));
   }
@@ -141,6 +143,24 @@ export default function PartyScreen() {
                 MP: {activeCharacter?.mp ?? 'N/A'}
               </label>
             </div>
+            {
+              (activeCharacter && activeCharacter.equippedWeapon) && (
+                <div className='mb-4'>
+                  <label className='block text-white text-sm font-bold mb-2'>
+                    Weapon: {activeCharacter.equippedWeapon.title}
+                  </label>
+                </div>
+              )
+            }
+            {
+              (activeCharacter && activeCharacter.equippedArmor) && (
+                <div className='mb-4'>
+                  <label className='block text-white text-sm font-bold mb-2'>
+                    Armor: {activeCharacter?.equippedArmor?.title ?? 'N/A'}
+                  </label>
+                </div>
+              )
+            }
           </div>
         </div>
 

@@ -58,6 +58,7 @@ export const useInventoryItemThunk = createAsyncThunk<
     if (item.type === 'weapon' || item.type === 'equipment') {
       // Equip weapon logic here
       console.log(`Equipping ${item.title} to ${ActiveCharacter?.name}`);
+      dispatch(equipCharcaterInventoryItem(item));
     }
 
     // potion/ration use logic
@@ -87,6 +88,32 @@ export const characterSlice = createSlice({
       state.party = state.party.filter(
         (character) => character.id !== action.payload
       );
+    },
+    equipCharcaterInventoryItem: (state, action: PayloadAction<InventoryItemBase>) => {
+
+      if (!state.ActiveCharacter) return;
+
+      const active = state.ActiveCharacter;
+      const item = action.payload;
+
+
+      if (item.type === 'weapon') {
+        if (active.equippedWeapon?.id !== item.id) {
+          active.equippedWeapon = item;
+        }
+        else {
+          active.equippedWeapon = undefined;
+        }
+      }
+
+      else if (action.payload.type === 'equipment') {
+        if (active.equippedArmor?.id !== item.id) {
+          active.equippedArmor = item;
+        }
+        else {
+          active.equippedArmor = undefined;
+        }
+      }
     },
     useCharcaterInventoryItem: (state, action: PayloadAction<UpdateActiveCharacterPayload>) => {
       const { character, item } = action.payload;
@@ -124,6 +151,7 @@ export const {
   setActiveCharacter,
   setCharacterLocation,
   useCharcaterInventoryItem,
+  equipCharcaterInventoryItem,
   // Will use later when implementing party screen
   addCharacterToParty,
   removeCharacterFromParty,

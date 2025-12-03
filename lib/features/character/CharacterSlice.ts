@@ -1,8 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../../store';
 
-import { Character } from '@/types/character';
+import { Character, InventoryItemBase } from '@/types/character';
+import { BattleOption } from '@/types/battle';
 interface CharacterState {
   ActiveCharacter: Character | null;
   characterLocation: string | null;
@@ -14,6 +15,22 @@ const initialState: CharacterState = {
   characterLocation: null,
   party: [],
 };
+
+export const useInventoryItemThunk = createAsyncThunk<
+  void,
+  BattleOption | InventoryItemBase,
+  { state: RootState }
+>(
+  'character/useInventoryItemThunk',
+  async (item, { dispatch, getState }) => {
+    // Thunk logic for using an inventory item
+    const { ActiveCharacter } = getState().character;
+
+    console.log('Using inventory item:', item);
+    console.log('Active character:', ActiveCharacter);
+
+  }
+);
 
 export const characterSlice = createSlice({
   name: 'character',

@@ -7,9 +7,15 @@ type InventoryItemModalProps = {
     isOpen: boolean;
     closeModal: Dispatch<SetStateAction<boolean>>;
     inventoryItem: BattleOption | InventoryItemBase | undefined;
+    handleInventorySelect: (inventoryOption: BattleOption | InventoryItemBase) => void;
 }
 
-export const InventoryItemModal = ({ isOpen, closeModal, inventoryItem }: InventoryItemModalProps) => {
+export const InventoryItemModal = ({
+    isOpen,
+    closeModal,
+    inventoryItem,
+    handleInventorySelect,
+}: InventoryItemModalProps) => {
 
     const handleClose = () => {
         closeModal(false)
@@ -51,6 +57,7 @@ export const InventoryItemModal = ({ isOpen, closeModal, inventoryItem }: Invent
                     <div className="p-4 flex justify-center gap-4">
                         <button
                             className='rounded-full text-lg text-white px-6 py-3 w-32 m-1 hover:cursor-pointer disabled:cursor-not-allowed'
+                            onClick={() => handleInventorySelect(inventoryItem)}
                             style={{
                                 backgroundColor: '#8E9CC9',
 
@@ -59,8 +66,8 @@ export const InventoryItemModal = ({ isOpen, closeModal, inventoryItem }: Invent
                             {actionButtonLabel}
                         </button>
                         <button
-                            onClick={handleClose}
                             className='rounded-full text-lg text-white px-6 py-3 w-32 m-1 hover:cursor-pointer disabled:cursor-not-allowed'
+                            onClick={handleClose}
                             style={{
                                 backgroundColor: '#8E9CC9',
                             }}

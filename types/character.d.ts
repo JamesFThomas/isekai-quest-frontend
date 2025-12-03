@@ -37,7 +37,18 @@ export interface Coins {
 export type InventoryItemType = 'weapon' | 'equipment' | 'potion' | 'ration' | 'coin';
 
 
-export interface InventoryItemBase {
+export interface EffectfulItem {
+  effect: {
+    hp?: number,
+    mp?: number
+  };
+  cost?: {
+    hp?: number,
+    mp?: number
+  }
+}
+
+export interface InventoryItemBase extends EffectfulItem {
   id: string;
   icon: string;
   title: string;

@@ -6,13 +6,14 @@ import useProtectedRoute from '@/lib/hooks/useProtectedRoute';
 import Image from 'next/image';
 
 import {
-  // useAppDispatch,
+  useAppDispatch,
   useAppSelector,
 } from '@/lib/reduxHooks';
 
 import {
   selectActiveCharacter,
   selectCharacterParty,
+  useInventoryItemThunk,
 } from '@/lib/features/character/CharacterSlice';
 import CharacterDisplayCard from '@/components/ui/CharacterDisplayCard/CharacterDisplayCard';
 import { useState } from 'react';
@@ -32,7 +33,7 @@ export default function PartyScreen() {
   const [selectedInventoryItem, setSelectedInventoryItem] = useState<BattleOption | InventoryItemBase>();
   const [isItemModalOpen, setIsItemModalOpen] = useState(false);
 
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   const activeCharacter = useAppSelector(selectActiveCharacter);
   const characterParty = useAppSelector(selectCharacterParty);
 
@@ -79,6 +80,10 @@ export default function PartyScreen() {
       setSelectedInventoryItem(selectedItem)
       setIsItemModalOpen(true);
     }
+  }
+
+  const handleItemSelect = (item: BattleOption | InventoryItemBase) => {
+    dispatch(useInventoryItemThunk(item));
   }
 
 
@@ -263,6 +268,7 @@ export default function PartyScreen() {
             isOpen={isItemModalOpen}
             closeModal={setIsItemModalOpen}
             inventoryItem={selectedInventoryItem}
+            handleInventorySelect={handleItemSelect}
           />
         }
 

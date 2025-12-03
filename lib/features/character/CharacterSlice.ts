@@ -4,6 +4,7 @@ import type { RootState } from '../../store';
 
 import { Character, InventoryItemBase } from '@/types/character';
 import { BattleOption } from '@/types/battle';
+
 interface CharacterState {
   ActiveCharacter: Character | null;
   characterLocation: string | null;
@@ -16,18 +17,55 @@ const initialState: CharacterState = {
   party: [],
 };
 
+type InventorySelection = BattleOption | InventoryItemBase;
+
+type UpdateActiveCharacterPayload = {
+  character: Character;
+  item: InventorySelection;
+};
+
+export const convertItemTypeString = (item: InventorySelection): string => {
+  console.log('Converting item type for:', item.type);
+  switch (item.type) {
+    case 'weapon':
+      return "weapons";
+    case 'equipment':
+      return "equipment";
+    case 'potion':
+      return "potions";
+    case 'ration':
+      return "rations";
+    default:
+      return 'unknown';
+  }
+}
+
 export const useInventoryItemThunk = createAsyncThunk<
   void,
-  BattleOption | InventoryItemBase,
+  InventorySelection,
   { state: RootState }
 >(
   'character/useInventoryItemThunk',
   async (item, { dispatch, getState }) => {
-    // Thunk logic for using an inventory item
+
+    // Get the active character from state
     const { ActiveCharacter } = getState().character;
 
-    console.log('Using inventory item:', item);
-    console.log('Active character:', ActiveCharacter);
+    // Ensure there is an active character
+    if (!ActiveCharacter) return;
+
+    // weapon equip use logic
+    if (item.type === 'weapon' || item.type === 'equipment') {
+      // Equip weapon logic here
+      console.log(`Equipping ${item.title} to ${ActiveCharacter?.name}`);
+    }
+
+    // potion/ration use logic
+    else if (item.type === 'potion' || item.type === 'ration') {
+      // use item and update character state
+      console.log(`Using ${item.type} a ${item.title} on ${ActiveCharacter?.name}`);
+      dispatch(useCharcaterInventoryItem({ character: ActiveCharacter, item }));
+    }
 
   }
 );
@@ -50,6 +88,34 @@ export const characterSlice = createSlice({
         (character) => character.id !== action.payload
       );
     },
+    useCharcaterInventoryItem: (state, action: PayloadAction<UpdateActiveCharacterPayload>) => {
+      const { character, item } = action.payload;
+
+      const targetCharacter = state.ActiveCharacter?.id === character.id ? state.ActiveCharacter : state.party.find(c => c.id === character.id);
+
+      // Implement inventory item usage logic here
+      if (targetCharacter && item.effect.hp) {
+        targetCharacter.hp += item.effect.hp;
+      }
+
+      if (targetCharacter && item.effect.mp) {
+        targetCharacter.mp += item.effect.mp;
+      }
+
+      // remove item from inventory
+      // map the inventory using item and filter out used item
+      const itemCategory = convertItemTypeString(item);
+
+      console.log('Removing item from category:', itemCategory);
+
+      if (targetCharacter?.inventory && itemCategory in targetCharacter.inventory) {
+        const updatedItems =
+          (targetCharacter.inventory as Record<string, InventoryItemBase[]>)[itemCategory]
+            .filter((invItem: InventorySelection) => invItem.id !== item.id);
+
+        (targetCharacter.inventory as Record<string, InventoryItemBase[]>)[itemCategory] = updatedItems;
+      }
+    }
   },
 });
 
@@ -57,6 +123,7 @@ export const characterSlice = createSlice({
 export const {
   setActiveCharacter,
   setCharacterLocation,
+  useCharcaterInventoryItem,
   // Will use later when implementing party screen
   addCharacterToParty,
   removeCharacterFromParty,

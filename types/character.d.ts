@@ -14,12 +14,13 @@ export interface Character {
   level?: number;
   inventory?: Inventory;
   partyMembers?: Character[];
+  // equippedWeapon?: string;
+  // equippedArmor?: string;
 }
 
 // Characters will have an inventory of items, coins, and equipment
 export interface Inventory {
   attacks?: BattleOption[];
-  equippedWeapon?: string;
   skills?: BattleOption[];
   coins?: Coins;  // accessible via inventory.coins.gold, etc.
   weapons?: Weapon[]; // Unequipped weapons

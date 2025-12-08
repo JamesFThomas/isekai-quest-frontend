@@ -1,32 +1,33 @@
 export const marketOptions = [
     {
         id: 1,
-        name: 'Weapons Shop',
+        name: 'Weapons',
         pageRoute: '/guild/questboard',
-        // src: '/guildscreen_icons/questboard.png',
+        src: '/marketscreen_icons/weapons_icon2.png',
         altText: 'Quest Board Icon',
+        disabled: true,
     },
     {
         id: 2,
-        name: 'Potions Shop',
+        name: 'Potions',
         pageRoute: '/guild/exchange',
-        // src: '/guildscreen_icons/exchangedesk.png',
+        src: '/marketscreen_icons/potions_icon.png',
         altText: 'Exchange Desk Icon',
         disabled: true,
     },
     {
         id: 3,
-        name: 'Armor Shop',
+        name: 'Armor & Equipment',
         pageRoute: '/guild/services',
-        // src: '/guildscreen_icons/services.png',
+        src: '/marketscreen_icons/armor_icon.png',
         altText: 'Services Icon',
         disabled: true,
     },
     {
         id: 4,
-        name: 'Supplies Store',
+        name: 'Supplies & Rations',
         pageRoute: '/guild/exams',
-        // src: '/guildscreen_icons/levelexams2.png',
+        src: '/marketscreen_icons/rations_icon.png',
         altText: 'Level Exams Icon',
         disabled: true,
     },
@@ -35,9 +36,9 @@ export const marketOptions = [
 /*
 Weapons
 
-Armor/Equipment
+Armor & Equipment
 
 Potions
 
-Rations/Supplies
+Supplies & Rations
 */

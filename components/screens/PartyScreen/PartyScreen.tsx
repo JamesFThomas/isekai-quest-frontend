@@ -92,6 +92,7 @@ export default function PartyScreen() {
     }
 
     dispatch(useInventoryItemThunk(item));
+    setIsItemModalOpen(false);
   }
 
 

@@ -8,7 +8,7 @@ import {
   setCharacterLocation,
 } from '../features/character/CharacterSlice';
 
-import characterOptions from '../../data/characterOptions';
+import characterOptions from '../../data/screenOptions/characterOptions';
 
 // This function will load a random mock character object into the Redux CharacterSlice for testing purposes
 export default function useMockCharacter() {

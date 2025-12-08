@@ -1,4 +1,4 @@
-const guildOptions = [
+export const guildOptions = [
   {
     id: 1,
     name: 'Quest Board',
@@ -32,4 +32,3 @@ const guildOptions = [
   },
 ];
 
-export default guildOptions;

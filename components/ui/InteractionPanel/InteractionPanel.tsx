@@ -22,7 +22,7 @@ const InteractionPanel = ({ title, optionArray }: InteractionPanelProps) => {
   const router = useRouter();
 
   const handleOptionClick = (option: PanelOption) => {
-    console.log(`${option.name} clicked`);
+    // console.log(`${option.name} clicked`);
     // Add any additional logic for handling option clicks
     if (option.pageRoute) {
       router.push(option.pageRoute); // Navigate to the specified route if provided
@@ -34,7 +34,6 @@ const InteractionPanel = ({ title, optionArray }: InteractionPanelProps) => {
       <header
         className='panel-title text-center text-4xl text-white p-3.5  bg-[url("/background_images/parchment_paper.png")] bg-cover bg-no-repeat bg-center'
         style={{
-          // backgroundColor: '#C87D7D',
           width: '100%',
         }}
       >
@@ -44,16 +43,14 @@ const InteractionPanel = ({ title, optionArray }: InteractionPanelProps) => {
         className='options-grid grid grid-cols-1 sm:grid-cols-2 gap-4 p-4'
         style={{
           width: '100%',
-          // backgroundColor: 'white',
         }}
       >
         {optionArray.map((option) => (
           <button
-            className={`flex flex-col items-center justify-center ${
-              option.disabled
+            className={`flex flex-col items-center justify-center ${option.disabled
                 ? 'opacity-50 cursor-not-allowed'
                 : 'cursor-pointer'
-            }`}
+              }`}
             key={option.id}
             onClick={() => handleOptionClick(option)}
             disabled={option.disabled}

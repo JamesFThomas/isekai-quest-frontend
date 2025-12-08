@@ -2,7 +2,6 @@
 
 import BackButton from '@/components/ui/BackButton/BackButton';
 import InteractionPanel from '@/components/ui/InteractionPanel/InteractionPanel';
-import { guildOptions } from '@/data/screenOptions/guildOptions';
 import { marketOptions } from '@/data/screenOptions/marketOptions';
 import useProtectedRoute from '@/lib/hooks/useProtectedRoute';
 

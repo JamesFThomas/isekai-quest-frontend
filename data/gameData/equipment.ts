@@ -7,6 +7,9 @@ export const paladinStarterArmor: Equipment = {
     title: 'Initiate Plate',
     type: 'equipment',
     description: 'Simple but polished plate armor issued to new paladins of the order.',
+    effect: {
+        hp: 10,
+    },
 };
 
 export const elfStarterCloak: Equipment = {
@@ -15,6 +18,9 @@ export const elfStarterCloak: Equipment = {
     title: 'Forestweave Cloak',
     type: 'equipment',
     description: 'A light, hooded cloak that helps elves blend into wooded paths.',
+    effect: {
+        hp: 10,
+    },
 };
 
 export const halflingStarterVest: Equipment = {
@@ -23,6 +29,9 @@ export const halflingStarterVest: Equipment = {
     title: 'Padded Travel Vest',
     type: 'equipment',
     description: 'A padded vest with many pockets, perfect for nimble halfling adventurers.',
+    effect: {
+        hp: 10,
+    },
 };
 
 export const barbarianStarterHarness: Equipment = {
@@ -31,6 +40,9 @@ export const barbarianStarterHarness: Equipment = {
     title: 'Warg Hide Harness',
     type: 'equipment',
     description: 'Rough hide straps that offer minimal protection but maximum freedom of movement.',
+    effect: {
+        hp: 10,
+    },
 };
 
 export const necromancerStarterRobe: Equipment = {
@@ -39,6 +51,9 @@ export const necromancerStarterRobe: Equipment = {
     title: 'Faded Gravecloth Robe',
     type: 'equipment',
     description: 'A tattered robe that smells faintly of grave soil and old incense.',
+    effect: {
+        hp: 10,
+    },
 };
 
 export const dwarfStarterMail: Equipment = {
@@ -47,6 +62,9 @@ export const dwarfStarterMail: Equipment = {
     title: 'Mining Chainshirt',
     type: 'equipment',
     description: 'A reinforced chainshirt once used in the mines to guard against cave-ins.',
+    effect: {
+        hp: 10,
+    },
 };
 
 // General equipment usable by anyone
@@ -56,6 +74,9 @@ export const travelersCloak: Equipment = {
     title: 'Traveler’s Cloak',
     type: 'equipment',
     description: 'A weathered cloak that keeps out wind, rain, and prying eyes.',
+    effect: {
+        hp: 10,
+    },
 };
 
 export const leatherBracers: Equipment = {
@@ -64,6 +85,9 @@ export const leatherBracers: Equipment = {
     title: 'Leather Bracers',
     type: 'equipment',
     description: 'Simple bracers that offer a bit of extra protection to the forearms.',
+    effect: {
+        hp: 10,
+    },
 };
 
 export const sturdyBoots: Equipment = {
@@ -72,4 +96,7 @@ export const sturdyBoots: Equipment = {
     title: 'Sturdy Boots',
     type: 'equipment',
     description: 'Well-worn boots built for long marches across rough terrain.',
+    effect: {
+        hp: 10,
+    },
 };

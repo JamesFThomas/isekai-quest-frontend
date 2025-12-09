@@ -40,7 +40,7 @@ export const convertItemTypeString = (item: InventorySelection): string => {
   }
 }
 
-export const useInventoryItemThunk = createAsyncThunk<
+export const utilizeInventoryItemThunk = createAsyncThunk<
   void,
   InventorySelection,
   { state: RootState }

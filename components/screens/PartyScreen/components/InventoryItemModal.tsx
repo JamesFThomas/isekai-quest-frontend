@@ -1,3 +1,5 @@
+'use client';
+
 import { ModalBase } from "@/components/ui/ModalBase/ModalBase";
 import { BattleOption } from "@/types/battle";
 import { InventoryItemBase } from "@/types/character";
@@ -41,7 +43,10 @@ export const InventoryItemModal = ({
             inventoryItem &&
             <div>
                 <div>
-                    < img src={inventoryItem.icon} />
+                    < img
+                        src={inventoryItem.icon}
+                        alt={inventoryItem.title}
+                    />
                     <p>
 
                         {inventoryItem.title}
@@ -90,8 +95,9 @@ export const InventoryItemModal = ({
                 type={modalType}
                 closeModal={closeModal}
                 title={"Inventory Item"}
-                children={modalContent(inventoryItem)}
-            />
+            >
+                {modalContent(inventoryItem)}
+            </ModalBase>
         )
     }
 
@@ -103,8 +109,9 @@ export const InventoryItemModal = ({
                 type={modalType}
                 closeModal={closeModal}
                 title={"Inventory Item"}
-                children={modalContent(inventoryItem)}
-            />
+            >
+                {modalContent(inventoryItem)}
+            </ModalBase>
         )
     }
 };

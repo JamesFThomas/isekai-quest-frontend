@@ -13,7 +13,7 @@ import {
 import {
   selectActiveCharacter,
   selectCharacterParty,
-  useInventoryItemThunk,
+  utilizeInventoryItemThunk,
 } from '@/lib/features/character/CharacterSlice';
 import CharacterDisplayCard from '@/components/ui/CharacterDisplayCard/CharacterDisplayCard';
 import { useState } from 'react';
@@ -91,7 +91,7 @@ export default function PartyScreen() {
       );
     }
 
-    dispatch(useInventoryItemThunk(item));
+    dispatch(utilizeInventoryItemThunk(item));
     setIsItemModalOpen(false);
   }
 

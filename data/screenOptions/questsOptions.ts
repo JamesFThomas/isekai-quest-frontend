@@ -1,4 +1,5 @@
 import { QuestStory } from '@/types/quest';
+
 import { banditWatchQuest } from '../questStories/BanditWatch';
 import { herbGatheringQuest } from '../questStories/HerbGathering';
 import { marshLightsQuest } from '../questStories/MarshLights';

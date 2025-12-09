@@ -6,6 +6,9 @@ export const paladinBasicMace: Weapon = {
     title: 'Blessed Mace',
     type: 'weapon',
     description: 'A simple mace engraved with holy symbols, favored by novice paladins.',
+    effect: {
+        hp: 10,
+    },
 };
 
 export const elfBasicBow: Weapon = {
@@ -14,6 +17,9 @@ export const elfBasicBow: Weapon = {
     title: 'Elmwood Bow',
     type: 'weapon',
     description: 'A light bow carved from elm, ideal for an elf just starting their journey.',
+    effect: {
+        hp: 10,
+    },
 };
 
 export const halflingBasicSling: Weapon = {
@@ -22,6 +28,9 @@ export const halflingBasicSling: Weapon = {
     title: 'Trusty Sling',
     type: 'weapon',
     description: 'A worn but reliable sling, perfect for quick-handed halflings.',
+    effect: {
+        hp: 10,
+    },
 };
 
 export const barbarianBasicAxe: Weapon = {
@@ -30,6 +39,9 @@ export const barbarianBasicAxe: Weapon = {
     title: 'Rusty Greataxe',
     type: 'weapon',
     description: 'A heavy, battered greataxe that still hits like a cart of bricks.',
+    effect: {
+        hp: 10,
+    },
 };
 
 export const necromancerBasicWand: Weapon = {
@@ -38,6 +50,9 @@ export const necromancerBasicWand: Weapon = {
     title: 'Bone Wand',
     type: 'weapon',
     description: 'A wand carved from bone, humming faintly with necrotic energy.',
+    effect: {
+        hp: 10,
+    },
 };
 
 export const dwarfBasicHammer: Weapon = {
@@ -46,4 +61,7 @@ export const dwarfBasicHammer: Weapon = {
     title: 'Mining Hammer',
     type: 'weapon',
     description: 'A sturdy hammer once used in the mines, now repurposed for battle.',
+    effect: {
+        hp: 10,
+    },
 };

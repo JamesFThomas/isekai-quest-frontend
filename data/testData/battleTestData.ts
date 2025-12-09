@@ -1,7 +1,7 @@
 import { BattleOption, BattleState } from "@/types/battle";
-import { block, evade } from "./gameData/skills";
-import { headButt, witherTouch, fistSmash, quickJab, forstPalm, holyJab } from "./gameData/attacks";
-import { goblin } from "./gameData/opponents";
+import { block, evade } from "../gameData/skills";
+import { headButt, witherTouch, fistSmash, quickJab, forstPalm, holyJab } from "../gameData/attacks";
+import { goblin } from "../gameData/opponents";
 
 const testPotion: BattleOption = {
     id: "small-health-potion",

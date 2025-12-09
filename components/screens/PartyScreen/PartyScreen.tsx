@@ -6,28 +6,34 @@ import useProtectedRoute from '@/lib/hooks/useProtectedRoute';
 import Image from 'next/image';
 
 import {
-  // useAppDispatch,
+  useAppDispatch,
   useAppSelector,
 } from '@/lib/reduxHooks';
 
 import {
   selectActiveCharacter,
   selectCharacterParty,
+  utilizeInventoryItemThunk,
 } from '@/lib/features/character/CharacterSlice';
 import CharacterDisplayCard from '@/components/ui/CharacterDisplayCard/CharacterDisplayCard';
 import { useState } from 'react';
 import { BattleOption } from '@/types/battle';
 import { InventoryItemBase } from '@/types/character';
 import CoinsPanel from './components/CoinsPanel';
+import { InventoryItemModal } from './components/InventoryItemModal';
+
 
 
 export default function PartyScreen() {
   useProtectedRoute();
 
-  const [selectedItems, SetSelectedItems] = useState<BattleOption[] | InventoryItemBase[]>()
+  const [selectedItems, setSelectedItems] = useState<(BattleOption | InventoryItemBase)[]>();
   const [selectedCategory, setSelectedCategory] = useState<'coins' | 'items' | undefined>();
 
-  // const dispatch = useAppDispatch();
+  const [selectedInventoryItem, setSelectedInventoryItem] = useState<BattleOption | InventoryItemBase>();
+  const [isItemModalOpen, setIsItemModalOpen] = useState(false);
+
+  const dispatch = useAppDispatch();
   const activeCharacter = useAppSelector(selectActiveCharacter);
   const characterParty = useAppSelector(selectCharacterParty);
 
@@ -35,36 +41,60 @@ export default function PartyScreen() {
     if (activeCharacter && activeCharacter.inventory) {
       switch (buttonType) {
         case 'attacks':
-          SetSelectedItems(activeCharacter.inventory.attacks)
+          setSelectedItems(activeCharacter.inventory.attacks)
           setSelectedCategory('items')
           break;
         case 'skills':
-          SetSelectedItems(activeCharacter.inventory.skills)
+          setSelectedItems(activeCharacter.inventory.skills)
           setSelectedCategory('items')
           break;
         case 'potions':
           setSelectedCategory('items')
-          SetSelectedItems(activeCharacter.inventory.potions)
+          setSelectedItems(activeCharacter.inventory.potions)
           break;
         case 'weapons':
-          SetSelectedItems(activeCharacter.inventory.weapons)
+          setSelectedItems(activeCharacter.inventory.weapons)
           setSelectedCategory('items')
           break;
         case 'equipment':
-          SetSelectedItems(activeCharacter.inventory.equipment)
+          setSelectedItems(activeCharacter.inventory.equipment)
           setSelectedCategory('items')
           break;
         case 'rations':
-          SetSelectedItems(activeCharacter.inventory.rations)
+          setSelectedItems(activeCharacter.inventory.rations)
           setSelectedCategory('items')
           break;
         case 'coins':
-          SetSelectedItems([])
+          setSelectedItems([])
           setSelectedCategory('coins')
           break;
       }
     }
+  };
+
+  const handleInventoryItemClick = (itemId: string) => {
+
+    const selectedItem = selectedItems?.find(item => item.id === itemId)
+
+    if (selectedItem) {
+      setSelectedInventoryItem(selectedItem)
+      setIsItemModalOpen(true);
+    }
   }
+
+  const handleItemSelect = (item: BattleOption | InventoryItemBase) => {
+    // remove item from selectedItems component state
+    // upgrade later to direvive lists from redux state directery not through component state
+    if (item.type === 'potion' || item.type === 'ration') {
+      setSelectedItems(prev =>
+        prev?.filter(invItem => invItem.id !== item.id) || []
+      );
+    }
+
+    dispatch(utilizeInventoryItemThunk(item));
+    setIsItemModalOpen(false);
+  }
+
 
   return (
     <div
@@ -80,6 +110,7 @@ export default function PartyScreen() {
           width: '100%',
         }}
       >
+        {/********  Character Data Section  *********/}
         <div
           id="character-data"
           className="character-data p-4 flex flex-col md:flex-row md:space-x-6 md:items-stretch"
@@ -113,12 +144,33 @@ export default function PartyScreen() {
                 MP: {activeCharacter?.mp ?? 'N/A'}
               </label>
             </div>
+            {
+              (activeCharacter && activeCharacter.equippedWeapon) && (
+                <div className='mb-4'>
+                  <label className='block text-white text-sm font-bold mb-2'>
+                    Weapon: {activeCharacter.equippedWeapon.title}
+                  </label>
+                </div>
+              )
+            }
+            {
+              (activeCharacter && activeCharacter.equippedArmor) && (
+                <div className='mb-4'>
+                  <label className='block text-white text-sm font-bold mb-2'>
+                    Armor: {activeCharacter?.equippedArmor?.title ?? 'N/A'}
+                  </label>
+                </div>
+              )
+            }
           </div>
         </div>
 
+
+        {/**********   Inventory Section   **********/}
         <div
           id="character-inventory"
-          className="character-inventory p-4 flex flex-col md:flex-row md:space-x-4 md:items-stretch">
+          className="character-inventory p-4 flex flex-col md:flex-row md:space-x-4 md:items-stretch"
+        >
           <div
             id="inventory-buttons"
             className="w-full md:w-1/3 mb-4 md:mb-0 flex flex-col border-2 border-white rounded-md bg-black/40 overflow-hidden"
@@ -176,12 +228,12 @@ export default function PartyScreen() {
               : selectedItems?.map((option: BattleOption | InventoryItemBase) => (
                 <button
                   type="button"
-                  // onClick={() => handleActionSelect(option)}
+                  onClick={() => handleInventoryItemClick(option.id)}
                   key={`${option.id}-${option.title}`}
                   className="inline-flex flex-col items-center justify-center
                           min-w-[fit-content] p-4
                           rounded-md
-                          bg-transparent hover:bg-slate-200/20
+                          bg-transparent cursor-pointer hover:scale-105 transition-transform duration-200
                           text-sm font-bold text-white
                           
                           transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
@@ -189,6 +241,12 @@ export default function PartyScreen() {
                   <Image
                     key={`${option.id}-${option.title}`}
                     className='flex items-center justify-center'
+                    style={{
+                      border:
+                        selectedInventoryItem?.id === option.id
+                          ? '3px solid #FCE300'
+                          : 'none',
+                    }}
                     alt={''}
                     src={option.icon}
                     width={50}
@@ -204,6 +262,8 @@ export default function PartyScreen() {
           </div>
         </div>
 
+
+        {/************ Party Members Section  **********/}
         <div id="party-members-grid" className="w-full p-4">
           <div className="flex flex-row flex-wrap gap-2 border-2 border-white rounded-lg bg-black/50 p-4">
             {characterParty.length > 0 ? (
@@ -228,6 +288,16 @@ export default function PartyScreen() {
             )}
           </div>
         </div>
+
+        {
+          selectedInventoryItem &&
+          < InventoryItemModal
+            isOpen={isItemModalOpen}
+            closeModal={setIsItemModalOpen}
+            inventoryItem={selectedInventoryItem}
+            handleInventorySelect={handleItemSelect}
+          />
+        }
 
 
       </div>

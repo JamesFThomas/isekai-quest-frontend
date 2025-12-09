@@ -14,12 +14,13 @@ export interface Character {
   level?: number;
   inventory?: Inventory;
   partyMembers?: Character[];
+  equippedWeapon?: Weapon;
+  equippedArmor?: Equipment;
 }
 
 // Characters will have an inventory of items, coins, and equipment
 export interface Inventory {
   attacks?: BattleOption[];
-  equippedWeapon?: string;
   skills?: BattleOption[];
   coins?: Coins;  // accessible via inventory.coins.gold, etc.
   weapons?: Weapon[]; // Unequipped weapons
@@ -37,7 +38,18 @@ export interface Coins {
 export type InventoryItemType = 'weapon' | 'equipment' | 'potion' | 'ration' | 'coin';
 
 
-export interface InventoryItemBase {
+export interface EffectfulItem {
+  effect: {
+    hp?: number,
+    mp?: number
+  };
+  cost?: {
+    hp?: number,
+    mp?: number
+  }
+}
+
+export interface InventoryItemBase extends EffectfulItem {
   id: string;
   icon: string;
   title: string;

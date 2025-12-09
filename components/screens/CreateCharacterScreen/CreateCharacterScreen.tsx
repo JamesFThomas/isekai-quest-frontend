@@ -10,7 +10,7 @@ import Image from 'next/image';
 
 import RegistrationModal from '../../ui/RegistrationModal/RegistrationModal';
 
-import avatarImages from '../../../data/avatarOptions';
+import avatarImages from '../../../data/screenOptions/avatarOptions';
 
 export type AvatarOption = {
   id: number;

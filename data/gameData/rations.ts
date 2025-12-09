@@ -6,6 +6,11 @@ export const driedRations: Ration = {
     title: 'Dried Rations',
     type: 'ration',
     description: 'A mix of dried meat and hardtack. Restores a small amount of energy on the road.',
+    effect: {
+        hp: 5,
+        mp: 1
+    },
+    cost: { mp: 0 },
 };
 
 export const heartyStew: Ration = {
@@ -14,6 +19,11 @@ export const heartyStew: Ration = {
     title: 'Hearty Camp Stew',
     type: 'ration',
     description: 'A warm stew of root vegetables and meat, perfect for restoring strength after battle.',
+    effect: {
+        hp: 10,
+        mp: 2
+    },
+    cost: { mp: 0 },
 };
 
 export const sweetTrailMix: Ration = {
@@ -22,6 +32,11 @@ export const sweetTrailMix: Ration = {
     title: 'Sweet Trail Mix',
     type: 'ration',
     description: 'Nuts, dried fruit, and honeyed seeds that give a quick burst of energy.',
+    effect: {
+        hp: 8,
+        mp: 3
+    },
+    cost: { mp: 0 },
 };
 
 export const waybreadLoaf: Ration = {
@@ -30,4 +45,9 @@ export const waybreadLoaf: Ration = {
     title: 'Waybread Loaf',
     type: 'ration',
     description: 'Dense, enchanted bread that stays fresh for weeks and fills the stomach quickly.',
+    effect: {
+        hp: 12,
+        mp: 5
+    },
+    cost: { mp: 0 },
 };

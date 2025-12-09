@@ -14,9 +14,9 @@ import { useAppDispatch } from '@/lib/reduxHooks';
 
 import { logout } from '../../../lib/features/auth/AuthSlice';
 
-import controlOptions from '@/data/contolOptions';
+import controlOptions from '@/data/screenOptions/contolOptions';
 
-import startsVilleOptions from '@/data/startsVilleOptions';
+import startsVilleOptions from '@/data/screenOptions/startsVilleOptions';
 import useProtectedRoute from '@/lib/hooks/useProtectedRoute';
 
 export default function HomeScreen() {

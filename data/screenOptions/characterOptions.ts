@@ -1,11 +1,11 @@
 import { Character } from '@/types/character';
 
-import { fistSmash, headButt, holyJab, quickJab, forstPalm, witherTouch } from './gameData/attacks';
-import { evade, block, radiantPalm, iceGust, luckyHook, ragingSlam, lifeSiphon, earthshakerStomp } from './gameData/skills';
-import { dwarfBasicHammer, necromancerBasicWand, barbarianBasicAxe, halflingBasicSling, elfBasicBow, paladinBasicMace } from './gameData/weapons'
-import { paladinStarterArmor, elfStarterCloak, halflingStarterVest, barbarianStarterHarness, necromancerStarterRobe, dwarfStarterMail, travelersCloak, leatherBracers, sturdyBoots } from './gameData/equipment';
-import { driedRations, heartyStew, sweetTrailMix, waybreadLoaf } from './gameData/rations';
-import { minorHealingPotion, majorHealingPotion, manaTonic, greaterManaTonic, rejuvenationElixir, elixirOfVigor } from './gameData/potions';
+import { fistSmash, headButt, holyJab, quickJab, forstPalm, witherTouch } from '../gameData/attacks';
+import { evade, block, radiantPalm, iceGust, luckyHook, ragingSlam, lifeSiphon, earthshakerStomp } from '../gameData/skills';
+import { dwarfBasicHammer, necromancerBasicWand, barbarianBasicAxe, halflingBasicSling, elfBasicBow, paladinBasicMace } from '../gameData/weapons'
+import { paladinStarterArmor, elfStarterCloak, halflingStarterVest, barbarianStarterHarness, necromancerStarterRobe, dwarfStarterMail, travelersCloak, leatherBracers, sturdyBoots } from '../gameData/equipment';
+import { driedRations, heartyStew, sweetTrailMix, waybreadLoaf } from '../gameData/rations';
+import { minorHealingPotion, majorHealingPotion, manaTonic, greaterManaTonic, rejuvenationElixir, elixirOfVigor } from '../gameData/potions';
 
 const Tony: Character = {
   id: 'char-1',

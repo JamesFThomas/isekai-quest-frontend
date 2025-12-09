@@ -1,4 +1,4 @@
-import { InventoryItemBase } from "./character"
+import { InventoryItemBase, EffectfulItem } from "./character"
 
 type BattlePhase = null | 'idle' | 'chooseAction' | 'resolving' | 'result';
 
@@ -28,28 +28,12 @@ export type BattleOptionType = 'attack' | 'skill' | 'potion'
 
 export interface BattleOption extends InventoryItemBase {
   type: BattleOptionType;
-  effect: {
-    hp?: number,
-    mp?: number
-  };
-  cost?: {
-    hp?: number,
-    mp?: number
-  }
 }
 
-export interface BattleAction {
+export interface BattleAction extends EffectfulItem {
   actorId: string;
   targetId: string;
   details: BattleActionDetails;
-  effect: {
-    hp?: number,
-    mp?: number
-  }
-  cost?: {
-    hp?: number,
-    mp?: number
-  }
 }
 
 export interface Opponent {

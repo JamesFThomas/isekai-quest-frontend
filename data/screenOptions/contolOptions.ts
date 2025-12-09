@@ -9,7 +9,7 @@ const controlOptions = [
   {
     id: 2,
     name: 'Party',
-    pageRoute: '/partyscreen',
+    pageRoute: '/partyscreen/test-character',
     src: '/homescreen_icons/party_image.png',
     altText: 'Party Icon',
     disabled: false, // Set to true if party screen is not implemented

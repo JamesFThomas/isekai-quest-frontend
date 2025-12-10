@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export default function BackButton() {
   const router = useRouter();
@@ -11,15 +12,16 @@ export default function BackButton() {
 
   return (
     <button
-      className='rounded-full text-center text-2xl text-white p-3 m-1 hover:cursor-pointer'
-      style={{
-        backgroundColor: '#8E9CC9',
-        flex: 1,
-        flexBasis: 0,
-      }}
+      className={`flex flex-row justify-center items-center hover:cursor-pointer `}
       onClick={handleBack}
     >
-      Back
+      <Image
+        src={'/homescreen_icons/backStep_image.png'}
+        alt={'Back Icon'}
+        width={125}
+        height={125}
+        className='flex items-center justify-center'
+      />
     </button>
   );
 }

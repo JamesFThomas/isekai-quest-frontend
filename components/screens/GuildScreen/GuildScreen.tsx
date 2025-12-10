@@ -1,6 +1,5 @@
 'use client';
 
-import BackButton from '@/components/ui/BackButton/BackButton';
 import InteractionPanel from '@/components/ui/InteractionPanel/InteractionPanel';
 import useProtectedRoute from '@/lib/hooks/useProtectedRoute';
 import { guildOptions } from '@/data/screenOptions/guildOptions';

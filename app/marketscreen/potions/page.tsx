@@ -1,6 +1,5 @@
 'use client';
 
-import BackButton from '@/components/ui/BackButton/BackButton';
 import { ControlPanel } from '@/components/ui/ControlPanel/ContolPanel';
 import useProtectedRoute from '@/lib/hooks/useProtectedRoute';
 

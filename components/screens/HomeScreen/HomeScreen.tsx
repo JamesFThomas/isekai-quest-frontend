@@ -6,7 +6,6 @@ import InteractionPanel, {
   PanelOption,
 } from '@/components/ui/InteractionPanel/InteractionPanel';
 
-import { useRouter } from 'next/navigation';
 
 import startsVilleOptions from '@/data/screenOptions/startsVilleOptions';
 
@@ -14,7 +13,6 @@ import useProtectedRoute from '@/lib/hooks/useProtectedRoute';
 import { ControlPanel } from '@/components/ui/ControlPanel/ContolPanel';
 
 export default function HomeScreen() {
-  const router = useRouter();
 
   useProtectedRoute();
 

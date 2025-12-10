@@ -1,6 +1,5 @@
 'use client';
 
-import BackButton from '@/components/ui/BackButton/BackButton';
 import { ControlPanel } from '@/components/ui/ControlPanel/ContolPanel';
 import InteractionPanel from '@/components/ui/InteractionPanel/InteractionPanel';
 import { marketOptions } from '@/data/screenOptions/marketOptions';

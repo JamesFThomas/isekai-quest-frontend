@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import Image from 'next/image';
 
-import BackButton from '@/components/ui/BackButton/BackButton';
 import useProtectedRoute from '@/lib/hooks/useProtectedRoute';
 import questStories from '../../../data/screenOptions/questsOptions';
 import DetailsModal from '@/components/ui/DetailsModal/DetailsModal';

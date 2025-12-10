@@ -10,6 +10,7 @@ import DetailsModal from '@/components/ui/DetailsModal/DetailsModal';
 import { QuestStory } from '@/types/quest';
 import { useAppDispatch, useAppSelector } from '@/lib/reduxHooks';
 import { setAcceptedQuest } from '@/lib/features/quest/QuestSlice';
+import { ControlPanel } from '@/components/ui/ControlPanel/ContolPanel';
 
 export default function QuestBoardScreen() {
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
@@ -30,7 +31,11 @@ export default function QuestBoardScreen() {
   useProtectedRoute();
   return (
     <div className='flex flex-col items-center justify-center p-6 min-h-screen bg-[url("/background_images/guild_wall.png")] bg-cover bg-no-repeat bg-center'>
-      <div className="avatar-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4 w-[100%] max-w-[900px] h-[100%] min-h-[600px] bg-[url('/background_images/quest_board2.png')] bg-cover bg-no-repeat bg-center">
+      <ControlPanel />
+
+      <div
+        className="questBoard-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4 w-[100%] max-w-[900px] h-[100%] min-h-[600px] bg-[url('/background_images/quest_board2.png')] bg-cover bg-no-repeat bg-center"
+      >
         {questStories.map((quest) => {
           const isAccepted = acceptedQuest?.id === quest.id;
           return (
@@ -56,9 +61,6 @@ export default function QuestBoardScreen() {
             </button>
           );
         })}
-      </div>
-      <div>
-        <BackButton />
       </div>
       <DetailsModal
         isOpen={isDetailsModalOpen}

@@ -1,34 +1,42 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
+import { logout } from '@/lib/features/auth/AuthSlice';
+import { useAppDispatch } from '@/lib/reduxHooks';
+import router from 'next/router';
 
-type LogoutButtonProps = {
-  onLogout: () => void;
-};
 
-export default function LogoutButton({ onLogout }: LogoutButtonProps) {
+export default function LogoutButton() {
   const [isLoading, setIsLoading] = useState(false);
+
+  const dispatch = useAppDispatch();
+
   const handleLogout = () => {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      onLogout();
+      dispatch(logout());
+      router.push('/');
     }, 1500);
   };
 
   return (
     <button
-      className={`flex flex-row justify-center items-center w-full p-3 rounded-full font-semibold text-3xl text-white m-1 hover:cursor-pointer `}
-      style={{
-        backgroundColor: '#8E9CC9',
-        flex: 1,
-        flexBasis: 0,
-      }}
+      className={`flex flex-row justify-center items-center hover:cursor-pointer `}
       onClick={handleLogout}
     >
-      {isLoading ? <LoadingSpinner /> : 'Logout'}
+      {isLoading ? <LoadingSpinner /> : (
+        <Image
+          src={'/homescreen_icons/logout_image.png'}
+          alt={'Logout Icon'}
+          width={125}
+          height={125}
+          className='flex items-center justify-center'
+        />
+      )}
     </button>
   );
 }

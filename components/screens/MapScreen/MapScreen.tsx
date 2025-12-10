@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import BackButton from '@/components/ui/BackButton/BackButton';
 import CommenceModal from '@/components/ui/CommenceModal/CommenceModal';
 import LocationModal from '@/components/ui/LocationModal/LocationModal';
 import useProtectedRoute from '@/lib/hooks/useProtectedRoute';
@@ -12,6 +11,7 @@ import useProtectedRoute from '@/lib/hooks/useProtectedRoute';
 import { useAppSelector } from '@/lib/reduxHooks';
 
 import { selectAcceptedQuest } from '@/lib/features/quest/QuestSlice';
+import { ControlPanel } from '@/components/ui/ControlPanel/ContolPanel';
 
 export default function MapScreen() {
   const router = useRouter();
@@ -51,38 +51,45 @@ export default function MapScreen() {
 
   return (
     <div className='flex flex-col items-center justify-center p-8 min-h-screen bg-[url("/background_images/map_hands.png")] bg-cover bg-no-repeat bg-center'>
-      <button
-        className='compass-image flex flex-col items-center justify-center cursor-pointer'
-        onClick={openLocationModal}
+      <ControlPanel />
+
+      <div
+        className='home-screen-container flex flex-col justify-center items-center gap-4'
+        style={{
+          flexGrow: 1
+        }}
       >
-        <Image
-          alt={'Compass Icon'}
-          src={'/mapscreen_icons/compass_icon.png'}
-          width={300}
-          height={300}
-        />
-        <span className='text-center  text-white font-semibold z-1 mt-[-4rem]'>
-          Location: {currentLocation}
-        </span>
-      </button>
-      <button
-        className={`shield-image flex flex-col items-center justify-center ${acceptedQuest ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
-          }`}
-        onClick={openCommenceModal}
-      >
-        <Image
-          alt={'Compass Icon'}
-          src={'/mapscreen_icons/shield_icon.png'}
-          width={300}
-          height={300}
-        />
-        <span className='text-center text-white font-semibold z-1'>
-          Quest: {questName ? questName : 'None Accepted'}
-        </span>
-      </button>
-      <div className='mt-2'>
-        <BackButton />
+        <button
+          className='compass-image flex flex-col items-center justify-center cursor-pointer'
+          onClick={openLocationModal}
+        >
+          <Image
+            alt={'Compass Icon'}
+            src={'/mapscreen_icons/compass_icon.png'}
+            width={300}
+            height={300}
+          />
+          <span className='text-center  text-white font-semibold z-1 mt-[-4rem]'>
+            Location: {currentLocation}
+          </span>
+        </button>
+        <button
+          className={`shield-image flex flex-col items-center justify-center ${acceptedQuest ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
+            }`}
+          onClick={openCommenceModal}
+        >
+          <Image
+            alt={'Compass Icon'}
+            src={'/mapscreen_icons/shield_icon.png'}
+            width={300}
+            height={300}
+          />
+          <span className='text-center text-white font-semibold z-1'>
+            Quest: {questName ? questName : 'None Accepted'}
+          </span>
+        </button>
       </div>
+
       <LocationModal
         isOpen={isLocationModalOpen}
         closeModal={setIsLocationModalOpen}

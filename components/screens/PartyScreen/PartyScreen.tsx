@@ -1,6 +1,5 @@
 'use client';
 
-import BackButton from '@/components/ui/BackButton/BackButton';
 import useProtectedRoute from '@/lib/hooks/useProtectedRoute';
 
 import Image from 'next/image';
@@ -21,6 +20,7 @@ import { BattleOption } from '@/types/battle';
 import { InventoryItemBase } from '@/types/character';
 import CoinsPanel from './components/CoinsPanel';
 import { InventoryItemModal } from './components/InventoryItemModal';
+import { ControlPanel } from '@/components/ui/ControlPanel/ContolPanel';
 
 
 
@@ -100,7 +100,7 @@ export default function PartyScreen() {
     <div
       id='PartyScreen-wrapper'
       className='flex flex-col items-center min-h-screen p-4 bg-[url("/background_images/supply_room.png")] bg-cover bg-no-repeat bg-center'>
-
+      < ControlPanel />
       <div
         id='PartyScreen-content'
         className='mt-4 bg-[url("/background_images/parchment_paper.png")] bg-cover bg-no-repeat bg-center'
@@ -300,9 +300,6 @@ export default function PartyScreen() {
         }
 
 
-      </div>
-      <div className='mt-2'>
-        <BackButton />
       </div>
     </div>
   );

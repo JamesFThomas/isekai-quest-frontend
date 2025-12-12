@@ -18,7 +18,7 @@ import CharacterDisplayCard from '@/components/ui/CharacterDisplayCard/Character
 import { useState } from 'react';
 import { BattleOption } from '@/types/battle';
 import { InventoryItemBase } from '@/types/character';
-import CoinsPanel from './components/CoinsPanel';
+import CoinsPanel from '../../ui/CoinPanel/CoinsPanel';
 import { InventoryItemModal } from './components/InventoryItemModal';
 import { ControlPanel } from '@/components/ui/ControlPanel/ContolPanel';
 

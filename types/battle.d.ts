@@ -27,7 +27,7 @@ export type BattleOptionType = 'attack' | 'skill' | 'potion'
 
 
 export interface BattleOption extends InventoryItemBase {
-  type: BattleOptionType;
+  battleOptionType: BattleOptionType;
 }
 
 export interface BattleAction extends EffectfulItem {

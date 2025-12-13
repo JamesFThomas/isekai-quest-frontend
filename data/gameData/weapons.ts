@@ -65,3 +65,13 @@ export const dwarfBasicHammer: Weapon = {
         hp: 10,
     },
 };
+
+
+export const allWeapons: Weapon[] = [
+    paladinBasicMace,
+    elfBasicBow,
+    halflingBasicSling,
+    barbarianBasicAxe,
+    necromancerBasicWand,
+    dwarfBasicHammer,
+];

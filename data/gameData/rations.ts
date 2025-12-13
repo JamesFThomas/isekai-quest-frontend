@@ -51,3 +51,11 @@ export const waybreadLoaf: Ration = {
     },
     cost: { mp: 0 },
 };
+
+
+export const allRations: Ration[] = [
+    driedRations,
+    heartyStew,
+    sweetTrailMix,
+    waybreadLoaf,
+];

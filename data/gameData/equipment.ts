@@ -100,3 +100,15 @@ export const sturdyBoots: Equipment = {
         hp: 10,
     },
 };
+
+export const allEquipment: Equipment[] = [
+    paladinStarterArmor,
+    elfStarterCloak,
+    halflingStarterVest,
+    barbarianStarterHarness,
+    necromancerStarterRobe,
+    dwarfStarterMail,
+    travelersCloak,
+    leatherBracers,
+    sturdyBoots,
+];  

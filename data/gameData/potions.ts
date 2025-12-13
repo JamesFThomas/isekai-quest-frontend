@@ -59,3 +59,13 @@ export const elixirOfVigor: BattleOption = {
     effect: { hp: 40 },
     cost: {},
 };
+
+
+export const allPotions: BattleOption[] = [
+    minorHealingPotion,
+    majorHealingPotion,
+    manaTonic,
+    greaterManaTonic,
+    rejuvenationElixir,
+    elixirOfVigor,
+];  

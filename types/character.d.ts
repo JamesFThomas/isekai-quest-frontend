@@ -49,6 +49,7 @@ export interface EffectfulItem {
   }
 }
 
+
 export interface InventoryItemBase extends EffectfulItem {
   id: string;
   icon: string;

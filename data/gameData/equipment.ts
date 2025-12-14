@@ -22,7 +22,6 @@ export const elfStarterCloak: Equipment = {
     effect: {
         hp: 10,
     },
-    price: { gold: 40, silver: 0, copper: 0 }
 };
 
 export const halflingStarterVest: Equipment = {

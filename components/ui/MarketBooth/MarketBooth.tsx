@@ -13,6 +13,12 @@ import { allRations } from '@/data/gameData/rations';
 import { allWeapons } from '@/data/gameData/weapons';
 import { Coins, InventoryItemBase } from '@/types/character';
 
+export type priceObject = {
+    label: string;
+    shortLabel: string;
+    amount: number;
+};
+
 export const MarketBooth = () => {
     const pathname = usePathname()
     const activeCharacter = useAppSelector(selectActiveCharacter);
@@ -31,12 +37,6 @@ export const MarketBooth = () => {
             default:
                 return [];
         };
-    };
-
-    type priceObject = {
-        label: string;
-        shortLabel: string;
-        amount: number;
     };
 
     const formatPriceDisplay = (price: Coins): priceObject => {
@@ -71,12 +71,29 @@ export const MarketBooth = () => {
         return formattedPrice;
     }
 
+    const canAffordItem = (price: Coins): boolean => {
+        // check if activeCharacter can afford item based on price object
+        if (!activeCharacter || !activeCharacter.inventory || !activeCharacter.inventory.coins) {
+            return false;
+        }
+
+        const characterCoins = activeCharacter.inventory.coins;
+
+        if (price.gold && characterCoins.gold < price.gold) {
+            return false;
+        }
+        if (price.silver && characterCoins.silver < price.silver) {
+            return false;
+        }
+        if (price.copper && characterCoins.copper < price.copper) {
+            return false;
+        }
+        return true;
+
+    }
+
 
     const boothItems: InventoryItemBase[] = setDisplayItems();
-
-    if (boothItems[0]?.price) {
-        console.log('price test:', formatPriceDisplay(boothItems[0].price));
-    }
 
     return (
         <div
@@ -129,9 +146,12 @@ export const MarketBooth = () => {
                                     className="inline-flex flex-col items-center justify-center
                                     min-w-[fit-content] p-4
                                     rounded-md
-                                    bg-transparent cursor-pointer hover:scale-105 transition-transform duration-200
+                                    bg-transparent enabled:cursor-pointer enabled:hover:scale-110 transition-transform duration-200
                                     text-sm font-bold text-white
-                                    transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
+                                    transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300
+                                    disabled:grayscale disabled:brightness-75 disabled:cursor-not-allowed
+                                    "
+                                    disabled={!item.price || !canAffordItem(item.price)} // disable if no price or cannot afford
                                 >
                                     <Image
                                         key={`${item.id}-${item.title}`}
@@ -141,17 +161,27 @@ export const MarketBooth = () => {
                                         width={50}
                                         height={50}
                                     />
-                                    <span className="mt-2 text-sm text-white font-bold text-center"
+                                    <span className="
+                                            mt-2
+                                            text-sm
+                                            text-white
+                                            font-bold
+                                            text-center
+                                            line-clamp-2
+                                            h-[1.5rem]
+                                        "
                                     >
                                         {item.title}
                                     </span>
                                     <span className="mt-2 text-sm text-white font-bold text-center"
                                     >
-                                        {item.price && (
+                                        {item.price ?
                                             <div>
                                                 {formatPriceDisplay(item.price).label}
                                             </div>
-                                        )}
+                                            :
+                                            null
+                                        }
                                     </span>
                                 </button>
                             ))}

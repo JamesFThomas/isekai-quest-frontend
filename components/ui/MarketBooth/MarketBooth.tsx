@@ -11,7 +11,7 @@ import { allEquipment } from '@/data/gameData/equipment';
 import { allPotions } from '@/data/gameData/potions';
 import { allRations } from '@/data/gameData/rations';
 import { allWeapons } from '@/data/gameData/weapons';
-import { InventoryItemBase } from '@/types/character';
+import { Coins, InventoryItemBase } from '@/types/character';
 
 export const MarketBooth = () => {
     const pathname = usePathname()
@@ -33,7 +33,50 @@ export const MarketBooth = () => {
         };
     };
 
+    type priceObject = {
+        label: string;
+        shortLabel: string;
+        amount: number;
+    };
+
+    const formatPriceDisplay = (price: Coins): priceObject => {
+        // return price data as formatted price object
+        let formattedPrice: priceObject = {
+            label: '',
+            shortLabel: '',
+            amount: 0
+        };
+
+        if (price.gold && price.gold > 0) {
+            formattedPrice = {
+                label: `${price.gold} Gold`,
+                shortLabel: `${price.gold}G`,
+                amount: price.gold
+            }
+        }
+        else if (price.silver && price.silver > 0) {
+            formattedPrice = {
+                label: `${price.silver} Silver`,
+                shortLabel: `${price.silver}S`,
+                amount: price.silver
+            }
+        }
+        else if (price.copper && price.copper > 0) {
+            formattedPrice = {
+                label: `${price.copper} Copper`,
+                shortLabel: `${price.copper}C`,
+                amount: price.copper
+            }
+        }
+        return formattedPrice;
+    }
+
+
     const boothItems: InventoryItemBase[] = setDisplayItems();
+
+    if (boothItems[0]?.price) {
+        console.log('price test:', formatPriceDisplay(boothItems[0].price));
+    }
 
     return (
         <div
@@ -104,7 +147,11 @@ export const MarketBooth = () => {
                                     </span>
                                     <span className="mt-2 text-sm text-white font-bold text-center"
                                     >
-                                        {item.price ? `${item.price.gold || 0}G ${item.price.silver || 0}S ${item.price.copper || 0}C` : 'Free'}
+                                        {item.price && (
+                                            <div>
+                                                {formatPriceDisplay(item.price).label}
+                                            </div>
+                                        )}
                                     </span>
                                 </button>
                             ))}

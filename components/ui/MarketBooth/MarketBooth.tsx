@@ -67,7 +67,7 @@ export const MarketBooth = () => {
                     </figure>
                     <div
                         id="character-stats-display"
-                        className="w-full md:w-2/3 border-2 border-white rounded-lg bg-black/50 text-white flex flex-col justify-center px-6 py-4 space-y-2"
+                        className="w-full md:w-2/3 border-2 border-white rounded-lg bg-black/50 text-white flex flex-col justify-center items-center px-6 py-4 space-y-2"
                     >
                         <CoinsPanel coins={activeCharacter?.inventory?.coins} />
                     </div>
@@ -82,7 +82,13 @@ export const MarketBooth = () => {
                         {
                             boothItems.map((item) => (
                                 <button
-                                    key={item.id}
+                                    key={`${item.id}-${item.title}`}
+                                    className="inline-flex flex-col items-center justify-center
+                                    min-w-[fit-content] p-4
+                                    rounded-md
+                                    bg-transparent cursor-pointer hover:scale-105 transition-transform duration-200
+                                    text-sm font-bold text-white
+                                    transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
                                 >
                                     <Image
                                         key={`${item.id}-${item.title}`}
@@ -92,6 +98,14 @@ export const MarketBooth = () => {
                                         width={50}
                                         height={50}
                                     />
+                                    <span className="mt-2 text-sm text-white font-bold text-center"
+                                    >
+                                        {item.title}
+                                    </span>
+                                    <span className="mt-2 text-sm text-white font-bold text-center"
+                                    >
+                                        {item.price ? `${item.price.gold || 0}G ${item.price.silver || 0}S ${item.price.copper || 0}C` : 'Free'}
+                                    </span>
                                 </button>
                             ))}
 

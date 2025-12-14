@@ -247,7 +247,7 @@ export default function PartyScreen() {
                           ? '3px solid #FCE300'
                           : 'none',
                     }}
-                    alt={''}
+                    alt={option.title}
                     src={option.icon}
                     width={50}
                     height={50}

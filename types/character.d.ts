@@ -55,6 +55,7 @@ export interface InventoryItemBase extends EffectfulItem {
   title: string;
   type: InventoryItemType;
   description: string;
+  price?: Coins;
 }
 
 export interface Weapon extends InventoryItemBase { };

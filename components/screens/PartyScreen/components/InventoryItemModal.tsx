@@ -8,7 +8,7 @@ import { Dispatch, SetStateAction } from "react";
 type InventoryItemModalProps = {
     isOpen: boolean;
     closeModal: Dispatch<SetStateAction<boolean>>;
-    inventoryItem: BattleOption | InventoryItemBase | undefined;
+    inventoryItem: BattleOption | InventoryItemBase;
     handleInventorySelect: (inventoryOption: BattleOption | InventoryItemBase) => void;
 }
 
@@ -26,7 +26,7 @@ export const InventoryItemModal = ({
     let modalType: string = "";
     let actionButtonLabel: string = "";
 
-    if (inventoryItem?.type === "attack" || inventoryItem?.type === "skill") {
+    if (("battleOptionType" in inventoryItem && inventoryItem.battleOptionType === "attack") || ("battleOptionType" in inventoryItem && inventoryItem?.battleOptionType === "skill")) {
         modalType = "read-only";
     } else if (inventoryItem?.type === "potion" || inventoryItem?.type === "ration") {
         actionButtonLabel = "Use"

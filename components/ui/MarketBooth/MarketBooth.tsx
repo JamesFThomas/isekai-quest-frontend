@@ -12,6 +12,8 @@ import { allPotions } from '@/data/gameData/potions';
 import { allRations } from '@/data/gameData/rations';
 import { allWeapons } from '@/data/gameData/weapons';
 import { Coins, InventoryItemBase } from '@/types/character';
+import { ItemPurchaseModal } from './components/ItemPurchaseModal';
+import { useState } from 'react';
 
 export type priceObject = {
     label: string;
@@ -23,7 +25,11 @@ export const MarketBooth = () => {
     const pathname = usePathname()
     const activeCharacter = useAppSelector(selectActiveCharacter);
 
+    //modal control state
+    const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState<boolean>(false);
+    const [selectedBoothItem, setSelectedBoothItem] = useState<InventoryItemBase | null>(null);
 
+    // move to lib folder later
     const setDisplayItems = () => {
         switch (pathname) {
             case '/marketscreen/armor':
@@ -39,6 +45,7 @@ export const MarketBooth = () => {
         };
     };
 
+    // move to lib folder later
     const formatPriceDisplay = (price: Coins): priceObject => {
         // return price data as formatted price object
         let formattedPrice: priceObject = {
@@ -71,6 +78,7 @@ export const MarketBooth = () => {
         return formattedPrice;
     }
 
+    // move to lib folder later
     const canAffordItem = (price: Coins): boolean => {
         // check if activeCharacter can afford item based on price object
         if (!activeCharacter || !activeCharacter.inventory || !activeCharacter.inventory.coins) {
@@ -94,6 +102,23 @@ export const MarketBooth = () => {
 
 
     const boothItems: InventoryItemBase[] = setDisplayItems();
+
+    const handleBoothItemClick = (item: InventoryItemBase) => {
+        const selectedItem = boothItems.find(boothItem => boothItem.id === item.id);
+
+        if (selectedItem) {
+            setSelectedBoothItem(selectedItem);
+            setIsPurchaseModalOpen(true);
+        }
+
+    };
+
+    const handlePurchaseClick = (item: InventoryItemBase) => {
+        // log the purchase item data
+        console.log('Purchasing item:', item);
+        // use purchaseItem thunk once made
+        // close purchase modal
+    };
 
     return (
         <div
@@ -152,6 +177,7 @@ export const MarketBooth = () => {
                                     disabled:grayscale disabled:brightness-75 disabled:cursor-not-allowed
                                     "
                                     disabled={!item.price || !canAffordItem(item.price)} // disable if no price or cannot afford
+                                    onClick={() => handleBoothItemClick(item)}
                                 >
                                     <Image
                                         key={`${item.id}-${item.title}`}
@@ -191,6 +217,12 @@ export const MarketBooth = () => {
                 </div>
 
             </div>
+            <ItemPurchaseModal
+                isOpen={isPurchaseModalOpen}
+                closeModal={setIsPurchaseModalOpen}
+                boothItem={selectedBoothItem}
+                handleItemPurchase={handlePurchaseClick}
+            />
 
         </div>
     );

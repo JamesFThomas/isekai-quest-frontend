@@ -3,8 +3,8 @@
 import Image from 'next/image';
 import { usePathname } from 'next/navigation'
 
-import { selectActiveCharacter } from '@/lib/features/character/CharacterSlice';
-import { useAppSelector } from '@/lib/reduxHooks';
+import { purchaseBoothItemThunk, selectActiveCharacter } from '@/lib/features/character/CharacterSlice';
+import { useAppDispatch, useAppSelector } from '@/lib/reduxHooks';
 import CoinsPanel from '@/components/ui/CoinPanel/CoinsPanel';
 
 import { allEquipment } from '@/data/gameData/equipment';
@@ -22,7 +22,8 @@ export type priceObject = {
 };
 
 export const MarketBooth = () => {
-    const pathname = usePathname()
+    const pathname = usePathname();
+    const dispatch = useAppDispatch();
     const activeCharacter = useAppSelector(selectActiveCharacter);
 
     //modal control state
@@ -114,10 +115,10 @@ export const MarketBooth = () => {
     };
 
     const handlePurchaseClick = (item: InventoryItemBase) => {
-        // log the purchase item data
-        console.log('Purchasing item:', item);
         // use purchaseItem thunk once made
+        dispatch(purchaseBoothItemThunk(item));
         // close purchase modal
+        setIsPurchaseModalOpen(false);
     };
 
     return (

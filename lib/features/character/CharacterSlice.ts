@@ -71,6 +71,29 @@ export const utilizeInventoryItemThunk = createAsyncThunk<
   }
 );
 
+export const purchaseBoothItemThunk = createAsyncThunk<
+  void,
+  InventoryItemBase,
+  { state: RootState }
+>(
+  'character/purchaseBoothItemThunk',
+  async (item, { dispatch, getState }) => {
+
+    // Get the active character from state
+    const { ActiveCharacter } = getState().character;
+
+    // Ensure there is an active character
+    if (!ActiveCharacter) return;
+
+    // purchase item logic
+    console.log(`Purchasing ${item.title} for ${ActiveCharacter?.name}`);
+
+    // subtract item price from character coins in inventory
+    // add item to character inventory
+
+  }
+);
+
 export const characterSlice = createSlice({
   name: 'character',
   initialState,

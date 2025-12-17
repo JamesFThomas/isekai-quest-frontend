@@ -19,14 +19,9 @@ export const ItemPurchaseModal = ({
     handleItemPurchase,
 }: ItemPurchaseModalProps) => {
 
-    // const handleClose = () => {
-    //     closeModal(false);
-    //     boothItem = null;
-    // };
 
-
-    let modalType: ModalType = "action";
-    let actionButtonLabel: string = "Purchase";
+    const modalType: ModalType = "action";
+    const actionButtonLabel: string = "Purchase";
     let modalTitle: string = ""; // devise title based on item type
 
     switch (boothItem?.type) {

@@ -19,11 +19,16 @@ const Tony: Character = {
   inventory: {
     attacks: [fistSmash],
     skills: [evade, block, ragingSlam],
+    weapons: [halflingBasicSling, elfBasicBow, paladinBasicMace],
+    equipment: [paladinStarterArmor, elfStarterCloak, halflingStarterVest],
+    rations: [driedRations, heartyStew, sweetTrailMix],
+    potions: [minorHealingPotion, majorHealingPotion],
     coins: {
       gold: 150,
       silver: 150,
       copper: 150,
-    }
+    },
+
   },
 }
 

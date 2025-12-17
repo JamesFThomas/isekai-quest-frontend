@@ -62,6 +62,15 @@ export default function RegistrationModal({
         inventory: {
           attacks: [...defaultOptions.defaultAttacks],
           skills: [...defaultOptions.defaultSkills],
+          coins: {
+            gold: 0,
+            silver: 0,
+            copper: 0
+          },
+          weapons: [],
+          equipment: [],
+          rations: [],
+          potions: [],
         },
       };
 

@@ -89,6 +89,10 @@ export const purchaseBoothItemThunk = createAsyncThunk<
     console.log(`Purchasing ${item.title} for ${ActiveCharacter?.name}`);
 
     // add item to character inventory
+    if (!item.price) {
+      console.warn('Item has no price, cannot complete purchase.');
+      return;
+    }
 
     // subtract item price from character coins in inventory
     if (item.price) {

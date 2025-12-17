@@ -1,13 +1,13 @@
 'use client';
 
 import { InventoryItemBase } from "@/types/character";
-import { Dispatch, ReactNode, SetStateAction } from "react";
+import { ReactNode } from "react";
 import { ModalBase, ModalType } from "../../ModalBase/ModalBase";
 import Image from "next/image";
 
 type ItemPurchaseModalProps = {
     isOpen: boolean;
-    closeModal: Dispatch<SetStateAction<boolean>>;
+    closeModal: () => void;
     boothItem: InventoryItemBase | null;
     handleItemPurchase: (item: InventoryItemBase) => void;
 };
@@ -19,9 +19,10 @@ export const ItemPurchaseModal = ({
     handleItemPurchase,
 }: ItemPurchaseModalProps) => {
 
-    const handleClose = () => {
-        closeModal(false);
-    };
+    // const handleClose = () => {
+    //     closeModal(false);
+    //     boothItem = null;
+    // };
 
 
     let modalType: ModalType = "action";
@@ -80,7 +81,7 @@ export const ItemPurchaseModal = ({
                         </button>
                         <button
                             className='rounded-full text-lg text-white px-6 py-3 w-32 m-1 hover:cursor-pointer disabled:cursor-not-allowed'
-                            onClick={handleClose}
+                            onClick={closeModal}
                             style={{
                                 backgroundColor: '#8E9CC9',
                             }}

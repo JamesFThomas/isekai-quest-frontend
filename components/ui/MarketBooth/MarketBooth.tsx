@@ -114,11 +114,17 @@ export const MarketBooth = () => {
 
     };
 
+    const handleClosePurchaseModal = () => {
+        setIsPurchaseModalOpen(false);
+        setSelectedBoothItem(null);
+    };
+
     const handlePurchaseClick = (item: InventoryItemBase) => {
         // use purchaseItem thunk once made
         dispatch(purchaseBoothItemThunk(item));
         // close purchase modal
         setIsPurchaseModalOpen(false);
+        setSelectedBoothItem(null);
     };
 
     return (
@@ -220,7 +226,7 @@ export const MarketBooth = () => {
             </div>
             <ItemPurchaseModal
                 isOpen={isPurchaseModalOpen}
-                closeModal={setIsPurchaseModalOpen}
+                closeModal={handleClosePurchaseModal}
                 boothItem={selectedBoothItem}
                 handleItemPurchase={handlePurchaseClick}
             />

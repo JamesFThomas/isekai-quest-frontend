@@ -35,7 +35,7 @@ export interface Coins {
   copper: number;
 }
 
-export type InventoryItemType = 'weapon' | 'equipment' | 'potion' | 'ration' | 'coin';
+export type InventoryItemType = 'weapon' | 'equipment' | 'potion' | 'ration' | 'coin' | 'battleOption';
 
 
 export interface EffectfulItem {

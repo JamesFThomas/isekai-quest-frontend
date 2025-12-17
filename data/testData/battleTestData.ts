@@ -9,7 +9,8 @@ const testPotion: BattleOption = {
     title: "Health Potion/S",
     description: 'a small helath potion recover 3 hp',
     type: "potion",
-    effect: { hp: +3 }
+    effect: { hp: +3 },
+    battleOptionType: "potion",
 };
 
 export const initialTestState: BattleState = {

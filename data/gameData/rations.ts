@@ -11,6 +11,7 @@ export const driedRations: Ration = {
         mp: 1
     },
     cost: { mp: 0 },
+    price: { gold: 10, silver: 0, copper: 0 }
 };
 
 export const heartyStew: Ration = {
@@ -24,6 +25,7 @@ export const heartyStew: Ration = {
         mp: 2
     },
     cost: { mp: 0 },
+    price: { gold: 15, silver: 0, copper: 0 }
 };
 
 export const sweetTrailMix: Ration = {
@@ -37,6 +39,7 @@ export const sweetTrailMix: Ration = {
         mp: 3
     },
     cost: { mp: 0 },
+    price: { gold: 12, silver: 0, copper: 0 }
 };
 
 export const waybreadLoaf: Ration = {
@@ -50,4 +53,28 @@ export const waybreadLoaf: Ration = {
         mp: 5
     },
     cost: { mp: 0 },
+    price: { gold: 0, silver: 0, copper: 30 }
 };
+
+export const smokedBoarLeg: Ration = {
+    id: 'ration-boar-leg',
+    icon: '/inventory_icons/ration_icon.png',
+    title: 'Smoked Boar Leg',
+    type: 'ration',
+    description: 'A large leg of smoked boar, perfect for a hearty meal on the go.',
+    effect: {
+        hp: 15,
+        mp: 2
+    },
+    cost: { mp: 0 },
+    price: { gold: 20, silver: 0, copper: 0 }
+};
+
+
+export const allRations: Ration[] = [
+    driedRations,
+    heartyStew,
+    sweetTrailMix,
+    waybreadLoaf,
+    smokedBoarLeg
+];

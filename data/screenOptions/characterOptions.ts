@@ -19,6 +19,16 @@ const Tony: Character = {
   inventory: {
     attacks: [fistSmash],
     skills: [evade, block, ragingSlam],
+    weapons: [halflingBasicSling, elfBasicBow, paladinBasicMace],
+    equipment: [paladinStarterArmor, elfStarterCloak, halflingStarterVest],
+    rations: [driedRations, heartyStew, sweetTrailMix],
+    potions: [minorHealingPotion, majorHealingPotion],
+    coins: {
+      gold: 150,
+      silver: 150,
+      copper: 150,
+    },
+
   },
 }
 
@@ -39,9 +49,9 @@ const Barbosa: Character = {
     rations: [driedRations, heartyStew, sweetTrailMix],
     potions: [minorHealingPotion, majorHealingPotion],
     coins: {
-      gold: 4,
-      silver: 8,
-      copper: 7,
+      gold: 50,
+      silver: 50,
+      copper: 50,
     }
   },
   partyMembers: [Tony],
@@ -64,9 +74,9 @@ const Durgan: Character = {
     rations: [waybreadLoaf],
     potions: [greaterManaTonic, rejuvenationElixir, elixirOfVigor],
     coins: {
-      gold: 7,
-      silver: 8,
-      copper: 9,
+      gold: 57,
+      silver: 23,
+      copper: 72,
     }
   },
   partyMembers: [Tony, Barbosa],
@@ -89,9 +99,9 @@ const Perrin: Character = {
     rations: [waybreadLoaf],
     potions: [rejuvenationElixir, elixirOfVigor],
     coins: {
-      gold: 1,
-      silver: 2,
-      copper: 93,
+      gold: 84,
+      silver: 12,
+      copper: 100,
     }
   },
   partyMembers: [Tony, Barbosa, Durgan],
@@ -114,9 +124,9 @@ const Hobbin: Character = {
     rations: [waybreadLoaf],
     potions: [minorHealingPotion, majorHealingPotion,],
     coins: {
-      gold: 4,
-      silver: 3,
-      copper: 2,
+      gold: 32,
+      silver: 25,
+      copper: 15,
     }
   },
   partyMembers: [Tony, Barbosa, Durgan, Perrin],
@@ -139,9 +149,9 @@ const Nereza: Character = {
     rations: [waybreadLoaf],
     potions: [majorHealingPotion, manaTonic, rejuvenationElixir,],
     coins: {
-      gold: 1,
-      silver: 2,
-      copper: 3,
+      gold: 20,
+      silver: 30,
+      copper: 70,
     }
   },
   partyMembers: [Tony, Durgan, Perrin, Hobbin],
@@ -164,9 +174,9 @@ const Seryn: Character = {
     rations: [waybreadLoaf],
     potions: [majorHealingPotion, manaTonic, greaterManaTonic, elixirOfVigor],
     coins: {
-      gold: 17,
-      silver: 18,
-      copper: 19,
+      gold: 50,
+      silver: 50,
+      copper: 50,
     }
   },
   partyMembers: [Barbosa, Nereza, Hobbin, Tony],

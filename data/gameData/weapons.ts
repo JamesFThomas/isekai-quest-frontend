@@ -9,6 +9,7 @@ export const paladinBasicMace: Weapon = {
     effect: {
         hp: 10,
     },
+    price: { gold: 50, silver: 0, copper: 0 }
 };
 
 export const elfBasicBow: Weapon = {
@@ -20,6 +21,7 @@ export const elfBasicBow: Weapon = {
     effect: {
         hp: 10,
     },
+    price: { gold: 40, silver: 0, copper: 0 }
 };
 
 export const halflingBasicSling: Weapon = {
@@ -31,6 +33,7 @@ export const halflingBasicSling: Weapon = {
     effect: {
         hp: 10,
     },
+    price: { gold: 30, silver: 0, copper: 0 }
 };
 
 export const barbarianBasicAxe: Weapon = {
@@ -42,6 +45,7 @@ export const barbarianBasicAxe: Weapon = {
     effect: {
         hp: 10,
     },
+    price: { gold: 0, silver: 20, copper: 0 }
 };
 
 export const necromancerBasicWand: Weapon = {
@@ -53,6 +57,7 @@ export const necromancerBasicWand: Weapon = {
     effect: {
         hp: 10,
     },
+    price: { gold: 0, silver: 0, copper: 20 }
 };
 
 export const dwarfBasicHammer: Weapon = {
@@ -64,4 +69,15 @@ export const dwarfBasicHammer: Weapon = {
     effect: {
         hp: 10,
     },
+    price: { gold: 0, silver: 0, copper: 10 }
 };
+
+
+export const allWeapons: Weapon[] = [
+    paladinBasicMace,
+    elfBasicBow,
+    halflingBasicSling,
+    barbarianBasicAxe,
+    necromancerBasicWand,
+    dwarfBasicHammer,
+];

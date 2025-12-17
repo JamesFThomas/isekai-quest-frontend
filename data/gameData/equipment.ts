@@ -10,6 +10,7 @@ export const paladinStarterArmor: Equipment = {
     effect: {
         hp: 10,
     },
+    price: { gold: 50, silver: 0, copper: 0 }
 };
 
 export const elfStarterCloak: Equipment = {
@@ -32,6 +33,7 @@ export const halflingStarterVest: Equipment = {
     effect: {
         hp: 10,
     },
+    price: { gold: 30, silver: 0, copper: 0 }
 };
 
 export const barbarianStarterHarness: Equipment = {
@@ -43,6 +45,7 @@ export const barbarianStarterHarness: Equipment = {
     effect: {
         hp: 10,
     },
+    price: { gold: 35, silver: 0, copper: 0 }
 };
 
 export const necromancerStarterRobe: Equipment = {
@@ -54,6 +57,7 @@ export const necromancerStarterRobe: Equipment = {
     effect: {
         hp: 10,
     },
+    price: { gold: 0, silver: 20, copper: 0 }
 };
 
 export const dwarfStarterMail: Equipment = {
@@ -65,6 +69,7 @@ export const dwarfStarterMail: Equipment = {
     effect: {
         hp: 10,
     },
+    price: { gold: 0, silver: 10, copper: 0 }
 };
 
 // General equipment usable by anyone
@@ -77,6 +82,7 @@ export const travelersCloak: Equipment = {
     effect: {
         hp: 10,
     },
+    price: { gold: 0, silver: 0, copper: 30 }
 };
 
 export const leatherBracers: Equipment = {
@@ -88,6 +94,7 @@ export const leatherBracers: Equipment = {
     effect: {
         hp: 10,
     },
+    price: { gold: 0, silver: 0, copper: 20 }
 };
 
 export const sturdyBoots: Equipment = {
@@ -99,4 +106,17 @@ export const sturdyBoots: Equipment = {
     effect: {
         hp: 10,
     },
+    price: { gold: 0, silver: 0, copper: 25 }
 };
+
+export const allEquipment: Equipment[] = [
+    paladinStarterArmor,
+    elfStarterCloak,
+    halflingStarterVest,
+    barbarianStarterHarness,
+    necromancerStarterRobe,
+    dwarfStarterMail,
+    travelersCloak,
+    leatherBracers,
+    sturdyBoots,
+];  

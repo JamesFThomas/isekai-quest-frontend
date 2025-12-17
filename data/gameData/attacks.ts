@@ -6,7 +6,8 @@ export const holyJab: BattleOption = {
     icon: "/battleaction_icons/unarmedAttack_icon.png",
     title: 'Holy Jab',
     description: '',
-    type: 'attack',
+    battleOptionType: 'attack',
+    type: 'battleOption',
     effect: {
         hp: -1,
     },
@@ -17,7 +18,8 @@ export const forstPalm: BattleOption = {
     id: 'snow-elf-basic-attack',
     icon: "/battleaction_icons/unarmedAttack_icon.png",
     title: 'Frost Palm',
-    type: 'attack',
+    type: 'battleOption',
+    battleOptionType: 'attack',
     description: '',
     effect: {
         hp: -1,
@@ -29,7 +31,8 @@ export const quickJab: BattleOption = {
     id: 'halfling-basic-attack',
     icon: "/battleaction_icons/unarmedAttack_icon.png",
     title: 'Quick Jab',
-    type: 'attack',
+    type: 'battleOption',
+    battleOptionType: 'attack',
     description: '',
     effect: {
         hp: -1,
@@ -42,7 +45,8 @@ export const fistSmash: BattleOption = {
     icon: "/battleaction_icons/unarmedAttack_icon.png",
     title: 'Fist Smash',
     description: '',
-    type: 'attack',
+    type: 'battleOption',
+    battleOptionType: 'attack',
     effect: {
         hp: -1,
     },
@@ -53,7 +57,8 @@ export const witherTouch: BattleOption = {
     id: 'necromancer-basic-attack',
     icon: "/battleaction_icons/unarmedAttack_icon.png",
     title: 'Wither Touch',
-    type: 'attack',
+    type: 'battleOption',
+    battleOptionType: 'attack',
     description: '',
     effect: {
         hp: -1,
@@ -66,7 +71,8 @@ export const headButt: BattleOption = {
     icon: "/battleaction_icons/unarmedAttack_icon.png",
     title: 'Head Butt',
     description: '',
-    type: 'attack',
+    type: 'battleOption',
+    battleOptionType: 'attack',
     effect: {
         hp: -1,
     },
@@ -78,7 +84,8 @@ export const slash: BattleOption = {
     id: 'opponent-basic-attack',
     icon: "/battleaction_icons/unarmedAttack_icon.png",
     title: 'Slash',
-    type: 'attack',
+    type: 'battleOption',
+    battleOptionType: 'attack',
     description: '',
     effect: {
         hp: -1,

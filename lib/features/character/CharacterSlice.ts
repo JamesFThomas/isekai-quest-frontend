@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../../store';
 
-import { Character, InventoryItemBase } from '@/types/character';
+import { Character, Coins, InventoryItemBase } from '@/types/character';
 import { BattleOption } from '@/types/battle';
 
 interface CharacterState {
@@ -57,16 +57,49 @@ export const utilizeInventoryItemThunk = createAsyncThunk<
     // weapon equip use logic
     if (item.type === 'weapon' || item.type === 'equipment') {
       // Equip weapon logic here
-      console.log(`Equipping ${item.title} to ${ActiveCharacter?.name}`);
+      // console.log(`Equipping ${item.title} to ${ActiveCharacter?.name}`);
       dispatch(equipCharcaterInventoryItem(item));
     }
 
     // potion/ration use logic
     else if (item.type === 'potion' || item.type === 'ration') {
       // use item and update character state
-      console.log(`Using ${item.type} a ${item.title} on ${ActiveCharacter?.name}`);
+      // console.log(`Using ${item.type} a ${item.title} on ${ActiveCharacter?.name}`);
       dispatch(useCharcaterInventoryItem({ character: ActiveCharacter, item }));
     }
+
+  }
+);
+
+export const purchaseBoothItemThunk = createAsyncThunk<
+  void,
+  InventoryItemBase,
+  { state: RootState }
+>(
+  'character/purchaseBoothItemThunk',
+  async (item, { dispatch, getState }) => {
+
+    // Get the active character from state
+    const { ActiveCharacter } = getState().character;
+
+    // Ensure there is an active character
+    if (!ActiveCharacter) return;
+
+    // purchase item logic
+    console.log(`Purchasing ${item.title} for ${ActiveCharacter?.name}`);
+
+    // add item to character inventory
+    if (!item.price) {
+      console.warn('Item has no price, cannot complete purchase.');
+      return;
+    }
+
+    // subtract item price from character coins in inventory
+    if (item.price) {
+      dispatch(addItemToCharacterInventory({ item }));
+      dispatch(subtractItemPriceFromCharacterCoins({ price: item.price }));
+    }
+
 
   }
 );
@@ -88,6 +121,41 @@ export const characterSlice = createSlice({
       state.party = state.party.filter(
         (character) => character.id !== action.payload
       );
+    },
+    subtractItemPriceFromCharacterCoins: (state, action: PayloadAction<{ price: Coins }>) => {
+      const price = action.payload.price;
+
+      if (!state.ActiveCharacter || !state.ActiveCharacter.inventory || !state.ActiveCharacter.inventory.coins) {
+        return;
+      }
+
+      console.log('Subtracting item price from character coins:', price);
+
+      // remove purchases item price from character coins
+      state.ActiveCharacter.inventory.coins = {
+        gold: state.ActiveCharacter.inventory.coins.gold - price.gold,
+        silver: state.ActiveCharacter.inventory.coins.silver - price.silver,
+        copper: state.ActiveCharacter.inventory.coins.copper - price.copper
+      };
+
+    },
+    addItemToCharacterInventory: (state, action: PayloadAction<{ item: InventoryItemBase }>) => {
+      const item = action.payload.item;
+
+      if (!state.ActiveCharacter) return;
+
+      const active = state.ActiveCharacter;
+
+      // check item type and add to appropriate inventory array
+      const itemCategory = convertItemTypeString(item);
+
+      if (itemCategory in active.inventory) {
+
+        // console.log(`Adding ${item.title} item to ${itemCategory} inventory array.`);
+        (active.inventory as unknown as Record<string, InventoryItemBase[]>)[itemCategory].push(item);
+      }
+
+
     },
     equipCharcaterInventoryItem: (state, action: PayloadAction<InventoryItemBase>) => {
 
@@ -133,14 +201,14 @@ export const characterSlice = createSlice({
       // map the inventory using item and filter out used item
       const itemCategory = convertItemTypeString(item);
 
-      console.log('Removing item from category:', itemCategory);
+      // console.log('Removing item from category:', itemCategory);
 
       if (targetCharacter?.inventory && itemCategory in targetCharacter.inventory) {
         const updatedItems =
-          (targetCharacter.inventory as Record<string, InventoryItemBase[]>)[itemCategory]
+          (targetCharacter.inventory as unknown as Record<string, InventoryItemBase[]>)[itemCategory]
             .filter((invItem: InventorySelection) => invItem.id !== item.id);
 
-        (targetCharacter.inventory as Record<string, InventoryItemBase[]>)[itemCategory] = updatedItems;
+        (targetCharacter.inventory as unknown as Record<string, InventoryItemBase[]>)[itemCategory] = updatedItems;
       }
     }
   },
@@ -152,6 +220,8 @@ export const {
   setCharacterLocation,
   useCharcaterInventoryItem,
   equipCharcaterInventoryItem,
+  addItemToCharacterInventory,
+  subtractItemPriceFromCharacterCoins,
   // Will use later when implementing party screen
   addCharacterToParty,
   removeCharacterFromParty,

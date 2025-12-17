@@ -12,7 +12,7 @@ export interface Character {
   maxMp?: number;
   class?: characterClass;
   level?: number;
-  inventory?: Inventory;
+  inventory: Inventory;
   partyMembers?: Character[];
   equippedWeapon?: Weapon;
   equippedArmor?: Equipment;
@@ -20,13 +20,13 @@ export interface Character {
 
 // Characters will have an inventory of items, coins, and equipment
 export interface Inventory {
-  attacks?: BattleOption[];
-  skills?: BattleOption[];
-  coins?: Coins;  // accessible via inventory.coins.gold, etc.
-  weapons?: Weapon[]; // Unequipped weapons
-  equipment?: Equipment[]; // Armor, accessories, etc.
-  rations?: Ration[]; // Count of Rations for out-of-battle healing
-  potions?: BattleOption[]; // Potions with specific effects (stored by ID)
+  attacks: BattleOption[];
+  skills: BattleOption[];
+  coins: Coins;  // accessible via inventory.coins.gold, etc.
+  weapons: Weapon[]; // Unequipped weapons
+  equipment: Equipment[]; // Armor, accessories, etc.
+  rations: Ration[]; // Count of Rations for out-of-battle healing
+  potions: BattleOption[]; // Potions with specific effects (stored by ID)
 }
 
 export interface Coins {
@@ -35,7 +35,7 @@ export interface Coins {
   copper: number;
 }
 
-export type InventoryItemType = 'weapon' | 'equipment' | 'potion' | 'ration' | 'coin';
+export type InventoryItemType = 'weapon' | 'equipment' | 'potion' | 'ration' | 'coin' | 'battleOption';
 
 
 export interface EffectfulItem {
@@ -49,12 +49,14 @@ export interface EffectfulItem {
   }
 }
 
+
 export interface InventoryItemBase extends EffectfulItem {
   id: string;
   icon: string;
   title: string;
   type: InventoryItemType;
   description: string;
+  price?: Coins;
 }
 
 export interface Weapon extends InventoryItemBase { };

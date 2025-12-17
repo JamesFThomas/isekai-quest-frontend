@@ -7,6 +7,8 @@ import {
 
 import { ReactNode, Dispatch, SetStateAction } from 'react';
 
+export type ModalType = "action" | "read-only";
+
 type ModalBaseProps = {
     isOpen: boolean;
     type: "action" | "read-only"

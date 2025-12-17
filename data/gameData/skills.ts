@@ -5,7 +5,8 @@ export const evade: BattleOption = {
     id: "general-evade",
     icon: "/battleaction_icons/evade_icon.png",
     title: "Evade",
-    type: "skill",
+    type: 'battleOption',
+    battleOptionType: 'skill',
     description: "Attempt to dodge the opponent's next attack, reducing or avoiding damage.",
     effect: {},
 };
@@ -14,7 +15,8 @@ export const block: BattleOption = {
     id: "general-block",
     icon: "/battleaction_icons/block_icon.png", // placeholder, update later
     title: "Block",
-    type: "skill",
+    type: 'battleOption',
+    battleOptionType: 'skill',
     description: "Raise your guard to lessen the impact of the opponent's next attack.",
     effect: {},
 };
@@ -25,7 +27,8 @@ export const radiantPalm: BattleOption = {
     id: 'paladin-basic-skill',
     icon: "/battleaction_icons/sword_icon2.png",
     title: 'Radiant Palm',
-    type: 'skill',
+    type: 'battleOption',
+    battleOptionType: 'skill',
     description: '',
     effect: {
         hp: -1,
@@ -38,7 +41,8 @@ export const iceGust: BattleOption = {
     icon: "/battleaction_icons/sword_icon2.png",
     title: 'Ice Gust',
     description: '',
-    type: 'skill',
+    type: 'battleOption',
+    battleOptionType: 'skill',
     effect: {
         hp: -1,
     },
@@ -50,7 +54,8 @@ export const luckyHook: BattleOption = {
     icon: "/battleaction_icons/sword_icon2.png",
     title: 'Lucky Hook',
     description: '',
-    type: 'skill',
+    type: 'battleOption',
+    battleOptionType: 'skill',
     effect: {
         hp: -1,
     },
@@ -62,7 +67,8 @@ export const ragingSlam: BattleOption = {
     icon: "/battleaction_icons/sword_icon2.png",
     title: 'Raging Slam',
     description: '',
-    type: 'skill',
+    type: 'battleOption',
+    battleOptionType: 'skill',
     effect: {
         hp: -1,
     },
@@ -74,7 +80,8 @@ export const lifeSiphon: BattleOption = {
     icon: "/battleaction_icons/sword_icon2.png",
     title: 'Life Siphon',
     description: '',
-    type: 'skill',
+    type: 'battleOption',
+    battleOptionType: 'skill',
     effect: {
         hp: -1,
     },
@@ -86,7 +93,8 @@ export const earthshakerStomp: BattleOption = {
     icon: "/battleaction_icons/sword_icon2.png",
     title: 'Earthshaker Stomp',
     description: '',
-    type: 'skill',
+    type: 'battleOption',
+    battleOptionType: 'skill',
     effect: {
         hp: -1,
     },

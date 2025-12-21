@@ -44,17 +44,9 @@ export default function PartyScreen() {
   const activeCharacter = useAppSelector(selectActiveCharacter);
   const characterParty = useAppSelector(selectCharacterParty);
 
-  // Memoized inventory items based on selectedInventoryKey
-  const memoizedItems = useMemo(() => {
 
-    // return empty array if no activeCharacter, inventory, or selectedInventoryKey
-    if (!activeCharacter || !activeCharacter.inventory || !selectedInventoryKey) return [];
+  const inventoryItems = (activeCharacter && activeCharacter.inventory && selectedInventoryKey) ? activeCharacter.inventory[selectedInventoryKey as keyof typeof activeCharacter.inventory] : [];
 
-    const value = activeCharacter.inventory[selectedInventoryKey as keyof typeof activeCharacter.inventory]
-
-    return Array.isArray(value) ? (value as BattleOption[] | InventoryItemBase[]) : [];
-
-  }, [activeCharacter, selectedInventoryKey]);
 
 
   // Update buttons height on mount and when buttonsRef changes
@@ -115,7 +107,7 @@ export default function PartyScreen() {
 
   const handleInventoryItemClick = (itemId: string) => {
 
-    const selectedItem = memoizedItems.find(item => item.id === itemId)
+    const selectedItem = Array.isArray(inventoryItems) ? inventoryItems.find(item => item.id === itemId) : undefined
 
     if (selectedItem) {
       setSelectedInventoryItem(selectedItem)
@@ -274,11 +266,11 @@ export default function PartyScreen() {
               "
               >
 
-                {memoizedItems.map((option: BattleOption | InventoryItemBase) => (
+                {Array.isArray(inventoryItems) && inventoryItems.map((option: BattleOption | InventoryItemBase, _index) => (
                   <button
                     type="button"
                     onClick={() => handleInventoryItemClick(option.id)}
-                    key={`${option.id}-${option.title}`}
+                    key={`${option.title}-button-${_index}`}
                     className="inline-flex flex-col items-center justify-center
                           min-w-[fit-content] p-4
                           rounded-md
@@ -287,7 +279,7 @@ export default function PartyScreen() {
                           transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
                   >
                     <Image
-                      key={`${option.id}-${option.title}`}
+                      key={`$${option.title}`}
                       className='flex items-center justify-center'
                       style={{
                         border:
@@ -317,17 +309,17 @@ export default function PartyScreen() {
         <div id="party-members-grid" className="w-full p-4">
           <div className="flex flex-row flex-wrap gap-2 border-2 border-white rounded-lg bg-black/50 p-4">
             {characterParty.length > 0 ? (
-              characterParty.map((character) => (
+              characterParty.map((character, _index) => (
                 <CharacterDisplayCard
-                  key={character.id}
+                  key={`${character.id}-party-member-${_index}`}
                   character={character}
                 />
               ))
             ) : activeCharacter?.partyMembers &&
               activeCharacter.partyMembers.length > 0 ? (
-              activeCharacter.partyMembers.map((character) => (
+              activeCharacter.partyMembers.map((character, _index) => (
                 <CharacterDisplayCard
-                  key={character.id}
+                  key={`${character.id}-party-member-${_index}`}
                   character={character}
                 />
               ))

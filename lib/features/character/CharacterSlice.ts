@@ -218,9 +218,11 @@ export const characterSlice = createSlice({
       // console.log('Removing item from category:', itemCategory);
 
       if (targetCharacter?.inventory && itemCategory in targetCharacter.inventory) {
+        // filter out used item based on instanceId if available
         const updatedItems =
           (targetCharacter.inventory as unknown as Record<string, InventoryItemBase[]>)[itemCategory]
-            .filter((invItem: InventorySelection) => invItem.id !== item.id);
+            .filter((invItem: InventorySelection) => invItem.id !== item.id || invItem.instanceId !== item.instanceId
+            );
 
         (targetCharacter.inventory as unknown as Record<string, InventoryItemBase[]>)[itemCategory] = updatedItems;
       }

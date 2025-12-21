@@ -146,6 +146,8 @@ export default function PartyScreen() {
         }
       });
     }
+
+    uniqueData.sort((a, b) => a.title.localeCompare(b.title));
     return [itemCountMap, uniqueData] as const;
   };
 
@@ -293,7 +295,7 @@ export default function PartyScreen() {
                   lg:grid-cols-3
                   gap-4
                   p-1
-                  place-items-center
+                  place-items-top
                   "
               >
 
@@ -304,7 +306,7 @@ export default function PartyScreen() {
                     onClick={() => handleInventoryItemClick(option.id)}
                     key={`${option.title}-button-${_index}`}
                     className="inline-flex flex-col items-center justify-center
-                          min-w-[fit-content] p-4
+                          min-w-[fit-content] p-2
                           rounded-md
                           bg-transparent cursor-pointer hover:scale-105 transition-transform duration-200
                           text-sm font-bold text-white

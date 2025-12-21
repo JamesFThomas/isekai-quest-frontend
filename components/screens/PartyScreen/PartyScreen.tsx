@@ -120,6 +120,37 @@ export default function PartyScreen() {
     setIsItemModalOpen(false);
   }
 
+  // build hash object to track item occurences and display count badge if > 1
+  const createItemCountMap = () => {
+
+    // create deduplicate array of items
+    const uniqueData = [];
+    const seenIds = new Set();
+
+    for (const item of inventoryItems as (BattleOption | InventoryItemBase)[]) {
+      // Check if the id has already been added to the Set
+      if (!seenIds.has(item.id)) {
+        // If not, add the id to the Set and the object to the unique array
+        seenIds.add(item.id);
+        uniqueData.push(item);
+      }
+    }
+
+    const itemCountMap: { [key: string]: number } = {};
+    if (Array.isArray(inventoryItems)) {
+      inventoryItems.forEach((item) => {
+        if (itemCountMap[item.id]) {
+          itemCountMap[item.id] += 1;
+        } else {
+          itemCountMap[item.id] = 1;
+        }
+      });
+    }
+    return [itemCountMap, uniqueData] as const;
+  };
+
+  // derived count of items in inventory
+  const [itemCountHash, uniqueItems] = createItemCountMap();
 
   return (
     <div
@@ -256,17 +287,18 @@ export default function PartyScreen() {
               <div
                 id="inventory-items-display-grid"
                 className="
-              grid
-              grid-cols-2
-              sm:grid-cols-3
-              lg:grid-cols-3
-              gap-4
-              p-1
-              place-items-center
-              "
+                  grid
+                  grid-cols-2
+                  sm:grid-cols-3
+                  lg:grid-cols-3
+                  gap-4
+                  p-1
+                  place-items-center
+                  "
               >
 
-                {Array.isArray(inventoryItems) && inventoryItems.map((option: BattleOption | InventoryItemBase, _index) => (
+                {uniqueItems.map((option: BattleOption | InventoryItemBase, _index) => (
+
                   <button
                     type="button"
                     onClick={() => handleInventoryItemClick(option.id)}
@@ -296,6 +328,13 @@ export default function PartyScreen() {
                     >
                       {option.title}
                     </span>
+                    {/* count badge for multiple items */}
+                    {
+                      itemCountHash[option.id] > 1 &&
+                      <span className="mt-1 text-xs text-yellow-300 font-semibold">
+                        x {itemCountHash[option.id]}
+                      </span>
+                    }
                   </button>
                 ))}
               </div>

@@ -15,7 +15,7 @@ import {
   utilizeInventoryItemThunk,
 } from '@/lib/features/character/CharacterSlice';
 import CharacterDisplayCard from '@/components/ui/CharacterDisplayCard/CharacterDisplayCard';
-import { useState } from 'react';
+import { useLayoutEffect, useRef, useMemo, useState } from 'react';
 import { BattleOption } from '@/types/battle';
 import { InventoryItemBase } from '@/types/character';
 import CoinsPanel from '../../ui/CoinPanel/CoinsPanel';
@@ -27,54 +27,95 @@ import { ControlPanel } from '@/components/ui/ControlPanel/ContolPanel';
 export default function PartyScreen() {
   useProtectedRoute();
 
-  const [selectedItems, setSelectedItems] = useState<(BattleOption | InventoryItemBase)[]>();
-  const [selectedCategory, setSelectedCategory] = useState<'coins' | 'items' | undefined>();
+  //button height reference for calculating inventory items display height
+  const buttonsRef = useRef<HTMLDivElement | null>(null);
+  const [buttonsHeight, setButtonsHeight] = useState<number>(0);
 
+  // State for selected inventory category and item
+  const [selectedInventoryKey, setSelectedInventoryKey] = useState<string>();
+  const [selectedCategory, setSelectedCategory] = useState<'coins' | 'items' | undefined>();
   const [selectedInventoryItem, setSelectedInventoryItem] = useState<BattleOption | InventoryItemBase>();
+
+  // State for item modal visibility
   const [isItemModalOpen, setIsItemModalOpen] = useState(false);
 
+  // Redux hooks and state selectors
   const dispatch = useAppDispatch();
   const activeCharacter = useAppSelector(selectActiveCharacter);
   const characterParty = useAppSelector(selectCharacterParty);
+
+  // Memoized inventory items based on selectedInventoryKey
+  const memoizedItems = useMemo(() => {
+
+    // return empty array if no activeCharacter, inventory, or selectedInventoryKey
+    if (!activeCharacter || !activeCharacter.inventory || !selectedInventoryKey) return [];
+
+    const value = activeCharacter.inventory[selectedInventoryKey as keyof typeof activeCharacter.inventory]
+
+    return Array.isArray(value) ? (value as BattleOption[] | InventoryItemBase[]) : [];
+
+  }, [activeCharacter, selectedInventoryKey]);
+
+
+  // Update buttons height on mount and when buttonsRef changes
+  useLayoutEffect(() => {
+    const el = buttonsRef.current;
+    if (!el) return;
+
+    const update = () => {
+      const next = Math.ceil(el.getBoundingClientRect().height);
+      setButtonsHeight(next);
+    };
+
+    update();
+
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+
+    return () => ro.disconnect();
+  }, []);
+
+
 
   const handleInventoryButtonClick = (buttonType: string) => {
     if (activeCharacter && activeCharacter.inventory) {
       switch (buttonType) {
         case 'attacks':
-          setSelectedItems(activeCharacter.inventory.attacks)
+          setSelectedInventoryKey('attacks')
           setSelectedCategory('items')
           break;
         case 'skills':
-          setSelectedItems(activeCharacter.inventory.skills)
+          setSelectedInventoryKey('skills')
           setSelectedCategory('items')
           break;
         case 'potions':
+          setSelectedInventoryKey('potions')
           setSelectedCategory('items')
-          setSelectedItems(activeCharacter.inventory.potions)
           break;
         case 'weapons':
-          setSelectedItems(activeCharacter.inventory.weapons)
+          setSelectedInventoryKey('weapons')
           setSelectedCategory('items')
           break;
         case 'equipment':
-          setSelectedItems(activeCharacter.inventory.equipment)
+          setSelectedInventoryKey('equipment')
           setSelectedCategory('items')
           break;
         case 'rations':
-          setSelectedItems(activeCharacter.inventory.rations)
+          setSelectedInventoryKey('rations')
           setSelectedCategory('items')
           break;
         case 'coins':
-          setSelectedItems([])
           setSelectedCategory('coins')
           break;
       }
     }
   };
 
+
+
   const handleInventoryItemClick = (itemId: string) => {
 
-    const selectedItem = selectedItems?.find(item => item.id === itemId)
+    const selectedItem = memoizedItems.find(item => item.id === itemId)
 
     if (selectedItem) {
       setSelectedInventoryItem(selectedItem)
@@ -83,14 +124,6 @@ export default function PartyScreen() {
   }
 
   const handleItemSelect = (item: BattleOption | InventoryItemBase) => {
-    // remove item from selectedItems component state
-    // upgrade later to direvive lists from redux state directery not through component state
-    if (item.type === 'potion' || item.type === 'ration') {
-      setSelectedItems(prev =>
-        prev?.filter(invItem => invItem.id !== item.id) || []
-      );
-    }
-
     dispatch(utilizeInventoryItemThunk(item));
     setIsItemModalOpen(false);
   }
@@ -172,8 +205,9 @@ export default function PartyScreen() {
           className="character-inventory p-4 flex flex-col md:flex-row md:space-x-4 md:items-stretch"
         >
           <div
+            ref={buttonsRef}
             id="inventory-buttons"
-            className="w-full md:w-1/3 mb-4 md:mb-0 flex flex-col border-2 border-white rounded-md bg-black/40 overflow-hidden"
+            className="w-full md:w-1/3 mb-4 md:mb-0 flex flex-col border-2 border-white rounded-md bg-black/40"
           >
             <button
               className="w-full px-4 py-3 text-sm font-semibold text-white border-b border-white last:border-b-0 hover:bg-white/10 focus:outline-none focus:bg-white/15"
@@ -218,46 +252,62 @@ export default function PartyScreen() {
               Coins
             </button>
           </div>
+          {/* Inventory details will be displayed here based on selected category */}
           <div
             id="inventory-items-display"
-            className="w-full md:w-2/3 min-h-[220px] border-2 border-white bg-black/50 rounded-lg"
+            className="w-full border-2 border-white bg-black/50 rounded-lg overflow-y-auto"
+            style={buttonsHeight ? { height: `${buttonsHeight}px` } : undefined}
           >
-            {/* Inventory details will be displayed here based on selected category */}
             {selectedCategory === 'coins'
               ? <CoinsPanel coins={activeCharacter?.inventory?.coins} />
-              : selectedItems?.map((option: BattleOption | InventoryItemBase) => (
-                <button
-                  type="button"
-                  onClick={() => handleInventoryItemClick(option.id)}
-                  key={`${option.id}-${option.title}`}
-                  className="inline-flex flex-col items-center justify-center
+              :
+              <div
+                id="inventory-items-display-grid"
+                className="
+              grid
+              grid-cols-2
+              sm:grid-cols-3
+              lg:grid-cols-3
+              gap-4
+              p-1
+              place-items-center
+              "
+              >
+
+                {memoizedItems.map((option: BattleOption | InventoryItemBase) => (
+                  <button
+                    type="button"
+                    onClick={() => handleInventoryItemClick(option.id)}
+                    key={`${option.id}-${option.title}`}
+                    className="inline-flex flex-col items-center justify-center
                           min-w-[fit-content] p-4
                           rounded-md
                           bg-transparent cursor-pointer hover:scale-105 transition-transform duration-200
                           text-sm font-bold text-white
-                          
                           transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
-                >
-                  <Image
-                    key={`${option.id}-${option.title}`}
-                    className='flex items-center justify-center'
-                    style={{
-                      border:
-                        selectedInventoryItem?.id === option.id
-                          ? '3px solid #FCE300'
-                          : 'none',
-                    }}
-                    alt={option.title}
-                    src={option.icon}
-                    width={50}
-                    height={50}
-                  />
-                  <span className="mt-2 text-sm text-white font-bold text-center"
                   >
-                    {option.title}
-                  </span>
-                </button>
-              ))}
+                    <Image
+                      key={`${option.id}-${option.title}`}
+                      className='flex items-center justify-center'
+                      style={{
+                        border:
+                          selectedInventoryItem?.id === option.id
+                            ? '3px solid #FCE300'
+                            : 'none',
+                      }}
+                      alt={option.title}
+                      src={option.icon}
+                      width={50}
+                      height={50}
+                    />
+                    <span className="mt-2 text-sm text-white font-bold text-center"
+                    >
+                      {option.title}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            }
 
           </div>
         </div>

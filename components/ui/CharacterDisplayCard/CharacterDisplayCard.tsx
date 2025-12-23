@@ -3,16 +3,14 @@ import { Character } from "@/types/character";
 import Image from "next/image";
 
 interface CharacterDisplayCardProps {
-    key: string;
     character: Character;
     isActive?: boolean;
     onClick?: () => void;
 }
 
-const CharacterDisplayCard = ({ character, key }: CharacterDisplayCardProps) => {
+const CharacterDisplayCard = ({ character }: CharacterDisplayCardProps) => {
     return (
         <div
-            key={key}
             id="CharacterDisplayCard-wrapper"
             className=" flex flex-row md:flex-col md:items-stretch bg-[url('/background_images/parchment_paper.png')] bg-cover bg-no-repeat bg-center p-2 border-1 border-white rounded-lg"
         >

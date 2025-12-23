@@ -140,19 +140,33 @@ export const characterSlice = createSlice({
 
     },
     addItemToCharacterInventory: (state, action: PayloadAction<{ item: InventoryItemBase }>) => {
+      // destructure item from payload
       const item = action.payload.item;
 
+      // ensure active character exists
       if (!state.ActiveCharacter) return;
 
+      // get active character
       const active = state.ActiveCharacter;
 
       // check item type and add to appropriate inventory array
       const itemCategory = convertItemTypeString(item);
 
       if (itemCategory in active.inventory) {
+        // TODO: Refactor to utility function for assigning instanceId 
+        // use one loop to filter and assign max instanceId
+        // get all items in category to determine next instanceId
+        const multipleOfSameItem = (active.inventory as unknown as Record<string, InventoryItemBase[]>)[itemCategory].
+          filter((invItem: InventorySelection) => invItem.id === item.id);
 
-        // console.log(`Adding ${item.title} item to ${itemCategory} inventory array.`);
-        (active.inventory as unknown as Record<string, InventoryItemBase[]>)[itemCategory].push(item);
+        // assign instanceId based on existing max value in category
+        const maxInstanceId = multipleOfSameItem.length > 0 ?
+          Math.max(...multipleOfSameItem.map((invItem: InventorySelection) => invItem.instanceId || 0)) : 0;
+
+        // create new item with instanceId
+        const newItemWithInstanceId = { ...item, instanceId: maxInstanceId + 1 };
+
+        (active.inventory as unknown as Record<string, InventoryItemBase[]>)[itemCategory].push(newItemWithInstanceId);
       }
 
 
@@ -204,9 +218,11 @@ export const characterSlice = createSlice({
       // console.log('Removing item from category:', itemCategory);
 
       if (targetCharacter?.inventory && itemCategory in targetCharacter.inventory) {
+        // filter out used item based on instanceId if available
         const updatedItems =
           (targetCharacter.inventory as unknown as Record<string, InventoryItemBase[]>)[itemCategory]
-            .filter((invItem: InventorySelection) => invItem.id !== item.id);
+            .filter((invItem: InventorySelection) => invItem.id !== item.id || invItem.instanceId !== item.instanceId
+            );
 
         (targetCharacter.inventory as unknown as Record<string, InventoryItemBase[]>)[itemCategory] = updatedItems;
       }

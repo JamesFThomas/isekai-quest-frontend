@@ -10,6 +10,7 @@ import Image from 'next/image';
 import { useAppDispatch } from '@/lib/reduxHooks';
 
 import { login, User } from '../../../lib/features/auth/AuthSlice';
+import { InformationIcon } from '@/components/ui/InformationIcon/InformationIcon';
 
 export default function SplashScreen() {
   const router = useRouter();
@@ -31,7 +32,10 @@ export default function SplashScreen() {
   };
 
   return (
-    <div className="flex p-8 justify-center items-center min-h-screen bg-[url('/background_images/avatars_townScene2.png')] bg-cover bg-center bg-no-repeat">
+    <div className="relative flex p-8 justify-center items-center min-h-screen bg-[url('/background_images/avatars_townScene2.png')] bg-cover bg-center bg-no-repeat">
+      <div className='absolute top-1 right-1'>
+        <InformationIcon pageKey='splash' />
+      </div>
       <div className='flex flex-col items-center'>
         <div className='logo-container max-w-[600px] w-full flex justify-center'>
           <figure>

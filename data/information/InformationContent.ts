@@ -1,6 +1,6 @@
 import { InformationContentMap } from '@/types/information';
 
-export const InformationContent: InformationContentMap = {
+export const InformationContentObject: InformationContentMap = {
   splash: {
     title: 'Welcome to Isekai Quest',
     imageSrc: '/loginPicture.png',

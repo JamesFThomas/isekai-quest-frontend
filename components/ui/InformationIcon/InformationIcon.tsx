@@ -23,15 +23,15 @@ export const InformationIcon = ({ pageKey }: InformationIconProps) => {
   const modalContent = (pageContent: InformationContent | undefined) => {
     return (
       pageContent && (
-        <div className='information-icon'>
-          <h1>{pageContent.title}</h1>
+        <div className='information-icon flex flex-col justify-center items-center gap-4 p-4'>
+          {/* <h1>{pageContent.title}</h1> */}
           <Image
             src={pageContent.imageSrc}
             alt={`${pageContent.title} Icon`}
-            width={125}
-            height={125}
+            width={500}
+            height={500}
           />
-          <div>{pageContent.content}</div>
+          <div className="whitespace-pre-line leading-snug">{pageContent.content}</div>
         </div>
       )
     );
@@ -55,7 +55,7 @@ export const InformationIcon = ({ pageKey }: InformationIconProps) => {
         isOpen={isModalOpen}
         type={modalType}
         closeModal={setIsModalOpen}
-        title={'Login Information'}
+        title={''}
       >
         {modalContent(content)}
       </ModalBase>

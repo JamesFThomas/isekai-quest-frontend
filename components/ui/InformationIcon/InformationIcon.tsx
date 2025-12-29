@@ -44,18 +44,18 @@ export const InformationIcon = ({ pageKey }: InformationIconProps) => {
         onClick={() => setIsModalOpen(true)}
       >
         <Image
-          src={'/homescreen_icons/backStep_image.png'}
+          src={'/information_images/information_icon.png'}
           alt={'Information Icon'}
           width={125}
           height={125}
-          className='flex items-center justify-center'
+          className='flex items-center justify-center hover:scale-125'
         />
       </button>
       <ModalBase
         isOpen={isModalOpen}
         type={modalType}
         closeModal={setIsModalOpen}
-        title={'Inventory Item'}
+        title={'Login Information'}
       >
         {modalContent(content)}
       </ModalBase>

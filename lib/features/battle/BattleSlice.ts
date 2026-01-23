@@ -94,7 +94,7 @@ export const battleSlice = createSlice({
     ) => {
       state.result = action.payload;
     },
-    setEscapeAllowed: (state, action: PayloadAction<boolean | null>) => {
+    setEscapeAllowed: (state, action: PayloadAction<boolean>) => {
       state.escapeAllowed = action.payload;
     },
     updateBattleState: (state, action: PayloadAction<BattleAction>) => {

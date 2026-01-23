@@ -36,6 +36,7 @@ export const missingScoutQuest: QuestStory = {
           outcome: {
             battle: {
               opponent: goblin,
+              escapeAllowed: true,
             },
           },
         },

@@ -28,6 +28,7 @@ export interface BattleState {
   result: BattleResult;
   round?: number | null;
   resolution: BattleResolution | null;
+  escapeAllowed?: boolean | null;
 }
 
 export type BattleOptionType = 'attack' | 'skill' | 'potion';

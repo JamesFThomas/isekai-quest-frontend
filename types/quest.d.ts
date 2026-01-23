@@ -43,7 +43,7 @@ export type StoryPointOutcome = {
 export type BattleDetails = {
   opponent: Opponent; // imported from BattleSlice
   backgroundImage?: string;
-  escapeAllowed?: boolean;
+  escapeAllowed: boolean;
   escapePenalty?: Effect;
   nextPointId?: StoryPointId; // ID of the next story point after battle
 };

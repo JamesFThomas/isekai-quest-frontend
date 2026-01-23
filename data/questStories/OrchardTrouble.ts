@@ -36,6 +36,7 @@ export const orchardTroubleQuest: QuestStory = {
           outcome: {
             battle: {
               opponent: goblin,
+              escapeAllowed: true,
             },
           },
         },

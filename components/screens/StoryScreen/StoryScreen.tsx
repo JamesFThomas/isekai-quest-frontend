@@ -1,6 +1,5 @@
 'use client';
 
-import BackButton from '@/components/ui/BackButton/BackButton';
 import useProtectedRoute from '@/lib/hooks/useProtectedRoute';
 
 import { useAppDispatch, useAppSelector } from '@/lib/reduxHooks';
@@ -12,6 +11,7 @@ import {
 import {
   setActiveCharacter,
   setActiveOpponent,
+  setEscapeAllowed,
 } from '@/lib/features/battle/BattleSlice';
 
 import { selectActiveCharacter } from '@/lib/features/character/CharacterSlice';
@@ -33,7 +33,7 @@ export default function StoryScreen() {
 
   const [quest, setQuest] = useState<QuestStory | null>(null);
   const [currentStoryPoint, setCurrentStoryPoint] = useState<StoryPoint | null>(
-    null
+    null,
   );
 
   const handleChoiceSelection = (choice: StoryPointChoice) => {
@@ -47,6 +47,9 @@ export default function StoryScreen() {
       // set the active opponent and character for the battle
       dispatch(setActiveOpponent(choice.outcome.battle.opponent));
       dispatch(setActiveCharacter(activeCharacter));
+      dispatch(setEscapeAllowed(choice.outcome.battle.escapeAllowed));
+
+      // set escape allowed in battle state if applicable
 
       // redirect to battle screen
       router.push('/battlescreen');
@@ -105,9 +108,6 @@ export default function StoryScreen() {
             </div>
           </div>
         )}
-      </div>
-      <div className='mt-2'>
-        <BackButton />
       </div>
     </div>
   );

@@ -2,7 +2,6 @@ import { QuestStory } from '@/types/quest';
 
 import { goblin } from '../gameData/opponents';
 
-
 export const banditWatchQuest: QuestStory = {
   id: 'banditWatch',
   name: 'Bandit Watch',
@@ -37,6 +36,7 @@ export const banditWatchQuest: QuestStory = {
           outcome: {
             battle: {
               opponent: goblin,
+              escapeAllowed: false,
             },
           },
         },

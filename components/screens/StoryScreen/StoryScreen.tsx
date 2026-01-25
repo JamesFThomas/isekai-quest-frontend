@@ -12,6 +12,7 @@ import {
   setActiveCharacter,
   setActiveOpponent,
   setEscapeAllowed,
+  setRewardAndPenalty,
 } from '@/lib/features/battle/BattleSlice';
 
 import { selectActiveCharacter } from '@/lib/features/character/CharacterSlice';
@@ -47,9 +48,17 @@ export default function StoryScreen() {
       // set the active opponent and character for the battle
       dispatch(setActiveOpponent(choice.outcome.battle.opponent));
       dispatch(setActiveCharacter(activeCharacter));
-      dispatch(setEscapeAllowed(choice.outcome.battle.escapeAllowed));
 
       // set escape allowed in battle state if applicable
+      dispatch(setEscapeAllowed(choice.outcome.battle.escapeAllowed));
+
+      // set reward and escape penalty
+      dispatch(
+        setRewardAndPenalty({
+          reward: choice.outcome.battle.reward,
+          escapePenalty: choice.outcome.battle.escapePenalty,
+        }),
+      );
 
       // redirect to battle screen
       router.push('/battlescreen');

@@ -37,6 +37,11 @@ export const banditWatchQuest: QuestStory = {
             battle: {
               opponent: goblin,
               escapeAllowed: false,
+              reward: {
+                hp: 10,
+                mp: 10,
+                coins: { gold: 5, silver: 10, copper: 0 },
+              },
             },
           },
         },

@@ -15,6 +15,8 @@ const initialState: BattleState = {
   round: null,
   resolution: null,
   escapeAllowed: false,
+  escapePenalty: null,
+  reward: null,
 };
 
 export const performBattleAction = createAsyncThunk<
@@ -94,8 +96,16 @@ export const battleSlice = createSlice({
     ) => {
       state.result = action.payload;
     },
+    // combine reducers for setting escapeAllowed, reward, and escapePenalty once story integration is done
     setEscapeAllowed: (state, action: PayloadAction<boolean>) => {
       state.escapeAllowed = action.payload;
+    },
+    setRewardAndPenalty: (
+      state,
+      action: PayloadAction<{ reward?: BattleState['reward']; escapePenalty?: BattleState['escapePenalty'] }>,
+    ) => {
+      state.reward = action.payload.reward;
+      state.escapePenalty = action.payload.escapePenalty;
     },
     updateBattleState: (state, action: PayloadAction<BattleAction>) => {
       // identify the action target - set the actor & target
@@ -154,6 +164,7 @@ export const {
   setBattleResult,
   updateBattleState,
   setEscapeAllowed,
+  setRewardAndPenalty,
 } = battleSlice.actions;
 
 export const selectActiveCharacter = (state: RootState) =>
@@ -180,6 +191,11 @@ export const selectBattleResult = (state: RootState) => state.battle.result;
 
 export const selectEscapeAllowed = (state: RootState) =>
   state.battle.escapeAllowed;
+
+export const selectEscapePenalty = (state: RootState) =>
+  state.battle.escapePenalty;
+
+export const selectBattleReward = (state: RootState) => state.battle.reward;
 
 export const selectBattleResolution = (state: RootState) =>
   state.battle.resolution;

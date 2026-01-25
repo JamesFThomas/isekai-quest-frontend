@@ -45,5 +45,6 @@ export type BattleDetails = {
   backgroundImage?: string;
   escapeAllowed: boolean;
   escapePenalty?: Effect;
+  reward?: Effect;
   nextPointId?: StoryPointId; // ID of the next story point after battle
 };

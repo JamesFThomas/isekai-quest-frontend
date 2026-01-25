@@ -37,6 +37,15 @@ export const missingScoutQuest: QuestStory = {
             battle: {
               opponent: goblin,
               escapeAllowed: true,
+              escapePenalty: {
+                hp: -5,
+                mp: -5,
+              },
+              reward: {
+                hp: 10,
+                mp: 10,
+                coins: { gold: 5, silver: 0, copper: 0 },
+              },
             },
           },
         },

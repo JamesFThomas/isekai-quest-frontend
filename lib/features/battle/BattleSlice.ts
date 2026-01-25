@@ -102,7 +102,10 @@ export const battleSlice = createSlice({
     },
     setRewardAndPenalty: (
       state,
-      action: PayloadAction<{ reward?: BattleState['reward']; escapePenalty?: BattleState['escapePenalty'] }>,
+      action: PayloadAction<{
+        reward?: BattleState['reward'];
+        escapePenalty?: BattleState['escapePenalty'];
+      }>,
     ) => {
       state.reward = action.payload.reward;
       state.escapePenalty = action.payload.escapePenalty;
@@ -127,16 +130,15 @@ export const battleSlice = createSlice({
       }
 
       // check for death
-      if (!actor?.hp || !target?.hp) {
-        state.result =
-          !actor?.hp && action.payload.actorId === state.activeCharacter?.id
-            ? 'lose'
-            : 'win';
-
-        state.result =
-          !target?.hp && action.payload.targetId === state.activeOpponent?.id
-            ? 'win'
-            : 'lose';
+      if (actor.hp <= 0 || target.hp <= 0) {
+        // set battle result
+        if (actor.hp <= 0 && actor.id === state.activeCharacter?.id) {
+          state.result = 'lose';
+        } else if (target.hp <= 0 && target.id === state.activeOpponent?.id) {
+          state.result = 'win';
+        } else if (target.hp <= 0 && target.id === state.activeCharacter?.id) {
+          state.result = 'lose';
+        }
       }
 
       // update battle log

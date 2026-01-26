@@ -70,8 +70,11 @@ export interface InventoryItemBase extends EffectfulItem {
   instanceId?: number; // unique identifier for individual instances of items
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface Weapon extends InventoryItemBase {}
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface Equipment extends InventoryItemBase {}
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface Ration extends InventoryItemBase {}

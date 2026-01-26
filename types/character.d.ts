@@ -1,6 +1,12 @@
-import { BattleOption } from "./battle";
+import { BattleOption } from './battle';
 
-export type characterClass = 'paladin' | 'elf' | 'halfling' | 'barbarian' | 'necromancer' | 'dwarf';
+export type characterClass =
+  | 'paladin'
+  | 'elf'
+  | 'halfling'
+  | 'barbarian'
+  | 'necromancer'
+  | 'dwarf';
 
 export interface Character {
   id: string;
@@ -22,7 +28,7 @@ export interface Character {
 export interface Inventory {
   attacks: BattleOption[];
   skills: BattleOption[];
-  coins: Coins;  // accessible via inventory.coins.gold, etc.
+  coins: Coins; // accessible via inventory.coins.gold, etc.
   weapons: Weapon[]; // Unequipped weapons
   equipment: Equipment[]; // Armor, accessories, etc.
   rations: Ration[]; // Count of Rations for out-of-battle healing
@@ -35,20 +41,24 @@ export interface Coins {
   copper: number;
 }
 
-export type InventoryItemType = 'weapon' | 'equipment' | 'potion' | 'ration' | 'coin' | 'battleOption';
-
+export type InventoryItemType =
+  | 'weapon'
+  | 'equipment'
+  | 'potion'
+  | 'ration'
+  | 'coin'
+  | 'battleOption';
 
 export interface EffectfulItem {
   effect: {
-    hp?: number,
-    mp?: number
+    hp?: number;
+    mp?: number;
   };
   cost?: {
-    hp?: number,
-    mp?: number
-  }
+    hp?: number;
+    mp?: number;
+  };
 }
-
 
 export interface InventoryItemBase extends EffectfulItem {
   id: string;
@@ -60,8 +70,11 @@ export interface InventoryItemBase extends EffectfulItem {
   instanceId?: number; // unique identifier for individual instances of items
 }
 
-export interface Weapon extends InventoryItemBase { };
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface Weapon extends InventoryItemBase {}
 
-export interface Equipment extends InventoryItemBase { };
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface Equipment extends InventoryItemBase {}
 
-export interface Ration extends InventoryItemBase { };
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface Ration extends InventoryItemBase {}

@@ -2,10 +2,14 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../../store';
 import { Character } from '@/types/character';
-import { BattleAction, BattleState, Opponent } from '@/types/battle';
+import {
+  BattleAction,
+  BattleResolution,
+  BattleState,
+  Opponent,
+} from '@/types/battle';
 
-
-const initialState: BattleState = {
+export const initialState: BattleState = {
   battleId: null,
   activeCharacter: null,
   activeOpponent: null,
@@ -13,26 +17,29 @@ const initialState: BattleState = {
   battleLog: [],
   phase: null,
   result: null,
-  round: null
+  round: null,
+  resolution: null,
+  escapeAllowed: false,
+  escapePenalty: null,
+  reward: null,
 };
 
 export const performBattleAction = createAsyncThunk<
-  void,                // return type
-  BattleAction,        // argument type
+  void, // return type
+  BattleAction, // argument type
   { state: RootState } // thunkAPI typings
 >(
-  "battle/performBattleAction",   // action type name
+  'battle/performBattleAction', // action type name
   async (battleAction, { dispatch, getState }) => {
     // thunk logic here
 
     const { result, activeCharacter, activeOpponent } = getState().battle;
 
-    // ensure payload has needed values, and screen state 
-    if (result !== null) return;                    // terminal battle → stop
+    // ensure payload has needed values, and screen state
+    if (result !== null) return; // terminal battle → stop
     if (!activeCharacter || !activeOpponent) return; // missing combatants → stop
 
-
-    // ensure payload ids match battle particpants
+    // ensure payload ids match battle participants
     const validIds = [activeCharacter.id, activeOpponent.id];
 
     const isValidActor = validIds.includes(battleAction.actorId);
@@ -40,15 +47,18 @@ export const performBattleAction = createAsyncThunk<
 
     if (!isValidActor || !isValidTarget) return;
 
+    dispatch(updateBattleState(battleAction)); // the thunk return
 
-    dispatch(updateBattleState(battleAction)); // the thunk return 
+    // new state check
+    const {
+      result: r2,
+      phase: p2,
+      activeCharacter: aC2,
+      activeOpponent: aO2,
+    } = getState().battle;
 
-    // new state check 
-    const { result: r2, phase: p2, activeCharacter: aC2, activeOpponent: aO2, } = getState().battle;
-
-    // read fresh state for oppoent auto response
-    if (r2 === null && p2 === "idle" && aC2 && aO2) {
-
+    // read fresh state for opponent auto response
+    if (r2 === null && p2 === 'idle' && aC2 && aO2) {
       // TODO: improve opponent AI logic later with randomness, strategy, etc.
       const opponentAttack = aO2.attacks[0];
 
@@ -58,21 +68,17 @@ export const performBattleAction = createAsyncThunk<
         details: {
           id: aO2.id,
           title: opponentAttack.title,
-          type: opponentAttack.type
+          type: opponentAttack.type,
         },
-        effect: opponentAttack.effect
-      }
+        effect: opponentAttack.effect,
+      };
 
       dispatch(updateBattleState(battleAction));
-
     }
-
-
-
-  }
+  },
 );
 
-// Battle Slice Stroe
+// Battle Slice Store
 export const battleSlice = createSlice({
   name: 'battle',
   initialState: initialState,
@@ -89,31 +95,66 @@ export const battleSlice = createSlice({
     logBattleAction: (state, action: PayloadAction<string>) => {
       state.battleLog.push(action.payload);
     },
+    setBattleResult: (
+      state,
+      action: PayloadAction<'win' | 'lose' | 'flee' | null>,
+    ) => {
+      state.result = action.payload;
+    },
+    // combine reducers for setting escapeAllowed, reward, and escapePenalty once story integration is done
+    setEscapeAllowed: (state, action: PayloadAction<boolean>) => {
+      state.escapeAllowed = action.payload;
+    },
+    setRewardAndPenalty: (
+      state,
+      action: PayloadAction<{
+        reward?: BattleState['reward'];
+        escapePenalty?: BattleState['escapePenalty'];
+      }>,
+    ) => {
+      state.reward = action.payload.reward;
+      state.escapePenalty = action.payload.escapePenalty;
+    },
+    setBattleResolution: (
+      state,
+      action: PayloadAction<BattleResolution | null>,
+    ) => {
+      state.resolution = action.payload;
+    },
     updateBattleState: (state, action: PayloadAction<BattleAction>) => {
       // identify the action target - set the actor & target
-      const actor = action.payload.actorId === state.activeCharacter?.id ? state.activeCharacter : state.activeOpponent;
-      const target = action.payload.targetId === state.activeCharacter?.id ? state.activeCharacter : state.activeOpponent;
+      const actor =
+        action.payload.actorId === state.activeCharacter?.id
+          ? state.activeCharacter
+          : state.activeOpponent;
+      const target =
+        action.payload.targetId === state.activeCharacter?.id
+          ? state.activeCharacter
+          : state.activeOpponent;
 
       // apply action.payload.effects to the target
       if (target && action.payload.effect.hp) {
-        target.hp += action.payload.effect.hp
+        target.hp += action.payload.effect.hp;
       }
       if (target && action.payload.effect.mp) {
-        target.mp += action.payload.effect.mp
+        target.mp += action.payload.effect.mp;
       }
 
       // check for death
-      if (!actor?.hp || !target?.hp) {
-        state.result = !actor?.hp && action.payload.actorId === state.activeCharacter?.id ? 'lose' : 'win';
-
-        state.result = !target?.hp && action.payload.targetId === state.activeOpponent?.id ? 'win' : 'lose';
-
+      if (actor.hp <= 0 || target.hp <= 0) {
+        // set battle result
+        if (actor.hp <= 0 && actor.id === state.activeCharacter?.id) {
+          state.result = 'lose';
+        } else if (target.hp <= 0 && target.id === state.activeOpponent?.id) {
+          state.result = 'win';
+        } else if (target.hp <= 0 && target.id === state.activeCharacter?.id) {
+          state.result = 'lose';
+        }
       }
 
       // update battle log
-      const logEntry = `${actor?.name} performed ${action.payload.details.title} on ${target?.name}`
-      state.battleLog.push(logEntry)
-
+      const logEntry = `${actor?.name} performed ${action.payload.details.title} on ${target?.name}`;
+      state.battleLog.push(logEntry);
 
       // flip isPlayerTurn flag
       state.isPlayerTurn = !state.isPlayerTurn;
@@ -121,10 +162,12 @@ export const battleSlice = createSlice({
       // derive battle phase from current state
       state.phase = state.isPlayerTurn ? 'chooseAction' : 'idle';
 
-
       // increment round if state.phase = "chooseAction"
       if (state.round && state.isPlayerTurn) state.round++;
-    }
+    },
+    resetBattleState: (state) => {
+      Object.assign(state, initialState);
+    },
   },
 });
 
@@ -134,7 +177,12 @@ export const {
   setActiveOpponent,
   togglePlayerTurn,
   logBattleAction,
+  setBattleResult,
   updateBattleState,
+  setEscapeAllowed,
+  setRewardAndPenalty,
+  setBattleResolution,
+  resetBattleState,
 } = battleSlice.actions;
 
 export const selectActiveCharacter = (state: RootState) =>
@@ -146,8 +194,7 @@ export const selectActiveOpponent = (state: RootState) =>
 export const selectIsPlayerTurn = (state: RootState) =>
   state.battle.isPlayerTurn;
 
-export const selectBattleLog = (state: RootState) =>
-  state.battle.battleLog;
+export const selectBattleLog = (state: RootState) => state.battle.battleLog;
 
 export const selectCharacterAttacks = (state: RootState) =>
   state.battle.activeCharacter?.inventory?.attacks;
@@ -157,5 +204,18 @@ export const selectCharacterSkills = (state: RootState) =>
 
 export const selectCharacterPotions = (state: RootState) =>
   state.battle.activeCharacter?.inventory?.potions;
+
+export const selectBattleResult = (state: RootState) => state.battle.result;
+
+export const selectEscapeAllowed = (state: RootState) =>
+  state.battle.escapeAllowed;
+
+export const selectEscapePenalty = (state: RootState) =>
+  state.battle.escapePenalty;
+
+export const selectBattleReward = (state: RootState) => state.battle.reward;
+
+export const selectBattleResolution = (state: RootState) =>
+  state.battle.resolution;
 
 export default battleSlice.reducer;

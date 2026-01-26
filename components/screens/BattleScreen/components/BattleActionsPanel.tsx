@@ -1,119 +1,171 @@
-import { useRouter } from "next/navigation"
+import { useRouter } from 'next/navigation';
 
 import {
-    selectCharacterAttacks,
-    selectCharacterSkills,
-    selectCharacterPotions,
-    selectActiveCharacter,
-    selectActiveOpponent,
-    performBattleAction
-} from "@/lib/features/battle/BattleSlice"
+  setBattleResult,
+  setBattleResolution,
+  selectCharacterAttacks,
+  selectCharacterSkills,
+  selectCharacterPotions,
+  selectActiveCharacter,
+  selectActiveOpponent,
+  performBattleAction,
+  //   selectBattleResolution,
+  selectBattleResult,
+  selectEscapeAllowed,
+  selectEscapePenalty,
+  selectBattleReward,
+} from '@/lib/features/battle/BattleSlice';
 
-
-
-import { useAppSelector, useAppDispatch } from "@/lib/reduxHooks";
-import { useState } from "react";
-import BattleActionsModal from "./BattleActionsModal";
-import { BattleAction, BattleOption } from "@/types/battle";
+import { useAppSelector, useAppDispatch } from '@/lib/reduxHooks';
+import { useEffect, useState } from 'react';
+import BattleActionsModal from './BattleActionsModal';
+import { BattleAction, BattleOption } from '@/types/battle';
 
 interface BattleActionsPanelProps {
-    isVisible: boolean
-    className?: string
+  isVisible: boolean;
+  className?: string;
 }
 
-const BattleActionsPanel = ({ isVisible, className }: BattleActionsPanelProps) => {
-    const router = useRouter();
-    const dispatch = useAppDispatch();
+const BattleActionsPanel = ({
+  isVisible,
+  className,
+}: BattleActionsPanelProps) => {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalOptions, setModalOptions] = useState<BattleOption[]>()
-    const [modalType, setModalType] = useState<'Attack' | 'Skill' | 'Item'>('Attack');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalOptions, setModalOptions] = useState<BattleOption[]>();
+  const [modalType, setModalType] = useState<'Attack' | 'Skill' | 'Item'>(
+    'Attack',
+  );
 
-    const characterAttacks = useAppSelector(selectCharacterAttacks);
-    const characterSkills = useAppSelector(selectCharacterSkills);
-    const characterPotions = useAppSelector(selectCharacterPotions);
-    const activeCharacter = useAppSelector(selectActiveCharacter);
-    const activeOpponent = useAppSelector(selectActiveOpponent);
+  const characterAttacks = useAppSelector(selectCharacterAttacks);
+  const characterSkills = useAppSelector(selectCharacterSkills);
+  const characterPotions = useAppSelector(selectCharacterPotions);
+  const activeCharacter = useAppSelector(selectActiveCharacter);
+  const activeOpponent = useAppSelector(selectActiveOpponent);
+  const battleResult = useAppSelector(selectBattleResult);
+  const battleReward = useAppSelector(selectBattleReward);
+  const escapePenalty = useAppSelector(selectEscapePenalty);
 
-    const handleModalState = () => {
-        setIsModalOpen(!isModalOpen);
+  //   const battleResolution = useAppSelector(selectBattleResolution);
+  const escapeAllowed = useAppSelector(selectEscapeAllowed);
+
+  const handleModalState = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+  const handleAttackClick = () => {
+    setModalOptions(characterAttacks ?? []);
+    handleModalState();
+    setModalType('Attack');
+  };
+
+  const handleSkillClick = () => {
+    setModalOptions(characterSkills ?? []);
+    handleModalState();
+    setModalType('Skill');
+  };
+
+  const handleItemClick = () => {
+    setModalOptions(characterPotions ?? []);
+    handleModalState();
+    setModalType('Item');
+  };
+
+  const handleFleeClick = () => {
+    // set battle result to 'flee'
+    dispatch(setBattleResult('flee'));
+  };
+
+  const handleActionSelect = (battleOption: BattleOption) => {
+    // Create BattleAction object and dispatch action
+    const battleAction: BattleAction = {
+      actorId: activeCharacter?.id ?? '',
+      targetId: activeOpponent?.id ?? '',
+      details: {
+        id: battleOption.id,
+        title: battleOption.title,
+        type: battleOption.type,
+      },
+      effect: battleOption.effect,
+    };
+
+    if (battleAction.actorId === '' || battleAction.targetId === '') {
+      console.error('Invalid battle action: missing actorId or targetId');
+      return;
     }
 
-    const handleAttackClick = () => {
-        setModalOptions(characterAttacks ?? []);
-        handleModalState();
-        setModalType('Attack');
+    dispatch(performBattleAction(battleAction));
+    handleModalState();
+  };
+
+  useEffect(() => {
+    if (battleResult !== null) {
+      const resolution = {
+        battleId: 'current-battle', // placeholder, replace with actual battle ID if available
+        result: battleResult,
+        reward: battleResult === 'win' ? battleReward : undefined,
+        penalty: battleResult === 'flee' ? escapePenalty : undefined,
+      };
+
+      // set the resolution in state for outcome screen to read
+      dispatch(setBattleResolution(resolution));
+
+      // Navigate to the battleoutcome screen
+      router.push('/battleoutcome');
     }
+  }, [battleResult, battleReward, escapePenalty, dispatch, router]);
 
-    const handleSkillClick = () => {
-        setModalOptions(characterSkills ?? []);
-        handleModalState();
-        setModalType('Skill');
-    }
-
-    const handleItemClick = () => {
-        setModalOptions(characterPotions ?? []);
-        handleModalState();
-        setModalType('Item');
-    }
-
-    const handleActionSelect = (battleOption: BattleOption) => {
-
-        // Create BattleAction object and dispatch action
-        const battleAction: BattleAction = {
-            actorId: activeCharacter?.id ?? '',
-            targetId: activeOpponent?.id ?? '',
-            details: {
-                id: battleOption.id,
-                title: battleOption.title,
-                type: battleOption.type
-            },
-            effect: battleOption.effect
-        }
-
-        if (battleAction.actorId === '' || battleAction.targetId === '') {
-            console.error("Invalid battle action: missing actorId or targetId");
-            return;
-        }
-
-        dispatch(performBattleAction(battleAction));
-        handleModalState();
-    }
-
-    return (
-        <div
-            id="BattleActions-panel"
-            className={`grid grid-cols-2 md:grid-cols-1 gap-3 bg-slate-100/30 backdrop-blur-sm rounded-2xl shadow-md p-4 ${isVisible ? '' : 'hidden'} ${className ?? ''}`}
+  return (
+    <div
+      id='BattleActions-panel'
+      className={`grid grid-cols-2 md:grid-cols-1 gap-3 bg-slate-100/30 backdrop-blur-sm rounded-2xl shadow-md p-4 ${isVisible ? '' : 'hidden'} ${className ?? ''}`}
+    >
+      <h3 className='col-span-2 md:col-span-1 text-center font-semibold'>
+        Actions Panel Test
+      </h3>
+      <button
+        className='w-full px-4 py-3 rounded-xl font-semibold shadow-sm border border-black/10 bg-transparent backdrop-blur-sm hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 active:scale-[0.99] transition'
+        onClick={handleAttackClick}
+      >
+        {' '}
+        Attack
+      </button>
+      <button
+        className='w-full px-4 py-3 rounded-xl font-semibold shadow-sm border border-black/10 bg-transparent backdrop-blur-sm hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 active:scale-[0.99] transition'
+        onClick={handleSkillClick}
+      >
+        {' '}
+        Skill
+      </button>
+      <button
+        className='w-full px-4 py-3 rounded-xl font-semibold shadow-sm border border-black/10 bg-transparent backdrop-blur-sm hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 active:scale-[0.99] transition'
+        onClick={handleItemClick}
+      >
+        {' '}
+        Item{' '}
+      </button>
+      {escapeAllowed && (
+        <button
+          className='w-full px-4 py-3 rounded-xl font-semibold shadow-sm border border-black/10 bg-transparent backdrop-blur-sm hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 active:scale-[0.99] transition text-red-900 hover:text-red-800'
+          onClick={handleFleeClick}
         >
-            <h3 className="col-span-2 md:col-span-1 text-center font-semibold">Actions Panel Test</h3>
-            <button
-                className="w-full px-4 py-3 rounded-xl font-semibold shadow-sm border border-black/10 bg-transparent backdrop-blur-sm hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 active:scale-[0.99] transition"
-                onClick={handleAttackClick}
-            > Attack</button>
-            <button
-                className="w-full px-4 py-3 rounded-xl font-semibold shadow-sm border border-black/10 bg-transparent backdrop-blur-sm hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 active:scale-[0.99] transition"
-                onClick={handleSkillClick}
-            > Skill</button>
-            <button
-                className="w-full px-4 py-3 rounded-xl font-semibold shadow-sm border border-black/10 bg-transparent backdrop-blur-sm hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 active:scale-[0.99] transition"
-                onClick={handleItemClick}
-            > Item </button>
-            <button
-                className="w-full px-4 py-3 rounded-xl font-semibold shadow-sm border border-black/10 bg-transparent backdrop-blur-sm hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 active:scale-[0.99] transition text-red-900 hover:text-red-800"
-                onClick={() => router.back()}
-            > Flee</button>
+          {' '}
+          Flee
+        </button>
+      )}
 
-            <BattleActionsModal
-                isOpen={isModalOpen}
-                closeModal={setIsModalOpen}
-                modalOptions={modalOptions}
-                type={modalType}
-                handleActionSelect={handleActionSelect}
-                player={activeCharacter?.name ?? 'Player'}
-            />
+      <BattleActionsModal
+        isOpen={isModalOpen}
+        closeModal={setIsModalOpen}
+        modalOptions={modalOptions}
+        type={modalType}
+        handleActionSelect={handleActionSelect}
+        player={activeCharacter?.name ?? 'Player'}
+      />
+    </div>
+  );
+};
 
-        </div >
-    )
-}
-
-export default BattleActionsPanel
+export default BattleActionsPanel;

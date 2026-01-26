@@ -44,7 +44,7 @@ export default function MapScreen() {
   };
 
   const currentLocation = useAppSelector(
-    (state) => state.character.characterLocation
+    (state) => state.character.characterLocation,
   );
 
   const questName = useAppSelector((state) => state.quest.acceptedQuest?.name);
@@ -54,9 +54,9 @@ export default function MapScreen() {
       <ControlPanel />
 
       <div
-        className='home-screen-container flex flex-col justify-center items-center gap-4'
+        className='mapscreen-container flex flex-col justify-center items-center gap-4'
         style={{
-          flexGrow: 1
+          flexGrow: 1,
         }}
       >
         <button
@@ -74,8 +74,9 @@ export default function MapScreen() {
           </span>
         </button>
         <button
-          className={`shield-image flex flex-col items-center justify-center ${acceptedQuest ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
-            }`}
+          className={`shield-image flex flex-col items-center justify-center ${
+            acceptedQuest ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
+          }`}
           onClick={openCommenceModal}
         >
           <Image

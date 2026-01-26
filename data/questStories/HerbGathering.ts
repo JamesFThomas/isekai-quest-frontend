@@ -2,7 +2,6 @@ import { QuestStory } from '@/types/quest';
 
 import { goblin } from '../gameData/opponents';
 
-
 export const herbGatheringQuest: QuestStory = {
   id: 'q1',
   name: 'Herb Gathering',
@@ -37,6 +36,16 @@ export const herbGatheringQuest: QuestStory = {
           outcome: {
             battle: {
               opponent: goblin,
+              escapeAllowed: true,
+              escapePenalty: {
+                hp: -5,
+                mp: -5,
+              },
+              reward: {
+                hp: 10,
+                mp: 10,
+                coins: { gold: 5, silver: 0, copper: 0 },
+              },
             },
           },
         },

@@ -1,6 +1,5 @@
 'use client';
 
-import BackButton from '@/components/ui/BackButton/BackButton';
 import useProtectedRoute from '@/lib/hooks/useProtectedRoute';
 
 import { useAppDispatch, useAppSelector } from '@/lib/reduxHooks';
@@ -12,12 +11,13 @@ import {
 import {
   setActiveCharacter,
   setActiveOpponent,
+  setEscapeAllowed,
+  setRewardAndPenalty,
 } from '@/lib/features/battle/BattleSlice';
 
 import { selectActiveCharacter } from '@/lib/features/character/CharacterSlice';
 
-import { useEffect, useState } from 'react';
-import { QuestStory, StoryPoint, StoryPointChoice } from '@/types/quest';
+import { StoryPointChoice } from '@/types/quest';
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -30,14 +30,11 @@ export default function StoryScreen() {
 
   const acceptedQuest = useAppSelector(selectAcceptedQuest);
   const activeCharacter = useAppSelector(selectActiveCharacter);
-
-  const [quest, setQuest] = useState<QuestStory | null>(null);
-  const [currentStoryPoint, setCurrentStoryPoint] = useState<StoryPoint | null>(
-    null
-  );
+  // get from quest slice one quests have more points
+  const currentStoryPoint = acceptedQuest ? acceptedQuest.storyPoints[0] : null;
 
   const handleChoiceSelection = (choice: StoryPointChoice) => {
-    if (!quest) return;
+    if (!acceptedQuest) return;
 
     // check choice for battle attribute and redirect to battle screen if it exists
     if (choice.outcome?.battle) {
@@ -47,6 +44,17 @@ export default function StoryScreen() {
       // set the active opponent and character for the battle
       dispatch(setActiveOpponent(choice.outcome.battle.opponent));
       dispatch(setActiveCharacter(activeCharacter));
+
+      // set escape allowed in battle state if applicable
+      dispatch(setEscapeAllowed(choice.outcome.battle.escapeAllowed));
+
+      // set reward and escape penalty
+      dispatch(
+        setRewardAndPenalty({
+          reward: choice.outcome.battle.reward,
+          escapePenalty: choice.outcome.battle.escapePenalty,
+        }),
+      );
 
       // redirect to battle screen
       router.push('/battlescreen');
@@ -65,18 +73,13 @@ export default function StoryScreen() {
     console.log(`Selected choice: ${choice.label} - ${choice.text}`);
   };
 
-  useEffect(() => {
-    if (acceptedQuest) {
-      setQuest(acceptedQuest);
-      setCurrentStoryPoint(acceptedQuest.storyPoints[0]);
-    }
-  }, [acceptedQuest]);
-
   return (
     <div className='story-screen-container p-4 flex flex-col items-center justify-center h-screen bg-[url("/background_images/dark_hills.png")] bg-cover bg-no-repeat bg-center'>
       <div className='story-screen-content flex flex-col items-center justify-center w-fit h-fit bg-[url("/background_images/parchment_paper.png")] bg-cover bg-no-repeat bg-center'>
-        {quest && (
-          <h1 className='text-4xl text-white font-bold mt-3'>{quest.name}</h1>
+        {acceptedQuest && (
+          <h1 className='text-4xl text-white font-bold mt-3'>
+            {acceptedQuest.name}
+          </h1>
         )}
         {currentStoryPoint && (
           <div className='story-point-content flex flex-col items-center justify-center p-4 w-max-[900px]'>
@@ -105,9 +108,6 @@ export default function StoryScreen() {
             </div>
           </div>
         )}
-      </div>
-      <div className='mt-2'>
-        <BackButton />
       </div>
     </div>
   );

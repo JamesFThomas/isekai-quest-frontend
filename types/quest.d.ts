@@ -1,4 +1,6 @@
 import { Opponent } from '@/lib/features/battle/BattleSlice';
+import { InventoryItemBase } from '@/lib/features/inventory/InventorySlice';
+import { Coins } from '@/lib/features/character/CharacterSlice';
 
 export type StoryPointId = string;
 
@@ -26,22 +28,24 @@ export type StoryPointChoice = {
 };
 
 // export type StoryPointOutcome = (character: Character) => void;
+export type Effect = {
+  hp?: number;
+  mp?: number;
+  coins?: Coins;
+  items?: InventoryItemBase[];
+};
 
 export type StoryPointOutcome = {
-  effects?: {
-    // Character & Game state changes
-    health?: number;
-    xp?: number;
-    gold?: number;
-  };
-  reward?: string;
+  effect?: Effect;
   battle?: BattleDetails;
 };
 
 export type BattleDetails = {
+  // battleIds should be set here in the details to link to BattleSlice state
   opponent: Opponent; // imported from BattleSlice
   backgroundImage?: string;
-  escapeAllowed?: boolean;
-  escapePenalty?: StoryPointOutcome;
+  escapeAllowed: boolean;
+  escapePenalty?: Effect;
+  reward?: Effect;
   nextPointId?: StoryPointId; // ID of the next story point after battle
 };

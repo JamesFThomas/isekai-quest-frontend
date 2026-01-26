@@ -16,7 +16,9 @@ export function BattleOutcome() {
   const activeCharacter = useAppSelector(selectActiveCharacter);
   const activeOpponent = useAppSelector(selectActiveOpponent);
 
-  console.log('Battle Resolution:', battleResolution);
+  const winTitle = 'Your reward for victory!';
+  const loseTitle = 'You have failed this quest!';
+  const fleeTitle = 'Your cowardice has consequences!';
 
   const outcomeBackground =
     battleResolution?.result === 'win'
@@ -36,7 +38,7 @@ export function BattleOutcome() {
           flexGrow: 1,
         }}
       >
-        <div className='story-screen-content p-6 flex flex-col items-center justify-center w-fit h-fit bg-[url("/background_images/parchment_paper.png")] bg-cover bg-no-repeat bg-center'>
+        <div className='battle-outcome-content p-6 flex flex-col items-center justify-center w-fit h-fit bg-[url("/background_images/parchment_paper.png")] bg-cover bg-no-repeat bg-center'>
           <div className='flex flex-col gap-1 text-sm'>
             <div className='font-bold text-2xl mb-4 text-center'>
               Battle Outcome: {battleResolution?.result?.toUpperCase()}
@@ -50,8 +52,23 @@ export function BattleOutcome() {
             >
               <figure className='flex flex-col items-center'>
                 <div className='relative w-40 h-40 sm:w-48 sm:h-48'>
+                  {/* outcome overlay */}
+                  {(battleResolution?.result === 'lose' ||
+                    battleResolution?.result === 'flee') && (
+                    <div
+                      className='absolute inset-0 z-10 text-9xl flex items-center justify-center pointer-events-none'
+                      style={{
+                        color:
+                          battleResolution?.result === 'lose'
+                            ? 'red'
+                            : 'yellow',
+                      }}
+                    >
+                      X
+                    </div>
+                  )}
                   <Image
-                    alt='Chosen player avatar'
+                    alt='player avatar'
                     src={activeCharacter.avatar || '/default-avatar.png'}
                     fill
                     className='object-contain'
@@ -66,8 +83,19 @@ export function BattleOutcome() {
 
               <figure className='flex flex-col items-center'>
                 <div className='relative w-40 h-40 sm:w-48 sm:h-48'>
+                  {/* outcome overlay */}
+                  {battleResolution?.result === 'win' && (
+                    <div
+                      className='absolute inset-0 z-10 text-9xl flex items-center justify-center pointer-events-none'
+                      style={{
+                        color: 'red',
+                      }}
+                    >
+                      X
+                    </div>
+                  )}
                   <Image
-                    alt='Chosen opponent avatar'
+                    alt='opponent avatar'
                     src={activeOpponent?.avatar || '/default-avatar.png'}
                     fill
                     className='object-contain'
@@ -80,6 +108,19 @@ export function BattleOutcome() {
             </div>
           </div>
           {/* Character vs Opponent display grid */}
+
+          {/* Outcome details section */}
+          <div className='mt-4 mb-6 text-center'>
+            <div className='font-semibold text-lg mb-2'>
+              {battleResolution?.result === 'win'
+                ? winTitle
+                : battleResolution?.result === 'lose'
+                  ? loseTitle
+                  : fleeTitle}
+            </div>
+          </div>
+
+          {/* Outcome details section */}
 
           <div className='mt-4 mb-6 text-center'>
             <button

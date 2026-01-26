@@ -3,23 +3,18 @@
 import { useAppSelector } from '@/lib/reduxHooks';
 import { useRouter } from 'next/navigation';
 
-import {
-  selectBattleResult,
-  selectBattleResolution,
-} from '@/lib/features/battle/BattleSlice';
+import { selectBattleResolution } from '@/lib/features/battle/BattleSlice';
 
 export function BattleOutcome() {
   const router = useRouter();
-  const battleResult = useAppSelector(selectBattleResult);
   const battleResolution = useAppSelector(selectBattleResolution);
 
-  // console.log('Battle Result:', battleResult);
   console.log('Battle Resolution:', battleResolution);
 
   const outcomeBackground =
-    battleResult === 'win'
+    battleResolution?.result === 'win'
       ? '/battleoutcome_images/win_outcome.png'
-      : battleResult === 'lose'
+      : battleResolution?.result === 'lose'
         ? '/battleoutcome_images/lose_outcome.png'
         : '/battleoutcome_images/flee_outcome.png';
 

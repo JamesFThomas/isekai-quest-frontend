@@ -1,16 +1,19 @@
 import { useRouter } from 'next/navigation';
 
 import {
+  setBattleResult,
+  setBattleResolution,
   selectCharacterAttacks,
   selectCharacterSkills,
   selectCharacterPotions,
   selectActiveCharacter,
   selectActiveOpponent,
   performBattleAction,
-  setBattleResult,
   //   selectBattleResolution,
   selectBattleResult,
   selectEscapeAllowed,
+  selectEscapePenalty,
+  selectBattleReward,
 } from '@/lib/features/battle/BattleSlice';
 
 import { useAppSelector, useAppDispatch } from '@/lib/reduxHooks';
@@ -42,6 +45,8 @@ const BattleActionsPanel = ({
   const activeCharacter = useAppSelector(selectActiveCharacter);
   const activeOpponent = useAppSelector(selectActiveOpponent);
   const battleResult = useAppSelector(selectBattleResult);
+  const battleReward = useAppSelector(selectBattleReward);
+  const escapePenalty = useAppSelector(selectEscapePenalty);
 
   //   const battleResolution = useAppSelector(selectBattleResolution);
   const escapeAllowed = useAppSelector(selectEscapeAllowed);
@@ -97,12 +102,20 @@ const BattleActionsPanel = ({
 
   useEffect(() => {
     if (battleResult !== null) {
-      // Navigate to the battleoutcome screen
-      router.push('/battleoutcome');
+      const resolution = {
+        battleId: 'current-battle', // placeholder, replace with actual battle ID if available
+        result: battleResult,
+        reward: battleResult === 'win' ? battleReward : undefined,
+        penalty: battleResult === 'flee' ? escapePenalty : undefined,
+      };
 
       // set the resolution in state for outcome screen to read
+      dispatch(setBattleResolution(resolution));
+
+      // Navigate to the battleoutcome screen
+      router.push('/battleoutcome');
     }
-  }, [battleResult, router]);
+  }, [battleResult, battleReward, escapePenalty, dispatch, router]);
 
   return (
     <div

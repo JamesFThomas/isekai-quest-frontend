@@ -2,7 +2,12 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../../store';
 import { Character } from '@/types/character';
-import { BattleAction, BattleState, Opponent } from '@/types/battle';
+import {
+  BattleAction,
+  BattleResolution,
+  BattleState,
+  Opponent,
+} from '@/types/battle';
 
 const initialState: BattleState = {
   battleId: null,
@@ -110,6 +115,12 @@ export const battleSlice = createSlice({
       state.reward = action.payload.reward;
       state.escapePenalty = action.payload.escapePenalty;
     },
+    setBattleResolution: (
+      state,
+      action: PayloadAction<BattleResolution | null>,
+    ) => {
+      state.resolution = action.payload;
+    },
     updateBattleState: (state, action: PayloadAction<BattleAction>) => {
       // identify the action target - set the actor & target
       const actor =
@@ -167,6 +178,7 @@ export const {
   updateBattleState,
   setEscapeAllowed,
   setRewardAndPenalty,
+  setBattleResolution,
 } = battleSlice.actions;
 
 export const selectActiveCharacter = (state: RootState) =>

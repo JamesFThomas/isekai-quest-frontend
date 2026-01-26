@@ -1,13 +1,21 @@
 'use client';
-import { selectBattleResult } from '@/lib/features/battle/BattleSlice';
+
 import { useAppSelector } from '@/lib/reduxHooks';
 import { useRouter } from 'next/navigation';
+
+import {
+  selectBattleResult,
+  selectBattleResolution,
+} from '@/lib/features/battle/BattleSlice';
 
 export function BattleOutcome() {
   const router = useRouter();
   const battleResult = useAppSelector(selectBattleResult);
+  const battleResolution = useAppSelector(selectBattleResolution);
 
-  console.log('Battle Result:', battleResult);
+  // console.log('Battle Result:', battleResult);
+  console.log('Battle Resolution:', battleResolution);
+
   const outcomeBackground =
     battleResult === 'win'
       ? '/battleoutcome_images/win_outcome.png'

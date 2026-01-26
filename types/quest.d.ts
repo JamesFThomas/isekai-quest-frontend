@@ -41,6 +41,7 @@ export type StoryPointOutcome = {
 };
 
 export type BattleDetails = {
+  // battleIds should be set here in the details to link to BattleSlice state
   opponent: Opponent; // imported from BattleSlice
   backgroundImage?: string;
   escapeAllowed: boolean;

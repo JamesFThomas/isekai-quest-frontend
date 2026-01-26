@@ -1,6 +1,6 @@
 'use client';
 
-import { useAppSelector } from '@/lib/reduxHooks';
+import { useAppSelector, useAppDispatch } from '@/lib/reduxHooks';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
@@ -8,10 +8,13 @@ import {
   selectBattleResolution,
   selectActiveCharacter,
   selectActiveOpponent,
+  resetBattleState,
 } from '@/lib/features/battle/BattleSlice';
+import { useEffect } from 'react';
 
 export function BattleOutcome() {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const battleResolution = useAppSelector(selectBattleResolution);
   const activeCharacter = useAppSelector(selectActiveCharacter);
   const activeOpponent = useAppSelector(selectActiveOpponent);
@@ -20,12 +23,35 @@ export function BattleOutcome() {
   const loseTitle = 'You have failed this quest!';
   const fleeTitle = 'Your cowardice has consequences!';
 
+  const buttonText =
+    battleResolution?.result === 'lose' ? 'Restart' : 'Continue';
+
+  const applyAndRedirect = () => {
+    let desiredRoute;
+    if (battleResolution?.result === 'lose') {
+      desiredRoute = '/homescreen';
+    } else {
+      desiredRoute = '/storyscreen';
+    }
+
+    router.push(desiredRoute); // redirect to appropriate screen
+    dispatch(resetBattleState()); // reset battle state - update to apply rewards/penalties as needed
+  };
+
   const outcomeBackground =
     battleResolution?.result === 'win'
       ? '/battleoutcome_images/win_outcome.png'
       : battleResolution?.result === 'lose'
         ? '/battleoutcome_images/lose_outcome.png'
         : '/battleoutcome_images/flee_outcome.png';
+
+  const noShow = !battleResolution || !activeCharacter || !activeOpponent;
+
+  useEffect(() => {
+    if (noShow) {
+      router.push('/homescreen'); // redirect if no outcome to show
+    }
+  }, [noShow, router]);
 
   return (
     <div
@@ -125,9 +151,9 @@ export function BattleOutcome() {
           <div className='mt-4 mb-6 text-center'>
             <button
               className='w-full px-4 py-3 rounded-xl font-semibold shadow-sm border border-black/10 bg-transparent backdrop-blur-sm hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 active:scale-[0.99] transition'
-              onClick={() => router.push('/homescreen')}
+              onClick={applyAndRedirect}
             >
-              Return to Home Screen
+              {buttonText}
             </button>
           </div>
         </div>

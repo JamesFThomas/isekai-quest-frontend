@@ -9,7 +9,7 @@ import {
   Opponent,
 } from '@/types/battle';
 
-const initialState: BattleState = {
+export const initialState: BattleState = {
   battleId: null,
   activeCharacter: null,
   activeOpponent: null,
@@ -165,6 +165,9 @@ export const battleSlice = createSlice({
       // increment round if state.phase = "chooseAction"
       if (state.round && state.isPlayerTurn) state.round++;
     },
+    resetBattleState: (state) => {
+      Object.assign(state, initialState);
+    },
   },
 });
 
@@ -179,6 +182,7 @@ export const {
   setEscapeAllowed,
   setRewardAndPenalty,
   setBattleResolution,
+  resetBattleState,
 } = battleSlice.actions;
 
 export const selectActiveCharacter = (state: RootState) =>

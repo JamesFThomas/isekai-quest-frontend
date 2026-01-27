@@ -47,7 +47,7 @@ export function BattleOutcome() {
     dispatch(resetBattleState()); // reset battle state - update to apply rewards/penalties as needed
   };
 
-  const noShow = !battleResolution || !activeCharacter || !activeOpponent;
+  const noShow = !battleResolution && !activeCharacter && !activeOpponent;
 
   const detailsTitle =
     battleResolution?.result === 'win'
@@ -132,7 +132,10 @@ export function BattleOutcome() {
                   )}
                   <Image
                     alt='player avatar'
-                    src={activeCharacter?.avatar || '/default-avatar.png'}
+                    src={
+                      activeCharacter?.avatar ||
+                      '/character_avatars/default_avatar.png'
+                    }
                     fill
                     className='object-contain'
                   />
@@ -159,7 +162,10 @@ export function BattleOutcome() {
                   )}
                   <Image
                     alt='opponent avatar'
-                    src={activeOpponent?.avatar || '/default-avatar.png'}
+                    src={
+                      activeOpponent?.avatar ||
+                      '/character_avatars/default_avatar.png'
+                    }
                     fill
                     className='object-contain'
                   />

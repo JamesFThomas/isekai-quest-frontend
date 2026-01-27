@@ -166,7 +166,21 @@ export const battleSlice = createSlice({
       if (state.round && state.isPlayerTurn) state.round++;
     },
     resetBattleState: (state) => {
-      Object.assign(state, initialState);
+      const resetBattleState: BattleState = {
+        battleId: null,
+        activeCharacter: state.activeCharacter,
+        activeOpponent: null,
+        isPlayerTurn: true,
+        battleLog: [],
+        phase: null,
+        result: null,
+        round: null,
+        resolution: null,
+        escapeAllowed: false,
+        escapePenalty: null,
+        reward: null,
+      };
+      Object.assign(state, resetBattleState);
     },
   },
 });

@@ -49,13 +49,13 @@ export default function RegistrationModal({
   const handleRegistration = () => {
     setIsLoading(true);
     const defaultOptions = getOptionsByCharacterClass(
-      playerData?.characterClass as characterClass
+      playerData?.characterClass as characterClass,
     );
     setTimeout(() => {
       const newCharacter: Character = {
         id: `${Math.floor(Math.random() * 10000)}`,
         name: playerData?.characterName || 'Default Character',
-        avatar: playerData?.avatar || '/default-avatar.png',
+        avatar: playerData?.avatar || '/character_avatars/default_avatar.png',
         hp: 100, // Default HP
         mp: 50, // Default MP
         class: playerData?.characterClass as characterClass,
@@ -65,7 +65,7 @@ export default function RegistrationModal({
           coins: {
             gold: 0,
             silver: 0,
-            copper: 0
+            copper: 0,
           },
           weapons: [],
           equipment: [],
@@ -91,7 +91,7 @@ export default function RegistrationModal({
 
   return (
     <div>
-      <Dialog open={isOpen} onClose={() => { }} className='relative z-10'>
+      <Dialog open={isOpen} onClose={() => {}} className='relative z-10'>
         <DialogBackdrop
           transition
           className='fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in'
@@ -125,7 +125,10 @@ export default function RegistrationModal({
                       <figure className='character-image w-full md:w-1/3 flex items-center justify-center'>
                         <Image
                           alt='Chosen player avatar'
-                          src={playerData?.avatar || '/default-avatar.png'}
+                          src={
+                            playerData?.avatar ||
+                            '/character_avatars/default_avatar.png'
+                          }
                           width={300}
                           height={300}
                         />

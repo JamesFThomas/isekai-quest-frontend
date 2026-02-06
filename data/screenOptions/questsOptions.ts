@@ -5,6 +5,7 @@ import { herbGatheringQuest } from '../questStories/HerbGathering';
 import { marshLightsQuest } from '../questStories/MarshLights';
 import { missingScoutQuest } from '../questStories/MissingScout';
 import { orchardTroubleQuest } from '../questStories/OrchardTrouble';
+import { ambushReconQuest } from '../questStories/AmbushRecon';
 
 // this will hold an array of QuestStories objects
 const questStories: QuestStory[] = [
@@ -13,6 +14,7 @@ const questStories: QuestStory[] = [
   banditWatchQuest,
   marshLightsQuest,
   orchardTroubleQuest,
+  ambushReconQuest,
 ];
 
 export default questStories;

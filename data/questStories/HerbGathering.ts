@@ -3,6 +3,7 @@ import { QuestStory } from '@/types/quest';
 import { goblin } from '../gameData/opponents';
 
 export const herbGatheringQuest: QuestStory = {
+  disabled: true, // Set to true to disable this quest until it's fully implemented
   id: 'q1',
   name: 'Herb Gathering',
   description:

@@ -4,6 +4,7 @@ import { QuestStory } from '@/types/quest';
 import { unknownRider } from '../gameData/opponents';
 
 export const ambushReconQuest: QuestStory = {
+  disabled: false,
   id: 'ambushReconQuest',
   name: 'Ambush Alley Recon',
   description:

@@ -10,6 +10,7 @@ export type QuestStory = {
   description: string;
   storyPoints: StoryPoint[];
   coverImageSrc: string; // Optional cover image for the quest
+  disabled?: boolean; // Optional flag to indicate if the quest is currently unavailable
 };
 
 export type StoryPoint = {

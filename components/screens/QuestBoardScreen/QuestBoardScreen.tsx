@@ -34,27 +34,25 @@ export default function QuestBoardScreen() {
 
       <div
         className='flex flex-1 w-full items-center justify-center'
-        style={{
-
-        }}
+        style={{}}
       >
-        <div
-          className="questBoard-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4 w-[100%] max-w-[900px] min-h-[600px] bg-[url('/background_images/quest_board2.png')] bg-cover bg-no-repeat bg-center"
-        >
+        <div className="questBoard-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4 w-[100%] max-w-[900px] min-h-[600px] bg-[url('/background_images/quest_board2.png')] bg-cover bg-no-repeat bg-center">
           {questStories.map((quest) => {
             const isAccepted = acceptedQuest?.id === quest.id;
             return (
               <button
                 key={quest.id}
-                className={`flex flex-col items-center justify-center cursor-pointer transition-transform duration-200`}
+                className={`flex flex-col items-center justify-center ${quest.disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} transition-transform duration-200`}
                 onClick={() => handleQuestClick(quest)}
+                disabled={quest.disabled}
               >
                 <Image
                   key={quest.id}
-                  className={`flex items-center justify-center ${isAccepted
-                    ? 'opacity-60 ring-3 ring-yellow-300 scale-110'
-                    : 'hover:scale-125'
-                    }`}
+                  className={`flex items-center justify-center ${
+                    isAccepted
+                      ? 'opacity-60 ring-3 ring-yellow-300 scale-110'
+                      : 'hover:scale-125'
+                  }`}
                   alt={`${quest.name} Quest Image`}
                   src={'/guildscreen_icons/scrollimage.png'}
                   height={120}
@@ -67,7 +65,6 @@ export default function QuestBoardScreen() {
             );
           })}
         </div>
-
       </div>
       <DetailsModal
         isOpen={isDetailsModalOpen}

@@ -6,6 +6,8 @@ import { useAppDispatch, useAppSelector } from '@/lib/reduxHooks';
 import {
   selectAcceptedQuest,
   setCurrentStoryPointId,
+  // selectCurrentStoryPointId,
+  selectCurrentStoryPoint,
 } from '@/lib/features/quest/QuestSlice';
 
 import {
@@ -31,7 +33,9 @@ export default function StoryScreen() {
   const acceptedQuest = useAppSelector(selectAcceptedQuest);
   const activeCharacter = useAppSelector(selectActiveCharacter);
   // get from quest slice one quests have more points
-  const currentStoryPoint = acceptedQuest ? acceptedQuest.storyPoints[0] : null;
+  // const currentStoryPointId = useAppSelector(selectCurrentStoryPointId);
+
+  const currentStoryPoint = useAppSelector(selectCurrentStoryPoint);
 
   const handleChoiceSelection = (choice: StoryPointChoice) => {
     if (!acceptedQuest) return;
@@ -61,16 +65,12 @@ export default function StoryScreen() {
       return;
     }
 
-    // TODO uncomment this when story points are implemented
-    // const nextPoint = quest.storyPoints.find(
-    //   (point) => point.id === choice.nextPointId
-    // );
+    // if no battle, just move to the next story point
+    const nextPoint = choice.nextPointId;
 
-    // if (nextPoint) {
-    //   setCurrentStoryPoint(nextPoint);
-    // }
-
-    console.log(`Selected choice: ${choice.label} - ${choice.text}`);
+    if (nextPoint) {
+      dispatch(setCurrentStoryPointId(nextPoint));
+    }
   };
 
   return (

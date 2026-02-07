@@ -82,7 +82,7 @@ export default function StoryScreen() {
           </h1>
         )}
         {currentStoryPoint && (
-          <div className='story-point-content flex flex-col items-center justify-center p-4 w-max-[900px]'>
+          <div className='story-point-content flex flex-col items-center p-4 max-w-[800px] w-full'>
             <Image
               src={currentStoryPoint.imageSrc}
               alt={`Story Point Image`}
@@ -90,14 +90,14 @@ export default function StoryScreen() {
               height={500}
               className='mt-4 rounded-lg'
             />
-            <p className='mt-2 w-fit text-white font-bold font'>
+            <p className='mt-4 text-center text-white font-bold'>
               {currentStoryPoint.text}
             </p>
-            <div className='choice-button-grid grid gap-3 mt-4 p-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'>
+            <div className='choice-button-container mt-4 p-4 flex flex-col items-center gap-3 sm:flex-row sm:justify-center'>
               {currentStoryPoint.choices.map((choice, index) => (
                 <button
                   key={index}
-                  className='bg-[#8E9CC9] w-full inline-flex justify-center rounded-full px-3 py-2 text-sm font-semibold text-white hover:cursor-pointer'
+                  className='bg-[#8E9CC9]   inline-flex justify-center rounded-full px-4 py-2 text-sm font-semibold text-white hover:cursor-pointer min-w-[200px] max-w-[240px]'
                   onClick={() => {
                     handleChoiceSelection(choice);
                   }}

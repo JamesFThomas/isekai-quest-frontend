@@ -4,13 +4,16 @@ import { Coins } from '@/lib/features/character/CharacterSlice';
 
 export type StoryPointId = string;
 
+export type QuestStoryId = string;
+
 export type QuestStory = {
-  id: string;
+  id: QuestStoryId;
   name: string;
   description: string;
   storyPoints: StoryPoint[];
   coverImageSrc: string; // Optional cover image for the quest
   disabled?: boolean; // Optional flag to indicate if the quest is currently unavailable
+  completed?: boolean; // Optional flag to indicate if the quest has been completed
 };
 
 export type StoryPoint = {
@@ -39,6 +42,7 @@ export type Effect = {
 export type StoryPointOutcome = {
   effect?: Effect;
   battle?: BattleDetails;
+  endState?: 'completed' | 'failed';
 };
 
 export type BattleDetails = {

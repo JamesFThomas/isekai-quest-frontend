@@ -8,19 +8,27 @@ import CommenceModal from '@/components/ui/CommenceModal/CommenceModal';
 import LocationModal from '@/components/ui/LocationModal/LocationModal';
 import useProtectedRoute from '@/lib/hooks/useProtectedRoute';
 
-import { useAppSelector } from '@/lib/reduxHooks';
+import { useAppDispatch, useAppSelector } from '@/lib/reduxHooks';
 
-import { selectAcceptedQuest } from '@/lib/features/quest/QuestSlice';
-import { ControlPanel } from '@/components/ui/ControlPanel/ContolPanel';
+import {
+  resetFailedQuestToFirstPoint,
+  selectAcceptedQuest,
+  selectLastEndedQuestId
+ } from '@/lib/features/quest/QuestSlice';
+
+ import { ControlPanel } from '@/components/ui/ControlPanel/ContolPanel';
 
 export default function MapScreen() {
-  const router = useRouter();
   useProtectedRoute();
+
+  const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
   const [isCommenceModalOpen, setIsCommenceModalOpen] = useState(false);
 
   const acceptedQuest = useAppSelector(selectAcceptedQuest);
+  const lastEndedQuestId = useAppSelector(selectLastEndedQuestId);
 
   const openLocationModal = () => {
     setIsLocationModalOpen(true);
@@ -34,12 +42,16 @@ export default function MapScreen() {
     setIsCommenceModalOpen(true);
   };
 
-  const onCommenceQuest = () => {
-    // Logic to handle quest commencement
+  const onCommenceQuest = () => {  // Logic to handle quest commencement
     if (acceptedQuest) {
-      // redirect user to storyScreen if quest was accepted
-      router.push('/storyscreen');
-      setIsCommenceModalOpen(false);
+
+      if (lastEndedQuestId !== null && acceptedQuest.id === lastEndedQuestId) { // check quest slice for last failed quest ID
+
+        dispatch(resetFailedQuestToFirstPoint());  // reset failed quest to first story point and restart quest
+      }
+
+      router.push('/storyscreen');    // redirect user to storyScreen if quest was accepted
+      setIsCommenceModalOpen(false);  // close the commence modal
     }
   };
 

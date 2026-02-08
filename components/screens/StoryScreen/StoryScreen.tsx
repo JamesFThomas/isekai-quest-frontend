@@ -3,11 +3,13 @@
 import useProtectedRoute from '@/lib/hooks/useProtectedRoute';
 
 import { useAppDispatch, useAppSelector } from '@/lib/reduxHooks';
+
 import {
   selectAcceptedQuest,
   setCurrentStoryPointId,
-  // selectCurrentStoryPointId,
   selectCurrentStoryPoint,
+  markQuestCompletedAndClearState,
+  setLastEndedQuestId,
 } from '@/lib/features/quest/QuestSlice';
 
 import {
@@ -30,13 +32,12 @@ export default function StoryScreen() {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
+  // select necessary state from the quest slice and character slice
   const acceptedQuest = useAppSelector(selectAcceptedQuest);
   const activeCharacter = useAppSelector(selectActiveCharacter);
-  // get from quest slice one quests have more points
-  // const currentStoryPointId = useAppSelector(selectCurrentStoryPointId);
-
   const currentStoryPoint = useAppSelector(selectCurrentStoryPoint);
 
+  // handle choice selection when a player clicks on a choice button
   const handleChoiceSelection = (choice: StoryPointChoice) => {
     if (!acceptedQuest) return;
 
@@ -68,8 +69,21 @@ export default function StoryScreen() {
     // if no battle, just move to the next story point
     const nextPoint = choice.nextPointId;
 
-    if (nextPoint) {
+    if (nextPoint !== null) {
       dispatch(setCurrentStoryPointId(nextPoint));
+    }
+
+    if (nextPoint === null && choice.outcome?.endState) {
+      // completed - clear quest state data when quest ends (either completed)
+      if (choice.outcome?.endState === 'completed') {
+        dispatch(markQuestCompletedAndClearState());
+      }
+      // failed - set last failed quest ID in state to trigger restart of quest when user commences quest again
+      else if (choice.outcome?.endState === 'failed') {
+        dispatch(setLastEndedQuestId(acceptedQuest.id));
+      }
+      // if nextPointId is null, it means the quest has ended (either completed or failed) redirect to homescreen
+      router.push('/homescreen');
     }
   };
 

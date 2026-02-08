@@ -5,6 +5,7 @@ import { unknownRider } from '../gameData/opponents';
 
 export const ambushReconQuest: QuestStory = {
   disabled: false,
+  completed: false,
   id: 'ambushReconQuest',
   name: 'Ambush Alley Recon',
   description:
@@ -285,8 +286,11 @@ export const ambushReconQuest: QuestStory = {
       choices: [
         {
           label: 'a',
-          text: 'Continue',
+          text: 'Quest Complete',
           nextPointId: null,
+          outcome: {
+            endState: 'completed',
+          },
         },
       ],
     },
@@ -298,8 +302,11 @@ export const ambushReconQuest: QuestStory = {
       choices: [
         {
           label: 'a',
-          text: 'Continue',
+          text: 'Quest Failed',
           nextPointId: null,
+          outcome: {
+            endState: 'failed',
+          },
         },
       ],
     },
@@ -311,8 +318,11 @@ export const ambushReconQuest: QuestStory = {
       choices: [
         {
           label: 'a',
-          text: 'Continue',
+          text: 'Quest Complete',
           nextPointId: null,
+          outcome: {
+            endState: 'completed',
+          },
         },
       ],
     },
@@ -324,8 +334,11 @@ export const ambushReconQuest: QuestStory = {
       choices: [
         {
           label: 'a',
-          text: 'Continue',
+          text: 'Quest Failed',
           nextPointId: null,
+          outcome: {
+            endState: 'failed',
+          },
         },
       ],
     },

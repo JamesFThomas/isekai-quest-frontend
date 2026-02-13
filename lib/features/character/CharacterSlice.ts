@@ -1,9 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { RootState } from '../../store';
+// import type {  } from '../../store';
+import { AppDispatch, RootState } from '@/lib/store'; // Add this import
 
 import { Character, Coins, InventoryItemBase } from '@/types/character';
 import { BattleOption } from '@/types/battle';
+import { Effect } from '@/types/quest';
 
 interface CharacterState {
   ActiveCharacter: Character | null;
@@ -28,81 +30,106 @@ export const convertItemTypeString = (item: InventorySelection): string => {
   console.log('Converting item type for:', item.type);
   switch (item.type) {
     case 'weapon':
-      return "weapons";
+      return 'weapons';
     case 'equipment':
-      return "equipment";
+      return 'equipment';
     case 'potion':
-      return "potions";
+      return 'potions';
     case 'ration':
-      return "rations";
+      return 'rations';
     default:
       return 'unknown';
   }
-}
+};
 
 export const utilizeInventoryItemThunk = createAsyncThunk<
   void,
   InventorySelection,
   { state: RootState }
->(
-  'character/useInventoryItemThunk',
-  async (item, { dispatch, getState }) => {
+>('character/useInventoryItemThunk', async (item, { dispatch, getState }) => {
+  // Get the active character from state
+  const { ActiveCharacter } = getState().character;
 
-    // Get the active character from state
-    const { ActiveCharacter } = getState().character;
+  // Ensure there is an active character
+  if (!ActiveCharacter) return;
 
-    // Ensure there is an active character
-    if (!ActiveCharacter) return;
-
-    // weapon equip use logic
-    if (item.type === 'weapon' || item.type === 'equipment') {
-      // Equip weapon logic here
-      // console.log(`Equipping ${item.title} to ${ActiveCharacter?.name}`);
-      dispatch(equipCharcaterInventoryItem(item));
-    }
-
-    // potion/ration use logic
-    else if (item.type === 'potion' || item.type === 'ration') {
-      // use item and update character state
-      // console.log(`Using ${item.type} a ${item.title} on ${ActiveCharacter?.name}`);
-      dispatch(useCharcaterInventoryItem({ character: ActiveCharacter, item }));
-    }
-
+  // weapon equip use logic
+  if (item.type === 'weapon' || item.type === 'equipment') {
+    // Equip weapon logic here
+    // console.log(`Equipping ${item.title} to ${ActiveCharacter?.name}`);
+    dispatch(equipCharacterInventoryItem(item));
   }
-);
+
+  // potion/ration use logic
+  else if (item.type === 'potion' || item.type === 'ration') {
+    // use item and update character state
+    // console.log(`Using ${item.type} a ${item.title} on ${ActiveCharacter?.name}`);
+    dispatch(useCharacterInventoryItem({ character: ActiveCharacter, item }));
+  }
+});
 
 export const purchaseBoothItemThunk = createAsyncThunk<
   void,
   InventoryItemBase,
   { state: RootState }
->(
-  'character/purchaseBoothItemThunk',
-  async (item, { dispatch, getState }) => {
+>('character/purchaseBoothItemThunk', async (item, { dispatch, getState }) => {
+  // Get the active character from state
+  const { ActiveCharacter } = getState().character;
 
+  // Ensure there is an active character
+  if (!ActiveCharacter) return;
+
+  // purchase item logic
+  console.log(`Purchasing ${item.title} for ${ActiveCharacter?.name}`);
+
+  // add item to character inventory
+  if (!item.price) {
+    console.warn('Item has no price, cannot complete purchase.');
+    return;
+  }
+
+  // subtract item price from character coins in inventory
+  if (item.price) {
+    dispatch(addItemToCharacterInventory({ item }));
+    dispatch(subtractItemPriceFromCharacterCoins({ price: item.price }));
+  }
+});
+
+// create async version of applyEffectToCharacter to handle effects from quests and battles
+export function applyEffectToCharacterThunk(effect: Effect) {
+  return (dispatch: AppDispatch, getState: () => RootState) => {
     // Get the active character from state
     const { ActiveCharacter } = getState().character;
 
     // Ensure there is an active character
     if (!ActiveCharacter) return;
 
-    // purchase item logic
-    console.log(`Purchasing ${item.title} for ${ActiveCharacter?.name}`);
+    // apply effect logic
+    console.log(`Applying effect to ${ActiveCharacter?.name}:`, effect);
 
-    // add item to character inventory
-    if (!item.price) {
-      console.warn('Item has no price, cannot complete purchase.');
-      return;
+    // update hp/mp if present in effect
+    if (effect.hp !== undefined || effect.mp !== undefined) {
+      dispatch(
+        updateCharacterHealthAndMagic({
+          hp: effect.hp,
+          mp: effect.mp,
+        }),
+      );
     }
 
-    // subtract item price from character coins in inventory
-    if (item.price) {
-      dispatch(addItemToCharacterInventory({ item }));
-      dispatch(subtractItemPriceFromCharacterCoins({ price: item.price }));
+    // update coins if present in effect
+    if (effect.coins) {
+      dispatch(updateCharacterCoins(effect.coins));
     }
 
-
-  }
-);
+    // add items to inventory if present in effect
+    if (effect.items) {
+      effect.items.forEach((item: InventoryItemBase) => {
+        dispatch(addItemToCharacterInventory({ item }));
+      });
+    }
+  };
+}
 
 export const characterSlice = createSlice({
   name: 'character',
@@ -119,13 +146,20 @@ export const characterSlice = createSlice({
     },
     removeCharacterFromParty: (state, action: PayloadAction<string>) => {
       state.party = state.party.filter(
-        (character) => character.id !== action.payload
+        (character) => character.id !== action.payload,
       );
     },
-    subtractItemPriceFromCharacterCoins: (state, action: PayloadAction<{ price: Coins }>) => {
+    subtractItemPriceFromCharacterCoins: (
+      state,
+      action: PayloadAction<{ price: Coins }>,
+    ) => {
       const price = action.payload.price;
 
-      if (!state.ActiveCharacter || !state.ActiveCharacter.inventory || !state.ActiveCharacter.inventory.coins) {
+      if (
+        !state.ActiveCharacter ||
+        !state.ActiveCharacter.inventory ||
+        !state.ActiveCharacter.inventory.coins
+      ) {
         return;
       }
 
@@ -135,11 +169,13 @@ export const characterSlice = createSlice({
       state.ActiveCharacter.inventory.coins = {
         gold: state.ActiveCharacter.inventory.coins.gold - price.gold,
         silver: state.ActiveCharacter.inventory.coins.silver - price.silver,
-        copper: state.ActiveCharacter.inventory.coins.copper - price.copper
+        copper: state.ActiveCharacter.inventory.coins.copper - price.copper,
       };
-
     },
-    addItemToCharacterInventory: (state, action: PayloadAction<{ item: InventoryItemBase }>) => {
+    addItemToCharacterInventory: (
+      state,
+      action: PayloadAction<{ item: InventoryItemBase }>,
+    ) => {
       // destructure item from payload
       const item = action.payload.item;
 
@@ -153,54 +189,69 @@ export const characterSlice = createSlice({
       const itemCategory = convertItemTypeString(item);
 
       if (itemCategory in active.inventory) {
-        // TODO: Refactor to utility function for assigning instanceId 
+        // TODO: Refactor to utility function for assigning instanceId
         // use one loop to filter and assign max instanceId
         // get all items in category to determine next instanceId
-        const multipleOfSameItem = (active.inventory as unknown as Record<string, InventoryItemBase[]>)[itemCategory].
-          filter((invItem: InventorySelection) => invItem.id === item.id);
+        const multipleOfSameItem = (
+          active.inventory as unknown as Record<string, InventoryItemBase[]>
+        )[itemCategory].filter(
+          (invItem: InventorySelection) => invItem.id === item.id,
+        );
 
         // assign instanceId based on existing max value in category
-        const maxInstanceId = multipleOfSameItem.length > 0 ?
-          Math.max(...multipleOfSameItem.map((invItem: InventorySelection) => invItem.instanceId || 0)) : 0;
+        const maxInstanceId =
+          multipleOfSameItem.length > 0
+            ? Math.max(
+                ...multipleOfSameItem.map(
+                  (invItem: InventorySelection) => invItem.instanceId || 0,
+                ),
+              )
+            : 0;
 
         // create new item with instanceId
-        const newItemWithInstanceId = { ...item, instanceId: maxInstanceId + 1 };
+        const newItemWithInstanceId = {
+          ...item,
+          instanceId: maxInstanceId + 1,
+        };
 
-        (active.inventory as unknown as Record<string, InventoryItemBase[]>)[itemCategory].push(newItemWithInstanceId);
+        (active.inventory as unknown as Record<string, InventoryItemBase[]>)[
+          itemCategory
+        ].push(newItemWithInstanceId);
       }
-
-
     },
-    equipCharcaterInventoryItem: (state, action: PayloadAction<InventoryItemBase>) => {
-
+    equipCharacterInventoryItem: (
+      state,
+      action: PayloadAction<InventoryItemBase>,
+    ) => {
       if (!state.ActiveCharacter) return;
 
       const active = state.ActiveCharacter;
       const item = action.payload;
 
-
       if (item.type === 'weapon') {
         if (active.equippedWeapon?.id !== item.id) {
           active.equippedWeapon = item;
-        }
-        else {
+        } else {
           active.equippedWeapon = undefined;
         }
-      }
-
-      else if (action.payload.type === 'equipment') {
+      } else if (action.payload.type === 'equipment') {
         if (active.equippedArmor?.id !== item.id) {
           active.equippedArmor = item;
-        }
-        else {
+        } else {
           active.equippedArmor = undefined;
         }
       }
     },
-    useCharcaterInventoryItem: (state, action: PayloadAction<UpdateActiveCharacterPayload>) => {
+    useCharacterInventoryItem: (
+      state,
+      action: PayloadAction<UpdateActiveCharacterPayload>,
+    ) => {
       const { character, item } = action.payload;
 
-      const targetCharacter = state.ActiveCharacter?.id === character.id ? state.ActiveCharacter : state.party.find(c => c.id === character.id);
+      const targetCharacter =
+        state.ActiveCharacter?.id === character.id
+          ? state.ActiveCharacter
+          : state.party.find((c) => c.id === character.id);
 
       // Implement inventory item usage logic here
       if (targetCharacter && item.effect.hp) {
@@ -217,16 +268,74 @@ export const characterSlice = createSlice({
 
       // console.log('Removing item from category:', itemCategory);
 
-      if (targetCharacter?.inventory && itemCategory in targetCharacter.inventory) {
+      if (
+        targetCharacter?.inventory &&
+        itemCategory in targetCharacter.inventory
+      ) {
         // filter out used item based on instanceId if available
-        const updatedItems =
-          (targetCharacter.inventory as unknown as Record<string, InventoryItemBase[]>)[itemCategory]
-            .filter((invItem: InventorySelection) => invItem.id !== item.id || invItem.instanceId !== item.instanceId
-            );
+        const updatedItems = (
+          targetCharacter.inventory as unknown as Record<
+            string,
+            InventoryItemBase[]
+          >
+        )[itemCategory].filter(
+          (invItem: InventorySelection) =>
+            invItem.id !== item.id || invItem.instanceId !== item.instanceId,
+        );
 
-        (targetCharacter.inventory as unknown as Record<string, InventoryItemBase[]>)[itemCategory] = updatedItems;
+        (
+          targetCharacter.inventory as unknown as Record<
+            string,
+            InventoryItemBase[]
+          >
+        )[itemCategory] = updatedItems;
       }
-    }
+    },
+    updateCharacterHealthAndMagic: (
+      state,
+      action: PayloadAction<{ hp?: number; mp?: number }>,
+    ) => {
+      const { hp, mp } = action.payload;
+
+      if (!state.ActiveCharacter) return;
+
+      if (hp !== undefined) {
+        // ensure hp does not fall below zero
+        state.ActiveCharacter.hp = Math.max(0, state.ActiveCharacter.hp + hp);
+      }
+
+      if (mp !== undefined) {
+        // ensure mp does not fall below zero
+        state.ActiveCharacter.mp = Math.max(0, state.ActiveCharacter.mp + mp);
+      }
+    },
+    updateCharacterCoins: (state, action: PayloadAction<Coins>) => {
+      const coinsUpdate = action.payload;
+
+      if (
+        !state.ActiveCharacter ||
+        !state.ActiveCharacter.inventory ||
+        !state.ActiveCharacter.inventory.coins
+      ) {
+        return;
+      }
+
+      state.ActiveCharacter.inventory.coins = {
+        // ensure each type of coin never goes below zero
+        gold: Math.max(
+          0,
+          state.ActiveCharacter.inventory.coins.gold + coinsUpdate.gold,
+        ),
+        silver: Math.max(
+          0,
+          state.ActiveCharacter.inventory.coins.silver + coinsUpdate.silver,
+        ),
+        copper: Math.max(
+          0,
+          state.ActiveCharacter.inventory.coins.copper + coinsUpdate.copper,
+        ),
+      };
+    },
   },
 });
 
@@ -234,10 +343,12 @@ export const characterSlice = createSlice({
 export const {
   setActiveCharacter,
   setCharacterLocation,
-  useCharcaterInventoryItem,
-  equipCharcaterInventoryItem,
+  useCharacterInventoryItem,
+  equipCharacterInventoryItem,
   addItemToCharacterInventory,
   subtractItemPriceFromCharacterCoins,
+  updateCharacterCoins,
+  updateCharacterHealthAndMagic,
   // Will use later when implementing party screen
   addCharacterToParty,
   removeCharacterFromParty,

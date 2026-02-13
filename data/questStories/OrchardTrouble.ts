@@ -17,13 +17,54 @@ export const orchardTroubleQuest: QuestStory = {
       choices: [
         {
           label: 'a',
-          text: 'Set up a watch near the trees',
+          text: 'Test apply effect thunk',
           nextPointId: 'ot-p2',
+          outcome: {
+            effect: {
+              hp: 5,
+              mp: 5,
+              coins: { gold: 10, silver: 5, copper: 10 },
+              items: [
+                // test potion
+                {
+                  id: 'test-potion',
+                  icon: '/inventory_icons/fullBottle_icon.png',
+                  title: 'Test Potion',
+                  type: 'potion',
+                  description: 'A potion used for testing effect application.',
+                  effect: {
+                    hp: 20,
+                    mp: 10,
+                  },
+                },
+                // test weapon
+                {
+                  id: 'test-sword',
+                  icon: '/inventory_icons/sword_icon.png',
+                  title: 'Test Sword',
+                  type: 'weapon',
+                  description: 'A sword used for testing effect application.',
+                },
+                // test ration
+                {
+                  id: 'test-ration',
+                  icon: '/inventory_icons/ration_icon.png',
+                  title: 'Test Ration',
+                  type: 'ration',
+                  description: 'A ration used for testing effect application.',
+                  effect: {
+                    hp: 15,
+                    mp: 5,
+                  },
+                },
+              ],
+            },
+          },
         },
         {
           label: 'b',
-          text: 'Search the perimeter for clues',
-          nextPointId: 'ot-p3',
+          text: 'End with no reward added to test failed node logic',
+          nextPointId: 'ot-p2',
         },
         {
           label: 'c',
@@ -53,5 +94,30 @@ export const orchardTroubleQuest: QuestStory = {
       ],
     },
     // Additional story points can be added here
+    {
+      id: 'ot-p2',
+      imageSrc: '/quests/placeholder_images/2.png',
+      text: 'Nothing else check to see if your items were added to inventory and coins were added to character state',
+      choices: [
+        // create an ending node to test end state logic
+        {
+          label: 'a',
+          text: 'Complete Quest',
+          nextPointId: null,
+          outcome: {
+            endState: 'completed',
+          },
+        },
+        // create failing ending node to test fail state logic
+        {
+          label: 'b',
+          text: 'Fail Quest',
+          nextPointId: null,
+          outcome: {
+            endState: 'failed',
+          },
+        },
+      ],
+    },
   ],
 };

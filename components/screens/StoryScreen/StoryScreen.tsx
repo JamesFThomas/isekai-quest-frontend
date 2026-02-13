@@ -19,7 +19,10 @@ import {
   setRewardAndPenalty,
 } from '@/lib/features/battle/BattleSlice';
 
-import { selectActiveCharacter } from '@/lib/features/character/CharacterSlice';
+import {
+  applyEffectToCharacterThunk,
+  selectActiveCharacter,
+} from '@/lib/features/character/CharacterSlice';
 
 import { StoryPointChoice } from '@/types/quest';
 
@@ -66,6 +69,12 @@ export default function StoryScreen() {
       return;
     }
 
+    // check for and apply outcome effects if they exist - update character state based on outcome.effect values
+    if (choice.outcome?.effect) {
+      const effect = choice.outcome.effect;
+      dispatch(applyEffectToCharacterThunk(effect));
+    }
+
     // if no battle, just move to the next story point
     const nextPoint = choice.nextPointId;
 
@@ -107,11 +116,11 @@ export default function StoryScreen() {
             <p className='mt-4 text-center text-white font-bold'>
               {currentStoryPoint.text}
             </p>
-            <div className='choice-button-container mt-4 p-4 flex flex-col items-center gap-3 sm:flex-row sm:justify-center'>
+            <div className='choice-button-container mt-4 p-4 flex flex-col items-center gap-2 sm:flex-row sm:justify-center'>
               {currentStoryPoint.choices.map((choice, index) => (
                 <button
                   key={index}
-                  className='bg-[#8E9CC9]   inline-flex justify-center rounded-full px-4 py-2 text-sm font-semibold text-white hover:cursor-pointer min-w-[200px] max-w-[240px]'
+                  className='bg-[#8E9CC9] inline-flex justify-center rounded-full px-4 py-2 text-sm font-semibold text-white hover:cursor-pointer min-w-[200px] max-w-[240px]'
                   onClick={() => {
                     handleChoiceSelection(choice);
                   }}

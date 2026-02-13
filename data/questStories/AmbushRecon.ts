@@ -154,7 +154,7 @@ export const ambushReconQuest: QuestStory = {
         {
           label: 'a',
           text: 'Return quickly to the guild hall',
-          nextPointId: '10D',
+          nextPointId: '10A',
         },
         {
           label: 'b',
@@ -249,9 +249,11 @@ export const ambushReconQuest: QuestStory = {
         {
           label: 'a',
           text: 'Fight the rider',
-          nextPointId: '10A',
+          nextPointId: '10B',
           outcome: {
             battle: {
+              // TODO make this battle one you can't win or flee from
+              // character should be arrested fro fighting the rider or some other failed outcome
               opponent: unknownRider,
               escapeAllowed: true,
               // reward/escapePenalty handled later when we wire outcomes

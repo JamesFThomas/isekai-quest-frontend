@@ -98,7 +98,7 @@ export default function StoryScreen() {
 
   return (
     <div className='story-screen-container p-4 flex flex-col items-center justify-center h-screen bg-[url("/background_images/dark_hills.png")] bg-cover bg-no-repeat bg-center'>
-      <div className='story-screen-content flex flex-col items-center justify-center w-fit h-fit bg-[url("/background_images/parchment_paper.png")] bg-cover bg-no-repeat bg-center'>
+      <div className='story-screen-content px-6 flex flex-col items-center justify-center w-fit h-fit bg-[url("/background_images/parchment_paper.png")] bg-cover bg-no-repeat bg-center'>
         {acceptedQuest && (
           <h1 className='text-4xl text-white font-bold mt-3'>
             {acceptedQuest.name}

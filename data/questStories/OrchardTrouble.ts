@@ -73,8 +73,8 @@ export const orchardTroubleQuest: QuestStory = {
         },
         {
           label: 'd',
-          text: 'Battle the air',
-          nextPointId: 'bw-p5',
+          text: 'Test battle with Goblin',
+          nextPointId: 'ot-p3',
           outcome: {
             battle: {
               opponent: goblin,
@@ -87,6 +87,16 @@ export const orchardTroubleQuest: QuestStory = {
                 hp: 10,
                 mp: 10,
                 coins: { gold: 5, silver: 0, copper: 0 },
+                items: [
+                  {
+                    id: 'goblin-ear',
+                    icon: '/inventory_icons/armor_icon.png',
+                    title: 'Goblin Ear',
+                    type: 'equipment',
+                    description:
+                      'The ear of a defeated goblin. It may be worth something to the right buyer.',
+                  },
+                ],
               },
             },
           },
@@ -119,5 +129,22 @@ export const orchardTroubleQuest: QuestStory = {
         },
       ],
     },
+    // Create completed ending node for after winning battle
+    {
+      id: 'ot-p3',
+      imageSrc: '/quests/placeholder_images/3.png',
+      text: 'You have defeated the goblin and protected the orchard! The farmers are grateful for your help.',
+      choices: [
+        {
+          label: 'a',
+          text: 'Complete Quest',
+          nextPointId: null,
+          outcome: {
+            endState: 'completed',
+          },
+        },
+      ],
+    },
+    // Create failed ending node for after losing battle
   ],
 };

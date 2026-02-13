@@ -12,7 +12,8 @@ import {
 } from '@/lib/features/battle/BattleSlice';
 import { useEffect } from 'react';
 import { Effect } from '@/types/quest';
-// import { InventoryItemBase } from '@/types/character';
+
+import { applyEffectToCharacterThunk } from '@/lib/features/character/CharacterSlice';
 
 export function BattleOutcome() {
   const router = useRouter();
@@ -35,18 +36,6 @@ export function BattleOutcome() {
   const buttonText =
     battleResolution?.result === 'lose' ? 'Restart' : 'Continue';
 
-  const applyAndRedirect = () => {
-    let desiredRoute;
-    if (battleResolution?.result === 'lose') {
-      desiredRoute = '/homescreen';
-    } else {
-      desiredRoute = '/storyscreen';
-    }
-
-    router.push(desiredRoute); // redirect to appropriate screen
-    dispatch(resetBattleState()); // reset battle state - update to apply rewards/penalties as needed
-  };
-
   const noShow = !battleResolution && !activeCharacter && !activeOpponent;
 
   const detailsTitle =
@@ -59,12 +48,12 @@ export function BattleOutcome() {
   const shouldShowDetails =
     battleResolution?.result === 'win' || battleResolution?.result === 'flee';
 
-  const detailsEffect: Effect =
+  const detailsEffect: Effect | undefined =
     battleResolution?.result === 'win'
-      ? (battleResolution?.reward ?? null)
+      ? (battleResolution?.reward ?? undefined)
       : battleResolution?.result === 'flee'
-        ? (battleResolution?.penalty ?? null)
-        : null;
+        ? (battleResolution?.penalty ?? undefined)
+        : undefined;
 
   const formatDelta = (n?: number) => {
     if (n === undefined || n === null) return null;
@@ -83,6 +72,26 @@ export function BattleOutcome() {
   const hasItems = (detailsEffect?.items?.length ?? 0) > 0;
 
   const showAnyEffectLine = !!hpText || !!mpText || hasCoins || hasItems;
+
+  const applyAndRedirect = () => {
+    const result = battleResolution?.result;
+
+    // Snapshot the effect at click-time so it can't change due to state resets/re-renders
+    const effectToApply = detailsEffect;
+
+    // Decide route based on result
+    const desiredRoute =
+      result === 'win' || result === 'flee' ? '/storyscreen' : '/homescreen';
+
+    // Apply effect only for win/flee, and only if we actually have one
+    if ((result === 'win' || result === 'flee') && effectToApply) {
+      dispatch(applyEffectToCharacterThunk(effectToApply)); // apply reward OR penalty
+    }
+
+    // Push first to avoid the flash, then clear battle state
+    router.push(desiredRoute);
+    dispatch(resetBattleState());
+  };
 
   useEffect(() => {
     if (noShow) {

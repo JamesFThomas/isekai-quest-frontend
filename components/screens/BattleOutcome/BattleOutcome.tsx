@@ -238,7 +238,19 @@ export function BattleOutcome() {
                       </div>
                       <ul className='list-disc pl-5 text-sm sm:text-base'>
                         {detailsEffect.items?.map((item) => (
-                          <li key={item.instanceId ?? item.id}>{item.name}</li>
+                          <li key={item.instanceId ?? item.id}>
+                            <Image
+                              alt={`battle reward-${item.title}`}
+                              src={
+                                item.icon ||
+                                '/character_avatars/default_avatar.png'
+                              }
+                              height={25}
+                              width={25}
+                              className='object-contain w-25 h-25 inline-block mr-2'
+                            />
+                            {item.title}
+                          </li>
                         ))}
                       </ul>
                     </div>

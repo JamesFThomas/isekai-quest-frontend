@@ -3,6 +3,7 @@ import { QuestStory } from '@/types/quest';
 import { goblin } from '../gameData/opponents';
 
 export const marshLightsQuest: QuestStory = {
+  disabled: true, // Set to true to disable this quest until it's fully implemented
   id: 'marshLights',
   name: 'Marsh Lights',
   description:

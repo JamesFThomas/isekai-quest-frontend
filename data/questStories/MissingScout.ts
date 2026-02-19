@@ -3,6 +3,7 @@ import { QuestStory } from '@/types/quest';
 import { goblin } from '../gameData/opponents';
 
 export const missingScoutQuest: QuestStory = {
+  disabled: true, // Set to true to disable this quest until it's fully implemented
   id: 'missingScout',
   name: 'Missing Scout',
   description:

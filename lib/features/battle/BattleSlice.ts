@@ -7,7 +7,7 @@ import {
   BattleResolution,
   BattleState,
   Opponent,
-  BattStartContext,
+  BattleStartContext,
 } from '@/types/battle';
 
 export const initialState: BattleState = {
@@ -97,8 +97,18 @@ export const battleSlice = createSlice({
     logBattleAction: (state, action: PayloadAction<string>) => {
       state.battleLog.push(action.payload);
     },
-    setBattleStartContext: (state, action: PayloadAction<BattleStartContext>) => {
-      const { activeCharacter, activeOpponent, escapeAllowed, reward, escapePenalty, nextPoints} = action.payload;
+    setBattleStartContext: (
+      state,
+      action: PayloadAction<BattleStartContext>,
+    ) => {
+      const {
+        activeCharacter,
+        activeOpponent,
+        escapeAllowed,
+        reward,
+        escapePenalty,
+        nextPoints,
+      } = action.payload;
 
       state.activeCharacter = activeCharacter;
       state.activeOpponent = activeOpponent;
@@ -106,7 +116,6 @@ export const battleSlice = createSlice({
       state.reward = reward ?? null;
       state.escapePenalty = escapePenalty ?? null;
       state.nextPoints = nextPoints ?? null;
-      
     },
     setBattleResult: (
       state,

@@ -7,6 +7,7 @@ import {
   BattleResolution,
   BattleState,
   Opponent,
+  BattStartContext,
 } from '@/types/battle';
 
 export const initialState: BattleState = {
@@ -22,6 +23,7 @@ export const initialState: BattleState = {
   escapeAllowed: false,
   escapePenalty: null,
   reward: null,
+  nextPoints: null,
 };
 
 export const performBattleAction = createAsyncThunk<
@@ -94,6 +96,17 @@ export const battleSlice = createSlice({
     },
     logBattleAction: (state, action: PayloadAction<string>) => {
       state.battleLog.push(action.payload);
+    },
+    setBattleStartContext: (state, action: PayloadAction<BattleStartContext>) => {
+      const { activeCharacter, activeOpponent, escapeAllowed, reward, escapePenalty, nextPoints} = action.payload;
+
+      state.activeCharacter = activeCharacter;
+      state.activeOpponent = activeOpponent;
+      state.escapeAllowed = escapeAllowed;
+      state.reward = reward ?? null;
+      state.escapePenalty = escapePenalty ?? null;
+      state.nextPoints = nextPoints ?? null;
+      
     },
     setBattleResult: (
       state,
@@ -179,6 +192,7 @@ export const battleSlice = createSlice({
         escapeAllowed: false,
         escapePenalty: null,
         reward: null,
+        nextPoints: null,
       };
       Object.assign(state, resetBattleState);
     },
@@ -197,6 +211,7 @@ export const {
   setRewardAndPenalty,
   setBattleResolution,
   resetBattleState,
+  setBattleStartContext,
 } = battleSlice.actions;
 
 export const selectActiveCharacter = (state: RootState) =>

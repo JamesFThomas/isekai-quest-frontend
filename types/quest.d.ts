@@ -45,6 +45,12 @@ export type StoryPointOutcome = {
   endState?: 'completed' | 'failed';
 };
 
+export type BattleNextPoints = { 
+  win: StoryPointId; 
+  lose: StoryPointId;
+  flee: StoryPointId; 
+}
+
 export type BattleDetails = {
   // battleIds should be set here in the details to link to BattleSlice state
   opponent: Opponent; // imported from BattleSlice
@@ -53,4 +59,5 @@ export type BattleDetails = {
   escapePenalty?: Effect;
   reward?: Effect;
   nextPointId?: StoryPointId; // ID of the next story point after battle
+  nextPoints?: BattleNextPoints; // possible quest branch stroypoints based on battle outcome
 };

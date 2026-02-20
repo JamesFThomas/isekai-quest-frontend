@@ -3,7 +3,7 @@ import { QuestStory } from '@/types/quest';
 import { goblin } from '../gameData/opponents';
 
 export const orchardTroubleQuest: QuestStory = {
-  disabled: true, // Set to true to disable this quest until it's fully implemented
+  disabled: false, // Set to true to disable this quest until it's fully implemented
   id: 'orchardTrouble',
   name: 'Orchard Trouble',
   description:
@@ -77,6 +77,11 @@ export const orchardTroubleQuest: QuestStory = {
           nextPointId: 'ot-p3',
           outcome: {
             battle: {
+              nextPoints:{ 
+                win: 'ot-p3-win', 
+                lose: 'ot-p3-lose', 
+                flee: 'ot-p3-flee', 
+              },
               opponent: goblin,
               escapeAllowed: true,
               escapePenalty: {
@@ -131,7 +136,7 @@ export const orchardTroubleQuest: QuestStory = {
     },
     // Create completed ending node for after winning battle
     {
-      id: 'ot-p3',
+      id: 'ot-p3-win',
       imageSrc: '/quests/placeholder_images/3.png',
       text: 'You have defeated the goblin and protected the orchard! The farmers are grateful for your help.',
       choices: [
@@ -146,5 +151,36 @@ export const orchardTroubleQuest: QuestStory = {
       ],
     },
     // Create failed ending node for after losing battle
+    {
+      id: 'ot-p3-lose',
+      imageSrc: '/quests/placeholder_images/3.png',
+      text: 'You lost the battle and failed the quest.',
+      choices: [
+        {
+          label: 'a',
+          text: 'Complete Quest',
+          nextPointId: null,
+          outcome: {
+            endState: 'failed',
+          },
+        },
+      ],
+    },
+    // Create flee ending node for after fleeing battle
+        {
+      id: 'ot-p3-flee',
+      imageSrc: '/quests/placeholder_images/3.png',
+      text: 'You lost the battle and failed the quest.',
+      choices: [
+        {
+          label: 'a',
+          text: 'Complete Quest',
+          nextPointId: null,
+          outcome: {
+            endState: 'failed',
+          },
+        },
+      ],
+    },
   ],
 };

@@ -7,13 +7,15 @@ import Image from 'next/image';
 import {
   selectBattleResolution,
   selectActiveCharacter,
+  selectBattleNextPoints,
   selectActiveOpponent,
   resetBattleState,
 } from '@/lib/features/battle/BattleSlice';
 import { useEffect } from 'react';
-import { Effect } from '@/types/quest';
+import { Effect, StoryPointId } from '@/types/quest';
 
 import { applyEffectToCharacterThunk } from '@/lib/features/character/CharacterSlice';
+import { setCurrentStoryPointId } from '@/lib/features/quest/QuestSlice';
 
 export function BattleOutcome() {
   const router = useRouter();
@@ -21,6 +23,7 @@ export function BattleOutcome() {
   const battleResolution = useAppSelector(selectBattleResolution);
   const activeCharacter = useAppSelector(selectActiveCharacter);
   const activeOpponent = useAppSelector(selectActiveOpponent);
+  const nextPoints = useAppSelector(selectBattleNextPoints);
 
   const outcomeBackground =
     battleResolution?.result === 'win'
@@ -79,9 +82,37 @@ export function BattleOutcome() {
     // Snapshot the effect at click-time so it can't change due to state resets/re-renders
     const effectToApply = detailsEffect;
 
+    if (!result || !nextPoints) {
+      dispatch(resetBattleState());
+      router.push('/homescreen'); // fallback in case of missing data
+      return;
+    }
+
     // Decide route based on result
-    const desiredRoute =
-      result === 'win' || result === 'flee' ? '/storyscreen' : '/homescreen';
+    // const desiredRoute =
+    //   result === 'win' || result === 'flee' ? '/storyscreen' : '/homescreen';
+
+    // Set storypoint based on nextPoints
+    let nextPointId: StoryPointId;
+
+    switch (result) {
+      case 'win':
+        nextPointId = nextPoints.win;
+        break;
+
+      case 'flee':
+        nextPointId = nextPoints.flee;
+        break;
+
+      case 'lose':
+        nextPointId = nextPoints.lose;
+        break;
+
+      default:
+        dispatch(resetBattleState());
+        router.push('/homescreen');
+        return;
+    }
 
     // Apply effect only for win/flee, and only if we actually have one
     if ((result === 'win' || result === 'flee') && effectToApply) {
@@ -89,7 +120,8 @@ export function BattleOutcome() {
     }
 
     // Push first to avoid the flash, then clear battle state
-    router.push(desiredRoute);
+    dispatch(setCurrentStoryPointId(nextPointId));
+    router.push('/storyscreen');
     dispatch(resetBattleState());
   };
 

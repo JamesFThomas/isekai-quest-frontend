@@ -256,4 +256,8 @@ export const selectBattleReward = (state: RootState) => state.battle.reward;
 export const selectBattleResolution = (state: RootState) =>
   state.battle.resolution;
 
+export const selectBattleNextPoints = (state: RootState) =>
+  state.battle.nextPoints;
+
+// Export reducer
 export default battleSlice.reducer;

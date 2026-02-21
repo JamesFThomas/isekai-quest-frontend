@@ -77,10 +77,10 @@ export const orchardTroubleQuest: QuestStory = {
           nextPointId: 'ot-p3',
           outcome: {
             battle: {
-              nextPoints:{ 
-                win: 'ot-p3-win', 
-                lose: 'ot-p3-lose', 
-                flee: 'ot-p3-flee', 
+              nextPoints: {
+                win: 'ot-p3-win',
+                lose: 'ot-p3-lose',
+                flee: 'ot-p3-flee',
               },
               opponent: goblin,
               escapeAllowed: true,
@@ -154,7 +154,7 @@ export const orchardTroubleQuest: QuestStory = {
     {
       id: 'ot-p3-lose',
       imageSrc: '/quests/placeholder_images/3.png',
-      text: 'You lost the battle and failed the quest.',
+      text: 'You were defeated by the goblin. The orchard remains under threat, and the farmers are disappointed.',
       choices: [
         {
           label: 'a',
@@ -167,10 +167,10 @@ export const orchardTroubleQuest: QuestStory = {
       ],
     },
     // Create flee ending node for after fleeing battle
-        {
+    {
       id: 'ot-p3-flee',
       imageSrc: '/quests/placeholder_images/3.png',
-      text: 'You lost the battle and failed the quest.',
+      text: 'You fled from the battle. The orchard remains under threat, but at least you live to fight another day.',
       choices: [
         {
           label: 'a',

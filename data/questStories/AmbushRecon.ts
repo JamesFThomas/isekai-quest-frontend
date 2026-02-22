@@ -22,6 +22,23 @@ export const ambushReconQuest: QuestStory = {
           text: 'Head toward Ambush Alley',
           nextPointId: '2',
         },
+        {
+          label: 'b',
+          text: 'Have a drink at the tavern first',
+          nextPointId: '1F',
+        },
+      ],
+    },
+    {
+      id: '1F',
+      imageSrc: '/quests/placeholder_images/1.png',
+      text: 'While having a drink another ambush occurred and a high noble as been killed. The guild has marked the quest as failed and you can no longer complete it.',
+      choices: [
+        {
+          label: 'a',
+          text: 'Return to guild hall',
+          nextPointId: '10B',
+        },
       ],
     },
 
@@ -56,7 +73,7 @@ export const ambushReconQuest: QuestStory = {
         {
           label: 'b',
           text: 'Approach normally',
-          nextPointId: '10D',
+          nextPointId: '3F',
         },
       ],
     },
@@ -70,6 +87,23 @@ export const ambushReconQuest: QuestStory = {
           label: 'a',
           text: 'Observe from hidden position',
           nextPointId: '4B',
+        },
+        {
+          label: 'b',
+          text: 'Approach normally',
+          nextPointId: '3F',
+        },
+      ],
+    },
+    {
+      id: '3F',
+      imageSrc: '/quests/placeholder_images/3.png',
+      text: 'You continue forward in plain sight. The hidden figures notice you immediately and scatter before you can gather useful information. The trail goes cold, and the guild later marks the contract as failed.',
+      choices: [
+        {
+          label: 'a',
+          text: 'Return to town',
+          nextPointId: '10B',
         },
       ],
     },
@@ -87,7 +121,7 @@ export const ambushReconQuest: QuestStory = {
         {
           label: 'b',
           text: 'Reveal yourself',
-          nextPointId: '10D',
+          nextPointId: '5F',
         },
       ],
     },
@@ -105,7 +139,7 @@ export const ambushReconQuest: QuestStory = {
         {
           label: 'b',
           text: 'Decide no threat and move forward normally',
-          nextPointId: '10D',
+          nextPointId: '5F',
         },
       ],
     },
@@ -118,7 +152,7 @@ export const ambushReconQuest: QuestStory = {
         {
           label: 'a',
           text: 'Rush to help the carriage driver',
-          nextPointId: '10D',
+          nextPointId: '5F',
         },
         {
           label: 'b',
@@ -141,7 +175,19 @@ export const ambushReconQuest: QuestStory = {
         {
           label: 'b',
           text: 'Attempt to alert the oncoming carriage by running onto the roadway',
-          nextPointId: '10D',
+          nextPointId: '5F',
+        },
+      ],
+    },
+    {
+      id: '5F',
+      imageSrc: '/quests/placeholder_images/5.png',
+      text: 'You act too openly and the ambush party reacts fast. They scatter into the brush before you can confirm numbers or retreat routes. By the time you return to town, the guild marks the contract as failed.',
+      choices: [
+        {
+          label: 'a',
+          text: 'Return to town',
+          nextPointId: '10B',
         },
       ],
     },
@@ -218,11 +264,10 @@ export const ambushReconQuest: QuestStory = {
         {
           label: 'b',
           text: 'Attempt to explain',
-          nextPointId: '10D',
+          nextPointId: '8F',
         },
       ],
     },
-
     {
       id: '8B',
       imageSrc: '/quests/placeholder_images/8.png',
@@ -240,6 +285,18 @@ export const ambushReconQuest: QuestStory = {
         },
       ],
     },
+    {
+      id: '8F',
+      imageSrc: '/quests/placeholder_images/8.png',
+      text: 'You raise your hands and try to explain, but the rider does not listen. You are detained and dragged back to town. Hours later, a guild officer confirms your contract and the situation cools. You are released, bruised and furious, but your report still counts.',
+      choices: [
+        {
+          label: 'a',
+          text: 'Leave the guardhouse and head to the guild',
+          nextPointId: '10A',
+        },
+      ],
+    },
 
     {
       id: '9A',
@@ -249,21 +306,23 @@ export const ambushReconQuest: QuestStory = {
         {
           label: 'a',
           text: 'Fight the rider',
-          nextPointId: '10B',
+          nextPointId: '9F',
           outcome: {
             battle: {
-              // TODO make this battle one you can't win or flee from
-              // character should be arrested fro fighting the rider or some other failed outcome
               opponent: unknownRider,
-              escapeAllowed: true,
-              // reward/escapePenalty handled later when we wire outcomes
+              escapeAllowed: false,
+              nextPoints: {
+                win: '9F',
+                lose: '9F',
+                flee: '9F',
+              },
             },
           },
         },
         {
           label: 'b',
           text: 'Flee the confrontation',
-          nextPointId: '10B',
+          nextPointId: '9F',
         },
       ],
     },
@@ -275,8 +334,62 @@ export const ambushReconQuest: QuestStory = {
       choices: [
         {
           label: 'a',
-          text: 'Return to the guild with the item',
-          nextPointId: '10C',
+          text: 'Keep the item and leave quickly',
+          nextPointId: '9C',
+        },
+        {
+          label: 'b',
+          text: 'Throw the item away and leave the scene',
+          nextPointId: '9D',
+        },
+      ],
+    },
+    {
+      id: '9C',
+      imageSrc: '/quests/placeholder_images/9.png',
+      text: 'You tuck the item away and slip back onto the road before anyone returns.',
+      choices: [
+        {
+          label: 'a',
+          text: 'Return to the guild and file your report',
+          nextPointId: '10A',
+          outcome: {
+            effect: {
+              items: [
+                {
+                  id: 'ambush-relic',
+                  icon: '/inventory_icons/armor_icon.png',
+                  title: 'Noble Signet Ring',
+                  type: 'equipment',
+                  description: 'A noble signet ring.',
+                },
+              ],
+            },
+          },
+        },
+      ],
+    },
+    {
+      id: '9D',
+      imageSrc: '/quests/placeholder_images/9.png',
+      text: 'You stare at the item for a moment, then shove it back where you found it and step away. Some things are not worth the trouble.',
+      choices: [
+        {
+          label: 'a',
+          text: 'Return to the guild and file your report',
+          nextPointId: '10A',
+        },
+      ],
+    },
+    {
+      id: '9F',
+      imageSrc: '/quests/placeholder_images/9.png',
+      text: 'Whether you drew steel or tried to run, the rider got a clear look at you at the scene. By the time you reach town, the story is already ahead of you. Guards seize you in the street, and the rider’s accusation is treated as law. The guild cannot outrank a sworn rider, and your contract is marked as failed.',
+      choices: [
+        {
+          label: 'a',
+          text: 'Submit to arrest',
+          nextPointId: '10B',
         },
       ],
     },
@@ -284,7 +397,7 @@ export const ambushReconQuest: QuestStory = {
     {
       id: '10A',
       imageSrc: '/quests/placeholder_images/10.png',
-      text: 'Quest complete. Data turned in.',
+      text: 'Quest complete. Report submitted.',
       choices: [
         {
           label: 'a',
@@ -296,41 +409,8 @@ export const ambushReconQuest: QuestStory = {
         },
       ],
     },
-
     {
       id: '10B',
-      imageSrc: '/quests/placeholder_images/10.png',
-      text: 'Quest failed. Character makes it back to town but is arrested for the crime of ambush by word of the unknown figure.',
-      choices: [
-        {
-          label: 'a',
-          text: 'Quest Failed',
-          nextPointId: null,
-          outcome: {
-            endState: 'failed',
-          },
-        },
-      ],
-    },
-
-    {
-      id: '10C',
-      imageSrc: '/quests/placeholder_images/10.png',
-      text: 'Quest complete. Data turned in and new item in inventory.',
-      choices: [
-        {
-          label: 'a',
-          text: 'Quest Complete',
-          nextPointId: null,
-          outcome: {
-            endState: 'completed',
-          },
-        },
-      ],
-    },
-
-    {
-      id: '10D',
       imageSrc: '/quests/placeholder_images/10.png',
       text: 'The quest has been failed.',
       choices: [

@@ -10,11 +10,11 @@ export const ambushReconQuest: QuestStory = {
   name: 'Ambush Alley Recon',
   description:
     'A guild patrol contract sends you to Ambush Alley to gather intel on bandit tactics, numbers, and escape routes. The task is reconnaissance, not victory.',
-  coverImageSrc: '/quests/placeholder_images/cover.png',
+  coverImageSrc: '/quests/ambush_recon/ambush_cover.png',
   storyPoints: [
     {
       id: '1',
-      imageSrc: '/quests/placeholder_images/1.png',
+      imageSrc: '/quests/ambush_recon/ambush_sp1.png',
       text: 'Your character accepts the quest to patrol the stretch of highway called Ambush Alley where a merchant convoy was recently ambushed. The guild needs to collect any information that can explain how the ambush happened, which direction did the attackers come from, estimate how many in total, and which way did they retreat.',
       choices: [
         {
@@ -31,7 +31,7 @@ export const ambushReconQuest: QuestStory = {
     },
     {
       id: '1F',
-      imageSrc: '/quests/placeholder_images/1.png',
+      imageSrc: '/quests/ambush_recon/ambush_sp1f.png',
       text: 'While having a drink another ambush occurred and a high noble as been killed. The guild has marked the quest as failed and you can no longer complete it.',
       choices: [
         {
@@ -44,7 +44,7 @@ export const ambushReconQuest: QuestStory = {
 
     {
       id: '2',
-      imageSrc: '/quests/placeholder_images/2.png',
+      imageSrc: '/quests/ambush_recon/ambush_sp2.png',
       text: 'While traveling to Ambush Alley, your character is given the choice to walk the main road which was recently completed in plain sight or travel the old footpath adjacent to the road that at one point was the only way to reach Startsville from other towns.',
       choices: [
         {
@@ -62,7 +62,7 @@ export const ambushReconQuest: QuestStory = {
 
     {
       id: '3A',
-      imageSrc: '/quests/placeholder_images/3.png',
+      imageSrc: '/quests/ambush_recon/3.png',
       text: 'As the character travels the road, they can see a figure in the distance laying still in the roadway.',
       choices: [
         {
@@ -80,7 +80,7 @@ export const ambushReconQuest: QuestStory = {
 
     {
       id: '3B',
-      imageSrc: '/quests/placeholder_images/3.png',
+      imageSrc: '/quests/ambush_recon/3.png',
       text: 'As the character travels the old footpath alongside of the highway they can see multiple figures in the distance crouching along the tree line, partially camouflaged from the road, but intently focused on something toward the roadway.',
       choices: [
         {
@@ -97,7 +97,7 @@ export const ambushReconQuest: QuestStory = {
     },
     {
       id: '3F',
-      imageSrc: '/quests/placeholder_images/3.png',
+      imageSrc: '/quests/ambush_recon/ambush_sp3f.png',
       text: 'You continue forward in plain sight. The hidden figures notice you immediately and scatter before you can gather useful information. The trail goes cold, and the guild later marks the contract as failed.',
       choices: [
         {
@@ -110,7 +110,7 @@ export const ambushReconQuest: QuestStory = {
 
     {
       id: '4A',
-      imageSrc: '/quests/placeholder_images/4.png',
+      imageSrc: '/quests/ambush_recon/ambush_sp4a.png',
       text: 'Your character moves closer to the figure laying in the road but remains on guard as they continue moving closer. Cautiously moving forward your character and now walking along the edge of the highway shrouded by the shadows of the tree line and can detect multiple figures crouched in the bushes on the opposite side of the road.',
       choices: [
         {
@@ -128,7 +128,7 @@ export const ambushReconQuest: QuestStory = {
 
     {
       id: '4B',
-      imageSrc: '/quests/placeholder_images/4.png',
+      imageSrc: '/quests/ambush_recon/4.png',
       text: 'Your character slows their walking pace and moves closer to the edge of the path shrouding their presence in the shadows from the tree line. From here they are able to move closer to the figures without being detected.',
       choices: [
         {
@@ -146,7 +146,7 @@ export const ambushReconQuest: QuestStory = {
 
     {
       id: '5A',
-      imageSrc: '/quests/placeholder_images/5.png',
+      imageSrc: '/quests/ambush_recon/ambush_sp5a.png',
       text: 'While shrouded a carriage traveling the road passes your character traveling toward the figure in the middle of the road. Upon reaching the figure the carriage stops before running it over and the driver dismounts to inspect the obstruction in the road. The driver is ambushed by the figures you noticed in the bushes.',
       choices: [
         {
@@ -164,7 +164,7 @@ export const ambushReconQuest: QuestStory = {
 
     {
       id: '5B',
-      imageSrc: '/quests/placeholder_images/5.png',
+      imageSrc: '/quests/ambush_recon/ambush_sp5b.png',
       text: "As your character moves closer to the camouflaged figures on the footpath, you hear a carriage approaching from the road, and notice the figures mutter 'get ready.'",
       choices: [
         {
@@ -181,7 +181,7 @@ export const ambushReconQuest: QuestStory = {
     },
     {
       id: '5F',
-      imageSrc: '/quests/placeholder_images/5.png',
+      imageSrc: '/quests/ambush_recon/5.png',
       text: 'You act too openly and the ambush party reacts fast. They scatter into the brush before you can confirm numbers or retreat routes. By the time you return to town, the guild marks the contract as failed.',
       choices: [
         {
@@ -194,7 +194,7 @@ export const ambushReconQuest: QuestStory = {
 
     {
       id: '6',
-      imageSrc: '/quests/placeholder_images/6.png',
+      imageSrc: '/quests/ambush_recon/ambush_sp6.png',
       text: 'Having observed an ambush on the roadway and collected the needed data your character can head back to the guild hall to report data marking the quest as done and claim their reward in the process.',
       choices: [
         {
@@ -217,7 +217,7 @@ export const ambushReconQuest: QuestStory = {
 
     {
       id: '7A',
-      imageSrc: '/quests/placeholder_images/7.png',
+      imageSrc: '/quests/ambush_recon/ambush_sp7a.png',
       text: 'You watch the ambush party go by to the south and record that final piece of data for a full report to the guild. You see them disappear into the distance along the road. Once out of sight you return to town to make your report to the guild and mark the quest complete.',
       choices: [
         {
@@ -230,7 +230,7 @@ export const ambushReconQuest: QuestStory = {
 
     {
       id: '7B',
-      imageSrc: '/quests/placeholder_images/7.png',
+      imageSrc: '/quests/ambush_recon/ambush_sp7b.png',
       text: "As you move cautiously towards the road to check on the aftermath you see the driver's body in the middle of the road with the carriage door open.",
       choices: [
         {
@@ -253,7 +253,7 @@ export const ambushReconQuest: QuestStory = {
 
     {
       id: '8A',
-      imageSrc: '/quests/placeholder_images/8.png',
+      imageSrc: '/quests/ambush_recon/ambush_sp8a.png',
       text: 'You touch the body to roll it over and blood covers your hands and clothes. At the same time an unknown figure gallops toward you shouting halt.',
       choices: [
         {
@@ -270,7 +270,7 @@ export const ambushReconQuest: QuestStory = {
     },
     {
       id: '8B',
-      imageSrc: '/quests/placeholder_images/8.png',
+      imageSrc: '/quests/ambush_recon/ambush_sp8b.png',
       text: 'You look inside the carriage and notice a dead noble with what looks like something lodged underneath their body.',
       choices: [
         {
@@ -287,7 +287,7 @@ export const ambushReconQuest: QuestStory = {
     },
     {
       id: '8F',
-      imageSrc: '/quests/placeholder_images/8.png',
+      imageSrc: '/quests/ambush_recon/ambush_sp8f.png',
       text: 'You raise your hands and try to explain, but the rider does not listen. You are detained and dragged back to town. Hours later, a guild officer confirms your contract and the situation cools. You are released, bruised and furious, but your report still counts.',
       choices: [
         {
@@ -300,7 +300,7 @@ export const ambushReconQuest: QuestStory = {
 
     {
       id: '9A',
-      imageSrc: '/quests/placeholder_images/9.png',
+      imageSrc: '/quests/ambush_recon/ambush_sp9a.png',
       text: 'The rider closes distance fast, convinced you are responsible. There is no time to negotiate.',
       choices: [
         {
@@ -329,7 +329,7 @@ export const ambushReconQuest: QuestStory = {
 
     {
       id: '9B',
-      imageSrc: '/quests/placeholder_images/9.png',
+      imageSrc: '/quests/ambush_recon/ambush_sp9b.png',
       text: 'You move the body and obtain a new special item. Quickly securing the item you leave the carriage and return to the guild hall to complete the quest by turning in the data.',
       choices: [
         {
@@ -346,7 +346,7 @@ export const ambushReconQuest: QuestStory = {
     },
     {
       id: '9C',
-      imageSrc: '/quests/placeholder_images/9.png',
+      imageSrc: '/quests/ambush_recon/ambush_sp9c.png',
       text: 'You tuck the item away and slip back onto the road before anyone returns.',
       choices: [
         {
@@ -371,7 +371,7 @@ export const ambushReconQuest: QuestStory = {
     },
     {
       id: '9D',
-      imageSrc: '/quests/placeholder_images/9.png',
+      imageSrc: '/quests/ambush_recon/ambush_sp9d.png',
       text: 'You stare at the item for a moment, then shove it back where you found it and step away. Some things are not worth the trouble.',
       choices: [
         {
@@ -383,7 +383,7 @@ export const ambushReconQuest: QuestStory = {
     },
     {
       id: '9F',
-      imageSrc: '/quests/placeholder_images/9.png',
+      imageSrc: '/quests/ambush_recon/ambush_sp9f.png',
       text: 'Whether you drew steel or tried to run, the rider got a clear look at you at the scene. By the time you reach town, the story is already ahead of you. Guards seize you in the street, and the rider’s accusation is treated as law. The guild cannot outrank a sworn rider, and your contract is marked as failed.',
       choices: [
         {
@@ -396,7 +396,7 @@ export const ambushReconQuest: QuestStory = {
 
     {
       id: '10A',
-      imageSrc: '/quests/placeholder_images/10.png',
+      imageSrc: '/quests/ambush_recon/ambush_sp10a.png',
       text: 'Quest complete. Report submitted.',
       choices: [
         {
@@ -411,7 +411,7 @@ export const ambushReconQuest: QuestStory = {
     },
     {
       id: '10B',
-      imageSrc: '/quests/placeholder_images/10.png',
+      imageSrc: '/quests/ambush_recon/ambush_sp10b.png',
       text: 'The quest has been failed.',
       choices: [
         {

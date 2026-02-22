@@ -12,7 +12,7 @@ export const goblin: Opponent = {
 
 export const unknownRider: Opponent = {
   id: 'unknown-rider',
-  avatar: '/opponent_avatars/unknown_rider_avatar.png',
+  avatar: '/opponent_avatars/rider_avatar.png',
   name: 'Unknown Rider',
   hp: 25,
   mp: 35,

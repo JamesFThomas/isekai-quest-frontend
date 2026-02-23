@@ -62,7 +62,7 @@ export const ambushReconQuest: QuestStory = {
 
     {
       id: '3A',
-      imageSrc: '/quests/ambush_recon/3.png',
+      imageSrc: '/quests/ambush_recon/ambush_sp3a.png',
       text: 'As the character travels the road, they can see a figure in the distance laying still in the roadway.',
       choices: [
         {
@@ -80,7 +80,7 @@ export const ambushReconQuest: QuestStory = {
 
     {
       id: '3B',
-      imageSrc: '/quests/ambush_recon/3.png',
+      imageSrc: '/quests/ambush_recon/ambush_sp3b.png',
       text: 'As the character travels the old footpath alongside of the highway they can see multiple figures in the distance crouching along the tree line, partially camouflaged from the road, but intently focused on something toward the roadway.',
       choices: [
         {
@@ -128,7 +128,7 @@ export const ambushReconQuest: QuestStory = {
 
     {
       id: '4B',
-      imageSrc: '/quests/ambush_recon/4.png',
+      imageSrc: '/quests/ambush_recon/ambush_sp4b.png',
       text: 'Your character slows their walking pace and moves closer to the edge of the path shrouding their presence in the shadows from the tree line. From here they are able to move closer to the figures without being detected.',
       choices: [
         {
@@ -181,7 +181,7 @@ export const ambushReconQuest: QuestStory = {
     },
     {
       id: '5F',
-      imageSrc: '/quests/ambush_recon/5.png',
+      imageSrc: '/quests/ambush_recon/ambush_sp5f.png',
       text: 'You act too openly and the ambush party reacts fast. They scatter into the brush before you can confirm numbers or retreat routes. By the time you return to town, the guild marks the contract as failed.',
       choices: [
         {

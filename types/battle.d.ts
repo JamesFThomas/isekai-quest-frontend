@@ -1,5 +1,7 @@
 import { InventoryItemBase, EffectfulItem } from './character';
 
+import { BattleNextPoints } from './quest';
+
 type BattlePhase = null | 'idle' | 'chooseAction' | 'resolving' | 'result';
 
 type BattleResult = null | 'win' | 'lose' | 'flee';
@@ -17,6 +19,15 @@ export type BattleActionDetails = {
   type: string;
 };
 
+export type BattleStartContext = {
+  activeCharacter: Character;
+  activeOpponent: Opponent;
+  escapeAllowed: boolean;
+  reward?: Effect;
+  escapePenalty?: Effect;
+  nextPoints?: BattleNextPoints;
+}
+
 export interface BattleState {
   // battleSlice initial state shape (typo/casing fixes)
   battleId: string | null;
@@ -31,6 +42,7 @@ export interface BattleState {
   escapeAllowed?: boolean | null;
   escapePenalty?: Effect | null;
   reward?: Effect | null;
+  nextPoints?: BattleNextPoints | null;
 }
 
 export type BattleOptionType = 'attack' | 'skill' | 'potion';

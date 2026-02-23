@@ -12,12 +12,7 @@ import {
   setLastEndedQuestId,
 } from '@/lib/features/quest/QuestSlice';
 
-import {
-  setActiveCharacter,
-  setActiveOpponent,
-  setEscapeAllowed,
-  setRewardAndPenalty,
-} from '@/lib/features/battle/BattleSlice';
+import { setBattleStartContext } from '@/lib/features/battle/BattleSlice';
 
 import {
   applyEffectToCharacterThunk,
@@ -46,21 +41,15 @@ export default function StoryScreen() {
 
     // check choice for battle attribute and redirect to battle screen if it exists
     if (choice.outcome?.battle) {
-      // set the next story point ID in the quest state
-      dispatch(setCurrentStoryPointId(choice.nextPointId));
-
-      // set the active opponent and character for the battle
-      dispatch(setActiveOpponent(choice.outcome.battle.opponent));
-      dispatch(setActiveCharacter(activeCharacter));
-
-      // set escape allowed in battle state if applicable
-      dispatch(setEscapeAllowed(choice.outcome.battle.escapeAllowed));
-
-      // set reward and escape penalty
+      // set the starting battle context
       dispatch(
-        setRewardAndPenalty({
+        setBattleStartContext({
+          activeCharacter: activeCharacter,
+          activeOpponent: choice.outcome.battle.opponent,
+          escapeAllowed: choice.outcome.battle.escapeAllowed,
           reward: choice.outcome.battle.reward,
           escapePenalty: choice.outcome.battle.escapePenalty,
+          nextPoints: choice.outcome.battle.nextPoints,
         }),
       );
 

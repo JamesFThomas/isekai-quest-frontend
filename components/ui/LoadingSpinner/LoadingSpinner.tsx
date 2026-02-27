@@ -1,6 +1,6 @@
 export default function LoadingSpinner() {
   return (
-    <svg className='size-6 animate-spin' viewBox='0 0 24 24'>
+    <svg role='status' aria-label='Loading' className='size-6 animate-spin' viewBox='0 0 24 24'>
       <circle
         className='opacity-25'
         cx='12'

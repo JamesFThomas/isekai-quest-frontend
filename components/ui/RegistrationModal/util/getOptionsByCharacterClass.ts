@@ -23,6 +23,7 @@ export const getOptionsByCharacterClass = (characterClass: characterClass) => {
         case 'barbarian':
             defaultAttacks = [fistSmash];
             defaultSkills = [evade, block, ragingSlam];
+            break;
         case 'necromancer':
             defaultAttacks = [witherTouch];
             defaultSkills = [evade, block, lifeSiphon];

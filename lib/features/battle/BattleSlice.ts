@@ -61,8 +61,8 @@ export const performBattleAction = createAsyncThunk<
 
     // read fresh state for opponent auto response
     if (r2 === null && p2 === 'idle' && aC2 && aO2) {
-      // TODO: improve opponent AI logic later with randomness, strategy, etc.
-      const opponentAttack = aO2.attacks[0];
+      // TODO: replace random selection with strategy-based logic (e.g. weighted by hp, mp, or opponent type)
+      const opponentAttack = aO2.attacks[Math.floor(Math.random() * aO2.attacks.length)];
 
       const battleAction: BattleAction = {
         actorId: aO2.id,

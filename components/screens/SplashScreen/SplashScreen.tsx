@@ -66,11 +66,17 @@ export default function SplashScreen() {
           </button>
           <button
             aria-label='Start Quest Button'
-            className='rounded-full text-center text-2xl text-white p-4 hover:cursor-pointer w-full sm:w-auto flex-1 bg-[#8E9CC9] hover:bg-[#7A8FB6] transition-colors duration-300e'
+            className={`rounded-full text-2xl text-white p-4 hover:cursor-pointer
+              w-full sm:w-auto flex-1 bg-[#8E9CC9] hover:bg-[#7A8FB6]
+              transition-colors duration-300 disabled:opacity-70
+              disabled:cursor-not-allowed`}
+            disabled={isNavigating}
             onClick={handleStartQuest}
           >
-            {isNavigating && <LoadingSpinner />}
-            Start Quest
+            <div className='flex items-center justify-center gap-2'>
+              Start Quest
+              {isNavigating && <LoadingSpinner />}
+            </div>
           </button>
         </section>
       </div>

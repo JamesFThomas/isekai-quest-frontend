@@ -10,6 +10,18 @@ This flow interacts with the QuestSlice in Redux.
 
 ---
 
+## Interaction Flow
+
+| Component        | User Action                   | Leads To                                |
+| ---------------- | ----------------------------- | --------------------------------------- |
+| HomeScreen       | User clicks **Quest Board**   | QuestBoardScreen opens                  |
+| QuestBoardScreen | Available quests displayed    | Player selects quest                    |
+| QuestBoardScreen | User clicks **Accept Quest**  | QuestSlice `acceptQuest()` dispatched   |
+| QuestSlice       | `acceptQuest()` updates state | Quest added to player's accepted quests |
+| Application      | Quest state updated           | Quest available for commencement        |
+
+---
+
 ## Flow Diagram
 
 ```mermaid

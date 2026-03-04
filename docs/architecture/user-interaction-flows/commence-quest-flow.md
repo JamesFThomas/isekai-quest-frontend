@@ -10,6 +10,18 @@ This flow interacts with the QuestSlice in Redux.
 
 ---
 
+## Interaction Flow
+
+| Component   | User Action                    | Leads To                            |
+| ----------- | ------------------------------ | ----------------------------------- |
+| HomeScreen  | User clicks **Commence Quest** | QuestSlice retrieves accepted quest |
+| QuestSlice  | Quest retrieved                | Quest data prepared for story       |
+| StoryScreen | StoryScreen loads              | First StoryPoint displayed          |
+| StoryScreen | Narrative displayed            | Player reads story                  |
+| StoryScreen | Player selects choice          | Quest progression logic triggered   |
+
+---
+
 ## Flow Diagram
 
 ```mermaid

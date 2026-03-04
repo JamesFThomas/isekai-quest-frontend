@@ -10,6 +10,19 @@ This flow interacts with both the CharacterSlice and AuthSlice in Redux.
 
 ---
 
+## Interaction Flow
+
+| Component                 | User Action                     | Leads To                         |
+| ------------------------- | ------------------------------- | -------------------------------- |
+| SplashScreen              | User clicks **Start New Quest** | Character Creation Screen opens  |
+| Character Creation Screen | User enters character name      | Character data prepared          |
+| Character Creation Screen | User selects character class    | Character class assigned         |
+| CharacterSlice            | `createCharacter()` dispatched  | Character added to Redux state   |
+| CharacterSlice            | Active character updated        | New character becomes active     |
+| Application Router        | Redirect triggered              | User navigated to **HomeScreen** |
+
+---
+
 ## Flow Diagram
 
 ```mermaid

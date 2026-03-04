@@ -8,6 +8,19 @@ This flow interacts with the AuthSlice in Redux.
 
 ---
 
+## Interaction Flow
+
+| Component          | User Action                                       | Leads To                                     |
+| ------------------ | ------------------------------------------------- | -------------------------------------------- |
+| SplashScreen       | User clicks **Continue Quest**                    | LoginModal opens                             |
+| LoginModal         | User clicks **Cancel**                            | LoginModal closes, return to SplashScreen    |
+| LoginModal         | User enters valid login data and clicks **Login** | AuthSlice `login()` dispatched               |
+| AuthSlice          | `login()` updates authentication state            | `isAuthenticated = true`, user object stored |
+| LoginModal         | Authentication successful                         | LoginModal closes                            |
+| Application Router | Redirect triggered                                | User navigated to **HomeScreen**             |
+
+---
+
 ## Flow Diagram
 
 ```mermaid

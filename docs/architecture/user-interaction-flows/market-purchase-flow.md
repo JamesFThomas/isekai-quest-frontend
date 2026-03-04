@@ -10,6 +10,19 @@ This flow interacts with the CharacterSlice in Redux.
 
 ---
 
+## Interaction Flow
+
+| Component         | User Action                      | Leads To                              |
+| ----------------- | -------------------------------- | ------------------------------------- |
+| HomeScreen        | User clicks **Town Market**      | MarketScreen loads                    |
+| MarketScreen      | Player selects booth category    | MarketBooth loads item set            |
+| MarketBooth       | Available items displayed        | Player selects item                   |
+| MarketBooth       | Item clicked                     | Purchase modal opens                  |
+| ItemPurchaseModal | Player confirms purchase         | `purchaseBoothItemThunk()` dispatched |
+| CharacterSlice    | Inventory and coin state updated | Item added to inventory               |
+
+---
+
 ## Flow Diagram
 
 ```mermaid

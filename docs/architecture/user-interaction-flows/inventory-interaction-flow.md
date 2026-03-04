@@ -10,6 +10,18 @@ This flow interacts with the CharacterSlice in Redux.
 
 ---
 
+## Interaction Flow
+
+| Component          | User Action                   | Leads To                 |
+| ------------------ | ----------------------------- | ------------------------ |
+| HomeScreen         | User clicks **Party Screen**  | PartyScreen loads        |
+| PartyScreen        | Character inventory displayed | Player selects item      |
+| PartyScreen        | Item clicked                  | InventoryItemModal opens |
+| InventoryItemModal | Item details displayed        | Player can inspect item  |
+| InventoryItemModal | Player closes modal           | Return to PartyScreen    |
+
+---
+
 ## Flow Diagram
 
 ```mermaid

@@ -21,8 +21,12 @@ import {
 } from '@headlessui/react';
 import { User } from '@/lib/features/auth/AuthSlice';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
-import { Character, characterClass } from '@/types/character';
-import { getOptionsByCharacterClass } from '@/components/ui/RegistrationModal/util/getOptionsByCharacterClass';
+import { 
+  // Character, 
+  characterClass } from '@/types/character';
+// import { getOptionsByCharacterClass } from '@/components/ui/RegistrationModal/util/getOptionsByCharacterClass';
+import { CreateAccountInput } from '@/types/persistence';
+import { createAccountLocalStorage } from '@/lib/persistence/localPersistence';
 
 interface RegistrationModalProps {
   isOpen: boolean;
@@ -46,49 +50,64 @@ export default function RegistrationModal({
     closeModal(!isOpen);
   };
 
-  const handleRegistration = () => {
-    setIsLoading(true);
-    const defaultOptions = getOptionsByCharacterClass(
-      playerData?.characterClass as characterClass,
-    );
-    setTimeout(() => {
-      const newCharacter: Character = {
-        id: `${Math.floor(Math.random() * 10000)}`,
-        name: playerData?.characterName || 'Default Character',
-        avatar: playerData?.avatar || '/character_avatars/default_avatar.png',
-        hp: 100, // Default HP
-        mp: 50, // Default MP
-        class: playerData?.characterClass as characterClass,
-        inventory: {
-          attacks: [...defaultOptions.defaultAttacks],
-          skills: [...defaultOptions.defaultSkills],
-          coins: {
-            gold: 0,
-            silver: 0,
-            copper: 0,
-          },
-          weapons: [],
-          equipment: [],
-          rations: [],
-          potions: [],
-        },
-      };
+  const handleRegistration = async () => {
+  setIsLoading(true);
 
-      const newUser = {
-        userId: `${Math.floor(Math.random() * 10000)}`,
-        username: playerData?.userName || 'Guest',
-        characters: [newCharacter],
-      };
+  try {
+    // create mapping of input data for local storage persistence 
+    const accountInputData: CreateAccountInput = {
+      email: playerData?.userName ?? '',
+      password: playerData?.password ?? '',
+      characterName: playerData?.characterName ?? '',
+      avatar: playerData?.avatar ?? '/character_avatars/default_avatar.png',
+      characterClass: playerData?.characterClass as characterClass,
+    };
 
-      handleLogin(newUser);
-      dispatch(setActiveCharacter(newCharacter));
-      dispatch(setCharacterLocation('StartsVille'));
+    // call createAccountLocalStorage method
+    const response = await createAccountLocalStorage(accountInputData);
+
+    // handle failed response
+    if (!response.success) {
+      console.error('Account creation failed:', response.message);
       setIsLoading(false);
-      router.push('/homescreen');
-      setOpen();
-    }, 1500);
-  };
+      return;
+    }
 
+    // success path
+    if (
+      response.data.account &&
+      response.data.player &&
+      response.data.characterData
+    ) {
+      const user = {
+        userId: response.data.account.id,
+        username: response.data.player.display_name,
+        characters: [response.data.characterData],
+      };
+
+      // dispatch login
+      handleLogin(user);
+
+      // set active character
+      dispatch(setActiveCharacter(response.data.characterData));
+
+      // set character location to starting town
+      dispatch(setCharacterLocation('StartsVille'));
+
+      // stop loading BEFORE navigation
+      setIsLoading(false);
+
+      // route to /homescreen
+      router.push('/homescreen');
+
+      // close modal
+      setOpen();
+    }
+  } catch (error) {
+    console.error('Unexpected error during registration:', error);
+    setIsLoading(false);
+  }
+};
   return (
     <div>
       <Dialog open={isOpen} onClose={() => {}} className='relative z-10'>

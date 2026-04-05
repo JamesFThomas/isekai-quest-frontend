@@ -137,7 +137,7 @@ export const createAccountLocalStorage = async (
     // Step 5: Create the initial progression data
     const initialProgressionData: ProgressionData = {
       completedQuestIds: [],
-      currentTown: "startsVille",
+      currentTown: "StartsVille",
     };
 
     // Step 6: Create the initial character save record

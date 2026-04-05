@@ -1,4 +1,4 @@
-import { Character } from './character';
+import { Character } from "./character";
 
 export interface AccountRecord {
   id: string;
@@ -35,10 +35,14 @@ export interface LoginCredentials {
   password: string;
 }
 
+// update to include create character data
+// characterName, avatar, and characterClass
 export interface CreateAccountInput {
   email: string;
   password: string;
-  display_name: string;
+  characterName: string;
+  avatar: string;
+  characterClass: string;
 }
 
 export interface LoadPlayerSaveDataInput {
@@ -68,19 +72,15 @@ export interface PersistenceResponse {
 }
 
 export interface Persistence {
-  createAccount(
-    input: CreateAccountInput
-  ): Promise<PersistenceResponse>;
+  createAccount(input: CreateAccountInput): Promise<PersistenceResponse>;
 
-  authenticateAccount(
-    input: LoginCredentials
-  ): Promise<PersistenceResponse>;
+  authenticateAccount(input: LoginCredentials): Promise<PersistenceResponse>;
 
   loadPlayerSaveData(
-    input: LoadPlayerSaveDataInput
+    input: LoadPlayerSaveDataInput,
   ): Promise<PersistenceResponse>;
 
   savePlayerProgress(
-    input: SavePlayerProgressInput
+    input: SavePlayerProgressInput,
   ): Promise<PersistenceResponse>;
 }

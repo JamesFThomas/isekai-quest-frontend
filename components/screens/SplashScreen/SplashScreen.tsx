@@ -12,7 +12,9 @@ import { useAppDispatch } from '@/lib/reduxHooks';
 
 import { login, User } from '../../../lib/features/auth/AuthSlice';
 import { InformationIcon } from '@/components/ui/InformationIcon/InformationIcon';
-import { authenticateAccountLocalStorage } from '@/lib/persistence/localPersistence';
+import { 
+  // authenticateAccountLocalStorage, 
+  loadPlayerSaveDataLocalStorage } from '@/lib/persistence/localPersistence';
 
 export default function SplashScreen() {
   const router = useRouter();
@@ -35,16 +37,30 @@ export default function SplashScreen() {
     dispatch(login(user));
   };
 
-  const testAuthentication = async () => {
-        console.log('button clicked');
-          // Test authentication method
-          const testCredentials = {
-            email: "testingjft+1@gmail.com",
-            password: "testingAccountPassword1",
+  // const testAuthentication = async () => {
+  //       console.log('button clicked');
+  //         // Test authentication method
+  //         const testCredentials = {
+  //           email: "testingjft+1@gmail.com",
+  //           password: "testingAccountPassword1",
 
-          };
-          const response = await authenticateAccountLocalStorage(testCredentials);
-          console.log('Authentication response:', response);
+  //         };
+  //         const response = await authenticateAccountLocalStorage(testCredentials);
+  //         console.log('Authentication response:', response);
+  // }
+
+  const testLoadPlayerSaveData = async () => {
+    // Implement a test for loading player save data based on account ID
+    console.log('Testing loadPlayerSaveData with accountId:');
+    // You would call the actual loadPlayerSaveData function here and log the response
+
+    const testSaveInput = {
+      // Replace with a valid account ID for testing
+      accountId: "", 
+    };
+    const response = await loadPlayerSaveDataLocalStorage(testSaveInput);
+    console.log('Load Player Save Data response:', response);
+
   }
 
   return (
@@ -53,10 +69,11 @@ export default function SplashScreen() {
       <button
         aria-label='Test Authentication Button'
         className='z-50 absolute top-1 right-1 bg-[#8E9CC9] hover:bg-[#7A8FB6] text-white p-2 rounded-full hover:cursor-pointer'
-        onClick={ () => testAuthentication()}
-      >
+        onClick={ () => testLoadPlayerSaveData()}
+        >
         click me
       </button>
+      {/* Button to test authentication method in localstorage */}
       
       <div className='absolute top-1 right-1 pt-8'>
         <InformationIcon pageKey='splash' />

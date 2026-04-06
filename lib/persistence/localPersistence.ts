@@ -4,6 +4,7 @@ import {
   AccountRecord,
   CharacterSaveRecord,
   CreateAccountInput,
+  LoadPlayerSaveDataInput,
   LoginCredentials,
   PersistenceResponse,
   PlayerRecord,
@@ -241,12 +242,15 @@ export const authenticateAccountLocalStorage = async (
   credentials: LoginCredentials,
 ): Promise<PersistenceResponse> => {
   try {
+    // Step 1: Read accounts collection from localStorage
     const accounts = getLocalStorageDataByKey<AccountRecord>(ACCOUNTS_KEY);
 
+    // Step 2: Find the account with the matching email
     const account = accounts.find(
       (acc) => acc.email.toLowerCase() === credentials.email.toLowerCase(),
     );
 
+    // Step 3: If no account is found, return an authentication failure response
     if (!account) {
       return {
         success: false,
@@ -255,11 +259,13 @@ export const authenticateAccountLocalStorage = async (
       };
     }
 
+    // Step 4: Compare the provided password with the stored hash
     const isMatch = await comparePassword(
       credentials.password,
       account.password_hash,
     );
 
+    // Step 5: If the password does not match, return an authentication failure response
     if (!isMatch) {
       return {
         success: false,
@@ -268,22 +274,24 @@ export const authenticateAccountLocalStorage = async (
       };
     }
 
-    // Create an updated account record with a fresh login timestamp
+    // Step 6: Update the last login timestamp for the authenticated account
     const updatedAccount: AccountRecord = {
       ...account,
       last_login_at: new Date().toISOString(),
     };
 
-    // Persist the updated account collection
+    // Step 7: Persist the updated account collection
     const updatedAccounts = accounts.map((acc) =>
       acc.id === updatedAccount.id ? updatedAccount : acc,
     );
 
+    // Step 8: Log a warning if the write operation fails, but still return success since authentication was successful
     const writeSuccess = writeLocalStorageDataByKey<AccountRecord>(
       ACCOUNTS_KEY,
       updatedAccounts,
     );
 
+    // Not returning failure here since authentication was successful, but logging the issue
     if (!writeSuccess) {
       // Not returning failure here since authentication was successful, but logging the issue
       console.error(
@@ -292,6 +300,7 @@ export const authenticateAccountLocalStorage = async (
       );
     }
 
+    // Step 9: Return the successful authentication response with account data
     return {
       success: true,
       message: "Authentication successful.",
@@ -300,9 +309,74 @@ export const authenticateAccountLocalStorage = async (
   } catch (error) {
     console.error("Error during account authentication:", error);
 
+    // Step 10: Return a generic error response if any unexpected issues occur during authentication
     return {
       success: false,
       message: "An unexpected error occurred.",
+      data: {},
+    };
+  }
+};
+
+// Load saved player data from local stroage by account id
+export const loadPlayerSaveDataLocalStorage = async (
+  input: LoadPlayerSaveDataInput,
+): Promise<PersistenceResponse> => {
+  try {
+    // Step 1: Read players and character saves from localStorage
+    const players = getLocalStorageDataByKey<PlayerRecord>(PLAYERS_KEY);
+    const characterSaves =
+      getLocalStorageDataByKey<CharacterSaveRecord>(CHARACTER_SAVES_KEY);
+
+    // Step 2: Find the player record associated with the given account ID
+    const player = players.find((p) => p.account_id === input.accountId);
+
+    // Step 3: If no player record is found, return an error response
+    if (!player) {
+      return {
+        success: false,
+        message: "Player save data not found.",
+        data: {},
+      };
+    }
+
+    // Step 4: Find the character save record associated with the player ID
+    const characterSave = characterSaves.find(
+      (save) => save.player_id === player.id,
+    );
+
+    // Step 5: If no character save is found, return an error response
+    if (!characterSave) {
+      return {
+        success: false,
+        message: "Player save data not found.",
+        data: {},
+      };
+    }
+
+    // Step 6: Construct the response data with player, character, and progression info
+    const responseData = {
+      player,
+      characterData: characterSave.character_data,
+      progressionData: characterSave.progression_data,
+      schemaVersion: characterSave.schema_version,
+      gameVersionLastPlayed: characterSave.game_version_last_played,
+      updatedAt: characterSave.updated_at,
+    };
+
+    // Step 7: Return the successful persistence response with the loaded data
+    return {
+      success: true,
+      message: "Player save data loaded successfully.",
+      data: responseData,
+    };
+  } catch (error) {
+    console.error("Error loading player save data from localStorage:", error);
+
+    // Step 8: Return a generic error response if any unexpected issues occur
+    return {
+      success: false,
+      message: "Player save data not found.",
       data: {},
     };
   }

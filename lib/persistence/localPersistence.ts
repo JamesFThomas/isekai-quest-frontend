@@ -9,6 +9,7 @@ import {
   PersistenceResponse,
   PlayerRecord,
   ProgressionData,
+  SavePlayerProgressInput,
 } from "@/types/persistence";
 
 const ACCOUNTS_KEY = "isekaiQuest_accounts" as const;
@@ -377,6 +378,78 @@ export const loadPlayerSaveDataLocalStorage = async (
     return {
       success: false,
       message: "Player save data not found.",
+      data: {},
+    };
+  }
+};
+
+// Save Player Progress to local storage
+export const savePlayerProgressLocalStorage = async (
+  input: SavePlayerProgressInput,
+): Promise<PersistenceResponse> => {
+  try {
+    // Step 1: Read character saves from localStorage
+    const characterSaves =
+      getLocalStorageDataByKey<CharacterSaveRecord>(CHARACTER_SAVES_KEY);
+
+    // Step 2: Find the character save record associated with the given player ID
+    const characterSaveIndex = characterSaves.findIndex(
+      (save) => save.player_id === input.playerId,
+    );
+    // Step 3: If no character save is found, return an error response
+    if (characterSaveIndex === -1) {
+      return {
+        success: false,
+        message: "Player save data not found.",
+        data: {},
+      };
+    }
+
+    // Step 4: Update the character save record with the new character and progression data
+    const existingSave = characterSaves[characterSaveIndex];
+    const updatedSave: CharacterSaveRecord = {
+      ...existingSave,
+      character_data: input.characterData,
+      progression_data: input.progressionData,
+      updated_at: new Date().toISOString(),
+    };
+
+    // Step 5: Persist the updated character saves collection
+    characterSaves[characterSaveIndex] = updatedSave;
+    const writeSuccess = writeLocalStorageDataByKey<CharacterSaveRecord>(
+      CHARACTER_SAVES_KEY,
+      characterSaves,
+    );
+
+    // Step 6: Return failure if the write operation fails
+    if (!writeSuccess) {
+      return {
+        success: false,
+        message: "There was a problem saving the player progress.",
+        data: {},
+      };
+    }
+
+    // Step 7: Return the successful persistence response
+    return {
+      success: true,
+      message: "Player progress saved successfully.",
+      data: {
+        characterData: updatedSave.character_data,
+        progressionData: updatedSave.progression_data,
+        schemaVersion: updatedSave.schema_version,
+        gameVersionLastPlayed: updatedSave.game_version_last_played,
+        updatedAt: updatedSave.updated_at,
+      },
+    };
+  } catch (error) {
+    console.error("Error saving player progress to localStorage:", error);
+
+    // Step 8: Return a generic error response if any unexpected issues occur during saving
+    return {
+      success: false,
+      message:
+        "There was an error saving the player progress. Please try again.",
       data: {},
     };
   }

@@ -4,6 +4,7 @@ import {
   AccountRecord,
   CharacterSaveRecord,
   CreateAccountInput,
+  LoginCredentials,
   PersistenceResponse,
   PlayerRecord,
   ProgressionData,
@@ -230,6 +231,78 @@ export const createAccountLocalStorage = async (
     return {
       success: false,
       message: "There was an error creating the account. Please try again.",
+      data: {},
+    };
+  }
+};
+
+// Authenticate user account in localStorage
+export const authenticateAccountLocalStorage = async (
+  credentials: LoginCredentials,
+): Promise<PersistenceResponse> => {
+  try {
+    const accounts = getLocalStorageDataByKey<AccountRecord>(ACCOUNTS_KEY);
+
+    const account = accounts.find(
+      (acc) => acc.email.toLowerCase() === credentials.email.toLowerCase(),
+    );
+
+    if (!account) {
+      return {
+        success: false,
+        message: "Invalid email or password.",
+        data: {},
+      };
+    }
+
+    const isMatch = await comparePassword(
+      credentials.password,
+      account.password_hash,
+    );
+
+    if (!isMatch) {
+      return {
+        success: false,
+        message: "Invalid email or password.",
+        data: {},
+      };
+    }
+
+    // Create an updated account record with a fresh login timestamp
+    const updatedAccount: AccountRecord = {
+      ...account,
+      last_login_at: new Date().toISOString(),
+    };
+
+    // Persist the updated account collection
+    const updatedAccounts = accounts.map((acc) =>
+      acc.id === updatedAccount.id ? updatedAccount : acc,
+    );
+
+    const writeSuccess = writeLocalStorageDataByKey<AccountRecord>(
+      ACCOUNTS_KEY,
+      updatedAccounts,
+    );
+
+    if (!writeSuccess) {
+      // Not returning failure here since authentication was successful, but logging the issue
+      console.error(
+        "Failed to update last login timestamp for account:",
+        updatedAccount.id,
+      );
+    }
+
+    return {
+      success: true,
+      message: "Authentication successful.",
+      data: { account: updatedAccount },
+    };
+  } catch (error) {
+    console.error("Error during account authentication:", error);
+
+    return {
+      success: false,
+      message: "An unexpected error occurred.",
       data: {},
     };
   }

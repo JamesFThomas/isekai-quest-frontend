@@ -294,7 +294,6 @@ export const authenticateAccountLocalStorage = async (
 
     // Not returning failure here since authentication was successful, but logging the issue
     if (!writeSuccess) {
-      // Not returning failure here since authentication was successful, but logging the issue
       console.error(
         "Failed to update last login timestamp for account:",
         updatedAccount.id,

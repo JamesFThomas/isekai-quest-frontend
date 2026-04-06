@@ -12,13 +12,6 @@ import { useAppDispatch } from '@/lib/reduxHooks';
 
 import { login, User } from '../../../lib/features/auth/AuthSlice';
 import { InformationIcon } from '@/components/ui/InformationIcon/InformationIcon';
-import { 
-  // authenticateAccountLocalStorage, 
-  // loadPlayerSaveDataLocalStorage, 
-  savePlayerProgressLocalStorage
-}
-   from '@/lib/persistence/localPersistence';
-import { SavePlayerProgressInput } from '@/types/persistence';
 
 export default function SplashScreen() {
   const router = useRouter();
@@ -38,89 +31,14 @@ export default function SplashScreen() {
   const dispatch = useAppDispatch();
 
   const handleLogin = (user: User) => {
+    //set authentication state in redux store
     dispatch(login(user));
   };
 
-  // const testAuthentication = async () => {
-  //       console.log('button clicked');
-  //         // Test authentication method
-  //         const testCredentials = {
-  //           email: "testingjft+1@gmail.com",
-  //           password: "testingAccountPassword1",
-
-  //         };
-  //         const response = await authenticateAccountLocalStorage(testCredentials);
-  //         console.log('Authentication response:', response);
-  // }
-
-  // const testLoadPlayerSaveData = async () => {
-  //   // Implement a test for loading player save data based on account ID
-  //   console.log('Testing loadPlayerSaveData with accountId:');
-  //   // You would call the actual loadPlayerSaveData function here and log the response
-
-  //   const testSaveInput = {
-  //     // Replace with a valid account ID for testing
-  //     accountId: "", 
-  //   };
-  //   const response = await loadPlayerSaveDataLocalStorage(testSaveInput);
-  //   console.log('Load Player Save Data response:', response);
-
-  // }
-
-  const testSavePlayerProgress = async () => {
-    // Implement a test for saving player progress
-    console.log('Testing savePlayerProgress with playerId and sample data:');
-    // You would call the actual savePlayerProgress function here and log the response
-const testSaveProgressInput: SavePlayerProgressInput = {
-  playerId: '',
-  characterData: {
-    id: '6f4c8663-8a82-4fcd-b588-d14ce4d942cf',
-    name: 'Barry Barbarian',
-    avatar: '/character_avatars/barbarian_avatar3.png',
-    hp: 85,
-    maxHp: 100,
-    mp: 90,
-    maxMp: 100,
-    class: 'barbarian',
-    level: 2,
-    inventory: {
-      attacks: [],
-      skills: [],
-      coins: {
-        gold: 5,
-        silver: 2,
-        copper: 0,
-      },
-      weapons: [],
-      equipment: [],
-      rations: [],
-      potions: [],
-    },
-    partyMembers: [],
-  },
-  progressionData: {
-    completedQuestIds: ['ambush-alley-recon'],
-    currentTown: 'GuildHall',
-  },
-};
-    const response = await savePlayerProgressLocalStorage(testSaveProgressInput);
-    console.log('Save Player Progress response:', response);
-  };
-
-
   return (
     <div className="relative flex p-8 justify-center items-center min-h-screen bg-[url('/background_images/avatars_townScene2.png')] bg-cover bg-center bg-no-repeat">
-      {/* Button to test authentication method in localstorage */}
-      <button
-        aria-label='Test Authentication Button'
-        className='z-50 absolute top-1 right-1 bg-[#8E9CC9] hover:bg-[#7A8FB6] text-white p-2 rounded-full hover:cursor-pointer'
-        onClick={ () => testSavePlayerProgress()}
-        >
-        click me
-      </button>
-      {/* Button to test authentication method in localstorage */}
-      
-      <div className='absolute top-1 right-1 pt-8'>
+     
+      <div className='absolute top-1 right-1'>
         <InformationIcon pageKey='splash' />
       </div>
       <div className='flex flex-col items-center'>

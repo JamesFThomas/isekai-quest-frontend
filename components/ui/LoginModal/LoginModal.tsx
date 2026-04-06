@@ -11,10 +11,15 @@ import {
   DialogTitle,
 } from '@headlessui/react';
 
+
+import { useAppDispatch } from '@/lib/reduxHooks';
+
 import { User } from '@/lib/features/auth/AuthSlice';
-import useMockCharacter from '@/lib/hooks/useMockCharacter';
+
 
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
+import { authenticateAccountLocalStorage, loadPlayerSaveDataLocalStorage } from '@/lib/persistence/localPersistence';
+import { setActiveCharacter, setCharacterLocation } from '@/lib/features/character/CharacterSlice';
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -28,6 +33,8 @@ export default function LoginModal({
   handleLogin,
 }: LoginModalProps) {
   const router = useRouter();
+  
+  const dispatch = useAppDispatch();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -80,27 +87,72 @@ export default function LoginModal({
     closeModal(!isOpen);
   };
 
-  useMockCharacter();
 
-  const handleLoginClick = () => {
+  const handleLoginClick = async () => {
     validateUsername();
     validatePassword();
 
+    // if no errors with input validation, proceed with authentication flow
     if (!usernameError && !passwordError) {
       setIsLoading(true);
-      setTimeout(() => {
-        const user = {
-          userId: `${Math.floor(Math.random() * 10000)}`,
-          username: username,
-          characters: [], // Assuming characters will be set later   ],
-        };
 
-        handleLogin(user);
+ 
+      // create credentials object with username and password and pass to authentication method
+      const loginCredentials = {
+        email: username,
+        password: password,
+      }
+
+      // authenticate user with login credentials
+      const accountResponse = await authenticateAccountLocalStorage(loginCredentials);
+      
+      // failure - display error message to user and allow them to try again
+      if (!accountResponse.success) {
+        console.error('Authentication failed:', accountResponse.message);
+
+        // create UI toast or error display later
         setIsLoading(false);
-        router.push('/homescreen');
-        setOpen();
-      }, 1500);
+        return;
+        
+      }
+      
+      // use accountResponse.account.id to load character data and progression data from local storage, then dispatch to redux
+      const loadPlayerSaveInput = {
+        accountId: accountResponse.data.account?.id || '',
+      }
+      
+      // load player save data from local storage
+      const playerSaveResponse = await loadPlayerSaveDataLocalStorage(loadPlayerSaveInput);
+      
+      if (!playerSaveResponse.success) {
+        console.error('Failed to load player save data:', playerSaveResponse.message);
+        
+        // create UI toast or error display later
+        setIsLoading(false);
+        return;
+      }
+
+      // login with user object and character data from local storage
+      const user = {
+        userId: accountResponse.data.account?.id || '',
+        username: accountResponse.data.account?.email || '',
+        characters: playerSaveResponse.data.characterData ? [playerSaveResponse.data.characterData] : [],
+      };
+
+      handleLogin(user);
+
+      // load character and start location to redux, then navigate to homescreen
+      dispatch(setActiveCharacter(playerSaveResponse.data.characterData || null));
+      dispatch(setCharacterLocation(playerSaveResponse.data.progressionData?.currentTown || ''));
+      
+      setIsLoading(false);
+      
+      router.push('/homescreen');
+      
+      setOpen();
+   
     }
+
   };
 
   return (

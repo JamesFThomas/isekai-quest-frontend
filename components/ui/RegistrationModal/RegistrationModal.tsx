@@ -22,9 +22,7 @@ import {
 import { User } from '@/lib/features/auth/AuthSlice';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import { 
-  // Character, 
   characterClass } from '@/types/character';
-// import { getOptionsByCharacterClass } from '@/components/ui/RegistrationModal/util/getOptionsByCharacterClass';
 import { CreateAccountInput } from '@/types/persistence';
 import { createAccountLocalStorage } from '@/lib/persistence/localPersistence';
 

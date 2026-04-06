@@ -12,6 +12,7 @@ import { useAppDispatch } from '@/lib/reduxHooks';
 
 import { login, User } from '../../../lib/features/auth/AuthSlice';
 import { InformationIcon } from '@/components/ui/InformationIcon/InformationIcon';
+import { authenticateAccountLocalStorage } from '@/lib/persistence/localPersistence';
 
 export default function SplashScreen() {
   const router = useRouter();
@@ -34,9 +35,30 @@ export default function SplashScreen() {
     dispatch(login(user));
   };
 
+  const testAuthentication = async () => {
+        console.log('button clicked');
+          // Test authentication method
+          const testCredentials = {
+            email: "testingjft+1@gmail.com",
+            password: "testingAccountPassword1",
+
+          };
+          const response = await authenticateAccountLocalStorage(testCredentials);
+          console.log('Authentication response:', response);
+  }
+
   return (
     <div className="relative flex p-8 justify-center items-center min-h-screen bg-[url('/background_images/avatars_townScene2.png')] bg-cover bg-center bg-no-repeat">
-      <div className='absolute top-1 right-1'>
+      {/* Button to test authentication method in localstorage */}
+      <button
+        aria-label='Test Authentication Button'
+        className='z-50 absolute top-1 right-1 bg-[#8E9CC9] hover:bg-[#7A8FB6] text-white p-2 rounded-full hover:cursor-pointer'
+        onClick={ () => testAuthentication()}
+      >
+        click me
+      </button>
+      
+      <div className='absolute top-1 right-1 pt-8'>
         <InformationIcon pageKey='splash' />
       </div>
       <div className='flex flex-col items-center'>

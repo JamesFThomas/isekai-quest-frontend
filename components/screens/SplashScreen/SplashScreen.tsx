@@ -12,6 +12,8 @@ import { useAppDispatch } from '@/lib/reduxHooks';
 
 import { login, User } from '../../../lib/features/auth/AuthSlice';
 import { InformationIcon } from '@/components/ui/InformationIcon/InformationIcon';
+import { Character } from '@/types/character';
+import { setActiveCharacter, setCharacterLocation } from '@/lib/features/character/CharacterSlice';
 
 export default function SplashScreen() {
   const router = useRouter();
@@ -30,10 +32,18 @@ export default function SplashScreen() {
 
   const dispatch = useAppDispatch();
 
-  const handleLogin = (user: User) => {
-    //set authentication state in redux store
+  
+  const handleLoginAndLoadCharacter = (user: User,characterData: Character, location: string) => {
+    // set authentication state in redux store
     dispatch(login(user));
-  };
+
+    // load character data and location into redux store
+    dispatch(setActiveCharacter(characterData));
+    dispatch(setCharacterLocation(location));
+
+    // after succesful authentication, and character load navigate to homescreen
+    router.push('/homescreen');
+  }
 
   return (
     <div className="relative flex p-8 justify-center items-center min-h-screen bg-[url('/background_images/avatars_townScene2.png')] bg-cover bg-center bg-no-repeat">
@@ -86,7 +96,7 @@ export default function SplashScreen() {
       <LoginModal
         isOpen={isLoginModalOpen}
         closeModal={setIsLoginModalOpen}
-        handleLogin={handleLogin}
+        handleLoginAndLoadCharacter={handleLoginAndLoadCharacter}
       />
     </div>
   );

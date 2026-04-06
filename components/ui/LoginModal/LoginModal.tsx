@@ -2,8 +2,6 @@
 
 import { Dispatch, SetStateAction, useState } from 'react';
 
-import { useRouter } from 'next/navigation';
-
 import {
   Dialog,
   DialogBackdrop,
@@ -11,30 +9,30 @@ import {
   DialogTitle,
 } from '@headlessui/react';
 
-
-import { useAppDispatch } from '@/lib/reduxHooks';
-
 import { User } from '@/lib/features/auth/AuthSlice';
 
-
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
+
 import { authenticateAccountLocalStorage, loadPlayerSaveDataLocalStorage } from '@/lib/persistence/localPersistence';
-import { setActiveCharacter, setCharacterLocation } from '@/lib/features/character/CharacterSlice';
+
+import { Character } from '@/types/character';
+
+
+
 
 interface LoginModalProps {
   isOpen: boolean;
   closeModal: Dispatch<SetStateAction<boolean>>;
-  handleLogin: (user: User) => void;
+  handleLoginAndLoadCharacter: (user: User, characterData: Character, location: string) => void
 }
+
+
 
 export default function LoginModal({
   isOpen,
   closeModal,
-  handleLogin,
+  handleLoginAndLoadCharacter,
 }: LoginModalProps) {
-  const router = useRouter();
-  
-  const dispatch = useAppDispatch();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -127,29 +125,34 @@ export default function LoginModal({
       if (!playerSaveResponse.success) {
         console.error('Failed to load player save data:', playerSaveResponse.message);
         
-        // create UI toast or error display later
         setIsLoading(false);
+        
         return;
+        
+        // create UI toast or error display later
+
       }
 
-      // login with user object and character data from local storage
-      const user = {
-        userId: accountResponse.data.account?.id || '',
-        username: accountResponse.data.account?.email || '',
-        characters: playerSaveResponse.data.characterData ? [playerSaveResponse.data.characterData] : [],
-      };
+      // destructure values from local storage response
+      const {account} = accountResponse.data;
+      const { characterData, progressionData } = playerSaveResponse.data;
 
-      handleLogin(user);
+      // lCreate user object for authentication
+      if (account && characterData && progressionData?.currentTown) {
 
-      // load character and start location to redux, then navigate to homescreen
-      dispatch(setActiveCharacter(playerSaveResponse.data.characterData || null));
-      dispatch(setCharacterLocation(playerSaveResponse.data.progressionData?.currentTown || ''));
-      
-      setIsLoading(false);
-      
-      router.push('/homescreen');
-      
-      setOpen();
+        const user = {
+          userId: account?.id,
+          username: account?.email,
+          characters:[characterData],
+        };
+
+        // call the handleLoginAndLoadCharacter function with the loaded character data and location, only if characterData exists
+        handleLoginAndLoadCharacter(user, characterData, progressionData.currentTown);
+
+        setIsLoading(false);
+                
+        setOpen();
+      }
    
     }
 

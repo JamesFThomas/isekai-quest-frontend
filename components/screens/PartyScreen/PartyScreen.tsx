@@ -18,6 +18,7 @@ import { InventoryItemBase } from '@/types/character';
 import CoinsPanel from '../../ui/CoinPanel/CoinsPanel';
 import { InventoryItemModal } from './components/InventoryItemModal';
 import { ControlPanel } from '@/components/ui/ControlPanel/ContolPanel';
+import { SaveProgressButton } from './components/SaveProgressButton';
 
 export default function PartyScreen() {
   useProtectedRoute();
@@ -214,6 +215,10 @@ export default function PartyScreen() {
                 </label>
               </div>
             )}
+
+            {/* SaveProgressButton goes here */}
+              <SaveProgressButton />  
+
           </div>
         </div>
 

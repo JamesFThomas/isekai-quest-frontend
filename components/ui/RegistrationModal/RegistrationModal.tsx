@@ -106,7 +106,8 @@ export default function RegistrationModal({
     setIsLoading(false);
   }
 };
-  return (
+
+return (
     <div>
       <Dialog open={isOpen} onClose={() => {}} className='relative z-10'>
         <DialogBackdrop

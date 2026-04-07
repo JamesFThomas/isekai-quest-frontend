@@ -1,7 +1,44 @@
+import { selectUser } from "@/lib/features/auth/AuthSlice";
+import {
+  selectActiveCharacter,
+  selectCharacterLocation,
+} from "@/lib/features/character/CharacterSlice";
+import { useAppSelector } from "@/lib/reduxHooks";
+import { savePlayerProgressLocalStorage } from "@/lib/persistence/localPersistence";
+import { SavePlayerProgressInput } from "@/types/persistence";
+
 export const SaveProgressButton = () => {
-  const handleSaveProgress = () => {
-    // Implement the logic to save the player's progress here
+  const user = useAppSelector(selectUser);
+  const activeCharacter = useAppSelector(selectActiveCharacter);
+  const characterLocation = useAppSelector(selectCharacterLocation);
+
+  const handleSaveProgress = async () => {
     console.log("Button clicked: Saving progress...");
+
+    // Implement the logic to save the player's progress here
+    if (!user || !activeCharacter || !characterLocation) {
+      console.error("Missing required data to save progress.");
+      return;
+    } else {
+      const playerSaveData: SavePlayerProgressInput = {
+        playerId: user?.playerId,
+        characterData: activeCharacter,
+        progressionData: {
+          completedQuestIds: [], // replace with actual completed quest ids
+          currentTown: characterLocation,
+        },
+      };
+
+      const response = await savePlayerProgressLocalStorage(playerSaveData);
+
+      if (!response.success) {
+        // once taost component is implemented, replace with toast error message
+        console.error("Failed to save progress:", response.message);
+      }
+
+      // once taost component is implemented, replace with toast success message
+      console.log("Progress saved successfully!");
+    }
   };
 
   return (
@@ -20,7 +57,7 @@ export const SaveProgressButton = () => {
         disabled:cursor-not-allowed
         "
         onClick={handleSaveProgress}
-        disabled={true}
+        disabled={false} // replace with actual condition to enable/disable the button
       >
         Save Progress
       </button>

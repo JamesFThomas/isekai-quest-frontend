@@ -134,15 +134,27 @@ export default function LoginModal({
       }
 
       // destructure values from local storage response
-      const {account} = accountResponse.data;
-      const { characterData, progressionData } = playerSaveResponse.data;
+      const {account } = accountResponse.data;
+      const { characterData, player, progressionData } = playerSaveResponse.data;
+
+        if (!account || !player || !characterData || !progressionData) {
+        console.error('Failed to load player save data:', playerSaveResponse.message);
+        
+        setIsLoading(false);
+        
+        return;
+        
+        // create UI toast or error display later
+
+      }
 
       // lCreate user object for authentication
-      if (account && characterData && progressionData?.currentTown) {
+      if (account && player && characterData && progressionData?.currentTown) {
 
-        const user = {
-          userId: account?.id,
-          username: account?.email,
+        const user: User = {
+          accountId: account?.id,
+          email: account?.email,
+          playerId: player.id,
           characters:[characterData],
         };
 

@@ -150,7 +150,7 @@ export const characterSlice = createSlice({
     setCharacterLocation: (state, action: PayloadAction<string | null>) => {
       state.characterLocation = action.payload;
     },
-    characterSnapshot: (
+    setCharacterSnapshot: (
       state,
       action: PayloadAction<CharacterStateSnapshot | null>,
     ) => {
@@ -358,6 +358,7 @@ export const characterSlice = createSlice({
 export const {
   setActiveCharacter,
   setCharacterLocation,
+  setCharacterSnapshot,
   useCharacterInventoryItem,
   equipCharacterInventoryItem,
   addItemToCharacterInventory,
@@ -376,6 +377,9 @@ export const selectCharacterParty = (state: RootState) => state.character.party;
 
 export const selectCharacterLocation = (state: RootState) =>
   state.character.characterLocation;
+
+export const selectCompletedQuestIds = (state: RootState) =>
+  state.character.completedQuestIds;
 
 export const selectParty = (state: RootState) => state.character.party;
 

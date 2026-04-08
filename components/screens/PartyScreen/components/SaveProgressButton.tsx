@@ -2,15 +2,20 @@ import { selectUser } from "@/lib/features/auth/AuthSlice";
 import {
   selectActiveCharacter,
   selectCharacterLocation,
+  selectCompletedQuestIds,
+  setCharacterSnapshot,
 } from "@/lib/features/character/CharacterSlice";
 import { useAppSelector } from "@/lib/reduxHooks";
+import { useDispatch } from "react-redux";
 import { savePlayerProgressLocalStorage } from "@/lib/persistence/localPersistence";
 import { SavePlayerProgressInput } from "@/types/persistence";
 
 export const SaveProgressButton = () => {
+  const dispatch = useDispatch();
   const user = useAppSelector(selectUser);
   const activeCharacter = useAppSelector(selectActiveCharacter);
   const characterLocation = useAppSelector(selectCharacterLocation);
+  const completedQuestIds = useAppSelector(selectCompletedQuestIds);
 
   const handleSaveProgress = async () => {
     console.log("Button clicked: Saving progress...");
@@ -24,7 +29,7 @@ export const SaveProgressButton = () => {
         playerId: user?.playerId,
         characterData: activeCharacter,
         progressionData: {
-          completedQuestIds: [], // replace with actual completed quest ids
+          completedQuestIds: completedQuestIds,
           currentTown: characterLocation,
         },
       };
@@ -35,6 +40,14 @@ export const SaveProgressButton = () => {
         // once taost component is implemented, replace with toast error message
         console.error("Failed to save progress:", response.message);
       }
+
+      // update snapshot of character state in redux store after successful save
+      const characterSnapshot = {
+        characterData: activeCharacter,
+        progressionData: playerSaveData.progressionData,
+      };
+
+      dispatch(setCharacterSnapshot(characterSnapshot));
 
       // once taost component is implemented, replace with toast success message
       console.log("Progress saved successfully!");

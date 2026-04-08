@@ -11,6 +11,7 @@ import { NewPlayerData } from "../../screens/CreateCharacterScreen/CreateCharact
 import {
   setActiveCharacter,
   setCharacterLocation,
+  setCharacterSnapshot,
 } from "@/lib/features/character/CharacterSlice";
 
 import {
@@ -91,6 +92,14 @@ export default function RegistrationModal({
 
         // set character location to starting town
         dispatch(setCharacterLocation("StartsVille"));
+
+        // set snapshot of default character state
+        const characterSnapshot = {
+          characterData: response.data.characterData,
+          progressionData: response.data.progressionData,
+        };
+
+        dispatch(setCharacterSnapshot(characterSnapshot));
 
         // stop loading BEFORE navigation
         setIsLoading(false);

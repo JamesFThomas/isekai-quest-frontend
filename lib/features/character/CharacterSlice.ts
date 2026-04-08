@@ -1,22 +1,31 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 // import type {  } from '../../store';
-import { AppDispatch, RootState } from '@/lib/store'; // Add this import
+import { AppDispatch, RootState } from "@/lib/store"; // Add this import
 
-import { Character, Coins, InventoryItemBase } from '@/types/character';
-import { BattleOption } from '@/types/battle';
-import { Effect } from '@/types/quest';
+import {
+  Character,
+  CharacterStateSnapshot,
+  Coins,
+  InventoryItemBase,
+} from "@/types/character";
+import { BattleOption } from "@/types/battle";
+import { Effect } from "@/types/quest";
 
 interface CharacterState {
   ActiveCharacter: Character | null;
   characterLocation: string | null;
   party: Character[];
+  completedQuestIds: string[];
+  characterSnapshot: CharacterStateSnapshot | null;
 }
 
 const initialState: CharacterState = {
   ActiveCharacter: null,
   characterLocation: null,
   party: [],
+  completedQuestIds: [],
+  characterSnapshot: null,
 };
 
 type InventorySelection = BattleOption | InventoryItemBase;
@@ -27,18 +36,18 @@ type UpdateActiveCharacterPayload = {
 };
 
 export const convertItemTypeString = (item: InventorySelection): string => {
-  console.log('Converting item type for:', item.type);
+  console.log("Converting item type for:", item.type);
   switch (item.type) {
-    case 'weapon':
-      return 'weapons';
-    case 'equipment':
-      return 'equipment';
-    case 'potion':
-      return 'potions';
-    case 'ration':
-      return 'rations';
+    case "weapon":
+      return "weapons";
+    case "equipment":
+      return "equipment";
+    case "potion":
+      return "potions";
+    case "ration":
+      return "rations";
     default:
-      return 'unknown';
+      return "unknown";
   }
 };
 
@@ -46,7 +55,7 @@ export const utilizeInventoryItemThunk = createAsyncThunk<
   void,
   InventorySelection,
   { state: RootState }
->('character/useInventoryItemThunk', async (item, { dispatch, getState }) => {
+>("character/useInventoryItemThunk", async (item, { dispatch, getState }) => {
   // Get the active character from state
   const { ActiveCharacter } = getState().character;
 
@@ -54,14 +63,14 @@ export const utilizeInventoryItemThunk = createAsyncThunk<
   if (!ActiveCharacter) return;
 
   // weapon equip use logic
-  if (item.type === 'weapon' || item.type === 'equipment') {
+  if (item.type === "weapon" || item.type === "equipment") {
     // Equip weapon logic here
     // console.log(`Equipping ${item.title} to ${ActiveCharacter?.name}`);
     dispatch(equipCharacterInventoryItem(item));
   }
 
   // potion/ration use logic
-  else if (item.type === 'potion' || item.type === 'ration') {
+  else if (item.type === "potion" || item.type === "ration") {
     // use item and update character state
     // console.log(`Using ${item.type} a ${item.title} on ${ActiveCharacter?.name}`);
     dispatch(useCharacterInventoryItem({ character: ActiveCharacter, item }));
@@ -72,7 +81,7 @@ export const purchaseBoothItemThunk = createAsyncThunk<
   void,
   InventoryItemBase,
   { state: RootState }
->('character/purchaseBoothItemThunk', async (item, { dispatch, getState }) => {
+>("character/purchaseBoothItemThunk", async (item, { dispatch, getState }) => {
   // Get the active character from state
   const { ActiveCharacter } = getState().character;
 
@@ -84,7 +93,7 @@ export const purchaseBoothItemThunk = createAsyncThunk<
 
   // add item to character inventory
   if (!item.price) {
-    console.warn('Item has no price, cannot complete purchase.');
+    console.warn("Item has no price, cannot complete purchase.");
     return;
   }
 
@@ -132,7 +141,7 @@ export function applyEffectToCharacterThunk(effect: Effect) {
 }
 
 export const characterSlice = createSlice({
-  name: 'character',
+  name: "character",
   initialState,
   reducers: {
     setActiveCharacter: (state, action: PayloadAction<Character | null>) => {
@@ -140,6 +149,12 @@ export const characterSlice = createSlice({
     },
     setCharacterLocation: (state, action: PayloadAction<string | null>) => {
       state.characterLocation = action.payload;
+    },
+    characterSnapshot: (
+      state,
+      action: PayloadAction<CharacterStateSnapshot | null>,
+    ) => {
+      state.characterSnapshot = action.payload;
     },
     addCharacterToParty: (state, action: PayloadAction<Character>) => {
       state.party.push(action.payload);
@@ -163,7 +178,7 @@ export const characterSlice = createSlice({
         return;
       }
 
-      console.log('Subtracting item price from character coins:', price);
+      console.log("Subtracting item price from character coins:", price);
 
       // remove purchases item price from character coins
       state.ActiveCharacter.inventory.coins = {
@@ -228,13 +243,13 @@ export const characterSlice = createSlice({
       const active = state.ActiveCharacter;
       const item = action.payload;
 
-      if (item.type === 'weapon') {
+      if (item.type === "weapon") {
         if (active.equippedWeapon?.id !== item.id) {
           active.equippedWeapon = item;
         } else {
           active.equippedWeapon = undefined;
         }
-      } else if (action.payload.type === 'equipment') {
+      } else if (action.payload.type === "equipment") {
         if (active.equippedArmor?.id !== item.id) {
           active.equippedArmor = item;
         } else {

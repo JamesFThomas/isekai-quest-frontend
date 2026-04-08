@@ -4,6 +4,7 @@ import {
   selectCharacterLocation,
   selectCompletedQuestIds,
   setCharacterSnapshot,
+  selectCharacterSnapshot,
 } from "@/lib/features/character/CharacterSlice";
 import { useAppSelector } from "@/lib/reduxHooks";
 import { useDispatch } from "react-redux";
@@ -16,6 +17,7 @@ export const SaveProgressButton = () => {
   const activeCharacter = useAppSelector(selectActiveCharacter);
   const characterLocation = useAppSelector(selectCharacterLocation);
   const completedQuestIds = useAppSelector(selectCompletedQuestIds);
+  const characterSnapshot = useAppSelector(selectCharacterSnapshot);
 
   const handleSaveProgress = async () => {
     console.log("Button clicked: Saving progress...");
@@ -54,6 +56,23 @@ export const SaveProgressButton = () => {
     }
   };
 
+  const isStateDirty = () => {
+    // implement logic to determine if character state has changed since last save
+    if (!activeCharacter || !characterLocation || !characterSnapshot) {
+      return false;
+    }
+
+    const currentState = {
+      characterData: activeCharacter,
+      progressionData: {
+        completedQuestIds: completedQuestIds,
+        currentTown: characterLocation,
+      },
+    };
+
+    return JSON.stringify(characterSnapshot) !== JSON.stringify(currentState);
+  };
+
   return (
     <div className="mt-4 w-full flex justify-end">
       <button
@@ -70,7 +89,7 @@ export const SaveProgressButton = () => {
         disabled:cursor-not-allowed
         "
         onClick={handleSaveProgress}
-        disabled={false} // replace with actual condition to enable/disable the button
+        disabled={!isStateDirty()}
       >
         Save Progress
       </button>

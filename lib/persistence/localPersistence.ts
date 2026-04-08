@@ -161,9 +161,9 @@ export const createAccountLocalStorage = async (
           attacks: [],
           skills: [],
           coins: {
-            gold: 0,
-            silver: 0,
-            copper: 0,
+            gold: 100, // TODO: return to 0 after testing
+            silver: 100, // TODO: return to 0 after testing
+            copper: 100, // TODO: return to 0 after testing
           },
           weapons: [],
           equipment: [],

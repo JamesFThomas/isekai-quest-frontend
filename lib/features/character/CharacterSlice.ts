@@ -381,6 +381,9 @@ export const selectCharacterLocation = (state: RootState) =>
 export const selectCompletedQuestIds = (state: RootState) =>
   state.character.completedQuestIds;
 
+export const selectCharacterSnapshot = (state: RootState) =>
+  state.character.characterSnapshot;
+
 export const selectParty = (state: RootState) => state.character.party;
 
 export default characterSlice.reducer;

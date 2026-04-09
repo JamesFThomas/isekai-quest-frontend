@@ -1,17 +1,23 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-import LoginModal from '../..//ui/LoginModal/LoginModal';
-import LoadingSpinner from '../../ui/LoadingSpinner/LoadingSpinner';
+import LoginModal from "../..//ui/LoginModal/LoginModal";
+import LoadingSpinner from "../../ui/LoadingSpinner/LoadingSpinner";
 
-import Image from 'next/image';
+import Image from "next/image";
 
-import { useAppDispatch } from '@/lib/reduxHooks';
+import { useAppDispatch } from "@/lib/reduxHooks";
 
-import { login, User } from '../../../lib/features/auth/AuthSlice';
-import { InformationIcon } from '@/components/ui/InformationIcon/InformationIcon';
+import { login, User } from "../../../lib/features/auth/AuthSlice";
+import { InformationIcon } from "@/components/ui/InformationIcon/InformationIcon";
+import { Character, CharacterStateSnapshot } from "@/types/character";
+import {
+  setActiveCharacter,
+  setCharacterLocation,
+  setCharacterSnapshot,
+} from "@/lib/features/character/CharacterSlice";
 
 export default function SplashScreen() {
   const router = useRouter();
@@ -25,47 +31,61 @@ export default function SplashScreen() {
 
   const handleStartQuest = () => {
     setIsNavigating(true);
-    router.push('/createcharacter');
+    router.push("/createcharacter");
   };
 
   const dispatch = useAppDispatch();
 
-  const handleLogin = (user: User) => {
+  const handleLoginAndLoadCharacter = (
+    user: User,
+    characterData: Character,
+    location: string,
+    characterSnapshot: CharacterStateSnapshot,
+  ) => {
+    // set authentication state in redux store
     dispatch(login(user));
+
+    // load character data and location into redux store
+    dispatch(setActiveCharacter(characterData));
+    dispatch(setCharacterLocation(location));
+    dispatch(setCharacterSnapshot(characterSnapshot));
+
+    // after succesful authentication, and character load navigate to homescreen
+    router.push("/homescreen");
   };
 
   return (
     <div className="relative flex p-8 justify-center items-center min-h-screen bg-[url('/background_images/avatars_townScene2.png')] bg-cover bg-center bg-no-repeat">
-      <div className='absolute top-1 right-1'>
-        <InformationIcon pageKey='splash' />
+      <div className="absolute top-1 right-1">
+        <InformationIcon pageKey="splash" />
       </div>
-      <div className='flex flex-col items-center'>
-        <div className='logo-container max-w-[600px] w-full flex justify-center'>
+      <div className="flex flex-col items-center">
+        <div className="logo-container max-w-[600px] w-full flex justify-center">
           <figure>
             <Image
-              alt='Isekai Quest Logo'
-              aria-label='Isekai Quest Logo'
-              src='/logos/SplashLogo_ShortSword.png'
+              alt="Isekai Quest Logo"
+              aria-label="Isekai Quest Logo"
+              src="/logos/SplashLogo_ShortSword.png"
               width={600}
               height={400}
-              className='w-full h-auto'
+              className="w-full h-auto"
             />
           </figure>
         </div>
 
         <section
-          aria-label='Quest Actions'
-          className='w-full max-w-[600px] flex flex-col sm:flex-row justify-around items-center gap-4'
+          aria-label="Quest Actions"
+          className="w-full max-w-[600px] flex flex-col sm:flex-row justify-around items-center gap-4"
         >
           <button
-            aria-label='Continue Quest Button'
-            className='rounded-full text-center text-2xl text-white p-4 hover:cursor-pointer w-full sm:w-auto flex-1 bg-[#8E9CC9] hover:bg-[#7A8FB6] transition-colors duration-300e'
+            aria-label="Continue Quest Button"
+            className="rounded-full text-center text-2xl text-white p-4 hover:cursor-pointer w-full sm:w-auto flex-1 bg-[#8E9CC9] hover:bg-[#7A8FB6] transition-colors duration-300e"
             onClick={handleContinueQuest}
           >
             Continue Quest
           </button>
           <button
-            aria-label='Start Quest Button'
+            aria-label="Start Quest Button"
             className={`rounded-full text-2xl text-white p-4 hover:cursor-pointer
               w-full sm:w-auto flex-1 bg-[#8E9CC9] hover:bg-[#7A8FB6]
               transition-colors duration-300 disabled:opacity-70
@@ -73,7 +93,7 @@ export default function SplashScreen() {
             disabled={isNavigating}
             onClick={handleStartQuest}
           >
-            <div className='flex items-center justify-center gap-2'>
+            <div className="flex items-center justify-center gap-2">
               Start Quest
               {isNavigating && <LoadingSpinner />}
             </div>
@@ -84,7 +104,7 @@ export default function SplashScreen() {
       <LoginModal
         isOpen={isLoginModalOpen}
         closeModal={setIsLoginModalOpen}
-        handleLogin={handleLogin}
+        handleLoginAndLoadCharacter={handleLoginAndLoadCharacter}
       />
     </div>
   );

@@ -1,12 +1,13 @@
-import { BattleOption } from './battle';
+import { BattleOption } from "./battle";
+import { ProgressionData } from "./progression";
 
 export type characterClass =
-  | 'paladin'
-  | 'elf'
-  | 'halfling'
-  | 'barbarian'
-  | 'necromancer'
-  | 'dwarf';
+  | "paladin"
+  | "elf"
+  | "halfling"
+  | "barbarian"
+  | "necromancer"
+  | "dwarf";
 
 export interface Character {
   id: string;
@@ -22,6 +23,11 @@ export interface Character {
   partyMembers?: Character[];
   equippedWeapon?: Weapon;
   equippedArmor?: Equipment;
+}
+
+export interface CharacterStateSnapshot {
+  characterData: Character;
+  progressionData: ProgressionData;
 }
 
 // Characters will have an inventory of items, coins, and equipment
@@ -42,12 +48,12 @@ export interface Coins {
 }
 
 export type InventoryItemType =
-  | 'weapon'
-  | 'equipment'
-  | 'potion'
-  | 'ration'
-  | 'coin'
-  | 'battleOption';
+  | "weapon"
+  | "equipment"
+  | "potion"
+  | "ration"
+  | "coin"
+  | "battleOption";
 
 export interface EffectfulItem {
   effect: {

@@ -1,16 +1,23 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
-import { useAppDispatch } from '@/lib/reduxHooks';
+import { useAppDispatch } from "@/lib/reduxHooks";
 
-import { login, User } from '../../../lib/features/auth/AuthSlice';
+import { login, User } from "../../../lib/features/auth/AuthSlice";
 
-import Image from 'next/image';
+import Image from "next/image";
 
-import RegistrationModal from '../../ui/RegistrationModal/RegistrationModal';
+import RegistrationModal from "../../ui/RegistrationModal/RegistrationModal";
 
-import avatarImages from '../../../data/screenOptions/avatarOptions';
+import avatarImages from "../../../data/screenOptions/avatarOptions";
+import {
+  setActiveCharacter,
+  setCharacterLocation,
+  setCharacterSnapshot,
+} from "@/lib/features/character/CharacterSlice";
+import { Character, CharacterStateSnapshot } from "@/types/character";
+import { useRouter } from "next/navigation";
 
 export type AvatarOption = {
   id: number;
@@ -32,9 +39,28 @@ export default function CreateCharacterScreen() {
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
-  const handleLogin = (user: User) => {
+  const handleCharcaterCreationAndLogin = (
+    user: User,
+    characterData: Character,
+    location: string,
+    characterSnapshot: CharacterStateSnapshot,
+  ) => {
+    // set user credentials in authSlice
     dispatch(login(user));
+
+    // set active character
+    dispatch(setActiveCharacter(characterData));
+
+    // set character location to starting town
+    dispatch(setCharacterLocation(location));
+
+    // set character snapshot
+    dispatch(setCharacterSnapshot(characterSnapshot));
+
+    // navigate to homescreen after successful login
+    router.push("/homescreen");
   };
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -42,20 +68,20 @@ export default function CreateCharacterScreen() {
   const [avatarOptions] = useState<AvatarOption[]>(avatarImages);
 
   const [selectedAvatar, setSelectedAvatar] = useState<AvatarOption | null>(
-    null
+    null,
   );
 
   const [newPlayerData, setNewPlayerData] = useState<NewPlayerData>({
-    avatar: '',
-    characterName: '',
-    characterClass: '',
-    userName: '',
-    password: '',
+    avatar: "",
+    characterName: "",
+    characterClass: "",
+    userName: "",
+    password: "",
   });
 
-  const [characterNameError, setCharacterNameError] = useState('');
-  const [usernameError, setUsernameError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const [characterNameError, setCharacterNameError] = useState("");
+  const [usernameError, setUsernameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const [touched, setTouched] = useState({
     characterName: false,
     username: false,
@@ -71,44 +97,44 @@ export default function CreateCharacterScreen() {
     newPlayerData.password;
 
   const validateCharacterName = (): void => {
-    if (newPlayerData.characterName.trim() === '') {
-      setCharacterNameError('Character name is required');
+    if (newPlayerData.characterName.trim() === "") {
+      setCharacterNameError("Character name is required");
     } else {
-      setCharacterNameError('');
+      setCharacterNameError("");
     }
   };
 
   const validateUsername = (): void => {
-    if (newPlayerData.userName.trim() === '') {
-      setUsernameError('Username is required');
+    if (newPlayerData.userName.trim() === "") {
+      setUsernameError("Username is required");
     } else if (!emailPattern.test(newPlayerData.userName)) {
-      setUsernameError('Username should be an email@address.com format');
+      setUsernameError("Username should be an email@address.com format");
     } else {
-      setUsernameError('');
+      setUsernameError("");
     }
   };
 
   const validatePassword = (): void => {
-    if (newPlayerData.password?.trim() === '') {
-      setPasswordError('Password is required');
+    if (newPlayerData.password?.trim() === "") {
+      setPasswordError("Password is required");
     } else if (newPlayerData.password?.length <= 6) {
-      setPasswordError('Password must be at least 7 characters long');
+      setPasswordError("Password must be at least 7 characters long");
     } else {
-      setPasswordError('');
+      setPasswordError("");
     }
   };
 
-  const handleBlur = (field: 'characterName' | 'username' | 'password') => {
+  const handleBlur = (field: "characterName" | "username" | "password") => {
     setTouched((prev) => ({ ...prev, [field]: true }));
-    if (field === 'characterName') {
+    if (field === "characterName") {
       validateCharacterName();
     }
 
-    if (field === 'username') {
+    if (field === "username") {
       validateUsername();
     }
 
-    if (field === 'password') {
+    if (field === "password") {
       validatePassword();
     }
   };
@@ -135,15 +161,15 @@ export default function CreateCharacterScreen() {
     <div
       className='flex flex-col items-center justify-center p-8 min-h-screen bg-[url("/background_images/town_background2.png")] bg-cover bg-no-repeat bg-center'
       style={{
-        backgroundColor: '#d9d9d9',
+        backgroundColor: "#d9d9d9",
       }}
     >
-      <div className='flex flex-col items-center'>
+      <div className="flex flex-col items-center">
         <header
           className='text-center text-4xl text-white font-bold p-3.5 bg-[url("/background_images/parchment_paper.png")] bg-cover bg-no-repeat bg-center'
           style={{
-            maxWidth: '600px',
-            width: '100%',
+            maxWidth: "600px",
+            width: "100%",
           }}
         >
           Choose Your Avatar
@@ -151,33 +177,33 @@ export default function CreateCharacterScreen() {
         <div
           className='mt-4 bg-[url("/background_images/parchment_paper.png")] bg-cover bg-no-repeat bg-center'
           style={{
-            maxWidth: '600px',
-            minHeight: 'fit-content',
-            width: '100%',
+            maxWidth: "600px",
+            minHeight: "fit-content",
+            width: "100%",
           }}
         >
-          <div className='avatar-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4'>
+          <div className="avatar-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
             {avatarOptions.map((avatar) => (
               <button
                 onClick={() => handleAvatarSelect(avatar.src)}
                 key={avatar.id}
-                className='flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-200'
+                className="flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-200"
               >
                 <Image
                   key={avatar.id}
-                  className='flex items-center justify-center'
+                  className="flex items-center justify-center"
                   style={{
                     border:
                       selectedAvatar?.src === avatar.src
-                        ? '3px solid #FCE300'
-                        : 'none',
+                        ? "3px solid #FCE300"
+                        : "none",
                   }}
                   alt={avatar.alt}
                   src={avatar.src}
                   width={200}
                   height={200}
                 />
-                <span className='text-center text-sm text-white font-bold mt-2'>
+                <span className="text-center text-sm text-white font-bold mt-2">
                   {avatar.type}
                 </span>
               </button>
@@ -187,34 +213,34 @@ export default function CreateCharacterScreen() {
         <div
           className='mt-4 text-white bg-[url("/background_images/parchment_paper.png")] bg-cover bg-no-repeat bg-center'
           style={{
-            maxWidth: '600px',
-            minHeight: 'fit-content',
-            width: '100%',
+            maxWidth: "600px",
+            minHeight: "fit-content",
+            width: "100%",
           }}
         >
-          <div className='character-grid p-4 flex flex-col md:flex-row md:space-x-6'>
-            <figure className='character-image w-full md:w-1/3 flex items-center justify-center md:h-auto'>
+          <div className="character-grid p-4 flex flex-col md:flex-row md:space-x-6">
+            <figure className="character-image w-full md:w-1/3 flex items-center justify-center md:h-auto">
               <Image
-                alt={selectedAvatar ? selectedAvatar.alt : 'Default Avatar'}
+                alt={selectedAvatar ? selectedAvatar.alt : "Default Avatar"}
                 src={
                   selectedAvatar
                     ? selectedAvatar.src
-                    : '/character_avatars/default_avatar.png'
+                    : "/character_avatars/default_avatar.png"
                 }
                 width={300}
                 height={300}
               />
             </figure>
-            <div className='character-data w-full md:w-2/3'>
-              <div className='mb-4'>
-                <label className='block text-sm font-bold mb-2'>
+            <div className="character-data w-full md:w-2/3">
+              <div className="mb-4">
+                <label className="block text-sm font-bold mb-2">
                   Character Name
                 </label>
                 <input
-                  className='bg-white shadow appearance-none rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
-                  id='character-name'
-                  type='text'
-                  placeholder='Character Name'
+                  className="bg-white shadow appearance-none rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
+                  id="character-name"
+                  type="text"
+                  placeholder="Character Name"
                   value={newPlayerData.characterName}
                   onChange={(e) =>
                     setNewPlayerData({
@@ -222,7 +248,7 @@ export default function CreateCharacterScreen() {
                       characterName: e.target.value,
                     })
                   }
-                  onBlur={() => handleBlur('characterName')}
+                  onBlur={() => handleBlur("characterName")}
                   onFocus={() =>
                     setTouched((prev) => ({
                       ...prev,
@@ -231,21 +257,21 @@ export default function CreateCharacterScreen() {
                   }
                 />
                 {touched.characterName && characterNameError && (
-                  <p className='text-red-800 font-bold text-sm mt-1'>
+                  <p className="text-red-800 font-bold text-sm mt-1">
                     {characterNameError}
                   </p>
                 )}
               </div>
 
-              <div className='mb-4'>
-                <label className='block text-sm font-bold mb-2'>
+              <div className="mb-4">
+                <label className="block text-sm font-bold mb-2">
                   User Name
                 </label>
                 <input
-                  className='bg-white shadow appearance-none rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
-                  id='username'
-                  type='email'
-                  placeholder='User Name'
+                  className="bg-white shadow appearance-none rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
+                  id="username"
+                  type="email"
+                  placeholder="User Name"
                   value={newPlayerData.userName}
                   onChange={(e) =>
                     setNewPlayerData({
@@ -253,25 +279,25 @@ export default function CreateCharacterScreen() {
                       userName: e.target.value,
                     })
                   }
-                  onBlur={() => handleBlur('username')}
+                  onBlur={() => handleBlur("username")}
                   onFocus={() =>
                     setTouched((prev) => ({ ...prev, username: true }))
                   }
                 />
                 {touched.username && usernameError && (
-                  <p className='text-red-800 font-bold text-sm mt-1'>
+                  <p className="text-red-800 font-bold text-sm mt-1">
                     {usernameError}
                   </p>
                 )}
               </div>
 
-              <div className='mb-4'>
-                <label className='block text-sm font-bold mb-2'>Password</label>
+              <div className="mb-4">
+                <label className="block text-sm font-bold mb-2">Password</label>
                 <input
-                  className='bg-white shadow appearance-none rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
-                  id='password'
-                  type='password'
-                  placeholder='Password'
+                  className="bg-white shadow appearance-none rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
+                  id="password"
+                  type="password"
+                  placeholder="Password"
                   value={newPlayerData.password}
                   onChange={(e) =>
                     setNewPlayerData({
@@ -279,7 +305,7 @@ export default function CreateCharacterScreen() {
                       password: e.target.value,
                     })
                   }
-                  onBlur={() => handleBlur('password')}
+                  onBlur={() => handleBlur("password")}
                   onFocus={() =>
                     setTouched((prev) => ({
                       ...prev,
@@ -288,7 +314,7 @@ export default function CreateCharacterScreen() {
                   }
                 />
                 {touched.password && passwordError && (
-                  <p className='text-red-800 font-bold text-sm mt-1'>
+                  <p className="text-red-800 font-bold text-sm mt-1">
                     {passwordError}
                   </p>
                 )}
@@ -296,12 +322,12 @@ export default function CreateCharacterScreen() {
             </div>
           </div>
         </div>
-        <div className='flex flex-col sm:flex-row justify-around w-full mt-3 bg-transparent'>
+        <div className="flex flex-col sm:flex-row justify-around w-full mt-3 bg-transparent">
           <button
-            className='rounded-full text-center text-2xl text-white p-4 m-1 hover:cursor-pointer disabled:cursor-not-allowed'
+            className="rounded-full text-center text-2xl text-white p-4 m-1 hover:cursor-pointer disabled:cursor-not-allowed"
             disabled={!valuesAreValid}
             style={{
-              backgroundColor: !valuesAreValid ? '#9CA3AF' : '#8E9CC9',
+              backgroundColor: !valuesAreValid ? "#9CA3AF" : "#8E9CC9",
               flex: 1,
               flexBasis: 0,
             }}
@@ -315,7 +341,7 @@ export default function CreateCharacterScreen() {
         isOpen={isLoginModalOpen}
         playerData={newPlayerData ?? undefined}
         closeModal={setIsLoginModalOpen}
-        handleLogin={handleLogin}
+        handleCharcaterCreationAndLogin={handleCharcaterCreationAndLogin}
       />
     </div>
   );

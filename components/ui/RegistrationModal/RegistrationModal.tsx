@@ -2,17 +2,10 @@
 
 import { Dispatch, SetStateAction, useState } from "react";
 
-import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
-
 import Image from "next/image";
 
 import { NewPlayerData } from "../../screens/CreateCharacterScreen/CreateCharacterScreen";
-import {
-  setActiveCharacter,
-  setCharacterLocation,
-  setCharacterSnapshot,
-} from "@/lib/features/character/CharacterSlice";
+
 
 import {
   Dialog,
@@ -22,7 +15,11 @@ import {
 } from "@headlessui/react";
 import { User } from "@/lib/features/auth/AuthSlice";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
-import { characterClass } from "@/types/character";
+import {
+  Character,
+  characterClass,
+  CharacterStateSnapshot,
+} from "@/types/character";
 import { CreateAccountInput } from "@/types/persistence";
 import { createAccountLocalStorage } from "@/lib/persistence/localPersistence";
 
@@ -30,17 +27,22 @@ interface RegistrationModalProps {
   isOpen: boolean;
   playerData?: NewPlayerData;
   closeModal: Dispatch<SetStateAction<boolean>>;
-  handleLogin: (user: User) => void;
+  // handleLogin: (user: User) => void;
+  handleCharcaterCreationAndLogin: (
+    user: User,
+    characterData: Character,
+    location: string,
+    characterSnapshot: CharacterStateSnapshot,
+  ) => void;
 }
 
 export default function RegistrationModal({
   isOpen,
   playerData,
   closeModal,
-  handleLogin,
+  // handleLogin,
+  handleCharcaterCreationAndLogin,
 }: RegistrationModalProps) {
-  const router = useRouter();
-  const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -77,35 +79,37 @@ export default function RegistrationModal({
         response.data.player &&
         response.data.characterData
       ) {
+        // destructure response data
+        const { account, player, characterData, progressionData } = response.data;
+        
+        // construct user object for authentication state in redux store
         const user: User = {
-          accountId: response.data.account.id,
-          email: response.data.account.email,
-          playerId: response.data.player.id,
-          characters: [response.data.characterData],
+          accountId: account.id,
+          email: account.email,
+          playerId: player.id,
+          characters: [characterData],
         };
 
-        // dispatch login
-        handleLogin(user);
 
-        // set active character
-        dispatch(setActiveCharacter(response.data.characterData));
-
-        // set character location to starting town
-        dispatch(setCharacterLocation("StartsVille"));
-
-        // set snapshot of default character state
+        //construct character snapshot for saving game porgression in redux store
         const characterSnapshot = {
-          characterData: response.data.characterData,
-          progressionData: response.data.progressionData,
+          characterData: characterData,
+          progressionData: progressionData,
         };
 
-        dispatch(setCharacterSnapshot(characterSnapshot));
+        // new characters always start in the same location for now
+        const characterLocation = "StartsVille";
+
+        // call the character creation and login handler
+        handleCharcaterCreationAndLogin(
+          user,
+          response.data.characterData,
+          characterLocation,
+          characterSnapshot,
+        );
 
         // stop loading BEFORE navigation
         setIsLoading(false);
-
-        // route to /homescreen
-        router.push("/homescreen");
 
         // close modal
         setOpen();

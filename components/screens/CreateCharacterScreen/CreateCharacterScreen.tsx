@@ -341,7 +341,6 @@ export default function CreateCharacterScreen() {
         isOpen={isLoginModalOpen}
         playerData={newPlayerData ?? undefined}
         closeModal={setIsLoginModalOpen}
-        // handleLogin={handleLogin}
         handleCharcaterCreationAndLogin={handleCharcaterCreationAndLogin}
       />
     </div>

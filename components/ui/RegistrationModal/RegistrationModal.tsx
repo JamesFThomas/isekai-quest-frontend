@@ -40,7 +40,6 @@ export default function RegistrationModal({
   isOpen,
   playerData,
   closeModal,
-  // handleLogin,
   handleCharcaterCreationAndLogin,
 }: RegistrationModalProps) {
 

@@ -39,6 +39,7 @@ export interface CharacterSaveRecord {
 */
 export interface SessionRefreshData {
   accountId: string;
+  email: string; // Optional email field for potential future use, not strictly needed for rehydration
   playerId: string;
   characterSnapshot: CharacterStateSnapshot;
 }

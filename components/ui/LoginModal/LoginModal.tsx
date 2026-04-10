@@ -174,6 +174,7 @@ export default function LoginModal({
         // Create the session refresh data object to be saved in local storage for session persistence on refresh
         const sessionRefreshData: SessionRefreshData = {
           accountId: account.id,
+          email: account.email,
           playerId: player.id,
           characterSnapshot: characterSnapshot,
         };

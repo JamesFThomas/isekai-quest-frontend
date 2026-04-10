@@ -39,7 +39,8 @@ export const RefreshDataProvider = ({ children }: RefreshDataProviderProps) => {
 
     // Step 3: Extract the stored session refresh object
     const { refreshSessionData } = refreshResponse.data;
-    const { accountId, playerId, characterSnapshot } = refreshSessionData;
+    const { accountId, email, playerId, characterSnapshot } =
+      refreshSessionData;
 
     // Step 4: Extract character and progression data from the stored snapshot
     const { characterData, progressionData } = characterSnapshot;
@@ -56,7 +57,7 @@ export const RefreshDataProvider = ({ children }: RefreshDataProviderProps) => {
     const user: User = {
       accountId,
       playerId,
-      email: "",
+      email: email,
       characters: [characterData],
     };
 

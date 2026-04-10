@@ -78,6 +78,7 @@ export const SaveProgressButton = () => {
       // Step 7: Create session refresh object for rehydration on app reload
       const sessionRefreshData: SessionRefreshData = {
         accountId: user.accountId,
+        email: user.email,
         playerId: user.playerId,
         characterSnapshot: updatedCharacterSnapshot,
       };

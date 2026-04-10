@@ -6,7 +6,7 @@ import Image from "next/image";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import { logout } from "@/lib/features/auth/AuthSlice";
 import { useAppDispatch } from "@/lib/reduxHooks";
-import router from "next/router";
+import { useRouter } from "next/navigation";
 import { clearSessionRefreshData } from "@/lib/persistence/localPersistence";
 import { resetQuestState } from "@/lib/features/quest/QuestSlice";
 import { resetCharacterState } from "@/lib/features/character/CharacterSlice";
@@ -15,6 +15,7 @@ export default function LogoutButton() {
   const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const handleLogout = () => {
     setIsLoading(true);

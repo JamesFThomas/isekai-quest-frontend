@@ -18,6 +18,9 @@ export interface PlayerRecord {
 export interface ProgressionData {
   completedQuestIds: string[];
   currentTown: string;
+  acceptedQuestId: string | null;
+  currentStoryPointId: string | null;
+  lastEndedQuestId: string | null;
 }
 
 export interface CharacterSaveRecord {
@@ -30,13 +33,22 @@ export interface CharacterSaveRecord {
   updated_at: string;
 }
 
+/*
+  define a dedicated persisted session object shape that wraps the full refresh data you want to restore, 
+  using your updated ProgressionData plus the auth user, character data, location, and snapshot.
+*/
+export interface SessionRefreshData {
+  accountId: string;
+  email: string; // Optional email field for potential future use, not strictly needed for rehydration
+  playerId: string;
+  characterSnapshot: CharacterStateSnapshot;
+}
+
 export interface LoginCredentials {
   email: string;
   password: string;
 }
 
-// update to include create character data
-// characterName, avatar, and characterClass
 export interface CreateAccountInput {
   email: string;
   password: string;
@@ -63,6 +75,7 @@ export interface PersistenceResponseData {
   schemaVersion?: string;
   gameVersionLastPlayed?: string;
   updatedAt?: string;
+  refreshSessionData?: SessionRefreshData;
 }
 
 export interface PersistenceResponse {

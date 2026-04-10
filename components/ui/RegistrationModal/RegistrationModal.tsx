@@ -6,7 +6,6 @@ import Image from "next/image";
 
 import { NewPlayerData } from "../../screens/CreateCharacterScreen/CreateCharacterScreen";
 
-
 import {
   Dialog,
   DialogBackdrop,
@@ -20,14 +19,16 @@ import {
   characterClass,
   CharacterStateSnapshot,
 } from "@/types/character";
-import { CreateAccountInput } from "@/types/persistence";
-import { createAccountLocalStorage } from "@/lib/persistence/localPersistence";
+import { CreateAccountInput, SessionRefreshData } from "@/types/persistence";
+import {
+  createAccountLocalStorage,
+  saveSessionRefreshData,
+} from "@/lib/persistence/localPersistence";
 
 interface RegistrationModalProps {
   isOpen: boolean;
   playerData?: NewPlayerData;
   closeModal: Dispatch<SetStateAction<boolean>>;
-  // handleLogin: (user: User) => void;
   handleCharcaterCreationAndLogin: (
     user: User,
     characterData: Character,
@@ -42,7 +43,6 @@ export default function RegistrationModal({
   closeModal,
   handleCharcaterCreationAndLogin,
 }: RegistrationModalProps) {
-
   const [isLoading, setIsLoading] = useState(false);
 
   const setOpen = () => {
@@ -79,8 +79,9 @@ export default function RegistrationModal({
         response.data.characterData
       ) {
         // destructure response data
-        const { account, player, characterData, progressionData } = response.data;
-        
+        const { account, player, characterData, progressionData } =
+          response.data;
+
         // construct user object for authentication state in redux store
         const user: User = {
           accountId: account.id,
@@ -88,7 +89,6 @@ export default function RegistrationModal({
           playerId: player.id,
           characters: [characterData],
         };
-
 
         //construct character snapshot for saving game porgression in redux store
         const characterSnapshot = {
@@ -98,6 +98,28 @@ export default function RegistrationModal({
 
         // new characters always start in the same location for now
         const characterLocation = "StartsVille";
+
+        // Create the session refresh data object to be saved in local storage for session persistence on refresh
+        const sessionRefreshData: SessionRefreshData = {
+          accountId: account.id,
+          email: account.email,
+          playerId: player.id,
+          characterSnapshot: characterSnapshot,
+        };
+
+        // Save the session refresh data to local storage
+        const refreshData = await saveSessionRefreshData(sessionRefreshData);
+
+        if (!refreshData.success) {
+          console.error(
+            "Failed to save session refresh data:",
+            refreshData.message,
+          );
+          // We can choose to continue even if saving session data fails, or handle it as needed
+        }
+
+        // log that refresh data was saved successfully
+        console.log("Session refresh data saved successfully.");
 
         // call the character creation and login handler
         handleCharcaterCreationAndLogin(

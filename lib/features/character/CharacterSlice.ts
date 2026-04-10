@@ -351,6 +351,13 @@ export const characterSlice = createSlice({
         ),
       };
     },
+    resetCharacterState: (state) => {
+      state.ActiveCharacter = null;
+      state.characterLocation = null;
+      state.party = [];
+      state.completedQuestIds = [];
+      state.characterSnapshot = null;
+    },
   },
 });
 
@@ -365,6 +372,7 @@ export const {
   subtractItemPriceFromCharacterCoins,
   updateCharacterCoins,
   updateCharacterHealthAndMagic,
+  resetCharacterState,
   // Will use later when implementing party screen
   addCharacterToParty,
   removeCharacterFromParty,

@@ -10,16 +10,19 @@ import {
   PlayerRecord,
   ProgressionData,
   SavePlayerProgressInput,
+  SessionRefreshData,
 } from "@/types/persistence";
 
 const ACCOUNTS_KEY = "isekaiQuest_accounts" as const;
 const PLAYERS_KEY = "isekaiQuest_players" as const;
 const CHARACTER_SAVES_KEY = "isekaiQuest_character_saves" as const;
+const SESSION_REFRESH_KEY = "isekaiQuest_session_data" as const;
 
 type PersistenceKey =
   | typeof ACCOUNTS_KEY
   | typeof PLAYERS_KEY
-  | typeof CHARACTER_SAVES_KEY;
+  | typeof CHARACTER_SAVES_KEY
+  | typeof SESSION_REFRESH_KEY;
 
 // Get data from local storage by key
 export const getLocalStorageDataByKey = <T>(key: PersistenceKey): T[] => {
@@ -35,10 +38,28 @@ export const getLocalStorageDataByKey = <T>(key: PersistenceKey): T[] => {
   }
 };
 
-// Save data to local stroage by key
-export const writeLocalStorageDataByKey = <T>(
+// Save data to local stroage by key as a collection (array of records)
+export const writeLocalStorageDataCollectionByKey = <T>(
   key: PersistenceKey,
   data: T[],
+): boolean => {
+  try {
+    const serializedData = JSON.stringify(data);
+    localStorage.setItem(key, serializedData);
+
+    const storedData = localStorage.getItem(key);
+
+    return storedData !== null;
+  } catch (error) {
+    console.error(`Error writing localStorage data for key: ${key}`, error);
+    return false;
+  }
+};
+
+// save data to local storage by kay as a single object (not a collection)
+export const writeLocalStorageDataObjectByKey = <T>(
+  key: PersistenceKey,
+  data: T,
 ): boolean => {
   try {
     const serializedData = JSON.stringify(data);
@@ -141,6 +162,9 @@ export const createAccountLocalStorage = async (
     const initialProgressionData: ProgressionData = {
       completedQuestIds: [],
       currentTown: "StartsVille",
+      acceptedQuestId: null,
+      currentStoryPointId: null,
+      lastEndedQuestId: null,
     };
 
     // Step 6: Create the initial character save record
@@ -184,18 +208,17 @@ export const createAccountLocalStorage = async (
     characterSaves.push(newCharacterSave);
 
     // Step 8: Persist all collections back to localStorage
-    const accountWriteSuccess = writeLocalStorageDataByKey<AccountRecord>(
-      ACCOUNTS_KEY,
-      accounts,
-    );
+    const accountWriteSuccess =
+      writeLocalStorageDataCollectionByKey<AccountRecord>(
+        ACCOUNTS_KEY,
+        accounts,
+      );
 
-    const playerWriteSuccess = writeLocalStorageDataByKey<PlayerRecord>(
-      PLAYERS_KEY,
-      players,
-    );
+    const playerWriteSuccess =
+      writeLocalStorageDataCollectionByKey<PlayerRecord>(PLAYERS_KEY, players);
 
     const characterSaveWriteSuccess =
-      writeLocalStorageDataByKey<CharacterSaveRecord>(
+      writeLocalStorageDataCollectionByKey<CharacterSaveRecord>(
         CHARACTER_SAVES_KEY,
         characterSaves,
       );
@@ -287,7 +310,7 @@ export const authenticateAccountLocalStorage = async (
     );
 
     // Step 8: Log a warning if the write operation fails, but still return success since authentication was successful
-    const writeSuccess = writeLocalStorageDataByKey<AccountRecord>(
+    const writeSuccess = writeLocalStorageDataCollectionByKey<AccountRecord>(
       ACCOUNTS_KEY,
       updatedAccounts,
     );
@@ -415,10 +438,11 @@ export const savePlayerProgressLocalStorage = async (
 
     // Step 5: Persist the updated character saves collection
     characterSaves[characterSaveIndex] = updatedSave;
-    const writeSuccess = writeLocalStorageDataByKey<CharacterSaveRecord>(
-      CHARACTER_SAVES_KEY,
-      characterSaves,
-    );
+    const writeSuccess =
+      writeLocalStorageDataCollectionByKey<CharacterSaveRecord>(
+        CHARACTER_SAVES_KEY,
+        characterSaves,
+      );
 
     // Step 6: Return failure if the write operation fails
     if (!writeSuccess) {
@@ -449,6 +473,84 @@ export const savePlayerProgressLocalStorage = async (
       success: false,
       message:
         "There was an error saving the player progress. Please try again.",
+      data: {},
+    };
+  }
+};
+
+// Save session refresh data to local storage (for restoring session on app reload)
+export const saveSessionRefreshData = async (
+  input: SessionRefreshData,
+): Promise<PersistenceResponse> => {
+  try {
+    // Step 1: Save the session refresh data object to localStorage
+    const writeSuccess = writeLocalStorageDataObjectByKey<SessionRefreshData>(
+      SESSION_REFRESH_KEY,
+      input,
+    );
+
+    // Step 2: Return failure if the write operation fails
+    if (!writeSuccess) {
+      return {
+        success: false,
+        message: "There was a problem saving the session refresh data.",
+        data: {},
+      };
+    }
+
+    // Step 3: Return the successful persistence response
+    return {
+      success: true,
+      message: "Session refresh data saved successfully.",
+      data: {},
+    };
+  } catch (error) {
+    console.error("Error saving session refresh data to localStorage:", error);
+
+    // Step 4: Return a generic error response if any unexpected issues occur during saving
+    return {
+      success: false,
+      message:
+        "There was an error saving the session refresh data. Please try again.",
+      data: {},
+    };
+  }
+};
+
+// Load session refresh data from local storage
+export const loadSessionRefreshData = (): PersistenceResponse => {
+  try {
+    // Step 1: Read the session refresh data object from localStorage
+    const storedData = localStorage.getItem(SESSION_REFRESH_KEY);
+
+    // Step 2: If no data is found, return an error response
+    if (!storedData) {
+      return {
+        success: false,
+        message: "No session refresh data found.",
+        data: {},
+      };
+    }
+
+    // Step 3: Parse the stored JSON data into the SessionRefreshData type
+    const parsedData = JSON.parse(storedData) as SessionRefreshData;
+
+    // Step 4: Return the successful persistence response with the loaded session refresh data
+    return {
+      success: true,
+      message: "Session refresh data loaded successfully.",
+      data: { refreshSessionData: parsedData },
+    };
+  } catch (error) {
+    console.error(
+      "Error loading session refresh data from localStorage:",
+      error,
+    );
+
+    // Step 5: Return a generic error response if any unexpected issues occur during loading
+    return {
+      success: false,
+      message: "No session refresh data found.",
       data: {},
     };
   }

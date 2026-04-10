@@ -16,9 +16,11 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import {
   authenticateAccountLocalStorage,
   loadPlayerSaveDataLocalStorage,
+  saveSessionRefreshData,
 } from "@/lib/persistence/localPersistence";
 
 import { Character, CharacterStateSnapshot } from "@/types/character";
+import { SessionRefreshData } from "@/types/persistence";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -163,10 +165,32 @@ export default function LoginModal({
           characters: [characterData],
         };
 
+        // construct character snapshot for saving game progression in redux store
         const characterSnapshot: CharacterStateSnapshot = {
           characterData,
           progressionData,
         };
+
+        // Create the session refresh data object to be saved in local storage for session persistence on refresh
+        const sessionRefreshData: SessionRefreshData = {
+          accountId: account.id,
+          playerId: player.id,
+          characterSnapshot: characterSnapshot,
+        };
+
+        // Save the session refresh data to local storage
+        const refreshData = await saveSessionRefreshData(sessionRefreshData);
+
+        // log error if saving session refresh data fails, but continue with login flow since authentication and character load were successful
+        if (!refreshData.success) {
+          console.error(
+            "Failed to save session refresh data:",
+            refreshData.message,
+          );
+        }
+
+        // log that refresh data was saved successfully
+        console.log("Session refresh data saved successfully.");
 
         // call the handleLoginAndLoadCharacter function with the loaded character data and location, only if characterData exists
         handleLoginAndLoadCharacter(

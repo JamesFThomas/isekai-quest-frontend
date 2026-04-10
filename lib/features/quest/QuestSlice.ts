@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
-import type { RootState } from '../../store';
-import { QuestStory, QuestStoryId, StoryPointId } from '@/types/quest';
+import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import type { RootState } from "../../store";
+import { QuestStory, QuestStoryId, StoryPointId } from "@/types/quest";
 
 interface QuestState {
   acceptedQuest: QuestStory | null;
@@ -16,7 +16,7 @@ const initialState: QuestState = {
 };
 
 export const questSlice = createSlice({
-  name: 'quest',
+  name: "quest",
   initialState,
   reducers: {
     setAcceptedQuest: (state, action: PayloadAction<QuestStory | null>) => {
@@ -88,5 +88,7 @@ export const selectCurrentStoryPoint = (state: RootState) => {
 
 export const selectLastEndedQuestId = (state: RootState) =>
   state.quest.lastEndedQuestId;
+
+export const selectQuestState = (state: RootState) => state.quest;
 
 export default questSlice.reducer;

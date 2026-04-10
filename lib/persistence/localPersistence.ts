@@ -38,6 +38,17 @@ export const getLocalStorageDataByKey = <T>(key: PersistenceKey): T[] => {
   }
 };
 
+// Remove data from local storage by key
+export const removeLocalStorageDataByKey = (key: PersistenceKey): boolean => {
+  try {
+    localStorage.removeItem(key);
+    return true;
+  } catch (error) {
+    console.error(`Error removing localStorage data for key: ${key}`, error);
+    return false;
+  }
+};
+
 // Save data to local stroage by key as a collection (array of records)
 export const writeLocalStorageDataCollectionByKey = <T>(
   key: PersistenceKey,
@@ -551,6 +562,39 @@ export const loadSessionRefreshData = (): PersistenceResponse => {
     return {
       success: false,
       message: "No session refresh data found.",
+      data: {},
+    };
+  }
+};
+
+// Remove session refresh data from local storage (e.g. on logout)
+export const clearSessionRefreshData = (): PersistenceResponse => {
+  try {
+    // Step 1: Remove the session refresh data from localStorage
+    const removeSuccess = removeLocalStorageDataByKey(SESSION_REFRESH_KEY);
+    // Step 2: Return failure if the remove operation fails
+    if (!removeSuccess) {
+      return {
+        success: false,
+        message: "There was a problem clearing the session refresh data.",
+        data: {},
+      };
+    }
+
+    // Step 3: Return success if the remove operation succeeds
+    return {
+      success: true,
+      message: "Session refresh data cleared successfully.",
+      data: {},
+    };
+  } catch (error) {
+    console.error(
+      "Error clearing session refresh data from localStorage:",
+      error,
+    );
+    return {
+      success: false,
+      message: "There was an error clearing the session refresh data.",
       data: {},
     };
   }

@@ -9,7 +9,7 @@ interface QuestState {
   lastEndedQuestId?: QuestStoryId | null; // New state to track the last ended quest ID
 }
 
-const initialState: QuestState = {
+export const initialState: QuestState = {
   acceptedQuest: null,
   currentStoryPointId: null,
   lastEndedQuestId: null,
@@ -55,6 +55,11 @@ export const questSlice = createSlice({
     ) => {
       state.lastEndedQuestId = action.payload;
     },
+    resetQuestState: (state) => {
+      state.acceptedQuest = null;
+      state.currentStoryPointId = null;
+      state.lastEndedQuestId = null;
+    },
   },
 });
 
@@ -65,6 +70,7 @@ export const {
   resetFailedQuestToFirstPoint,
   markQuestCompletedAndClearState,
   setLastEndedQuestId,
+  resetQuestState,
 } = questSlice.actions;
 
 export const selectAcceptedQuest = (state: RootState) =>

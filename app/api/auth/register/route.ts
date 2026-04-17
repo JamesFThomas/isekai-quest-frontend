@@ -60,6 +60,7 @@ export interface CreateAccountInput {
 */
 
 export async function POST(request: Request) {
+  let transaction: sql.Transaction | null = null;
   try {
     const body = await request.json();
 
@@ -86,8 +87,10 @@ export async function POST(request: Request) {
       );
     }
 
-    // Accounts lookup for duplicate account by email fail with 409 if found
+    // create db connection pool
     const pool = await getDbConnection();
+
+    // Accounts lookup for duplicate account by email fail with 409 if found
     const existingAccountResult = await pool
       .request()
       .input('email', sql.NVarChar, body.email.toLowerCase().trim())
@@ -103,6 +106,9 @@ export async function POST(request: Request) {
         { status: 409 },
       );
     }
+    // create sql transaction for account player and character save inserts
+    transaction = new sql.Transaction(pool);
+    await transaction.begin();
 
     // create account, player, and character_saves record in the database, hash the password before storing
 
@@ -110,7 +116,7 @@ export async function POST(request: Request) {
     const accountId = randomUUID();
     const normalizedEmail = body.email.toLowerCase().trim();
     const passwordHash = body.password; // TODO: hash the password before storing
-    await pool
+    await transaction
       .request()
       .input('id', sql.UniqueIdentifier, accountId)
       .input('email', sql.NVarChar(255), normalizedEmail)
@@ -120,25 +126,19 @@ export async function POST(request: Request) {
       `);
 
     // check if account record was created successfully
-    const newAccountResult = await pool
+    const newAccountResult = await transaction
       .request()
       .input('id', sql.UniqueIdentifier, accountId)
       .query('SELECT id FROM accounts WHERE id = @id');
 
     if (newAccountResult.recordset.length === 0) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: 'Failed to create account',
-          data: {},
-        },
-        { status: 500 },
-      );
+      // throw error to trigger transaction rollback
+      throw new Error('Failed to create account');
     }
 
     // create player record with accountId
     const playerId = randomUUID();
-    await pool
+    await transaction
       .request()
       .input('id', sql.UniqueIdentifier, playerId)
       .input('account_id', sql.UniqueIdentifier, accountId)
@@ -149,20 +149,14 @@ export async function POST(request: Request) {
       `);
 
     // check for player record was created successfully
-    const newPlayerResult = await pool
+    const newPlayerResult = await transaction
       .request()
       .input('id', sql.UniqueIdentifier, playerId)
       .query('SELECT id FROM players WHERE id = @id');
 
     if (newPlayerResult.recordset.length === 0) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: 'Failed to create player',
-          data: {},
-        },
-        { status: 500 },
-      );
+      // throw error to trigger transaction rollback
+      throw new Error('Failed to create player');
     }
 
     // Create the character_saves insert using the playerId, and build the initial characterData and progressionData objects
@@ -209,7 +203,7 @@ export async function POST(request: Request) {
     };
 
     // character_saves record
-    await pool
+    await transaction
       .request()
       .input('id', sql.UniqueIdentifier, newCharacterSave.id)
       .input('player_id', sql.UniqueIdentifier, playerId)
@@ -238,21 +232,18 @@ export async function POST(request: Request) {
       `);
 
     // check if character_saves record was created successfully
-    const newCharacterSaveResult = await pool
+    const newCharacterSaveResult = await transaction
       .request()
       .input('id', sql.UniqueIdentifier, newCharacterSave.id)
       .query('SELECT id FROM character_saves WHERE id = @id');
 
     if (newCharacterSaveResult.recordset.length === 0) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: 'Failed to create character save',
-          data: {},
-        },
-        { status: 500 },
-      );
+      // throw error to trigger transaction rollback
+      throw new Error('Failed to create character save');
     }
+
+    // complete the transaction
+    await transaction.commit();
 
     // return success response with account, player, and character save data (excluding password hash)
     return NextResponse.json(
@@ -269,6 +260,14 @@ export async function POST(request: Request) {
     );
   } catch (error) {
     console.error('Error in registration route:', error);
+
+    if (transaction) {
+      try {
+        await transaction.rollback();
+      } catch (rollbackError) {
+        console.error('Error rolling back transaction:', rollbackError);
+      }
+    }
 
     return NextResponse.json(
       {

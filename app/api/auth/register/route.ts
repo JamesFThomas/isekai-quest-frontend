@@ -3,61 +3,7 @@ import { NextResponse } from 'next/server';
 import { randomUUID } from 'crypto';
 import sql from 'mssql';
 import { ProgressionData } from '@/types/persistence';
-
-/*
-  ```
-CREATE TABLE accounts (
-    id UNIQUEIDENTIFIER PRIMARY KEY,
-    email NVARCHAR(255) NOT NULL UNIQUE,
-    password_hash NVARCHAR(255) NOT NULL,
-    created_at DATETIME2 NOT NULL DEFAULT SYSDATETIME(),
-    last_login_at DATETIME2 NULL
-);
-
-CREATE TABLE players (
-    id UNIQUEIDENTIFIER PRIMARY KEY,
-    account_id UNIQUEIDENTIFIER NOT NULL,
-    display_name NVARCHAR(255) NOT NULL,
-    created_at DATETIME2 NOT NULL DEFAULT SYSDATETIME(),
-
-    CONSTRAINT FK_players_accounts
-        FOREIGN KEY (account_id)
-        REFERENCES accounts(id)
-        ON DELETE CASCADE
-);
-
-CREATE TABLE character_saves (
-    id UNIQUEIDENTIFIER PRIMARY KEY,
-    player_id UNIQUEIDENTIFIER NOT NULL,
-
-    character_data NVARCHAR(MAX) NOT NULL,
-    progression_data NVARCHAR(MAX) NOT NULL,
-
-    schema_version NVARCHAR(50) NOT NULL,
-    game_version_last_played NVARCHAR(50) NOT NULL,
-
-    updated_at DATETIME2 NOT NULL DEFAULT SYSDATETIME(),
-
-    CONSTRAINT FK_character_saves_players
-        FOREIGN KEY (player_id)
-        REFERENCES players(id)
-        ON DELETE CASCADE
-);
-
-export interface CreateAccountInput {
-  email: string;
-  password: string;
-  characterName: string;
-  avatar: string;
-  characterClass: string;
-}
-
-```
-
-
-
-
-*/
+import bcrypt from 'bcryptjs';
 
 export async function POST(request: Request) {
   let transaction: sql.Transaction | null = null;
@@ -115,7 +61,13 @@ export async function POST(request: Request) {
     // create account record
     const accountId = randomUUID();
     const normalizedEmail = body.email.toLowerCase().trim();
-    const passwordHash = body.password; // TODO: hash the password before storing
+
+    // hash password with bcrypt before storing
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(body.password, salt);
+    const passwordHash = hashedPassword;
+
+    // insert account record
     await transaction
       .request()
       .input('id', sql.UniqueIdentifier, accountId)

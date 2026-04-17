@@ -5,6 +5,15 @@ import sql from 'mssql';
 import { ProgressionData } from '@/types/persistence';
 import bcrypt from 'bcryptjs';
 
+/*
+The registration route will create a new account record in the accounts table, a new player record in the players table linked to the account, and a new character save record in the character_saves table linked to the player.
+The password will be hashed before storing.
+The route will return a success response with the created account, player, and character save data (excluding password hash) if all inserts succeed, or an error response if any insert fails.
+A sql transaction will be used to ensure all inserts succeed or fail together for data integrity.
+The response data will include the new account and player records, as well as the initial character save data with the default starting character and progression state.
+This allows the frontend to immediately log in the user and load their initial game state after registration without needing an additional login request.
+The session refresh data can also be included in the response to allow for immediate session creation on the frontend using the new account and player information.
+*/
 export async function POST(request: Request) {
   let transaction: sql.Transaction | null = null;
   try {

@@ -1,4 +1,4 @@
-import { Character } from "./character";
+import { Character, CharacterStateSnapshot } from './character';
 
 export interface AccountRecord {
   id: string;

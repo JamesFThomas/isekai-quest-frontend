@@ -71,14 +71,24 @@ describe('StoryScreen', () => {
   });
 
   it('clicking a battle choice resets battle state, stores pending details, and sets active opponent', () => {
+    const mockChar = {
+      id: 'c1', name: 'Hero', hp: 50, mp: 20, avatar: '/a.png',
+      inventory: { attacks: [], skills: [], potions: [], rations: [], weapons: [], equipment: [], questItems: [], coins: { gold: 0, silver: 0, copper: 0 } },
+    };
     const { store } = renderWithStore(<StoryScreen />, {
       ...preloadedState,
-      battle: { result: 'win', phase: null, round: null, battleLog: [], activeOpponent: null, activeCharacter: null, isPlayerTurn: true, battleId: null, resolution: null, escapeAllowed: false, escapePenalty: null, reward: null, nextPoints: null },
+      character: { ActiveCharacter: mockChar, characterLocation: null, party: [], completedQuestIds: [], characterSnapshot: null },
+      battle: { result: 'win', phase: 'result', round: 3, battleLog: ['Round 1: Hero attacks!'], activeOpponent: null, activeCharacter: null, isPlayerTurn: true, battleId: 'old-id', resolution: null, escapeAllowed: false, escapePenalty: null, reward: null, nextPoints: null },
     });
     fireEvent.click(screen.getByText('Fight'));
+    const battle = store.getState().battle;
     expect(store.getState().quest.pendingBattleDetails?.opponent.id).toBe('opp-1');
-    expect(store.getState().battle.result).toBeNull();
-    expect(store.getState().battle.activeOpponent?.id).toBe('opp-1');
+    expect(battle.result).toBeNull();
+    expect(battle.battleLog).toHaveLength(0);
+    expect(battle.round).toBeNull();
+    expect(battle.phase).toBeNull();
+    expect(battle.activeOpponent?.id).toBe('opp-1');
+    expect(battle.activeCharacter?.id).toBe('c1');
     expect(mockPush).toHaveBeenCalledWith('/battlescreen');
   });
 

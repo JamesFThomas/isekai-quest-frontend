@@ -44,6 +44,7 @@ export const orchardTroubleQuest: QuestStory = {
                   title: 'Test Sword',
                   type: 'weapon',
                   description: 'A sword used for testing effect application.',
+                  effect: {},
                 },
                 // test ration
                 {
@@ -100,6 +101,7 @@ export const orchardTroubleQuest: QuestStory = {
                     type: 'equipment',
                     description:
                       'The ear of a defeated goblin. It may be worth something to the right buyer.',
+                    effect: {},
                   },
                 ],
               },

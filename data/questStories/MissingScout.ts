@@ -38,6 +38,7 @@ export const missingScoutQuest: QuestStory = {
             battle: {
               opponent: goblin,
               escapeAllowed: true,
+              nextPoints: { win: 'ms-p1', lose: 'ms-p1', flee: 'ms-p1' },
               escapePenalty: {
                 hp: -5,
                 mp: -5,

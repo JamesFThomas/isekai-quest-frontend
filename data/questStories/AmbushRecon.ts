@@ -362,6 +362,7 @@ export const ambushReconQuest: QuestStory = {
                   title: 'Noble Signet Ring',
                   type: 'equipment',
                   description: 'A noble signet ring.',
+                  effect: {},
                 },
               ],
             },

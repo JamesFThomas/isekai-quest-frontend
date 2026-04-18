@@ -38,6 +38,7 @@ export const herbGatheringQuest: QuestStory = {
             battle: {
               opponent: goblin,
               escapeAllowed: true,
+              nextPoints: { win: 'q1-p1', lose: 'q1-p1', flee: 'q1-p1' },
               escapePenalty: {
                 hp: -5,
                 mp: -5,

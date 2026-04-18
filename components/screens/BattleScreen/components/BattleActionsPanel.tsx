@@ -105,8 +105,8 @@ const BattleActionsPanel = ({
       const resolution = {
         battleId: 'current-battle', // placeholder, replace with actual battle ID if available
         result: battleResult,
-        reward: battleResult === 'win' ? battleReward : undefined,
-        penalty: battleResult === 'flee' ? escapePenalty : undefined,
+        reward: battleResult === 'win' ? (battleReward ?? undefined) : undefined,
+        penalty: battleResult === 'flee' ? (escapePenalty ?? undefined) : undefined,
       };
 
       // set the resolution in state for outcome screen to read

@@ -42,6 +42,7 @@ export default function StoryScreen() {
     if (!quest) return;
 
     if (choice.outcome?.battle) {
+      if (!activeCharacter) return;
       const battle = choice.outcome.battle;
       dispatch(resetBattleState());
       dispatch(setPendingBattleDetails(battle));

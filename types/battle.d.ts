@@ -1,6 +1,6 @@
-import { InventoryItemBase, EffectfulItem } from './character';
+import { InventoryItemBase, EffectfulItem, Character } from './character';
 
-import { BattleNextPoints } from './quest';
+import { BattleNextPoints, Effect } from './quest';
 
 type BattlePhase = null | 'idle' | 'chooseAction' | 'resolving' | 'result';
 

@@ -53,7 +53,8 @@ export type InventoryItemType =
   | "potion"
   | "ration"
   | "coin"
-  | "battleOption";
+  | "battleOption"
+  | "quest";
 
 export interface EffectfulItem {
   effect: {

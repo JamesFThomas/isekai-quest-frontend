@@ -61,6 +61,23 @@ describe('CharacterSlice — applyQuestEffect', () => {
     expect(coins?.copper).toBe(0);
   });
 
+  it('adds quest item to questItems inventory', () => {
+    const store = storeWithCharacter();
+    const effect: Effect = {
+      items: [{
+        id: 'relic-1',
+        icon: '/relic.png',
+        title: 'Ancient Relic',
+        type: 'quest',
+        description: 'A mysterious artifact',
+        effect: {},
+      }],
+    };
+    store.dispatch(applyQuestEffect(effect));
+    expect(store.getState().character.ActiveCharacter?.inventory.questItems).toHaveLength(1);
+    expect(store.getState().character.ActiveCharacter?.inventory.questItems[0].id).toBe('relic-1');
+  });
+
   it('adds item to correct inventory category', () => {
     const store = storeWithCharacter();
     const effect: Effect = {

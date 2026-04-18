@@ -67,6 +67,14 @@ describe('QuestSlice', () => {
     expect(store.getState().quest.acceptedQuest).toBeNull();
   });
 
+  it('setAcceptedQuest(null) clears currentStoryPointId', () => {
+    const store = makeStore();
+    store.dispatch(setAcceptedQuest(mockQuest));
+    expect(store.getState().quest.currentStoryPointId).toBe('sp1');
+    store.dispatch(setAcceptedQuest(null));
+    expect(store.getState().quest.currentStoryPointId).toBeNull();
+  });
+
   it('resetFailedQuestToFirstPoint resets currentStoryPointId to first point', () => {
     const store = makeStore();
     store.dispatch(setAcceptedQuest(mockQuest));

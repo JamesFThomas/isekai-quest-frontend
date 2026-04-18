@@ -24,9 +24,9 @@ export const questSlice = createSlice({
     setAcceptedQuest: (state, action: PayloadAction<QuestStory | null>) => {
       state.acceptedQuest = action.payload;
       state.lastEndedQuestId = null;
-      if (action.payload && state.acceptedQuest) {
-        state.currentStoryPointId = action.payload.storyPoints[0].id;
-      }
+      state.currentStoryPointId = action.payload
+        ? action.payload.storyPoints[0].id
+        : null;
     },
     setCurrentStoryPointId: (
       state,
@@ -52,12 +52,6 @@ export const questSlice = createSlice({
       state.currentStoryPointId = null;
       state.pendingBattleDetails = null;
     },
-    setLastEndedQuestId: (
-      state,
-      action: PayloadAction<QuestStoryId | null>,
-    ) => {
-      state.lastEndedQuestId = action.payload;
-    },
     setPendingBattleDetails: (
       state,
       action: PayloadAction<BattleDetails | null>,
@@ -79,7 +73,6 @@ export const {
   resetFailedQuestToFirstPoint,
   markQuestCompletedAndClearState,
   markQuestFailedAndClearState,
-  setLastEndedQuestId,
   setPendingBattleDetails,
   resetQuestState,
 } = questSlice.actions;

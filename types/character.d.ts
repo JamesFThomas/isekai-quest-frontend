@@ -39,6 +39,7 @@ export interface Inventory {
   equipment: Equipment[]; // Armor, accessories, etc.
   rations: Ration[]; // Count of Rations for out-of-battle healing
   potions: BattleOption[]; // Potions with specific effects (stored by ID)
+  questItems: InventoryItemBase[];
 }
 
 export interface Coins {

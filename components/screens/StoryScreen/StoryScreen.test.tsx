@@ -97,7 +97,7 @@ describe('StoryScreen', () => {
   });
 
   it('clicking an effect choice dispatches applyQuestEffect', () => {
-    const mockChar = { id: 'c1', name: 'Hero', hp: 50, mp: 20, avatar: '/a.png', inventory: { attacks: [], skills: [], potions: [], rations: [], weapons: [], equipment: [], coins: { gold: 0, silver: 0, copper: 0 } } };
+    const mockChar = { id: 'c1', name: 'Hero', hp: 50, mp: 20, avatar: '/a.png', inventory: { attacks: [], skills: [], potions: [], rations: [], weapons: [], equipment: [], questItems: [], coins: { gold: 0, silver: 0, copper: 0 } } };
     const effectState = {
       ...preloadedState,
       quest: { ...preloadedState.quest, currentStoryPointId: 'sp2' },

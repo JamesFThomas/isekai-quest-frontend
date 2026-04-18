@@ -16,6 +16,7 @@ const mockCharacter: Character = {
     rations: [],
     weapons: [],
     equipment: [],
+    questItems: [],
     coins: { gold: 10, silver: 5, copper: 20 },
   },
 };

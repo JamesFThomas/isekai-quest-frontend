@@ -1,35 +1,54 @@
 import { Persistence } from '../../types/persistence';
 
-import {
-  authenticateAccountLocalStorage,
-  createAccountLocalStorage,
-  loadPlayerSaveDataLocalStorage,
-  savePlayerProgressLocalStorage,
-} from './localPersistence';
+import { localPersistence } from './localPersistence';
+import { remotePersistence } from './remotePersistence';
+
+/**
+ * Defines the available persistence modes for the application.
+ *
+ * - 'local'  → uses browser localStorage (development / offline testing)
+ * - 'remote' → uses API routes backed by Azure SQL (production)
+ */
 
 export type PERSISTENCE_MODE = 'local' | 'remote';
 
-// const persistenceMode: PERSISTENCE_MODE = 'local';
+/**
+ * Reads the persistence mode from environment configuration.
+ *
+ * NEXT_PUBLIC_ prefix allows access on the client side.
+ * Falls back to 'local' to ensure safe default behavior during development.
+ *
+ * Note: The type cast does NOT validate runtime values.
+ * If an invalid value is provided, it will not be caught here.
+ */
 
-// const implementation =
-//   persistenceMode === 'local' ? localPersistence : remotePersistence;
+const persistenceMode: PERSISTENCE_MODE =
+  (process.env.NEXT_PUBLIC_PERSISTENCE_MODE as PERSISTENCE_MODE) || 'local';
 
-// This file serves as the main entry point for the persistence layer, providing a unified interface for all persistence operations.
-// It currently delegates to localStorage-based implementations, but  will be updated to switch between local and remote persistence based on environment and configuration in the future
-export const persistence: Persistence = {
-  async createAccount(input) {
-    return createAccountLocalStorage(input);
-  },
+/**
+ * Selects the correct persistence implementation based on environment.
+ *
+ * This is the single decision point for storage behavior in the app.
+ * Both implementations must satisfy the same Persistence interface.
+ *
+ * This ensures:
+ * - Components remain storage-agnostic
+ * - Local and remote implementations are interchangeable
+ * - No conditional logic is needed throughout the app
+ */
 
-  async authenticateAccount(input) {
-    return authenticateAccountLocalStorage(input);
-  },
+const implementation: Persistence =
+  persistenceMode === 'local' ? localPersistence : remotePersistence;
 
-  async loadPlayerSaveData(input) {
-    return loadPlayerSaveDataLocalStorage(input);
-  },
+/**
+ * Public persistence interface used throughout the application.
+ *
+ * This is the ONLY export consumers should use.
+ * It hides whether data is coming from localStorage or a remote API.
+ *
+ * Acts as the abstraction boundary between:
+ * - UI / state management
+ * - data persistence layer
+ */
 
-  async savePlayerProgress(input) {
-    return savePlayerProgressLocalStorage(input);
-  },
-};
+export const persistence: Persistence = implementation;

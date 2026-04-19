@@ -6,6 +6,7 @@ import {
   CreateAccountInput,
   LoadPlayerSaveDataInput,
   LoginCredentials,
+  Persistence,
   PersistenceResponse,
   PlayerRecord,
   ProgressionData,
@@ -243,7 +244,7 @@ export const createAccountLocalStorage = async (
       return {
         success: false,
         message: 'There was a problem saving the new account data.',
-        data: {},
+        data: null,
       };
     }
 
@@ -267,7 +268,7 @@ export const createAccountLocalStorage = async (
     return {
       success: false,
       message: 'There was an error creating the account. Please try again.',
-      data: {},
+      data: null,
     };
   }
 };
@@ -290,7 +291,7 @@ export const authenticateAccountLocalStorage = async (
       return {
         success: false,
         message: 'Invalid email or password.',
-        data: {},
+        data: null,
       };
     }
 
@@ -305,7 +306,7 @@ export const authenticateAccountLocalStorage = async (
       return {
         success: false,
         message: 'Invalid email or password.',
-        data: {},
+        data: null,
       };
     }
 
@@ -347,7 +348,7 @@ export const authenticateAccountLocalStorage = async (
     return {
       success: false,
       message: 'An unexpected error occurred.',
-      data: {},
+      data: null,
     };
   }
 };
@@ -370,7 +371,7 @@ export const loadPlayerSaveDataLocalStorage = async (
       return {
         success: false,
         message: 'Player save data not found.',
-        data: {},
+        data: null,
       };
     }
 
@@ -384,7 +385,7 @@ export const loadPlayerSaveDataLocalStorage = async (
       return {
         success: false,
         message: 'Player save data not found.',
-        data: {},
+        data: null,
       };
     }
 
@@ -411,7 +412,7 @@ export const loadPlayerSaveDataLocalStorage = async (
     return {
       success: false,
       message: 'Player save data not found.',
-      data: {},
+      data: null,
     };
   }
 };
@@ -434,7 +435,7 @@ export const savePlayerProgressLocalStorage = async (
       return {
         success: false,
         message: 'Player save data not found.',
-        data: {},
+        data: null,
       };
     }
 
@@ -460,7 +461,7 @@ export const savePlayerProgressLocalStorage = async (
       return {
         success: false,
         message: 'There was a problem saving the player progress.',
-        data: {},
+        data: null,
       };
     }
 
@@ -484,7 +485,7 @@ export const savePlayerProgressLocalStorage = async (
       success: false,
       message:
         'There was an error saving the player progress. Please try again.',
-      data: {},
+      data: null,
     };
   }
 };
@@ -505,7 +506,7 @@ export const saveSessionRefreshData = async (
       return {
         success: false,
         message: 'There was a problem saving the session refresh data.',
-        data: {},
+        data: null,
       };
     }
 
@@ -523,7 +524,7 @@ export const saveSessionRefreshData = async (
       success: false,
       message:
         'There was an error saving the session refresh data. Please try again.',
-      data: {},
+      data: null,
     };
   }
 };
@@ -539,7 +540,7 @@ export const loadSessionRefreshData = (): PersistenceResponse => {
       return {
         success: false,
         message: 'No session refresh data found.',
-        data: {},
+        data: null,
       };
     }
 
@@ -562,7 +563,7 @@ export const loadSessionRefreshData = (): PersistenceResponse => {
     return {
       success: false,
       message: 'No session refresh data found.',
-      data: {},
+      data: null,
     };
   }
 };
@@ -577,7 +578,7 @@ export const clearSessionRefreshData = (): PersistenceResponse => {
       return {
         success: false,
         message: 'There was a problem clearing the session refresh data.',
-        data: {},
+        data: null,
       };
     }
 
@@ -595,7 +596,14 @@ export const clearSessionRefreshData = (): PersistenceResponse => {
     return {
       success: false,
       message: 'There was an error clearing the session refresh data.',
-      data: {},
+      data: null,
     };
   }
+};
+
+export const localPersistence: Persistence = {
+  createAccount: createAccountLocalStorage,
+  authenticateAccount: authenticateAccountLocalStorage,
+  loadPlayerSaveData: loadPlayerSaveDataLocalStorage,
+  savePlayerProgress: savePlayerProgressLocalStorage,
 };

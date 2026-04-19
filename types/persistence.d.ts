@@ -81,7 +81,7 @@ export interface PersistenceResponseData {
 export interface PersistenceResponse {
   success: boolean;
   message: string;
-  data: PersistenceResponseData;
+  data: PersistenceResponseData | null;
 }
 
 export interface Persistence {

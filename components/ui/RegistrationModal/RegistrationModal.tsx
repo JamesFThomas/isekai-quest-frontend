@@ -26,10 +26,8 @@ import {
 } from '@/types/persistence';
 
 import { persistence } from '@/lib/persistence/persistence';
-import {
-  // createAccountLocalStorage,
-  saveSessionRefreshData,
-} from '@/lib/persistence/localPersistence';
+
+import { saveSessionRefreshData } from '@/lib/persistence/localPersistence';
 
 interface RegistrationModalProps {
   isOpen: boolean;

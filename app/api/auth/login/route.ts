@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import sql from 'mssql';
 import bcrypt from 'bcryptjs';
 import {
+  AuthenticatedAccount,
   PersistenceResponseData,
   ProgressionData,
   SessionRefreshData,
@@ -78,6 +79,7 @@ export async function POST(request: Request) {
       );
 
     console.log('Rows affected:', updateResult.rowsAffected);
+
     console.log(
       'Updating last_login_at for accountId:',
       accountResult.recordset[0].id,
@@ -119,8 +121,13 @@ export async function POST(request: Request) {
       },
     };
 
+    const sanitizedAccountRecord: AuthenticatedAccount = {
+      id: accountResult.recordset[0].id,
+      email: normalizedEmail,
+    };
+
     const persistenceResponseData: PersistenceResponseData = {
-      account: accountResult.recordset[0],
+      account: sanitizedAccountRecord,
       refreshSessionData: responseData,
     };
 

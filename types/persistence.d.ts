@@ -8,6 +8,11 @@ export interface AccountRecord {
   last_login_at: string;
 }
 
+export interface AuthenticatedAccount {
+  id: string;
+  email: string;
+}
+
 export interface PlayerRecord {
   id: string;
   account_id: string;
@@ -68,7 +73,7 @@ export interface SavePlayerProgressInput {
 }
 
 export interface PersistenceResponseData {
-  account?: AccountRecord;
+  account?: AuthenticatedAccount;
   player?: PlayerRecord;
   characterData?: Character;
   progressionData?: ProgressionData;

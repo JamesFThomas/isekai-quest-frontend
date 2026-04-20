@@ -225,9 +225,12 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error('Error in registration route:', error);
 
+    let debugError: string | null = null;
+
     if (error instanceof Error) {
       console.error('REGISTER ROUTE ERROR MESSAGE:', error.message);
       console.error('REGISTER ROUTE ERROR STACK:', error.stack);
+      debugError = error.message;
     }
 
     if (transaction) {
@@ -242,7 +245,8 @@ export async function POST(request: Request) {
       {
         success: false,
         message: 'An error occurred while processing the registration',
-        data: {},
+        data: null,
+        debugError, // 👈 TEMP: surface backend error to client
       },
       { status: 500 },
     );

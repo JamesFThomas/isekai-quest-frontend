@@ -225,6 +225,11 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error('Error in registration route:', error);
 
+    if (error instanceof Error) {
+      console.error('REGISTER ROUTE ERROR MESSAGE:', error.message);
+      console.error('REGISTER ROUTE ERROR STACK:', error.stack);
+    }
+
     if (transaction) {
       try {
         await transaction.rollback();

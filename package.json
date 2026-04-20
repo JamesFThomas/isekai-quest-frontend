@@ -10,7 +10,7 @@
     "test": "jest --watchAll"
   },
   "engines": {
-    "node": ">=18 <21"
+    "node": "18.x"
   },
   "dependencies": {
     "@babel/preset-env": "^7.28.0",

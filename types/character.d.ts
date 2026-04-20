@@ -1,13 +1,13 @@
-import { BattleOption } from "./battle";
-import { ProgressionData } from "./progression";
+import { BattleOption } from './battle';
+import { ProgressionData } from './persistence';
 
 export type characterClass =
-  | "paladin"
-  | "elf"
-  | "halfling"
-  | "barbarian"
-  | "necromancer"
-  | "dwarf";
+  | 'paladin'
+  | 'elf'
+  | 'halfling'
+  | 'barbarian'
+  | 'necromancer'
+  | 'dwarf';
 
 export interface Character {
   id: string;
@@ -48,12 +48,12 @@ export interface Coins {
 }
 
 export type InventoryItemType =
-  | "weapon"
-  | "equipment"
-  | "potion"
-  | "ration"
-  | "coin"
-  | "battleOption";
+  | 'weapon'
+  | 'equipment'
+  | 'potion'
+  | 'ration'
+  | 'coin'
+  | 'battleOption';
 
 export interface EffectfulItem {
   effect: {

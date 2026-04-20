@@ -1,4 +1,4 @@
-import { Character } from "./character";
+import { Character, CharacterStateSnapshot } from './character';
 
 export interface AccountRecord {
   id: string;
@@ -6,6 +6,11 @@ export interface AccountRecord {
   password_hash: string;
   created_at: string;
   last_login_at: string;
+}
+
+export interface AuthenticatedAccount {
+  id: string;
+  email: string;
 }
 
 export interface PlayerRecord {
@@ -68,7 +73,7 @@ export interface SavePlayerProgressInput {
 }
 
 export interface PersistenceResponseData {
-  account?: AccountRecord;
+  account?: AuthenticatedAccount;
   player?: PlayerRecord;
   characterData?: Character;
   progressionData?: ProgressionData;
@@ -81,7 +86,7 @@ export interface PersistenceResponseData {
 export interface PersistenceResponse {
   success: boolean;
   message: string;
-  data: PersistenceResponseData;
+  data: PersistenceResponseData | null;
 }
 
 export interface Persistence {

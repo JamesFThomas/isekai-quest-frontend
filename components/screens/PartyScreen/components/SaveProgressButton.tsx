@@ -1,22 +1,22 @@
-import { selectUser } from "@/lib/features/auth/AuthSlice";
+import { selectUser } from '@/lib/features/auth/AuthSlice';
 import {
   selectActiveCharacter,
   selectCharacterLocation,
   selectCompletedQuestIds,
   setCharacterSnapshot,
   selectCharacterSnapshot,
-} from "@/lib/features/character/CharacterSlice";
-import { useAppSelector } from "@/lib/reduxHooks";
-import { useDispatch } from "react-redux";
-import {
-  savePlayerProgressLocalStorage,
-  saveSessionRefreshData,
-} from "@/lib/persistence/localPersistence";
+} from '@/lib/features/character/CharacterSlice';
+import { useAppSelector } from '@/lib/reduxHooks';
+import { useDispatch } from 'react-redux';
+
+import { persistence } from '@/lib/persistence/persistence';
+
+import { saveSessionRefreshData } from '@/lib/persistence/localPersistence';
 import {
   SavePlayerProgressInput,
   SessionRefreshData,
-} from "@/types/persistence";
-import { selectQuestState } from "@/lib/features/quest/QuestSlice";
+} from '@/types/persistence';
+import { selectQuestState } from '@/lib/features/quest/QuestSlice';
 
 export const SaveProgressButton = () => {
   const dispatch = useDispatch();
@@ -28,7 +28,7 @@ export const SaveProgressButton = () => {
   const questState = useAppSelector(selectQuestState);
 
   const handleSaveProgress = async () => {
-    console.log("Button clicked: Saving progress...");
+    console.log('Button clicked: Saving progress...');
 
     try {
       // Step 1: Validate required data exists before attempting save
@@ -39,7 +39,7 @@ export const SaveProgressButton = () => {
         !characterSnapshot ||
         !questState
       ) {
-        console.error("Missing required data to save progress.");
+        console.error('Missing required data to save progress.');
         return;
       }
 
@@ -60,12 +60,12 @@ export const SaveProgressButton = () => {
         },
       };
 
-      // Step 4: Persist player progress to localStorage
-      const response = await savePlayerProgressLocalStorage(playerSaveData);
+      // Step 4: Persist player progress through the shared persistence layer
+      const response = await persistence.savePlayerProgress(playerSaveData);
 
       // Step 5: Stop execution if main save fails
       if (!response.success) {
-        console.error("Failed to save progress:", response.message);
+        console.error('Failed to save progress:', response.message);
         return;
       }
 
@@ -89,22 +89,22 @@ export const SaveProgressButton = () => {
       // Step 9: Log error if refresh persistence fails (non-blocking)
       if (!refreshData.success) {
         console.error(
-          "Failed to save session refresh data:",
+          'Failed to save session refresh data:',
           refreshData.message,
         );
       }
 
       // Step 10: Confirm refresh data save
-      console.log("Session refresh data saved successfully.");
+      console.log('Session refresh data saved successfully.');
 
       // Step 11: Update Redux snapshot to reflect latest saved state
       dispatch(setCharacterSnapshot(updatedCharacterSnapshot));
 
       // Step 12: Confirm successful save
-      console.log("Progress saved successfully!");
+      console.log('Progress saved successfully!');
     } catch (error) {
       // Step 13: Catch unexpected errors during save flow
-      console.error("Unexpected error during save progress:", error);
+      console.error('Unexpected error during save progress:', error);
     }
   };
 
@@ -129,9 +129,9 @@ export const SaveProgressButton = () => {
   };
 
   return (
-    <div className="mt-4 w-full flex justify-end">
+    <div className='mt-4 w-full flex justify-end'>
       <button
-        className="
+        className='
         px-4 py-2
         text-sm font-semibold text-white
         border-2 border-white
@@ -142,7 +142,7 @@ export const SaveProgressButton = () => {
         focus:outline-none focus:ring-2 focus:ring-white/50
         disabled:opacity-50
         disabled:cursor-not-allowed
-        "
+        '
         onClick={handleSaveProgress}
         disabled={!isStateDirty()}
       >

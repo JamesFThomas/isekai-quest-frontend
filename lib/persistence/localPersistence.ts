@@ -1,4 +1,4 @@
-import type { characterClass } from "@/types/character";
+import type { characterClass } from '@/types/character';
 
 import {
   AccountRecord,
@@ -6,17 +6,18 @@ import {
   CreateAccountInput,
   LoadPlayerSaveDataInput,
   LoginCredentials,
+  Persistence,
   PersistenceResponse,
   PlayerRecord,
   ProgressionData,
   SavePlayerProgressInput,
   SessionRefreshData,
-} from "@/types/persistence";
+} from '@/types/persistence';
 
-const ACCOUNTS_KEY = "isekaiQuest_accounts" as const;
-const PLAYERS_KEY = "isekaiQuest_players" as const;
-const CHARACTER_SAVES_KEY = "isekaiQuest_character_saves" as const;
-const SESSION_REFRESH_KEY = "isekaiQuest_session_data" as const;
+const ACCOUNTS_KEY = 'isekaiQuest_accounts' as const;
+const PLAYERS_KEY = 'isekaiQuest_players' as const;
+const CHARACTER_SAVES_KEY = 'isekaiQuest_character_saves' as const;
+const SESSION_REFRESH_KEY = 'isekaiQuest_session_data' as const;
 
 type PersistenceKey =
   | typeof ACCOUNTS_KEY
@@ -91,7 +92,7 @@ export const generateId = (): string => {
     return crypto.randomUUID();
   } catch (error) {
     console.warn(
-      "crypto.randomUUID() not available, using fallback ID generation.",
+      'crypto.randomUUID() not available, using fallback ID generation.',
       error,
     );
     return `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
@@ -103,14 +104,14 @@ export const hashPassword = async (password: string): Promise<string> => {
   try {
     const encoder = new TextEncoder();
     const passwordBytes = encoder.encode(password);
-    const hashBuffer = await crypto.subtle.digest("SHA-256", passwordBytes);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', passwordBytes);
 
     return Array.from(new Uint8Array(hashBuffer))
-      .map((byte) => byte.toString(16).padStart(2, "0"))
-      .join("");
+      .map((byte) => byte.toString(16).padStart(2, '0'))
+      .join('');
   } catch (error) {
-    console.error("Error hashing password:", error);
-    throw new Error("Unable to hash password.");
+    console.error('Error hashing password:', error);
+    throw new Error('Unable to hash password.');
   }
 };
 
@@ -123,7 +124,7 @@ export const comparePassword = async (
     const hashedPassword = await hashPassword(password);
     return hashedPassword === storedHash;
   } catch (error) {
-    console.error("Error comparing password hash:", error);
+    console.error('Error comparing password hash:', error);
     return false;
   }
 };
@@ -147,7 +148,7 @@ export const createAccountLocalStorage = async (
     if (existingAccount) {
       return {
         success: false,
-        message: "An account with this email already exists.",
+        message: 'An account with this email already exists.',
         data: {},
       };
     }
@@ -172,7 +173,7 @@ export const createAccountLocalStorage = async (
     // Step 5: Create the initial progression data
     const initialProgressionData: ProgressionData = {
       completedQuestIds: [],
-      currentTown: "StartsVille",
+      currentTown: 'StartsVille',
       acceptedQuestId: null,
       currentStoryPointId: null,
       lastEndedQuestId: null,
@@ -196,9 +197,9 @@ export const createAccountLocalStorage = async (
           attacks: [],
           skills: [],
           coins: {
-            gold: 100, // TODO: return to 0 after testing
-            silver: 100, // TODO: return to 0 after testing
-            copper: 100, // TODO: return to 0 after testing
+            gold: 100, // TODO: update starting coins once all quests complete
+            silver: 100, // TODO: update starting coins once all quests complete
+            copper: 100, // TODO: update starting coins once all quests complete
           },
           weapons: [],
           equipment: [],
@@ -208,8 +209,8 @@ export const createAccountLocalStorage = async (
         partyMembers: [],
       },
       progression_data: initialProgressionData,
-      schema_version: "1.0.0",
-      game_version_last_played: "1.0.0",
+      schema_version: '1.0.0',
+      game_version_last_played: '1.0.0',
       updated_at: new Date().toISOString(),
     };
 
@@ -242,15 +243,15 @@ export const createAccountLocalStorage = async (
     ) {
       return {
         success: false,
-        message: "There was a problem saving the new account data.",
-        data: {},
+        message: 'There was a problem saving the new account data.',
+        data: null,
       };
     }
 
     // Step 10: Return the successful persistence response
     return {
       success: true,
-      message: "Account created successfully.",
+      message: 'Account created successfully.',
       data: {
         account: newAccount,
         player: newPlayer,
@@ -262,12 +263,12 @@ export const createAccountLocalStorage = async (
       },
     };
   } catch (error) {
-    console.error("Error creating account in localStorage:", error);
+    console.error('Error creating account in localStorage:', error);
 
     return {
       success: false,
-      message: "There was an error creating the account. Please try again.",
-      data: {},
+      message: 'There was an error creating the account. Please try again.',
+      data: null,
     };
   }
 };
@@ -289,8 +290,8 @@ export const authenticateAccountLocalStorage = async (
     if (!account) {
       return {
         success: false,
-        message: "Invalid email or password.",
-        data: {},
+        message: 'Invalid email or password.',
+        data: null,
       };
     }
 
@@ -304,8 +305,8 @@ export const authenticateAccountLocalStorage = async (
     if (!isMatch) {
       return {
         success: false,
-        message: "Invalid email or password.",
-        data: {},
+        message: 'Invalid email or password.',
+        data: null,
       };
     }
 
@@ -329,7 +330,7 @@ export const authenticateAccountLocalStorage = async (
     // Not returning failure here since authentication was successful, but logging the issue
     if (!writeSuccess) {
       console.error(
-        "Failed to update last login timestamp for account:",
+        'Failed to update last login timestamp for account:',
         updatedAccount.id,
       );
     }
@@ -337,17 +338,17 @@ export const authenticateAccountLocalStorage = async (
     // Step 9: Return the successful authentication response with account data
     return {
       success: true,
-      message: "Authentication successful.",
+      message: 'Authentication successful.',
       data: { account: updatedAccount },
     };
   } catch (error) {
-    console.error("Error during account authentication:", error);
+    console.error('Error during account authentication:', error);
 
     // Step 10: Return a generic error response if any unexpected issues occur during authentication
     return {
       success: false,
-      message: "An unexpected error occurred.",
-      data: {},
+      message: 'An unexpected error occurred.',
+      data: null,
     };
   }
 };
@@ -369,8 +370,8 @@ export const loadPlayerSaveDataLocalStorage = async (
     if (!player) {
       return {
         success: false,
-        message: "Player save data not found.",
-        data: {},
+        message: 'Player save data not found.',
+        data: null,
       };
     }
 
@@ -383,8 +384,8 @@ export const loadPlayerSaveDataLocalStorage = async (
     if (!characterSave) {
       return {
         success: false,
-        message: "Player save data not found.",
-        data: {},
+        message: 'Player save data not found.',
+        data: null,
       };
     }
 
@@ -401,17 +402,17 @@ export const loadPlayerSaveDataLocalStorage = async (
     // Step 7: Return the successful persistence response with the loaded data
     return {
       success: true,
-      message: "Player save data loaded successfully.",
+      message: 'Player save data loaded successfully.',
       data: responseData,
     };
   } catch (error) {
-    console.error("Error loading player save data from localStorage:", error);
+    console.error('Error loading player save data from localStorage:', error);
 
     // Step 8: Return a generic error response if any unexpected issues occur
     return {
       success: false,
-      message: "Player save data not found.",
-      data: {},
+      message: 'Player save data not found.',
+      data: null,
     };
   }
 };
@@ -433,8 +434,8 @@ export const savePlayerProgressLocalStorage = async (
     if (characterSaveIndex === -1) {
       return {
         success: false,
-        message: "Player save data not found.",
-        data: {},
+        message: 'Player save data not found.',
+        data: null,
       };
     }
 
@@ -459,15 +460,15 @@ export const savePlayerProgressLocalStorage = async (
     if (!writeSuccess) {
       return {
         success: false,
-        message: "There was a problem saving the player progress.",
-        data: {},
+        message: 'There was a problem saving the player progress.',
+        data: null,
       };
     }
 
     // Step 7: Return the successful persistence response
     return {
       success: true,
-      message: "Player progress saved successfully.",
+      message: 'Player progress saved successfully.',
       data: {
         characterData: updatedSave.character_data,
         progressionData: updatedSave.progression_data,
@@ -477,14 +478,14 @@ export const savePlayerProgressLocalStorage = async (
       },
     };
   } catch (error) {
-    console.error("Error saving player progress to localStorage:", error);
+    console.error('Error saving player progress to localStorage:', error);
 
     // Step 8: Return a generic error response if any unexpected issues occur during saving
     return {
       success: false,
       message:
-        "There was an error saving the player progress. Please try again.",
-      data: {},
+        'There was an error saving the player progress. Please try again.',
+      data: null,
     };
   }
 };
@@ -504,26 +505,26 @@ export const saveSessionRefreshData = async (
     if (!writeSuccess) {
       return {
         success: false,
-        message: "There was a problem saving the session refresh data.",
-        data: {},
+        message: 'There was a problem saving the session refresh data.',
+        data: null,
       };
     }
 
     // Step 3: Return the successful persistence response
     return {
       success: true,
-      message: "Session refresh data saved successfully.",
+      message: 'Session refresh data saved successfully.',
       data: {},
     };
   } catch (error) {
-    console.error("Error saving session refresh data to localStorage:", error);
+    console.error('Error saving session refresh data to localStorage:', error);
 
     // Step 4: Return a generic error response if any unexpected issues occur during saving
     return {
       success: false,
       message:
-        "There was an error saving the session refresh data. Please try again.",
-      data: {},
+        'There was an error saving the session refresh data. Please try again.',
+      data: null,
     };
   }
 };
@@ -538,8 +539,8 @@ export const loadSessionRefreshData = (): PersistenceResponse => {
     if (!storedData) {
       return {
         success: false,
-        message: "No session refresh data found.",
-        data: {},
+        message: 'No session refresh data found.',
+        data: null,
       };
     }
 
@@ -549,20 +550,20 @@ export const loadSessionRefreshData = (): PersistenceResponse => {
     // Step 4: Return the successful persistence response with the loaded session refresh data
     return {
       success: true,
-      message: "Session refresh data loaded successfully.",
+      message: 'Session refresh data loaded successfully.',
       data: { refreshSessionData: parsedData },
     };
   } catch (error) {
     console.error(
-      "Error loading session refresh data from localStorage:",
+      'Error loading session refresh data from localStorage:',
       error,
     );
 
     // Step 5: Return a generic error response if any unexpected issues occur during loading
     return {
       success: false,
-      message: "No session refresh data found.",
-      data: {},
+      message: 'No session refresh data found.',
+      data: null,
     };
   }
 };
@@ -576,26 +577,33 @@ export const clearSessionRefreshData = (): PersistenceResponse => {
     if (!removeSuccess) {
       return {
         success: false,
-        message: "There was a problem clearing the session refresh data.",
-        data: {},
+        message: 'There was a problem clearing the session refresh data.',
+        data: null,
       };
     }
 
     // Step 3: Return success if the remove operation succeeds
     return {
       success: true,
-      message: "Session refresh data cleared successfully.",
+      message: 'Session refresh data cleared successfully.',
       data: {},
     };
   } catch (error) {
     console.error(
-      "Error clearing session refresh data from localStorage:",
+      'Error clearing session refresh data from localStorage:',
       error,
     );
     return {
       success: false,
-      message: "There was an error clearing the session refresh data.",
-      data: {},
+      message: 'There was an error clearing the session refresh data.',
+      data: null,
     };
   }
+};
+
+export const localPersistence: Persistence = {
+  createAccount: createAccountLocalStorage,
+  authenticateAccount: authenticateAccountLocalStorage,
+  loadPlayerSaveData: loadPlayerSaveDataLocalStorage,
+  savePlayerProgress: savePlayerProgressLocalStorage,
 };

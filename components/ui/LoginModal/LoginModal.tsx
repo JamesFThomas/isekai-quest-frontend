@@ -18,6 +18,7 @@ import { persistence } from '@/lib/persistence/persistence';
 import { saveSessionRefreshData } from '@/lib/persistence/localPersistence';
 
 import { Character, CharacterStateSnapshot } from '@/types/character';
+
 import { LoginCredentials, SessionRefreshData } from '@/types/persistence';
 
 interface LoginModalProps {

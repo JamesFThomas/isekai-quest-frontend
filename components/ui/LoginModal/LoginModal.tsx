@@ -193,7 +193,7 @@ export default function LoginModal({
           );
         }
 
-        // log that refresh data was saved successfully
+        // log refresh data was saved successfully
         console.log('Session refresh data saved successfully.');
 
         // call the handleLoginAndLoadCharacter function with the loaded character data and location, only if characterData exists

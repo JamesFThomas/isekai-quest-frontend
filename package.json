@@ -9,6 +9,9 @@
     "lint": "next lint",
     "test": "jest --watchAll"
   },
+  "engines": {
+    "node": ">=18 <21"
+  },
   "dependencies": {
     "@babel/preset-env": "^7.28.0",
     "@emotion/react": "^11.14.0",

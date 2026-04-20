@@ -40,9 +40,6 @@ const persistenceMode: PERSISTENCE_MODE =
 const implementation: Persistence =
   persistenceMode === 'local' ? localPersistence : remotePersistence;
 
-console.log('ENV VALUE:', process.env.NEXT_PUBLIC_PERSISTENCE_MODE);
-console.log(`Persistence mode set to: ${persistenceMode}`);
-
 /**
  * Public persistence interface used throughout the application.
  *

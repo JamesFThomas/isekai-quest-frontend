@@ -214,7 +214,10 @@ export async function POST(request: Request) {
         data: {
           account: newAccountResult.recordset[0],
           player: newPlayerResult.recordset[0],
-          characterSave: newCharacterSave,
+          characterData: newCharacterSave.character_data,
+          progressionData: newCharacterSave.progression_data,
+          schemaVersion: newCharacterSave.schema_version,
+          gameVersionLastPlayed: newCharacterSave.game_version_last_played,
         },
       },
       { status: 201 },

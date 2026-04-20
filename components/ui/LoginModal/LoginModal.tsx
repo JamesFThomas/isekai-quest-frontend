@@ -106,7 +106,11 @@ export default function LoginModal({
         await persistence.authenticateAccount(loginCredentials);
 
       // failure - display error message to user and allow them to try again
-      if (!accountResponse.data || !accountResponse.success) {
+      if (
+        !accountResponse.data ||
+        !accountResponse.success ||
+        !accountResponse.data.account
+      ) {
         console.error('Authentication failed:', accountResponse.message);
 
         // create UI toast or error display later
@@ -116,7 +120,7 @@ export default function LoginModal({
 
       // use accountResponse.account.id to load character data and progression data from persistence layer, then dispatch to redux
       const loadPlayerSaveInput = {
-        accountId: accountResponse.data.account?.id || '',
+        accountId: accountResponse.data.account.id,
       };
 
       // load player save data from persistence layer

@@ -99,7 +99,7 @@ export default function RegistrationModal({
           characters: [characterData],
         };
 
-        //construct character snapshot for saving game porgression in redux store
+        //construct character snapshot for saving game progression in redux store
         const characterSnapshot = {
           characterData: characterData,
           progressionData: progressionData as ProgressionData,

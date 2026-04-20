@@ -2,7 +2,11 @@ import { getDbConnection } from '@/lib/server/db/azureSql';
 import { NextResponse } from 'next/server';
 import sql from 'mssql';
 import bcrypt from 'bcryptjs';
-import { ProgressionData, SessionRefreshData } from '@/types/persistence';
+import {
+  PersistenceResponseData,
+  ProgressionData,
+  SessionRefreshData,
+} from '@/types/persistence';
 import { Character } from '@/types/character';
 
 export async function POST(request: Request) {
@@ -115,11 +119,16 @@ export async function POST(request: Request) {
       },
     };
 
+    const persistenceResponseData: PersistenceResponseData = {
+      account: accountResult.recordset[0],
+      refreshSessionData: responseData,
+    };
+
     return NextResponse.json(
       {
         success: true,
         message: 'Login successful',
-        data: responseData,
+        data: persistenceResponseData,
       },
       { status: 200 },
     );

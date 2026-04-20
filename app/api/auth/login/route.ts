@@ -121,6 +121,7 @@ export async function POST(request: Request) {
       },
     };
 
+    // Build sanitized account object to include in the response (exclude password hash)
     const sanitizedAccountRecord: AuthenticatedAccount = {
       id: accountResult.recordset[0].id,
       email: normalizedEmail,

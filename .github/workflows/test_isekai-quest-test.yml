@@ -17,6 +17,7 @@ jobs:
 
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      NEXT_PUBLIC_PERSISTENCE_MODE: ${{ vars.NEXT_PUBLIC_PERSISTENCE_MODE }}
 
     steps:
       - uses: actions/checkout@v4

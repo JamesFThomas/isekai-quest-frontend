@@ -145,8 +145,9 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         success: false,
-        message: 'An error occurred during login',
-        data: {},
+        message: 'Login failed. Please try again.',
+        errorCode: 'LOGIN_UNAVAILABLE',
+        data: {}
       },
       { status: 500 },
     );

@@ -236,7 +236,8 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         success: false,
-        message: 'An error occurred while processing the registration',
+        message: 'Registration failed. Please try again.',
+        errorCode: 'REGISTER_UNAVAILABLE',
         data: {},
       },
       { status: 500 },

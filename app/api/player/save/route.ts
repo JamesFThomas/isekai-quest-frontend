@@ -156,7 +156,6 @@ export async function POST(request: Request) {
       },
       { status: 200 },
     );
-
   } catch (error) {
     console.error('Error in save player route:', error);
 
@@ -171,11 +170,11 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         success: false,
-        message: 'An error occurred while saving player data',
+        message: 'Save failed. Please try again.',
+        errorCode: 'SAVE_UNAVAILABLE',
         data: {},
       },
       { status: 500 },
     );
   }
 }
-

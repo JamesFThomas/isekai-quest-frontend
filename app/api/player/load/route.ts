@@ -124,7 +124,8 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         success: false,
-        message: 'An error occurred while loading player save data',
+        message: 'Failed to load player data. Please try again.',
+        errorCode: 'LOAD_UNAVAILABLE',
         data: {},
       },
       { status: 500 },

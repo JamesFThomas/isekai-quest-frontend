@@ -90,7 +90,7 @@ export async function POST(request: Request) {
     const newAccountResult = await transaction
       .request()
       .input('id', sql.UniqueIdentifier, accountId)
-      .query('SELECT id FROM accounts WHERE id = @id');
+      .query('SELECT id, email FROM accounts WHERE id = @id');
 
     if (newAccountResult.recordset.length === 0) {
       // throw error to trigger transaction rollback

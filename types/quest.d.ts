@@ -1,6 +1,5 @@
-import { Opponent } from '@/lib/features/battle/BattleSlice';
-import { InventoryItemBase } from '@/lib/features/inventory/InventorySlice';
-import { Coins } from '@/lib/features/character/CharacterSlice';
+import { Opponent } from '@/types/battle';
+import { InventoryItemBase, Coins } from '@/types/character';
 
 export type StoryPointId = string;
 
@@ -53,10 +52,10 @@ export type BattleNextPoints = {
 
 export type BattleDetails = {
   // battleIds should be set here in the details to link to BattleSlice state
-  opponent: Opponent; // imported from BattleSlice
+  opponent: Opponent;
   backgroundImage?: string;
   escapeAllowed: boolean;
   escapePenalty?: Effect;
   reward?: Effect;
-  nextPoints?: BattleNextPoints; // possible quest branch stroypoints based on battle outcome
+  nextPoints?: BattleNextPoints;
 };

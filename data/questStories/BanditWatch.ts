@@ -38,6 +38,7 @@ export const banditWatchQuest: QuestStory = {
             battle: {
               opponent: goblin,
               escapeAllowed: false,
+              nextPoints: { win: 'bw-p1', lose: 'bw-p1', flee: 'bw-p1' },
               reward: {
                 hp: 10,
                 mp: 10,

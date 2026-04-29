@@ -32,6 +32,6 @@ describe('MarketScreen', () => {
 
   it('renders market navigation options', () => {
     renderWithStore(<MarketScreen />);
-    expect(screen.getByText('Weapons')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /weapons/i })).toBeInTheDocument();
   });
 });

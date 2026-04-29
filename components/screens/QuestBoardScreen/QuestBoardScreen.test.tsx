@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import { screen, fireEvent, act } from '@testing-library/react';
 import { renderWithStore } from '@/lib/test-utils';
 import QuestBoardScreen from './QuestBoardScreen';
-import questStories from '@/data/screenOptions/questsOptions';
+import type { QuestStory } from '@/types/quest';
 
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn(() => ({ push: jest.fn() })),
@@ -19,7 +19,20 @@ const baseState = {
   quest: { acceptedQuest: null, currentStoryPointId: null, lastEndedQuestId: null, pendingBattleDetails: null },
 };
 
-const enabledQuest = questStories.find((q) => !q.disabled)!;
+const enabledQuest: QuestStory = {
+  id: 'ambushReconQuest',
+  name: 'Ambush Alley Recon',
+  description: 'Scout the bandit camp.',
+  coverImageSrc: '/quests/ambush_cover.png',
+  storyPoints: [
+    {
+      id: 'sp1',
+      imageSrc: '/sp1.png',
+      text: 'You reach the ambush point.',
+      choices: [{ label: 'a', text: 'Continue', nextPointId: null, outcome: { endState: 'completed' } }],
+    },
+  ],
+};
 
 /*
  * Story: Player accepts a quest at the Quest Board

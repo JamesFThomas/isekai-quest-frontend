@@ -80,6 +80,7 @@ describe('StoryScreen', () => {
       character: { ActiveCharacter: mockChar, characterLocation: null, party: [], completedQuestIds: [], characterSnapshot: null },
       battle: { result: 'win', phase: 'result', round: 3, battleLog: ['Round 1: Hero attacks!'], activeOpponent: null, activeCharacter: null, isPlayerTurn: true, battleId: 'old-id', resolution: null, escapeAllowed: false, escapePenalty: null, reward: null, nextPoints: null },
     });
+    expect(store.getState().battle.activeCharacter).toBeNull();
     fireEvent.click(screen.getByText('Fight'));
     const battle = store.getState().battle;
     expect(store.getState().quest.pendingBattleDetails?.opponent.id).toBe('opp-1');

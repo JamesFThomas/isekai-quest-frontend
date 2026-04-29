@@ -70,11 +70,11 @@ describe('PartyScreen', () => {
 
   it('renders the active character HP from Redux state', () => {
     renderWithStore(<PartyScreen />, preloadedState);
-    expect(screen.getByText(/50/)).toBeInTheDocument();
+    expect(screen.getByText(/HP: 50/)).toBeInTheDocument();
   });
 
   it('renders the active character MP from Redux state', () => {
     renderWithStore(<PartyScreen />, preloadedState);
-    expect(screen.getByText(/20/)).toBeInTheDocument();
+    expect(screen.getByText(/MP: 20/)).toBeInTheDocument();
   });
 });

@@ -32,6 +32,6 @@ describe('GuildScreen', () => {
 
   it('renders guild navigation options', () => {
     renderWithStore(<GuildScreen />);
-    expect(screen.getByText('Quest Board')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /quest board/i })).toBeInTheDocument();
   });
 });

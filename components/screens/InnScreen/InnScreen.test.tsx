@@ -3,6 +3,7 @@ import { screen } from '@testing-library/react';
 import { renderWithStore } from '@/lib/test-utils';
 import InnScreen from './InnScreen';
 
+// InnScreen has no ControlPanel — usePathname not needed; BackButton uses router.back() not router.push()
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn(() => ({ back: jest.fn() })),
 }));

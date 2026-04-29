@@ -2,10 +2,10 @@ import {
   performBattleAction,
   setActiveCharacter,
   setActiveOpponent,
-} from '../../../../lib/features/battle/BattleSlice';
-import { makeStore } from '../../../../lib/store';
-import { initialTestState } from '../../../../data/testData/battleTestData';
-import { BattleAction } from '../../../../types/battle';
+} from '../../../lib/features/battle/BattleSlice';
+import { makeStore } from '../../../lib/store';
+import { initialTestState } from '../../../data/testData/battleTestData';
+import { BattleAction } from '../../../types/battle';
 
 const buildStore = () => makeStore();
 

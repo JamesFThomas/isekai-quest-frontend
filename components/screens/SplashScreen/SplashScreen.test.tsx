@@ -22,10 +22,7 @@ jest.mock('@/components/ui/LoginModal/LoginModal', () => ({
 describe('SplashScreen', () => {
   it('Component renders', () => {
     render(<SplashScreen />);
-
-    const title = screen.getByText('Isekai Quest');
-
-    expect(title).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: /isekai quest logo/i })).toBeInTheDocument();
   });
 
   describe('Start Quest loading spinner', () => {

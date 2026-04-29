@@ -1,15 +1,15 @@
-import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-
+import { screen } from '@testing-library/react';
+import { renderWithStore } from '@/lib/test-utils';
 import CreateCharacterScreen from './CreateCharacterScreen';
 
 jest.mock('next/navigation', () => ({
-  useRouter: jest.fn(),
+  useRouter: jest.fn(() => ({ push: jest.fn() })),
 }));
 
 describe('CreateCharacterScreen', () => {
   it('Component renders', () => {
-    render(<CreateCharacterScreen />);
+    renderWithStore(<CreateCharacterScreen />);
 
     const title = screen.getByText('Choose Your Avatar');
 

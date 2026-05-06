@@ -68,6 +68,7 @@ const Tony: Character = {
     equipment: [paladinStarterArmor, elfStarterCloak, halflingStarterVest],
     rations: [driedRations, heartyStew, sweetTrailMix],
     potions: [minorHealingPotion, majorHealingPotion],
+    questItems: [],
     coins: {
       gold: 150,
       silver: 150,
@@ -92,6 +93,7 @@ const Barbosa: Character = {
     equipment: [paladinStarterArmor, elfStarterCloak, halflingStarterVest],
     rations: [driedRations, heartyStew, sweetTrailMix],
     potions: [minorHealingPotion, majorHealingPotion],
+    questItems: [],
     coins: {
       gold: 50,
       silver: 50,
@@ -121,6 +123,7 @@ const Durgan: Character = {
     ],
     rations: [waybreadLoaf],
     potions: [greaterManaTonic, rejuvenationElixir, elixirOfVigor],
+    questItems: [],
     coins: {
       gold: 57,
       silver: 23,
@@ -150,6 +153,7 @@ const Perrin: Character = {
     ],
     rations: [waybreadLoaf],
     potions: [rejuvenationElixir, elixirOfVigor],
+    questItems: [],
     coins: {
       gold: 84,
       silver: 12,
@@ -179,6 +183,7 @@ const Hobbin: Character = {
     ],
     rations: [waybreadLoaf],
     potions: [minorHealingPotion, majorHealingPotion],
+    questItems: [],
     coins: {
       gold: 32,
       silver: 25,
@@ -208,6 +213,7 @@ const Nereza: Character = {
     ],
     rations: [waybreadLoaf],
     potions: [majorHealingPotion, manaTonic, rejuvenationElixir],
+    questItems: [],
     coins: {
       gold: 20,
       silver: 30,
@@ -237,6 +243,7 @@ const Seryn: Character = {
     ],
     rations: [waybreadLoaf],
     potions: [majorHealingPotion, manaTonic, greaterManaTonic, elixirOfVigor],
+    questItems: [],
     coins: {
       gold: 50,
       silver: 50,

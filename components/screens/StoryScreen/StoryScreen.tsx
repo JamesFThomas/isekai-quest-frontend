@@ -1,22 +1,26 @@
 'use client';
 
+import BackButton from '@/components/ui/BackButton/BackButton';
 import useProtectedRoute from '@/lib/hooks/useProtectedRoute';
 
 import { useAppDispatch, useAppSelector } from '@/lib/reduxHooks';
-
 import {
   selectAcceptedQuest,
-  setCurrentStoryPointId,
   selectCurrentStoryPoint,
+  setCurrentStoryPointId,
+  setPendingBattleDetails,
   markQuestCompletedAndClearState,
-  setLastEndedQuestId,
+  markQuestFailedAndClearState,
 } from '@/lib/features/quest/QuestSlice';
 
-import { setBattleStartContext } from '@/lib/features/battle/BattleSlice';
+import {
+  resetBattleState,
+  setBattleStartContext,
+} from '@/lib/features/battle/BattleSlice';
 
 import {
-  applyEffectToCharacterThunk,
   selectActiveCharacter,
+  applyQuestEffect,
 } from '@/lib/features/character/CharacterSlice';
 
 import { StoryPointChoice } from '@/types/quest';
@@ -30,74 +34,62 @@ export default function StoryScreen() {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  // select necessary state from the quest slice and character slice
-  const acceptedQuest = useAppSelector(selectAcceptedQuest);
-  const activeCharacter = useAppSelector(selectActiveCharacter);
+  const quest = useAppSelector(selectAcceptedQuest);
   const currentStoryPoint = useAppSelector(selectCurrentStoryPoint);
+  const activeCharacter = useAppSelector(selectActiveCharacter);
 
-  // handle choice selection when a player clicks on a choice button
   const handleChoiceSelection = (choice: StoryPointChoice) => {
-    if (!acceptedQuest) return;
+    if (!quest) return;
 
-    // check choice for battle attribute and redirect to battle screen if it exists
     if (choice.outcome?.battle) {
-      // set the starting battle context
-      dispatch(
-        setBattleStartContext({
-          activeCharacter: activeCharacter,
-          activeOpponent: choice.outcome.battle.opponent,
-          escapeAllowed: choice.outcome.battle.escapeAllowed,
-          reward: choice.outcome.battle.reward,
-          escapePenalty: choice.outcome.battle.escapePenalty,
-          nextPoints: choice.outcome.battle.nextPoints,
-        }),
-      );
-
-      // redirect to battle screen
+      if (!activeCharacter) return;
+      const battle = choice.outcome.battle;
+      dispatch(resetBattleState());
+      dispatch(setPendingBattleDetails(battle));
+      dispatch(setBattleStartContext({
+        activeCharacter,
+        activeOpponent: battle.opponent,
+        escapeAllowed: battle.escapeAllowed ?? false,
+        reward: battle.reward,
+        escapePenalty: battle.escapePenalty,
+        nextPoints: battle.nextPoints,
+      }));
       router.push('/battlescreen');
       return;
     }
 
-    // check for and apply outcome effects if they exist - update character state based on outcome.effect values
-    if (choice.outcome?.effect) {
-      const effect = choice.outcome.effect;
-      dispatch(applyEffectToCharacterThunk(effect));
-    }
-
-    // if no battle, just move to the next story point
-    const nextPoint = choice.nextPointId;
-
-    if (nextPoint !== null) {
-      dispatch(setCurrentStoryPointId(nextPoint));
-    }
-
-    if (nextPoint === null && choice.outcome?.endState) {
-      // completed - clear quest state data when quest ends (either completed)
-      if (choice.outcome?.endState === 'completed') {
-        dispatch(markQuestCompletedAndClearState());
-      }
-      // failed - set last failed quest ID in state to trigger restart of quest when user commences quest again
-      else if (choice.outcome?.endState === 'failed') {
-        dispatch(setLastEndedQuestId(acceptedQuest.id));
-      }
-      // if nextPointId is null, it means the quest has ended (either completed or failed) redirect to homescreen
+    if (choice.outcome?.endState === 'completed') {
+      dispatch(markQuestCompletedAndClearState());
       router.push('/homescreen');
+      return;
+    }
+
+    if (choice.outcome?.endState === 'failed') {
+      dispatch(markQuestFailedAndClearState());
+      router.push('/homescreen');
+      return;
+    }
+
+    if (choice.outcome?.effect) {
+      dispatch(applyQuestEffect(choice.outcome.effect));
+    }
+
+    if (choice.nextPointId) {
+      dispatch(setCurrentStoryPointId(choice.nextPointId));
     }
   };
 
   return (
     <div className='story-screen-container p-4 flex flex-col items-center justify-center h-screen bg-[url("/background_images/dark_hills.png")] bg-cover bg-no-repeat bg-center'>
       <div className='story-screen-content px-6 flex flex-col items-center justify-center w-fit h-fit bg-[url("/background_images/parchment_paper.png")] bg-cover bg-no-repeat bg-center'>
-        {acceptedQuest && (
-          <h1 className='text-4xl text-white font-bold mt-3'>
-            {acceptedQuest.name}
-          </h1>
+        {quest && (
+          <h1 className='text-4xl text-white font-bold mt-3'>{quest.name}</h1>
         )}
         {currentStoryPoint && (
           <div className='story-point-content flex flex-col items-center p-4 max-w-[800px] w-full'>
             <Image
               src={currentStoryPoint.imageSrc}
-              alt={`Story Point Image`}
+              alt='Story Point Image'
               width={800}
               height={500}
               className='mt-4 rounded-lg'
@@ -110,9 +102,7 @@ export default function StoryScreen() {
                 <button
                   key={index}
                   className='bg-[#8E9CC9] inline-flex justify-center rounded-full px-4 py-2 text-sm font-semibold text-white hover:cursor-pointer min-w-[200px] max-w-[240px]'
-                  onClick={() => {
-                    handleChoiceSelection(choice);
-                  }}
+                  onClick={() => handleChoiceSelection(choice)}
                 >
                   {choice.text}
                 </button>
@@ -120,6 +110,9 @@ export default function StoryScreen() {
             </div>
           </div>
         )}
+      </div>
+      <div className='mt-2'>
+        <BackButton />
       </div>
     </div>
   );

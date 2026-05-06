@@ -1,10 +1,10 @@
-import { InventoryItemBase, EffectfulItem } from './character';
+import { InventoryItemBase, EffectfulItem, Character } from './character';
 
-import { BattleNextPoints } from './quest';
+import { BattleNextPoints, Effect } from './quest';
 
 type BattlePhase = null | 'idle' | 'chooseAction' | 'resolving' | 'result';
 
-type BattleResult = null | 'win' | 'lose' | 'flee';
+export type BattleResult = null | 'win' | 'lose' | 'flee';
 
 type BattleResolution = {
   battleId: string;

@@ -46,6 +46,8 @@ export const convertItemTypeString = (item: InventorySelection): string => {
       return "potions";
     case "ration":
       return "rations";
+    case "quest":
+      return "questItems";
     default:
       return "unknown";
   }
@@ -351,6 +353,37 @@ export const characterSlice = createSlice({
         ),
       };
     },
+    applyQuestEffect: (state, action: PayloadAction<Effect>) => {
+      if (!state.ActiveCharacter) return;
+      const effect = action.payload;
+      const active = state.ActiveCharacter;
+
+      if (effect.hp !== undefined) {
+        active.hp = Math.max(0, active.hp + effect.hp);
+      }
+      if (effect.mp !== undefined) {
+        active.mp = Math.max(0, active.mp + effect.mp);
+      }
+      if (effect.coins) {
+        active.inventory.coins = {
+          gold: Math.max(0, active.inventory.coins.gold + (effect.coins.gold ?? 0)),
+          silver: Math.max(0, active.inventory.coins.silver + (effect.coins.silver ?? 0)),
+          copper: Math.max(0, active.inventory.coins.copper + (effect.coins.copper ?? 0)),
+        };
+      }
+      if (effect.items) {
+        effect.items.forEach((item) => {
+          const itemCategory = convertItemTypeString(item);
+          if (itemCategory in active.inventory) {
+            const inv = (active.inventory as unknown as Record<string, InventoryItemBase[]>)[itemCategory];
+            const maxInstanceId = inv.filter((i) => i.id === item.id).reduce(
+              (max, i) => Math.max(max, i.instanceId ?? 0), 0
+            );
+            inv.push({ ...item, instanceId: maxInstanceId + 1 });
+          }
+        });
+      }
+    },
     resetCharacterState: (state) => {
       state.ActiveCharacter = null;
       state.characterLocation = null;
@@ -372,6 +405,7 @@ export const {
   subtractItemPriceFromCharacterCoins,
   updateCharacterCoins,
   updateCharacterHealthAndMagic,
+  applyQuestEffect,
   resetCharacterState,
   // Will use later when implementing party screen
   addCharacterToParty,

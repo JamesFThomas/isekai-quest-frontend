@@ -1,18 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../../store";
-import { QuestStory, QuestStoryId, StoryPointId } from "@/types/quest";
+import { BattleDetails, QuestStory, QuestStoryId, StoryPointId } from "@/types/quest";
 
 interface QuestState {
   acceptedQuest: QuestStory | null;
-  currentStoryPointId?: StoryPointId | null;
-  lastEndedQuestId?: QuestStoryId | null; // New state to track the last ended quest ID
+  currentStoryPointId: StoryPointId | null;
+  lastEndedQuestId: QuestStoryId | null;
+  pendingBattleDetails: BattleDetails | null;
 }
 
 export const initialState: QuestState = {
   acceptedQuest: null,
   currentStoryPointId: null,
   lastEndedQuestId: null,
+  pendingBattleDetails: null,
 };
 
 export const questSlice = createSlice({
@@ -20,16 +22,11 @@ export const questSlice = createSlice({
   initialState,
   reducers: {
     setAcceptedQuest: (state, action: PayloadAction<QuestStory | null>) => {
-      // when accepting a new quest, set the accepted quest and reset the current story point ID to the first point of the new quest
       state.acceptedQuest = action.payload;
-
-      // clear lastEndedQuestId when a new quest is accepted
       state.lastEndedQuestId = null;
-
-      // set the current story point ID to the first point of the accepted quest
-      if (action.payload && state.acceptedQuest) {
-        state.currentStoryPointId = action.payload.storyPoints[0].id;
-      }
+      state.currentStoryPointId = action.payload
+        ? action.payload.storyPoints[0].id
+        : null;
     },
     setCurrentStoryPointId: (
       state,
@@ -40,36 +37,43 @@ export const questSlice = createSlice({
     resetFailedQuestToFirstPoint: (state) => {
       if (state.acceptedQuest) {
         state.currentStoryPointId = state.acceptedQuest.storyPoints[0].id;
+        state.pendingBattleDetails = null;
       }
     },
     markQuestCompletedAndClearState: (state) => {
-      if (state.acceptedQuest) {
-        state.acceptedQuest.completed = true;
-        state.acceptedQuest = null;
-        state.currentStoryPointId = null;
-      }
+      state.lastEndedQuestId = state.acceptedQuest?.id ?? null;
+      state.acceptedQuest = null;
+      state.currentStoryPointId = null;
+      state.pendingBattleDetails = null;
     },
-    setLastEndedQuestId: (
+    markQuestFailedAndClearState: (state) => {
+      state.lastEndedQuestId = state.acceptedQuest?.id ?? null;
+      state.acceptedQuest = null;
+      state.currentStoryPointId = null;
+      state.pendingBattleDetails = null;
+    },
+    setPendingBattleDetails: (
       state,
-      action: PayloadAction<StoryPointId | null>,
+      action: PayloadAction<BattleDetails | null>,
     ) => {
-      state.lastEndedQuestId = action.payload;
+      state.pendingBattleDetails = action.payload;
     },
     resetQuestState: (state) => {
       state.acceptedQuest = null;
       state.currentStoryPointId = null;
       state.lastEndedQuestId = null;
+      state.pendingBattleDetails = null;
     },
   },
 });
 
-// export actions when made
 export const {
   setAcceptedQuest,
   setCurrentStoryPointId,
   resetFailedQuestToFirstPoint,
   markQuestCompletedAndClearState,
-  setLastEndedQuestId,
+  markQuestFailedAndClearState,
+  setPendingBattleDetails,
   resetQuestState,
 } = questSlice.actions;
 
@@ -89,11 +93,14 @@ export const selectCurrentStoryPoint = (state: RootState) => {
 
   return acceptedQuest.storyPoints.find(
     (point) => point.id === currentStoryPointId,
-  );
+  ) ?? null;
 };
 
 export const selectLastEndedQuestId = (state: RootState) =>
   state.quest.lastEndedQuestId;
+
+export const selectPendingBattleDetails = (state: RootState) =>
+  state.quest.pendingBattleDetails;
 
 export const selectQuestState = (state: RootState) => state.quest;
 

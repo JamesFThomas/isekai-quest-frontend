@@ -45,9 +45,11 @@ export default function MapScreen() {
   const onCommenceQuest = () => {  // Logic to handle quest commencement
     if (acceptedQuest) {
 
-      if (lastEndedQuestId !== null && acceptedQuest.id === lastEndedQuestId) { // check quest slice for last failed quest ID
-
-        dispatch(resetFailedQuestToFirstPoint());  // reset failed quest to first story point and restart quest
+      // Note: this branch is currently unreachable — setAcceptedQuest always nulls
+      // lastEndedQuestId on the same dispatch, so this condition never fires.
+      // resetFailedQuestToFirstPoint() remains available for explicit dispatch elsewhere.
+      if (lastEndedQuestId !== null && acceptedQuest.id === lastEndedQuestId) {
+        dispatch(resetFailedQuestToFirstPoint());
       }
 
       router.push('/storyscreen');    // redirect user to storyScreen if quest was accepted

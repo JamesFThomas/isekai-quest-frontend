@@ -205,6 +205,7 @@ export const createAccountLocalStorage = async (
           equipment: [],
           rations: [],
           potions: [],
+          questItems: [],
         },
         partyMembers: [],
       },

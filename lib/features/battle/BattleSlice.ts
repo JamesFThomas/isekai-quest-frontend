@@ -163,6 +163,7 @@ export const battleSlice = createSlice({
       }
 
       // check for death
+      if (!actor || !target) return;
       if (actor.hp <= 0 || target.hp <= 0) {
         // set battle result
         if (actor.hp <= 0 && actor.id === state.activeCharacter?.id) {

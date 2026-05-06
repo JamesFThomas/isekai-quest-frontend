@@ -1,20 +1,20 @@
-import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-
+import { screen } from '@testing-library/react';
+import { renderWithStore } from '@/lib/test-utils';
 import LogoutButton from './LogoutButton';
 
 jest.mock('next/navigation', () => ({
-  useRouter: jest.fn(),
+  useRouter: jest.fn(() => ({ push: jest.fn() })),
+}));
+
+jest.mock('@/lib/persistence/localPersistence', () => ({
+  clearSessionRefreshData: jest.fn(),
 }));
 
 describe('LogoutButton', () => {
-  it('Component renders a button with correct text', () => {
-    render(<LogoutButton />);
-
-    const button = screen.getByRole('button', { name: /logout/i });
-    const buttonText = screen.getByText('Logout');
-    expect(button).toBeInTheDocument();
-    expect(buttonText).toBeInTheDocument();
+  it('renders the logout icon button', () => {
+    renderWithStore(<LogoutButton />);
+    expect(screen.getByAltText('Logout Icon')).toBeInTheDocument();
   });
 
   // add test for logout functionality

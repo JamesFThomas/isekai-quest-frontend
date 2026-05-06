@@ -38,6 +38,7 @@ export const marshLightsQuest: QuestStory = {
             battle: {
               opponent: goblin,
               escapeAllowed: true,
+              nextPoints: { win: 'ml-p1', lose: 'ml-p1', flee: 'ml-p1' },
               escapePenalty: {
                 hp: -5,
                 mp: -5,

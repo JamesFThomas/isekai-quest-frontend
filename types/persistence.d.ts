@@ -1,4 +1,5 @@
-import { Character, CharacterStateSnapshot } from './character';
+import { Character, CharacterStateSnapshot } from "./character";
+import { QuestStory, QuestStoryId, StoryPointId } from "./quest";
 
 export interface AccountRecord {
   id: string;
@@ -38,15 +39,14 @@ export interface CharacterSaveRecord {
   updated_at: string;
 }
 
-/*
-  define a dedicated persisted session object shape that wraps the full refresh data you want to restore, 
-  using your updated ProgressionData plus the auth user, character data, location, and snapshot.
-*/
 export interface SessionRefreshData {
   accountId: string;
   email: string; // Optional email field for potential future use, not strictly needed for rehydration
   playerId: string;
   characterSnapshot: CharacterStateSnapshot;
+  acceptedQuest: QuestStory | null;
+  currentStoryPointId: StoryPointId | null;
+  lastEndedQuestId: QuestStoryId | null;
 }
 
 export interface LoginCredentials {

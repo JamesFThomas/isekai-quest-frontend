@@ -53,9 +53,10 @@ export const questSlice = createSlice({
     },
     markQuestFailedAndClearState: (state) => {
       state.lastEndedQuestId = state.acceptedQuest?.id ?? null;
-      state.acceptedQuest = null;
-      state.currentStoryPointId = null;
+      state.currentStoryPointId =
+        state.acceptedQuest?.storyPoints[0].id ?? null;
       state.pendingBattleDetails = null;
+      // acceptedQuest intentionally NOT cleared — player can restart from map
     },
     setPendingBattleDetails: (
       state,

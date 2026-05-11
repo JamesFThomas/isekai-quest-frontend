@@ -1,9 +1,9 @@
 "use client";
 
-import BackButton from "@/components/ui/BackButton/BackButton";
 import useProtectedRoute from "@/lib/hooks/useProtectedRoute";
 
 import { useAppDispatch, useAppSelector } from "@/lib/reduxHooks";
+
 import {
   selectAcceptedQuest,
   selectCurrentStoryPoint,
@@ -12,6 +12,8 @@ import {
   markQuestCompletedAndClearState,
   markQuestFailedAndClearState,
 } from "@/lib/features/quest/QuestSlice";
+
+import { addCompletedQuestId } from "@/lib/features/character/CharacterSlice";
 
 import {
   resetBattleState,
@@ -61,6 +63,9 @@ export default function StoryScreen() {
     }
 
     if (choice.outcome?.endState === "completed") {
+      if (quest?.id) {
+        dispatch(addCompletedQuestId(quest.id));
+      }
       dispatch(markQuestCompletedAndClearState());
       router.push("/homescreen");
       return;
@@ -68,7 +73,7 @@ export default function StoryScreen() {
 
     if (choice.outcome?.endState === "failed") {
       dispatch(markQuestFailedAndClearState());
-      router.push("/homescreen");
+      router.push("/mapscreen");
       return;
     }
 
@@ -112,9 +117,6 @@ export default function StoryScreen() {
             </div>
           </div>
         )}
-      </div>
-      <div className="mt-2">
-        <BackButton />
       </div>
     </div>
   );

@@ -1,34 +1,28 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useState } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
-import CommenceModal from '@/components/ui/CommenceModal/CommenceModal';
-import LocationModal from '@/components/ui/LocationModal/LocationModal';
-import useProtectedRoute from '@/lib/hooks/useProtectedRoute';
+import CommenceModal from "@/components/ui/CommenceModal/CommenceModal";
+import LocationModal from "@/components/ui/LocationModal/LocationModal";
+import useProtectedRoute from "@/lib/hooks/useProtectedRoute";
 
-import { useAppDispatch, useAppSelector } from '@/lib/reduxHooks';
+import { useAppSelector } from "@/lib/reduxHooks";
 
-import {
-  resetFailedQuestToFirstPoint,
-  selectAcceptedQuest,
-  selectLastEndedQuestId
- } from '@/lib/features/quest/QuestSlice';
+import { selectAcceptedQuest } from "@/lib/features/quest/QuestSlice";
 
- import { ControlPanel } from '@/components/ui/ControlPanel/ContolPanel';
+import { ControlPanel } from "@/components/ui/ControlPanel/ContolPanel";
 
 export default function MapScreen() {
   useProtectedRoute();
 
-  const dispatch = useAppDispatch();
   const router = useRouter();
 
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
   const [isCommenceModalOpen, setIsCommenceModalOpen] = useState(false);
 
   const acceptedQuest = useAppSelector(selectAcceptedQuest);
-  const lastEndedQuestId = useAppSelector(selectLastEndedQuestId);
 
   const openLocationModal = () => {
     setIsLocationModalOpen(true);
@@ -36,24 +30,16 @@ export default function MapScreen() {
 
   const openCommenceModal = () => {
     if (!acceptedQuest) {
-      console.warn('No quest accepted to commence');
+      console.warn("No quest accepted to commence");
       return;
     }
     setIsCommenceModalOpen(true);
   };
 
-  const onCommenceQuest = () => {  // Logic to handle quest commencement
+  const onCommenceQuest = () => {
     if (acceptedQuest) {
-
-      // Note: this branch is currently unreachable — setAcceptedQuest always nulls
-      // lastEndedQuestId on the same dispatch, so this condition never fires.
-      // resetFailedQuestToFirstPoint() remains available for explicit dispatch elsewhere.
-      if (lastEndedQuestId !== null && acceptedQuest.id === lastEndedQuestId) {
-        dispatch(resetFailedQuestToFirstPoint());
-      }
-
-      router.push('/storyscreen');    // redirect user to storyScreen if quest was accepted
-      setIsCommenceModalOpen(false);  // close the commence modal
+      router.push("/storyscreen");
+      setIsCommenceModalOpen(false);
     }
   };
 
@@ -68,39 +54,39 @@ export default function MapScreen() {
       <ControlPanel />
 
       <div
-        className='mapscreen-container flex flex-col justify-center items-center gap-4'
+        className="mapscreen-container flex flex-col justify-center items-center gap-4"
         style={{
           flexGrow: 1,
         }}
       >
         <button
-          className='compass-image flex flex-col items-center justify-center cursor-pointer'
+          className="compass-image flex flex-col items-center justify-center cursor-pointer"
           onClick={openLocationModal}
         >
           <Image
-            alt={'Compass Icon'}
-            src={'/mapscreen_icons/compass_icon.png'}
+            alt={"Compass Icon"}
+            src={"/mapscreen_icons/compass_icon.png"}
             width={300}
             height={300}
           />
-          <span className='text-center  text-white font-semibold z-1 mt-[-4rem]'>
+          <span className="text-center  text-white font-semibold z-1 mt-[-4rem]">
             Location: {currentLocation}
           </span>
         </button>
         <button
           className={`shield-image flex flex-col items-center justify-center ${
-            acceptedQuest ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
+            acceptedQuest ? "cursor-pointer" : "cursor-not-allowed opacity-50"
           }`}
           onClick={openCommenceModal}
         >
           <Image
-            alt={'Compass Icon'}
-            src={'/mapscreen_icons/shield_icon.png'}
+            alt={"Compass Icon"}
+            src={"/mapscreen_icons/shield_icon.png"}
             width={300}
             height={300}
           />
-          <span className='text-center text-white font-semibold z-1'>
-            Quest: {questName ? questName : 'None Accepted'}
+          <span className="text-center text-white font-semibold z-1">
+            Quest: {questName ? questName : "None Accepted"}
           </span>
         </button>
       </div>

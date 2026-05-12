@@ -1,9 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../../store";
-import { BattleDetails, QuestStory, QuestStoryId, StoryPointId } from "@/types/quest";
+import {
+  BattleDetails,
+  QuestStory,
+  QuestStoryId,
+  StoryPointId,
+} from "@/types/quest";
 
 interface QuestState {
+  availableQuests: QuestStory[];
   acceptedQuest: QuestStory | null;
   currentStoryPointId: StoryPointId | null;
   lastEndedQuestId: QuestStoryId | null;
@@ -11,6 +17,7 @@ interface QuestState {
 }
 
 export const initialState: QuestState = {
+  availableQuests: [],
   acceptedQuest: null,
   currentStoryPointId: null,
   lastEndedQuestId: null,
@@ -48,15 +55,33 @@ export const questSlice = createSlice({
     },
     markQuestFailedAndClearState: (state) => {
       state.lastEndedQuestId = state.acceptedQuest?.id ?? null;
-      state.acceptedQuest = null;
-      state.currentStoryPointId = null;
+      state.currentStoryPointId =
+        state.acceptedQuest?.storyPoints[0].id ?? null;
       state.pendingBattleDetails = null;
+      // acceptedQuest intentionally NOT cleared — player can restart from map
     },
     setPendingBattleDetails: (
       state,
       action: PayloadAction<BattleDetails | null>,
     ) => {
       state.pendingBattleDetails = action.payload;
+    },
+    setLastEndedQuestId: (
+      state,
+      action: PayloadAction<QuestStoryId | null>,
+    ) => {
+      state.lastEndedQuestId = action.payload;
+    },
+    setAvailableQuests: (state, action: PayloadAction<QuestStory[]>) => {
+      state.availableQuests = action.payload;
+    },
+    setAcceptedQuestById: (state, action: PayloadAction<string | null>) => {
+      if (!action.payload) {
+        state.acceptedQuest = null;
+        return;
+      }
+      const quest = state.availableQuests.find((q) => q.id === action.payload);
+      state.acceptedQuest = quest ?? null;
     },
     resetQuestState: (state) => {
       state.acceptedQuest = null;
@@ -74,6 +99,9 @@ export const {
   markQuestCompletedAndClearState,
   markQuestFailedAndClearState,
   setPendingBattleDetails,
+  setLastEndedQuestId,
+  setAvailableQuests,
+  setAcceptedQuestById,
   resetQuestState,
 } = questSlice.actions;
 
@@ -91,9 +119,11 @@ export const selectCurrentStoryPoint = (state: RootState) => {
     return null;
   }
 
-  return acceptedQuest.storyPoints.find(
-    (point) => point.id === currentStoryPointId,
-  ) ?? null;
+  return (
+    acceptedQuest.storyPoints.find(
+      (point) => point.id === currentStoryPointId,
+    ) ?? null
+  );
 };
 
 export const selectLastEndedQuestId = (state: RootState) =>
@@ -103,5 +133,8 @@ export const selectPendingBattleDetails = (state: RootState) =>
   state.quest.pendingBattleDetails;
 
 export const selectQuestState = (state: RootState) => state.quest;
+
+export const selectAvailableQuests = (state: RootState) =>
+  state.quest.availableQuests;
 
 export default questSlice.reducer;

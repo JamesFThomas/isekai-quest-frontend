@@ -1,10 +1,11 @@
-import { getDbConnection } from '@/lib/server/db/azureSql';
-import { NextResponse } from 'next/server';
-import { randomUUID } from 'crypto';
-import sql from 'mssql';
-import { ProgressionData } from '@/types/persistence';
-import bcrypt from 'bcryptjs';
+import { getDbConnection } from "@/lib/server/db/azureSql";
+import { NextResponse } from "next/server";
+import { randomUUID } from "crypto";
+import sql from "mssql";
+import { ProgressionData } from "@/types/persistence";
+import bcrypt from "bcryptjs";
 
+import { getStarterLoadout } from "@/lib/utils/getStarterLoadout";
 /*
 The registration route will create a new account record in the accounts table, a new player record in the players table linked to the account, and a new character save record in the character_saves table linked to the player.
 The password will be hashed before storing.
@@ -22,20 +23,20 @@ export async function POST(request: Request) {
     // check body for CreateAccountInput input values and respond with 400 if not present
     if (
       !body.email ||
-      typeof body.email !== 'string' ||
+      typeof body.email !== "string" ||
       !body.password ||
-      typeof body.password !== 'string' ||
+      typeof body.password !== "string" ||
       !body.characterName ||
-      typeof body.characterName !== 'string' ||
+      typeof body.characterName !== "string" ||
       !body.avatar ||
-      typeof body.avatar !== 'string' ||
+      typeof body.avatar !== "string" ||
       !body.characterClass ||
-      typeof body.characterClass !== 'string'
+      typeof body.characterClass !== "string"
     ) {
       return NextResponse.json(
         {
           success: false,
-          message: 'Missing required fields in registration data',
+          message: "Missing required fields in registration data",
           data: {},
         },
         { status: 400 },
@@ -48,14 +49,14 @@ export async function POST(request: Request) {
     // Accounts lookup for duplicate account by email fail with 409 if found
     const existingAccountResult = await pool
       .request()
-      .input('email', sql.NVarChar, body.email.toLowerCase().trim())
-      .query('SELECT id FROM accounts WHERE email = @email');
+      .input("email", sql.NVarChar, body.email.toLowerCase().trim())
+      .query("SELECT id FROM accounts WHERE email = @email");
 
     if (existingAccountResult.recordset.length > 0) {
       return NextResponse.json(
         {
           success: false,
-          message: 'An account with this email already exists',
+          message: "An account with this email already exists",
           data: {},
         },
         { status: 409 },
@@ -79,9 +80,9 @@ export async function POST(request: Request) {
     // insert account record
     await transaction
       .request()
-      .input('id', sql.UniqueIdentifier, accountId)
-      .input('email', sql.NVarChar(255), normalizedEmail)
-      .input('password_hash', sql.NVarChar(255), passwordHash).query(`
+      .input("id", sql.UniqueIdentifier, accountId)
+      .input("email", sql.NVarChar(255), normalizedEmail)
+      .input("password_hash", sql.NVarChar(255), passwordHash).query(`
         INSERT INTO accounts (id, email, password_hash)
         VALUES (@id, @email, @password_hash)
       `);
@@ -89,21 +90,21 @@ export async function POST(request: Request) {
     // check if account record was created successfully
     const newAccountResult = await transaction
       .request()
-      .input('id', sql.UniqueIdentifier, accountId)
-      .query('SELECT id, email FROM accounts WHERE id = @id');
+      .input("id", sql.UniqueIdentifier, accountId)
+      .query("SELECT id, email FROM accounts WHERE id = @id");
 
     if (newAccountResult.recordset.length === 0) {
       // throw error to trigger transaction rollback
-      throw new Error('Failed to create account');
+      throw new Error("Failed to create account");
     }
 
     // create player record with accountId
     const playerId = randomUUID();
     await transaction
       .request()
-      .input('id', sql.UniqueIdentifier, playerId)
-      .input('account_id', sql.UniqueIdentifier, accountId)
-      .input('display_name', sql.NVarChar(255), body.characterName.trim())
+      .input("id", sql.UniqueIdentifier, playerId)
+      .input("account_id", sql.UniqueIdentifier, accountId)
+      .input("display_name", sql.NVarChar(255), body.characterName.trim())
       .query(`
         INSERT INTO players (id, account_id, display_name)
         VALUES (@id, @account_id, @display_name)
@@ -112,23 +113,25 @@ export async function POST(request: Request) {
     // check for player record was created successfully
     const newPlayerResult = await transaction
       .request()
-      .input('id', sql.UniqueIdentifier, playerId)
-      .query('SELECT id FROM players WHERE id = @id');
+      .input("id", sql.UniqueIdentifier, playerId)
+      .query("SELECT id FROM players WHERE id = @id");
 
     if (newPlayerResult.recordset.length === 0) {
       // throw error to trigger transaction rollback
-      throw new Error('Failed to create player');
+      throw new Error("Failed to create player");
     }
 
     // Create the character_saves insert using the playerId, and build the initial characterData and progressionData objects
 
     const initialProgressionData: ProgressionData = {
       completedQuestIds: [],
-      currentTown: 'StartsVille',
+      currentTown: "StartsVille",
       acceptedQuestId: null,
       currentStoryPointId: null,
       lastEndedQuestId: null,
     };
+
+    const starterLoadout = getStarterLoadout(body.characterClass.trim());
 
     const newCharacterSave = {
       id: randomUUID(),
@@ -144,47 +147,47 @@ export async function POST(request: Request) {
         mp: 100,
         maxMp: 100,
         inventory: {
-          attacks: [],
-          skills: [],
           coins: {
             gold: 100, // TODO: update starting coins once all quests complete
             silver: 100, // TODO: update starting coins once all quests complete
             copper: 100, // TODO: update starting coins once all quests complete
           },
-          weapons: [],
-          equipment: [],
+          attacks: starterLoadout.attacks,
+          skills: starterLoadout.skills,
+          weapons: starterLoadout.weapons,
+          equipment: starterLoadout.equipment,
           rations: [],
           potions: [],
         },
         partyMembers: [],
       },
       progression_data: initialProgressionData,
-      schema_version: '1.0.0',
-      game_version_last_played: '1.0.0',
+      schema_version: "1.0.0",
+      game_version_last_played: "1.0.0",
     };
 
     // character_saves record
     await transaction
       .request()
-      .input('id', sql.UniqueIdentifier, newCharacterSave.id)
-      .input('player_id', sql.UniqueIdentifier, playerId)
+      .input("id", sql.UniqueIdentifier, newCharacterSave.id)
+      .input("player_id", sql.UniqueIdentifier, playerId)
       .input(
-        'character_data',
+        "character_data",
         sql.NVarChar,
         JSON.stringify(newCharacterSave.character_data),
       )
       .input(
-        'progression_data',
+        "progression_data",
         sql.NVarChar,
         JSON.stringify(newCharacterSave.progression_data),
       )
       .input(
-        'schema_version',
+        "schema_version",
         sql.NVarChar(50),
         newCharacterSave.schema_version,
       )
       .input(
-        'game_version_last_played',
+        "game_version_last_played",
         sql.NVarChar(50),
         newCharacterSave.game_version_last_played,
       ).query(`
@@ -195,12 +198,12 @@ export async function POST(request: Request) {
     // check if character_saves record was created successfully
     const newCharacterSaveResult = await transaction
       .request()
-      .input('id', sql.UniqueIdentifier, newCharacterSave.id)
-      .query('SELECT id FROM character_saves WHERE id = @id');
+      .input("id", sql.UniqueIdentifier, newCharacterSave.id)
+      .query("SELECT id FROM character_saves WHERE id = @id");
 
     if (newCharacterSaveResult.recordset.length === 0) {
       // throw error to trigger transaction rollback
-      throw new Error('Failed to create character save');
+      throw new Error("Failed to create character save");
     }
 
     // complete the transaction
@@ -210,7 +213,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         success: true,
-        message: 'Account created successfully',
+        message: "Account created successfully",
         data: {
           account: newAccountResult.recordset[0],
           player: newPlayerResult.recordset[0],
@@ -223,21 +226,21 @@ export async function POST(request: Request) {
       { status: 201 },
     );
   } catch (error) {
-    console.error('Error in registration route:', error);
+    console.error("Error in registration route:", error);
 
     if (transaction) {
       try {
         await transaction.rollback();
       } catch (rollbackError) {
-        console.error('Error rolling back transaction:', rollbackError);
+        console.error("Error rolling back transaction:", rollbackError);
       }
     }
 
     return NextResponse.json(
       {
         success: false,
-        message: 'Registration failed. Please try again.',
-        errorCode: 'REGISTER_UNAVAILABLE',
+        message: "Registration failed. Please try again.",
+        errorCode: "REGISTER_UNAVAILABLE",
         data: {},
       },
       { status: 500 },

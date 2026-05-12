@@ -1,14 +1,14 @@
-import { getDbConnection } from '@/lib/server/db/azureSql';
-import { NextResponse } from 'next/server';
-import sql from 'mssql';
-import bcrypt from 'bcryptjs';
+import { getDbConnection } from "@/lib/server/db/azureSql";
+import { NextResponse } from "next/server";
+import sql from "mssql";
+import bcrypt from "bcryptjs";
 import {
   AuthenticatedAccount,
   PersistenceResponseData,
   ProgressionData,
   SessionRefreshData,
-} from '@/types/persistence';
-import { Character } from '@/types/character';
+} from "@/types/persistence";
+import { Character } from "@/types/character";
 
 export async function POST(request: Request) {
   try {
@@ -17,14 +17,14 @@ export async function POST(request: Request) {
     // check body for LoginCredentials input values and respond with 400 if not present
     if (
       !body.email ||
-      typeof body.email !== 'string' ||
+      typeof body.email !== "string" ||
       !body.password ||
-      typeof body.password !== 'string'
+      typeof body.password !== "string"
     ) {
       return NextResponse.json(
         {
           success: false,
-          message: 'Missing required fields in login data',
+          message: "Missing required fields in login data",
           data: {},
         },
         { status: 400 },
@@ -40,14 +40,14 @@ export async function POST(request: Request) {
     // lookup account by email
     const accountResult = await pool
       .request()
-      .input('email', sql.NVarChar, normalizedEmail)
-      .query('SELECT id, password_hash FROM accounts WHERE email = @email');
+      .input("email", sql.NVarChar, normalizedEmail)
+      .query("SELECT id, password_hash FROM accounts WHERE email = @email");
 
     if (accountResult.recordset.length === 0) {
       return NextResponse.json(
         {
           success: false,
-          message: 'Invalid email or password',
+          message: "Invalid email or password",
           data: {},
         },
         { status: 401 },
@@ -63,7 +63,7 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           success: false,
-          message: 'Invalid email or password',
+          message: "Invalid email or password",
           data: {},
         },
         { status: 401 },
@@ -73,22 +73,22 @@ export async function POST(request: Request) {
     // Update accounts.last_login_at to current timestamp
     const updateResult = await pool
       .request()
-      .input('id', sql.UniqueIdentifier, accountResult.recordset[0].id)
+      .input("id", sql.UniqueIdentifier, accountResult.recordset[0].id)
       .query(
-        'UPDATE accounts SET last_login_at = SYSUTCDATETIME() WHERE id = @id',
+        "UPDATE accounts SET last_login_at = SYSUTCDATETIME() WHERE id = @id",
       );
 
-    console.log('Rows affected:', updateResult.rowsAffected);
+    console.log("Rows affected:", updateResult.rowsAffected);
 
     console.log(
-      'Updating last_login_at for accountId:',
+      "Updating last_login_at for accountId:",
       accountResult.recordset[0].id,
     );
 
     // Load player + character save data for the account to return in the response for client session hydration
     const playerResult = await pool
       .request()
-      .input('accountId', sql.UniqueIdentifier, accountResult.recordset[0].id)
+      .input("accountId", sql.UniqueIdentifier, accountResult.recordset[0].id)
       .query(`
           SELECT p.id as playerId, p.display_name, cs.character_data, cs.progression_data
           FROM players p
@@ -97,7 +97,7 @@ export async function POST(request: Request) {
         `);
 
     if (playerResult.recordset.length === 0) {
-      throw new Error('No player data found for account'); // This should not happen if registration creates player and character save correctly
+      throw new Error("No player data found for account"); // This should not happen if registration creates player and character save correctly
     }
 
     // Return session/refresh payload with player and character data for client session hydration
@@ -119,6 +119,10 @@ export async function POST(request: Request) {
         characterData: parsedCharacterData,
         progressionData: parsedProgressionData,
       },
+
+      acceptedQuestId: parsedProgressionData.acceptedQuestId ?? null,
+      currentStoryPointId: parsedProgressionData.currentStoryPointId ?? null,
+      lastEndedQuestId: parsedProgressionData.lastEndedQuestId ?? null,
     };
 
     // Build sanitized account object to include in the response (exclude password hash)
@@ -135,19 +139,19 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         success: true,
-        message: 'Login successful',
+        message: "Login successful",
         data: persistenceResponseData,
       },
       { status: 200 },
     );
   } catch (error) {
-    console.error('Error in login route:', error);
+    console.error("Error in login route:", error);
     return NextResponse.json(
       {
         success: false,
-        message: 'Login failed. Please try again.',
-        errorCode: 'LOGIN_UNAVAILABLE',
-        data: {}
+        message: "Login failed. Please try again.",
+        errorCode: "LOGIN_UNAVAILABLE",
+        data: {},
       },
       { status: 500 },
     );

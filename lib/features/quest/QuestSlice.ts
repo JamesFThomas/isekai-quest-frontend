@@ -9,6 +9,7 @@ import {
 } from "@/types/quest";
 
 interface QuestState {
+  availableQuests: QuestStory[];
   acceptedQuest: QuestStory | null;
   currentStoryPointId: StoryPointId | null;
   lastEndedQuestId: QuestStoryId | null;
@@ -16,6 +17,7 @@ interface QuestState {
 }
 
 export const initialState: QuestState = {
+  availableQuests: [],
   acceptedQuest: null,
   currentStoryPointId: null,
   lastEndedQuestId: null,
@@ -70,6 +72,17 @@ export const questSlice = createSlice({
     ) => {
       state.lastEndedQuestId = action.payload;
     },
+    setAvailableQuests: (state, action: PayloadAction<QuestStory[]>) => {
+      state.availableQuests = action.payload;
+    },
+    setAcceptedQuestById: (state, action: PayloadAction<string | null>) => {
+      if (!action.payload) {
+        state.acceptedQuest = null;
+        return;
+      }
+      const quest = state.availableQuests.find((q) => q.id === action.payload);
+      state.acceptedQuest = quest ?? null;
+    },
     resetQuestState: (state) => {
       state.acceptedQuest = null;
       state.currentStoryPointId = null;
@@ -87,6 +100,8 @@ export const {
   markQuestFailedAndClearState,
   setPendingBattleDetails,
   setLastEndedQuestId,
+  setAvailableQuests,
+  setAcceptedQuestById,
   resetQuestState,
 } = questSlice.actions;
 
@@ -118,5 +133,8 @@ export const selectPendingBattleDetails = (state: RootState) =>
   state.quest.pendingBattleDetails;
 
 export const selectQuestState = (state: RootState) => state.quest;
+
+export const selectAvailableQuests = (state: RootState) =>
+  state.quest.availableQuests;
 
 export default questSlice.reducer;

@@ -114,7 +114,7 @@ export default function RegistrationModal({
           email: account.email,
           playerId: player.id,
           characterSnapshot: characterSnapshot,
-          acceptedQuest: null,
+          acceptedQuestId: null,
           currentStoryPointId: null,
           lastEndedQuestId: null,
         };

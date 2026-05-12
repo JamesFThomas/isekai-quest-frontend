@@ -4,6 +4,7 @@ import "./globals.css";
 
 import StoreProvider from "./StoreProvider";
 import { RefreshDataProvider } from "@/components/ui/RefreshDataProvider/RefreshDataProvider";
+import { GameDataProvider } from "@/components/ui/GameDataProvider/GameDataProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,7 +30,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <StoreProvider>
-          <RefreshDataProvider>{children}</RefreshDataProvider>
+          <GameDataProvider>
+            <RefreshDataProvider>{children}</RefreshDataProvider>
+          </GameDataProvider>
         </StoreProvider>
       </body>
     </html>

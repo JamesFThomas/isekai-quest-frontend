@@ -2,7 +2,7 @@
 
 import { ReactNode, useEffect, useState } from "react";
 import { loadSessionRefreshData } from "@/lib/persistence/localPersistence";
-import { useAppDispatch } from "@/lib/reduxHooks";
+import { useAppDispatch, useAppSelector } from "@/lib/reduxHooks";
 
 import { login, User } from "@/lib/features/auth/AuthSlice";
 
@@ -13,7 +13,8 @@ import {
 } from "@/lib/features/character/CharacterSlice";
 
 import {
-  setAcceptedQuest,
+  selectAvailableQuests,
+  setAcceptedQuestById,
   setCurrentStoryPointId,
   setLastEndedQuestId,
 } from "@/lib/features/quest/QuestSlice";
@@ -26,11 +27,14 @@ interface RefreshDataProviderProps {
 
 export const RefreshDataProvider = ({ children }: RefreshDataProviderProps) => {
   const dispatch = useAppDispatch();
+  const availableQuests = useAppSelector(selectAvailableQuests);
 
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     console.log("Checking for session refresh data in local storage...");
+
+    if (availableQuests.length === 0) return; // wait for game data to load
 
     setIsLoading(true);
 
@@ -84,10 +88,8 @@ export const RefreshDataProvider = ({ children }: RefreshDataProviderProps) => {
     dispatch(setCharacterSnapshot(characterSnapshot));
 
     // Step 8: Restore quest state in Redux
-    if (refreshSessionData.acceptedQuest) {
-      dispatch(setAcceptedQuest(refreshSessionData.acceptedQuest));
-      // setAcceptedQuest resets currentStoryPointId to storyPoints[0]
-      // so we override it with the saved position immediately after
+    if (refreshSessionData.acceptedQuestId) {
+      dispatch(setAcceptedQuestById(refreshSessionData.acceptedQuestId));
       dispatch(setCurrentStoryPointId(refreshSessionData.currentStoryPointId));
     }
 
@@ -96,7 +98,7 @@ export const RefreshDataProvider = ({ children }: RefreshDataProviderProps) => {
     }
 
     setIsLoading(false);
-  }, [dispatch]);
+  }, [dispatch, availableQuests]);
 
   if (isLoading) {
     return null;

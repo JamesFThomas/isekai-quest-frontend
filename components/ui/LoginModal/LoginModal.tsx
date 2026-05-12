@@ -180,7 +180,7 @@ export default function LoginModal({
           email: account.email,
           playerId: player.id,
           characterSnapshot: characterSnapshot,
-          acceptedQuest: null,
+          acceptedQuestId: null,
           currentStoryPointId: progressionData.currentStoryPointId ?? null,
           lastEndedQuestId: progressionData.lastEndedQuestId ?? null,
         };

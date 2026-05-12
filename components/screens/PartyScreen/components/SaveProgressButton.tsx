@@ -81,7 +81,7 @@ export const SaveProgressButton = () => {
         email: user.email,
         playerId: user.playerId,
         characterSnapshot: updatedCharacterSnapshot,
-        acceptedQuest: acceptedQuest ?? null,
+        acceptedQuestId: acceptedQuest?.id ?? null,
         currentStoryPointId: currentStoryPointId ?? null,
         lastEndedQuestId: lastEndedQuestId ?? null,
       };

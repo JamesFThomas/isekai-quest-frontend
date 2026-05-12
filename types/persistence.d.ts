@@ -1,5 +1,5 @@
 import { Character, CharacterStateSnapshot } from "./character";
-import { QuestStory, QuestStoryId, StoryPointId } from "./quest";
+import { QuestStoryId, StoryPointId } from "./quest";
 
 export interface AccountRecord {
   id: string;
@@ -41,10 +41,10 @@ export interface CharacterSaveRecord {
 
 export interface SessionRefreshData {
   accountId: string;
-  email: string; // Optional email field for potential future use, not strictly needed for rehydration
+  email: string;
   playerId: string;
   characterSnapshot: CharacterStateSnapshot;
-  acceptedQuest: QuestStory | null;
+  acceptedQuestId: string | null;
   currentStoryPointId: StoryPointId | null;
   lastEndedQuestId: QuestStoryId | null;
 }

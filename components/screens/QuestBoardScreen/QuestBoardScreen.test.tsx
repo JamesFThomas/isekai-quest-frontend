@@ -1,35 +1,48 @@
-import React from 'react';
-import '@testing-library/jest-dom';
-import { screen, fireEvent, act } from '@testing-library/react';
-import { renderWithStore } from '@/lib/test-utils';
-import QuestBoardScreen from './QuestBoardScreen';
-import type { QuestStory } from '@/types/quest';
+import React from "react";
+import "@testing-library/jest-dom";
+import { screen, fireEvent, act } from "@testing-library/react";
+import { renderWithStore } from "@/lib/test-utils";
+import QuestBoardScreen from "./QuestBoardScreen";
+import type { QuestStory } from "@/types/quest";
 
-jest.mock('next/navigation', () => ({
+jest.mock("next/navigation", () => ({
   useRouter: jest.fn(() => ({ push: jest.fn() })),
-  usePathname: jest.fn(() => '/'),
+  usePathname: jest.fn(() => "/"),
 }));
 
-jest.mock('@/lib/hooks/useProtectedRoute', () => ({
+jest.mock("@/lib/hooks/useProtectedRoute", () => ({
   __esModule: true,
   default: jest.fn(),
 }));
 
 const baseState = {
-  quest: { acceptedQuest: null, currentStoryPointId: null, lastEndedQuestId: null, pendingBattleDetails: null },
+  quest: {
+    availableQuests: [],
+    acceptedQuest: null,
+    currentStoryPointId: null,
+    lastEndedQuestId: null,
+    pendingBattleDetails: null,
+  },
 };
 
 const enabledQuest: QuestStory = {
-  id: 'ambushReconQuest',
-  name: 'Ambush Alley Recon',
-  description: 'Scout the bandit camp.',
-  coverImageSrc: '/quests/ambush_cover.png',
+  id: "ambushReconQuest",
+  name: "Ambush Alley Recon",
+  description: "Scout the bandit camp.",
+  coverImageSrc: "/quests/ambush_cover.png",
   storyPoints: [
     {
-      id: 'sp1',
-      imageSrc: '/sp1.png',
-      text: 'You reach the ambush point.',
-      choices: [{ label: 'a', text: 'Continue', nextPointId: null, outcome: { endState: 'completed' } }],
+      id: "sp1",
+      imageSrc: "/sp1.png",
+      text: "You reach the ambush point.",
+      choices: [
+        {
+          label: "a",
+          text: "Continue",
+          nextPointId: null,
+          outcome: { endState: "completed" },
+        },
+      ],
     },
   ],
 };
@@ -54,23 +67,23 @@ const enabledQuest: QuestStory = {
  *   When I view the Quest Board
  *   Then the accepted quest image has a highlight class applied
  */
-describe('QuestBoardScreen', () => {
+describe("QuestBoardScreen", () => {
   afterEach(() => {
     jest.clearAllMocks();
     jest.useRealTimers();
   });
 
-  it('renders quest cards from the quest data', () => {
+  it("renders quest cards from the quest data", () => {
     renderWithStore(<QuestBoardScreen />, baseState);
     expect(screen.getByText(enabledQuest.name)).toBeInTheDocument();
   });
 
-  it('clicking a quest and accepting it updates store state', async () => {
+  it("clicking a quest and accepting it updates store state", async () => {
     jest.useFakeTimers();
     const { store } = renderWithStore(<QuestBoardScreen />, baseState);
 
     fireEvent.click(screen.getByAltText(`${enabledQuest.name} Quest Image`));
-    fireEvent.click(screen.getByRole('button', { name: /accept/i }));
+    fireEvent.click(screen.getByRole("button", { name: /accept/i }));
 
     await act(async () => {
       jest.runAllTimers();
@@ -79,9 +92,10 @@ describe('QuestBoardScreen', () => {
     expect(store.getState().quest.acceptedQuest?.id).toBe(enabledQuest.id);
   });
 
-  it('the accepted quest image has a highlight class', () => {
+  it("the accepted quest image has a highlight class", () => {
     const acceptedState = {
       quest: {
+        availableQuests: [enabledQuest],
         acceptedQuest: enabledQuest,
         currentStoryPointId: enabledQuest.storyPoints[0]?.id ?? null,
         lastEndedQuestId: null,
@@ -90,6 +104,6 @@ describe('QuestBoardScreen', () => {
     };
     renderWithStore(<QuestBoardScreen />, acceptedState);
     const questImg = screen.getByAltText(`${enabledQuest.name} Quest Image`);
-    expect(questImg).toHaveClass('ring-yellow-300');
+    expect(questImg).toHaveClass("ring-yellow-300");
   });
 });

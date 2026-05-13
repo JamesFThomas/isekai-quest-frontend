@@ -366,22 +366,38 @@ export const characterSlice = createSlice({
       }
       if (effect.coins) {
         active.inventory.coins = {
-          gold: Math.max(0, active.inventory.coins.gold + (effect.coins.gold ?? 0)),
-          silver: Math.max(0, active.inventory.coins.silver + (effect.coins.silver ?? 0)),
-          copper: Math.max(0, active.inventory.coins.copper + (effect.coins.copper ?? 0)),
+          gold: Math.max(
+            0,
+            active.inventory.coins.gold + (effect.coins.gold ?? 0),
+          ),
+          silver: Math.max(
+            0,
+            active.inventory.coins.silver + (effect.coins.silver ?? 0),
+          ),
+          copper: Math.max(
+            0,
+            active.inventory.coins.copper + (effect.coins.copper ?? 0),
+          ),
         };
       }
       if (effect.items) {
         effect.items.forEach((item) => {
           const itemCategory = convertItemTypeString(item);
           if (itemCategory in active.inventory) {
-            const inv = (active.inventory as unknown as Record<string, InventoryItemBase[]>)[itemCategory];
-            const maxInstanceId = inv.filter((i) => i.id === item.id).reduce(
-              (max, i) => Math.max(max, i.instanceId ?? 0), 0
-            );
+            const inv = (
+              active.inventory as unknown as Record<string, InventoryItemBase[]>
+            )[itemCategory];
+            const maxInstanceId = inv
+              .filter((i) => i.id === item.id)
+              .reduce((max, i) => Math.max(max, i.instanceId ?? 0), 0);
             inv.push({ ...item, instanceId: maxInstanceId + 1 });
           }
         });
+      }
+    },
+    addCompletedQuestId: (state, action: PayloadAction<string>) => {
+      if (!state.completedQuestIds.includes(action.payload)) {
+        state.completedQuestIds.push(action.payload);
       }
     },
     resetCharacterState: (state) => {
@@ -406,6 +422,7 @@ export const {
   updateCharacterCoins,
   updateCharacterHealthAndMagic,
   applyQuestEffect,
+  addCompletedQuestId,
   resetCharacterState,
   // Will use later when implementing party screen
   addCharacterToParty,

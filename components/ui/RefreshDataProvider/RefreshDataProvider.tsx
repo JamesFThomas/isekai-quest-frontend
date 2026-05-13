@@ -1,16 +1,25 @@
-'use client';
+"use client";
 
-import { ReactNode, useEffect, useState } from 'react';
-import { loadSessionRefreshData } from '@/lib/persistence/localPersistence';
-import { useAppDispatch } from '@/lib/reduxHooks';
+import { ReactNode, useEffect, useState } from "react";
+import { loadSessionRefreshData } from "@/lib/persistence/localPersistence";
+import { useAppDispatch, useAppSelector } from "@/lib/reduxHooks";
 
-import { login, User } from '@/lib/features/auth/AuthSlice';
+import { login, User } from "@/lib/features/auth/AuthSlice";
+
 import {
   setActiveCharacter,
   setCharacterLocation,
   setCharacterSnapshot,
-} from '@/lib/features/character/CharacterSlice';
-import { PersistenceResponse } from '@/types/persistence';
+} from "@/lib/features/character/CharacterSlice";
+
+import {
+  selectAvailableQuests,
+  setAcceptedQuestById,
+  setCurrentStoryPointId,
+  setLastEndedQuestId,
+} from "@/lib/features/quest/QuestSlice";
+
+import { PersistenceResponse } from "@/types/persistence";
 
 interface RefreshDataProviderProps {
   children: ReactNode;
@@ -18,11 +27,14 @@ interface RefreshDataProviderProps {
 
 export const RefreshDataProvider = ({ children }: RefreshDataProviderProps) => {
   const dispatch = useAppDispatch();
+  const availableQuests = useAppSelector(selectAvailableQuests);
 
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    console.log('Checking for session refresh data in local storage...');
+    console.log("Checking for session refresh data in local storage...");
+
+    if (availableQuests.length === 0) return; // wait for game data to load
 
     setIsLoading(true);
 
@@ -31,7 +43,7 @@ export const RefreshDataProvider = ({ children }: RefreshDataProviderProps) => {
 
     // Step 2: Stop if no valid refresh data exists
     if (!refreshResponse.success || !refreshResponse.data?.refreshSessionData) {
-      console.log('No session refresh data found in local storage.');
+      console.log("No session refresh data found in local storage.");
       setIsLoading(false);
 
       return;
@@ -52,12 +64,12 @@ export const RefreshDataProvider = ({ children }: RefreshDataProviderProps) => {
       !email ||
       !playerId
     ) {
-      console.error('Session refresh data is missing required fields.');
+      console.error("Session refresh data is missing required fields.");
       setIsLoading(false);
       return;
     }
 
-    console.log('Session refresh data found:', refreshSessionData);
+    console.log("Session refresh data found:", refreshSessionData);
 
     // Step 5: Rebuild minimal auth user for Redux rehydration
     const user: User = {
@@ -74,8 +86,19 @@ export const RefreshDataProvider = ({ children }: RefreshDataProviderProps) => {
     dispatch(setActiveCharacter(characterData));
     dispatch(setCharacterLocation(progressionData.currentTown));
     dispatch(setCharacterSnapshot(characterSnapshot));
+
+    // Step 8: Restore quest state in Redux
+    if (refreshSessionData.acceptedQuestId) {
+      dispatch(setAcceptedQuestById(refreshSessionData.acceptedQuestId));
+      dispatch(setCurrentStoryPointId(refreshSessionData.currentStoryPointId));
+    }
+
+    if (refreshSessionData.lastEndedQuestId) {
+      dispatch(setLastEndedQuestId(refreshSessionData.lastEndedQuestId));
+    }
+
     setIsLoading(false);
-  }, [dispatch]);
+  }, [dispatch, availableQuests]);
 
   if (isLoading) {
     return null;

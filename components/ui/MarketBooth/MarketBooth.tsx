@@ -14,15 +14,10 @@ import { allEquipment } from '@/data/gameData/equipment';
 import { allPotions } from '@/data/gameData/potions';
 import { allRations } from '@/data/gameData/rations';
 import { allWeapons } from '@/data/gameData/weapons';
-import { Coins, InventoryItemBase } from '@/types/character';
+import { InventoryItemBase } from '@/types/character';
 import { ItemPurchaseModal } from './components/ItemPurchaseModal';
+import { canAffordItem, formatPriceDisplay } from './utils/marketBooth.utils';
 import { useRef, useState } from 'react';
-
-export type priceObject = {
-  label: string;
-  shortLabel: string;
-  amount: number;
-};
 
 export const MarketBooth = () => {
   const pathname = usePathname();
@@ -50,62 +45,6 @@ export const MarketBooth = () => {
       default:
         return [];
     }
-  };
-
-  // move to lib folder later
-  const formatPriceDisplay = (price: Coins): priceObject => {
-    // return price data as formatted price object
-    let formattedPrice: priceObject = {
-      label: '',
-      shortLabel: '',
-      amount: 0,
-    };
-
-    if (price.gold && price.gold > 0) {
-      formattedPrice = {
-        label: `${price.gold} Gold`,
-        shortLabel: `${price.gold}G`,
-        amount: price.gold,
-      };
-    } else if (price.silver && price.silver > 0) {
-      formattedPrice = {
-        label: `${price.silver} Silver`,
-        shortLabel: `${price.silver}S`,
-        amount: price.silver,
-      };
-    } else if (price.copper && price.copper > 0) {
-      formattedPrice = {
-        label: `${price.copper} Copper`,
-        shortLabel: `${price.copper}C`,
-        amount: price.copper,
-      };
-    }
-    return formattedPrice;
-  };
-
-  // move to lib folder later
-  const canAffordItem = (price: Coins): boolean => {
-    // check if activeCharacter can afford item based on price object
-    if (
-      !activeCharacter ||
-      !activeCharacter.inventory ||
-      !activeCharacter.inventory.coins
-    ) {
-      return false;
-    }
-
-    const characterCoins = activeCharacter.inventory.coins;
-
-    if (price.gold && characterCoins.gold < price.gold) {
-      return false;
-    }
-    if (price.silver && characterCoins.silver < price.silver) {
-      return false;
-    }
-    if (price.copper && characterCoins.copper < price.copper) {
-      return false;
-    }
-    return true;
   };
 
   const boothItems: InventoryItemBase[] = setDisplayItems();
@@ -202,7 +141,7 @@ export const MarketBooth = () => {
                                     transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300
                                     disabled:grayscale disabled:brightness-75 disabled:cursor-not-allowed
                                     '
-                disabled={!item.price || !canAffordItem(item.price)} // disable if no price or cannot afford
+                disabled={!item.price || !canAffordItem(activeCharacter?.inventory?.coins, item.price)} // disable if no price or cannot afford
                 onClick={() => handleBoothItemClick(item)}
               >
                 <Image

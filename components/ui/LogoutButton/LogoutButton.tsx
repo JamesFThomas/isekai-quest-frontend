@@ -29,9 +29,6 @@ export default function LogoutButton() {
 
     setIsLoading(false);
 
-    console.log(
-      "User logged out, session refresh data cleared, and state reset. Redirecting to splash screen...",
-    );
     router.push("/");
   };
 

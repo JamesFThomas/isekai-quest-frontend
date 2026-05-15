@@ -130,9 +130,6 @@ export default function RegistrationModal({
           // We can choose to continue even if saving session data fails, or handle it as needed
         }
 
-        // log that refresh data was saved successfully
-        console.log("Session refresh data saved successfully.");
-
         // call the character creation and login handler
         handleCharacterCreationAndLogin(
           user,

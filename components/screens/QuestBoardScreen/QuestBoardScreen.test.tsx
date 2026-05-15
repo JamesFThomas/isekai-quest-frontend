@@ -68,19 +68,28 @@ const enabledQuest: QuestStory = {
  *   Then the accepted quest image has a highlight class applied
  */
 describe("QuestBoardScreen", () => {
+  beforeAll(() => {
+    Element.prototype.getAnimations = () => [];
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
     jest.useRealTimers();
   });
 
-  it("renders quest cards from the quest data", () => {
-    renderWithStore(<QuestBoardScreen />, baseState);
+  it("renders quest cards from the quest data", async () => {
+    await act(async () => {
+      renderWithStore(<QuestBoardScreen />, baseState);
+    });
     expect(screen.getByText(enabledQuest.name)).toBeInTheDocument();
   });
 
   it("clicking a quest and accepting it updates store state", async () => {
     jest.useFakeTimers();
-    const { store } = renderWithStore(<QuestBoardScreen />, baseState);
+    let store!: ReturnType<typeof renderWithStore>["store"];
+    await act(async () => {
+      ({ store } = renderWithStore(<QuestBoardScreen />, baseState));
+    });
 
     fireEvent.click(screen.getByAltText(`${enabledQuest.name} Quest Image`));
     fireEvent.click(screen.getByRole("button", { name: /accept/i }));
@@ -92,7 +101,7 @@ describe("QuestBoardScreen", () => {
     expect(store.getState().quest.acceptedQuest?.id).toBe(enabledQuest.id);
   });
 
-  it("the accepted quest image has a highlight class", () => {
+  it("the accepted quest image has a highlight class", async () => {
     const acceptedState = {
       quest: {
         availableQuests: [enabledQuest],
@@ -102,7 +111,9 @@ describe("QuestBoardScreen", () => {
         pendingBattleDetails: null,
       },
     };
-    renderWithStore(<QuestBoardScreen />, acceptedState);
+    await act(async () => {
+      renderWithStore(<QuestBoardScreen />, acceptedState);
+    });
     const questImg = screen.getByAltText(`${enabledQuest.name} Quest Image`);
     expect(questImg).toHaveClass("ring-yellow-300");
   });

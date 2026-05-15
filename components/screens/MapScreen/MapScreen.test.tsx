@@ -68,25 +68,35 @@ const withQuestState = {
  *   Then the quest shield shows "None Accepted"
  */
 describe("MapScreen", () => {
+  beforeAll(() => {
+    Element.prototype.getAnimations = () => [];
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
     jest.useRealTimers();
   });
 
-  it("renders the compass map image", () => {
-    renderWithStore(<MapScreen />, noQuestState);
+  it("renders the compass map image", async () => {
+    await act(async () => {
+      renderWithStore(<MapScreen />, noQuestState);
+    });
     // Both map icons share alt="Compass Icon" — known copy-paste in source; assert at least one renders
     expect(screen.getAllByAltText("Compass Icon").length).toBeGreaterThan(0);
   });
 
-  it('shows "None Accepted" when no quest is in state', () => {
-    renderWithStore(<MapScreen />, noQuestState);
+  it('shows "None Accepted" when no quest is in state', async () => {
+    await act(async () => {
+      renderWithStore(<MapScreen />, noQuestState);
+    });
     expect(screen.getByText(/none accepted/i)).toBeInTheDocument();
   });
 
   it("clicking the quest shield and confirming navigates to /storyscreen", async () => {
     jest.useFakeTimers();
-    renderWithStore(<MapScreen />, withQuestState);
+    await act(async () => {
+      renderWithStore(<MapScreen />, withQuestState);
+    });
 
     fireEvent.click(screen.getByText(/ambush alley recon/i));
     fireEvent.click(screen.getByRole("button", { name: /commence quest/i }));

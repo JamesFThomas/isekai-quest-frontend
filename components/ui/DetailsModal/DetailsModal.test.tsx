@@ -36,20 +36,26 @@ const mockQuest: QuestStory = {
  *   Then the modal should close
  */
 describe("DetailsModal", () => {
+  beforeAll(() => {
+    Element.prototype.getAnimations = () => [];
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
     jest.useRealTimers();
   });
 
-  it("renders quest details when isOpen is true", () => {
-    render(
-      <DetailsModal
-        isOpen={true}
-        quest={mockQuest}
-        closeModal={mockCloseModal}
-        acceptQuest={mockAcceptQuest}
-      />,
-    );
+  it("renders quest details when isOpen is true", async () => {
+    await act(async () => {
+      render(
+        <DetailsModal
+          isOpen={true}
+          quest={mockQuest}
+          closeModal={mockCloseModal}
+          acceptQuest={mockAcceptQuest}
+        />,
+      );
+    });
 
     expect(screen.getByText(mockQuest.name)).toBeInTheDocument();
     expect(screen.getByText(mockQuest.description)).toBeInTheDocument();
@@ -58,14 +64,16 @@ describe("DetailsModal", () => {
   it("clicking Accept dispatches setAcceptedQuest", async () => {
     jest.useFakeTimers();
 
-    render(
-      <DetailsModal
-        isOpen={true}
-        quest={mockQuest}
-        closeModal={mockCloseModal}
-        acceptQuest={mockAcceptQuest}
-      />,
-    );
+    await act(async () => {
+      render(
+        <DetailsModal
+          isOpen={true}
+          quest={mockQuest}
+          closeModal={mockCloseModal}
+          acceptQuest={mockAcceptQuest}
+        />,
+      );
+    });
 
     fireEvent.click(screen.getByRole("button", { name: /accept/i }));
 
@@ -77,15 +85,17 @@ describe("DetailsModal", () => {
     expect(mockAcceptQuest).toHaveBeenCalledWith(mockQuest);
   });
 
-  it("clicking Cancel closes the modal", () => {
-    render(
-      <DetailsModal
-        isOpen={true}
-        quest={mockQuest}
-        closeModal={mockCloseModal}
-        acceptQuest={mockAcceptQuest}
-      />,
-    );
+  it("clicking Cancel closes the modal", async () => {
+    await act(async () => {
+      render(
+        <DetailsModal
+          isOpen={true}
+          quest={mockQuest}
+          closeModal={mockCloseModal}
+          acceptQuest={mockAcceptQuest}
+        />,
+      );
+    });
 
     fireEvent.click(screen.getByRole("button", { name: /cancel/i }));
 

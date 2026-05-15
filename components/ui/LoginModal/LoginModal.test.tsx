@@ -1,6 +1,6 @@
 import React from "react";
 import "@testing-library/jest-dom";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import LoginModal from "./LoginModal";
 
 const mockCloseModal = jest.fn();
@@ -47,17 +47,25 @@ const defaultProps = {
  *   Then the modal should close
  */
 describe("LoginModal", () => {
+  beforeAll(() => {
+    Element.prototype.getAnimations = () => [];
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it("renders with title text", () => {
-    render(<LoginModal {...defaultProps} />);
+  it("renders with title text", async () => {
+    await act(async () => {
+      render(<LoginModal {...defaultProps} />);
+    });
     expect(screen.getByText("Continue your quest!")).toBeInTheDocument();
   });
 
-  it("shows validation error for invalid email format", () => {
-    render(<LoginModal {...defaultProps} />);
+  it("shows validation error for invalid email format", async () => {
+    await act(async () => {
+      render(<LoginModal {...defaultProps} />);
+    });
 
     const usernameInput = screen.getByPlaceholderText("email@address.com");
     fireEvent.change(usernameInput, { target: { value: "notanemail" } });
@@ -68,8 +76,10 @@ describe("LoginModal", () => {
     ).toBeInTheDocument();
   });
 
-  it("shows validation error for short password", () => {
-    render(<LoginModal {...defaultProps} />);
+  it("shows validation error for short password", async () => {
+    await act(async () => {
+      render(<LoginModal {...defaultProps} />);
+    });
 
     const passwordInput = screen.getByPlaceholderText("Password");
     fireEvent.change(passwordInput, { target: { value: "123" } });
@@ -80,13 +90,17 @@ describe("LoginModal", () => {
     ).toBeInTheDocument();
   });
 
-  it("Login button is disabled when fields are invalid", () => {
-    render(<LoginModal {...defaultProps} />);
+  it("Login button is disabled when fields are invalid", async () => {
+    await act(async () => {
+      render(<LoginModal {...defaultProps} />);
+    });
     expect(screen.getByRole("button", { name: /login/i })).toBeDisabled();
   });
 
-  it("clicking Cancel closes the modal", () => {
-    render(<LoginModal {...defaultProps} />);
+  it("clicking Cancel closes the modal", async () => {
+    await act(async () => {
+      render(<LoginModal {...defaultProps} />);
+    });
     fireEvent.click(screen.getByRole("button", { name: /cancel/i }));
     expect(mockCloseModal).toHaveBeenCalledTimes(1);
   });

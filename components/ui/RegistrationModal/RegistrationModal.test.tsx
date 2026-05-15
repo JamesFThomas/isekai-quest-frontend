@@ -1,6 +1,6 @@
 import React from "react";
 import "@testing-library/jest-dom";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import RegistrationModal from "./RegistrationModal";
 import { NewPlayerData } from "../../screens/CreateCharacterScreen/CreateCharacterScreen";
 
@@ -56,23 +56,33 @@ const defaultProps = {
  *   Then the modal should close
  */
 describe("RegistrationModal", () => {
+  beforeAll(() => {
+    Element.prototype.getAnimations = () => [];
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it("renders with title text", () => {
-    render(<RegistrationModal {...defaultProps} />);
+  it("renders with title text", async () => {
+    await act(async () => {
+      render(<RegistrationModal {...defaultProps} />);
+    });
     expect(screen.getByText("Your Player Data!")).toBeInTheDocument();
   });
 
-  it("renders player data when provided", () => {
-    render(<RegistrationModal {...defaultProps} playerData={mockPlayerData} />);
+  it("renders player data when provided", async () => {
+    await act(async () => {
+      render(<RegistrationModal {...defaultProps} playerData={mockPlayerData} />);
+    });
     expect(screen.getByText("Aric")).toBeInTheDocument();
     expect(screen.getByText("aric@test.com")).toBeInTheDocument();
   });
 
-  it("clicking Back closes the modal", () => {
-    render(<RegistrationModal {...defaultProps} />);
+  it("clicking Back closes the modal", async () => {
+    await act(async () => {
+      render(<RegistrationModal {...defaultProps} />);
+    });
     fireEvent.click(screen.getByRole("button", { name: /back/i }));
     expect(mockCloseModal).toHaveBeenCalledTimes(1);
   });

@@ -1,6 +1,6 @@
 import React from "react";
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
+import { render, screen, act } from "@testing-library/react";
 import LocationModal from "./LocationModal";
 
 const mockCloseModal = jest.fn();
@@ -21,17 +21,25 @@ const mockCloseModal = jest.fn();
  *   Then the modal title should not be present in the DOM
  */
 describe("LocationModal", () => {
+  beforeAll(() => {
+    Element.prototype.getAnimations = () => [];
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it("renders modal when isOpen is true", () => {
-    render(<LocationModal isOpen={true} closeModal={mockCloseModal} />);
+  it("renders modal when isOpen is true", async () => {
+    await act(async () => {
+      render(<LocationModal isOpen={true} closeModal={mockCloseModal} />);
+    });
     expect(screen.getByText("Location Modal")).toBeInTheDocument();
   });
 
-  it("does not render modal content when isOpen is false", () => {
-    render(<LocationModal isOpen={false} closeModal={mockCloseModal} />);
+  it("does not render modal content when isOpen is false", async () => {
+    await act(async () => {
+      render(<LocationModal isOpen={false} closeModal={mockCloseModal} />);
+    });
     expect(screen.queryByText("Location Modal")).not.toBeInTheDocument();
   });
 });

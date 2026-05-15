@@ -32,8 +32,6 @@ export const RefreshDataProvider = ({ children }: RefreshDataProviderProps) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    console.log("Checking for session refresh data in local storage...");
-
     if (availableQuests.length === 0) return; // wait for game data to load
 
     setIsLoading(true);
@@ -43,7 +41,6 @@ export const RefreshDataProvider = ({ children }: RefreshDataProviderProps) => {
 
     // Step 2: Stop if no valid refresh data exists
     if (!refreshResponse.success || !refreshResponse.data?.refreshSessionData) {
-      console.log("No session refresh data found in local storage.");
       setIsLoading(false);
 
       return;
@@ -68,8 +65,6 @@ export const RefreshDataProvider = ({ children }: RefreshDataProviderProps) => {
       setIsLoading(false);
       return;
     }
-
-    console.log("Session refresh data found:", refreshSessionData);
 
     // Step 5: Rebuild minimal auth user for Redux rehydration
     const user: User = {

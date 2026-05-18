@@ -157,7 +157,7 @@ export default function PartyScreen() {
       id='PartyScreen-wrapper'
       className='flex flex-col items-center min-h-screen p-4 bg-[url("/background_images/supply_room.png")] bg-cover bg-no-repeat bg-center'
     >
-      <ControlPanel />
+      <ControlPanel pageKey="partyscreen" />
       <div
         id='PartyScreen-content'
         className='mt-4 bg-[url("/background_images/parchment_paper.png")] bg-cover bg-no-repeat bg-center'

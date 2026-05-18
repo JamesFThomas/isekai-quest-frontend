@@ -51,7 +51,7 @@ export default function MapScreen() {
 
   return (
     <div className='flex flex-col items-center justify-center p-8 min-h-screen bg-[url("/background_images/map_hands.png")] bg-cover bg-no-repeat bg-center'>
-      <ControlPanel />
+      <ControlPanel pageKey="map" />
 
       <div
         className="mapscreen-container flex flex-col justify-center items-center gap-4"

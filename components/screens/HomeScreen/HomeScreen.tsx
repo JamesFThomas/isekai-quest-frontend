@@ -20,7 +20,7 @@ export default function HomeScreen() {
 
   return (
     <div className='flex flex-col items-center justify-center p-8 min-h-screen bg-[url("/background_images/table_background.png")] bg-cover bg-no-repeat bg-center'>
-      <ControlPanel />
+      <ControlPanel pageKey="home" />
       <div
         className='home-screen-container flex flex-col justify-center items-center gap-4'
         style={{

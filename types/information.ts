@@ -1,4 +1,11 @@
-export type InformationPageKey = 'splash';
+export type InformationPageKey =
+  | "splash"
+  | "createcharacter"
+  | "home"
+  | "questboard"
+  | "marketbooth"
+  | "partyscreen"
+  | "map";
 
 export type InformationContent = {
   title: string;
@@ -7,5 +14,5 @@ export type InformationContent = {
 };
 
 export type InformationContentMap = {
-  splash: InformationContent;
+  [key in InformationPageKey]: InformationContent;
 };

@@ -30,7 +30,7 @@ export default function QuestBoardScreen() {
   useProtectedRoute();
   return (
     <div className='flex flex-col items-center justify-start p-6 min-h-screen bg-[url("/background_images/guild_wall.png")] bg-cover bg-no-repeat bg-center'>
-      <ControlPanel />
+      <ControlPanel pageKey="questboard" />
 
       <div
         className='flex flex-1 w-full items-center justify-center'

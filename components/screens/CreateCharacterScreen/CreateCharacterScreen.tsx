@@ -18,6 +18,7 @@ import {
 } from "@/lib/features/character/CharacterSlice";
 import { Character, CharacterStateSnapshot } from "@/types/character";
 import { useRouter } from "next/navigation";
+import { InformationIcon } from "@/components/ui/InformationIcon/InformationIcon";
 
 export type AvatarOption = {
   id: number;
@@ -158,11 +159,14 @@ export default function CreateCharacterScreen() {
 
   return (
     <div
-      className='flex flex-col items-center justify-center p-8 min-h-screen bg-[url("/background_images/town_background2.png")] bg-cover bg-no-repeat bg-center'
+      className='relative flex flex-col items-center justify-center p-8 min-h-screen bg-[url("/background_images/town_background2.png")] bg-cover bg-no-repeat bg-center'
       style={{
         backgroundColor: "#d9d9d9",
       }}
     >
+      <div className="absolute top-1 right-1">
+        <InformationIcon pageKey="createcharacter" />
+      </div>
       <div className="flex flex-col items-center">
         <header
           className='text-center text-4xl text-white font-bold p-3.5 bg-[url("/background_images/parchment_paper.png")] bg-cover bg-no-repeat bg-center'

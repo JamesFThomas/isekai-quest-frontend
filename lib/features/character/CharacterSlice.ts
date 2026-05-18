@@ -36,7 +36,6 @@ type UpdateActiveCharacterPayload = {
 };
 
 export const convertItemTypeString = (item: InventorySelection): string => {
-  console.log("Converting item type for:", item.type);
   switch (item.type) {
     case "weapon":
       return "weapons";
@@ -90,9 +89,6 @@ export const purchaseBoothItemThunk = createAsyncThunk<
   // Ensure there is an active character
   if (!ActiveCharacter) return;
 
-  // purchase item logic
-  console.log(`Purchasing ${item.title} for ${ActiveCharacter?.name}`);
-
   // add item to character inventory
   if (!item.price) {
     console.warn("Item has no price, cannot complete purchase.");
@@ -114,9 +110,6 @@ export function applyEffectToCharacterThunk(effect: Effect) {
 
     // Ensure there is an active character
     if (!ActiveCharacter) return;
-
-    // apply effect logic
-    console.log(`Applying effect to ${ActiveCharacter?.name}:`, effect);
 
     // update hp/mp if present in effect
     if (effect.hp !== undefined || effect.mp !== undefined) {
@@ -179,8 +172,6 @@ export const characterSlice = createSlice({
       ) {
         return;
       }
-
-      console.log("Subtracting item price from character coins:", price);
 
       // remove purchases item price from character coins
       state.ActiveCharacter.inventory.coins = {

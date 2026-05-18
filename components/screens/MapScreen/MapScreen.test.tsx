@@ -1,37 +1,55 @@
-import React from 'react';
-import '@testing-library/jest-dom';
-import { screen, fireEvent, act } from '@testing-library/react';
-import { renderWithStore } from '@/lib/test-utils';
-import MapScreen from './MapScreen';
-import type { QuestStory } from '@/types/quest';
+import React from "react";
+import "@testing-library/jest-dom";
+import { screen, fireEvent, act } from "@testing-library/react";
+import { renderWithStore } from "@/lib/test-utils";
+import MapScreen from "./MapScreen";
+import type { QuestStory } from "@/types/quest";
 
 const mockPush = jest.fn();
-jest.mock('next/navigation', () => ({
+jest.mock("next/navigation", () => ({
   useRouter: () => ({ push: mockPush }),
-  usePathname: jest.fn(() => '/'),
+  usePathname: jest.fn(() => "/"),
 }));
 
-jest.mock('@/lib/hooks/useProtectedRoute', () => ({
+jest.mock("@/lib/hooks/useProtectedRoute", () => ({
   __esModule: true,
   default: jest.fn(),
 }));
 
 const mockQuest: QuestStory = {
-  id: 'ambushReconQuest',
-  name: 'Ambush Alley Recon',
-  description: 'Scout the bandit camp.',
-  coverImageSrc: '/quests/ambush_cover.png',
+  id: "ambushReconQuest",
+  name: "Ambush Alley Recon",
+  description: "Scout the bandit camp.",
+  coverImageSrc: "/quests/ambush_cover.png",
   storyPoints: [],
 };
 
 const noQuestState = {
-  quest: { acceptedQuest: null, currentStoryPointId: null, lastEndedQuestId: null, pendingBattleDetails: null },
-  character: { ActiveCharacter: null, party: [], characterLocation: null, completedQuestIds: [], characterSnapshot: null },
+  quest: {
+    availableQuests: [mockQuest],
+    acceptedQuest: null,
+    currentStoryPointId: null,
+    lastEndedQuestId: null,
+    pendingBattleDetails: null,
+  },
+  character: {
+    ActiveCharacter: null,
+    party: [],
+    characterLocation: null,
+    completedQuestIds: [],
+    characterSnapshot: null,
+  },
 };
 
 const withQuestState = {
   ...noQuestState,
-  quest: { acceptedQuest: mockQuest, currentStoryPointId: 'sp1', lastEndedQuestId: null, pendingBattleDetails: null },
+  quest: {
+    availableQuests: [mockQuest],
+    acceptedQuest: mockQuest,
+    currentStoryPointId: "sp1",
+    lastEndedQuestId: null,
+    pendingBattleDetails: null,
+  },
 };
 
 /*
@@ -49,34 +67,44 @@ const withQuestState = {
  *   When I view the map
  *   Then the quest shield shows "None Accepted"
  */
-describe('MapScreen', () => {
+describe("MapScreen", () => {
+  beforeAll(() => {
+    Element.prototype.getAnimations = () => [];
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
     jest.useRealTimers();
   });
 
-  it('renders the compass map image', () => {
-    renderWithStore(<MapScreen />, noQuestState);
+  it("renders the compass map image", async () => {
+    await act(async () => {
+      renderWithStore(<MapScreen />, noQuestState);
+    });
     // Both map icons share alt="Compass Icon" — known copy-paste in source; assert at least one renders
-    expect(screen.getAllByAltText('Compass Icon').length).toBeGreaterThan(0);
+    expect(screen.getAllByAltText("Compass Icon").length).toBeGreaterThan(0);
   });
 
-  it('shows "None Accepted" when no quest is in state', () => {
-    renderWithStore(<MapScreen />, noQuestState);
+  it('shows "None Accepted" when no quest is in state', async () => {
+    await act(async () => {
+      renderWithStore(<MapScreen />, noQuestState);
+    });
     expect(screen.getByText(/none accepted/i)).toBeInTheDocument();
   });
 
-  it('clicking the quest shield and confirming navigates to /storyscreen', async () => {
+  it("clicking the quest shield and confirming navigates to /storyscreen", async () => {
     jest.useFakeTimers();
-    renderWithStore(<MapScreen />, withQuestState);
+    await act(async () => {
+      renderWithStore(<MapScreen />, withQuestState);
+    });
 
     fireEvent.click(screen.getByText(/ambush alley recon/i));
-    fireEvent.click(screen.getByRole('button', { name: /commence quest/i }));
+    fireEvent.click(screen.getByRole("button", { name: /commence quest/i }));
 
     await act(async () => {
       jest.runAllTimers();
     });
 
-    expect(mockPush).toHaveBeenCalledWith('/storyscreen');
+    expect(mockPush).toHaveBeenCalledWith("/storyscreen");
   });
 });

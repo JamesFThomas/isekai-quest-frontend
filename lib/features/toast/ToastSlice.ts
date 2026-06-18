@@ -1,0 +1,37 @@
+import { createSlice } from "@reduxjs/toolkit";
+
+import type { PayloadAction } from "@reduxjs/toolkit";
+
+import type { RootState } from "../../store";
+
+import { Toast, ToastId } from "@/types/toast";
+
+interface ToastState {
+  queue: Toast[];
+}
+
+const initialState: ToastState = {
+  queue: [],
+};
+
+const toastSlice = createSlice({
+  name: "toast",
+  initialState,
+  reducers: {
+    addToast: (state, action: PayloadAction<Toast>) => {
+      state.queue.push(action.payload);
+    },
+    removeToast: (state, action: PayloadAction<ToastId>) => {
+      state.queue = state.queue.filter((toast) => toast.id !== action.payload);
+    },
+    clearToasts: (state) => {
+      state.queue = [];
+    },
+  },
+});
+
+export const { addToast, removeToast, clearToasts } = toastSlice.actions;
+
+export const selectToastQueue = (state: RootState) => state.toast.queue;
+
+export default toastSlice.reducer;

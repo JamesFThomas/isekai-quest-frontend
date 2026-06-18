@@ -3,8 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 import StoreProvider from "./StoreProvider";
-import { RefreshDataProvider } from "@/components/ui/RefreshDataProvider/RefreshDataProvider";
-import { GameDataProvider } from "@/components/ui/GameDataProvider/GameDataProvider";
+import { RefreshDataProvider } from "@/components/providers/RefreshDataProvider/RefreshDataProvider";
+import { GameDataProvider } from "@/components/providers/GameDataProvider/GameDataProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

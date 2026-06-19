@@ -2,7 +2,7 @@
 
 import { useAppSelector } from "@/lib/reduxHooks";
 import { selectToastQueue } from "@/lib/features/toast/ToastSlice";
-import { Toast } from "@/types/toast";
+import { ToastComponent } from "../Toast/Toast";
 
 export const ToastContainer = () => {
   const toastQueue = useAppSelector(selectToastQueue);
@@ -14,7 +14,7 @@ export const ToastContainer = () => {
   return (
     <div className="toast-container">
       {currentGroup.map((toast) => (
-        <div key={toast.id}>{toast.message}</div>
+        <ToastComponent key={toast.id} toast={toast} />
       ))}
     </div>
   );

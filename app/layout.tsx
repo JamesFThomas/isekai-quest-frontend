@@ -6,6 +6,7 @@ import StoreProvider from "./StoreProvider";
 import { RefreshDataProvider } from "@/components/providers/RefreshDataProvider/RefreshDataProvider";
 import { GameDataProvider } from "@/components/providers/GameDataProvider/GameDataProvider";
 import { ToastProvider } from "@/components/providers/ToastProvider/ToastProvider";
+import { ToastContainer } from "@/components/providers/ToastProvider/components/ToastContainer/ToastContainer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,7 +34,10 @@ export default function RootLayout({
         <StoreProvider>
           <GameDataProvider>
             <RefreshDataProvider>
-              <ToastProvider>{children}</ToastProvider>
+              <ToastProvider>
+                <ToastContainer />
+                {children}
+              </ToastProvider>
             </RefreshDataProvider>
           </GameDataProvider>
         </StoreProvider>

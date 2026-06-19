@@ -13,8 +13,12 @@ export const ToastContainer = () => {
 
   return (
     <div className="toast-container">
-      {currentGroup.map((toast) => (
-        <ToastComponent key={toast.id} toast={toast} />
+      {currentGroup.map((toast, index) => (
+        <ToastComponent
+          key={toast.id}
+          toast={toast}
+          isLast={index === currentGroup.length - 1}
+        />
       ))}
     </div>
   );

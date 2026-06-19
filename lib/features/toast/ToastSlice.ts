@@ -26,13 +26,17 @@ const toastSlice = createSlice({
         (toast) => toast.id !== action.payload,
       );
     },
+    shiftToastGroup: (state) => {
+      state.queue.shift();
+    },
     clearToasts: (state) => {
       state.queue = [];
     },
   },
 });
 
-export const { addToast, removeToast, clearToasts } = toastSlice.actions;
+export const { addToast, removeToast, clearToasts, shiftToastGroup } =
+  toastSlice.actions;
 
 export const selectToastQueue = (state: RootState) => state.toast.queue;
 

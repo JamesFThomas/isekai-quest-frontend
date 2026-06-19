@@ -7,7 +7,7 @@ import type { RootState } from "../../store";
 import { Toast, ToastId } from "@/types/toast";
 
 interface ToastState {
-  queue: Toast[];
+  queue: Toast[][];
 }
 
 const initialState: ToastState = {
@@ -18,11 +18,13 @@ const toastSlice = createSlice({
   name: "toast",
   initialState,
   reducers: {
-    addToast: (state, action: PayloadAction<Toast>) => {
+    addToast: (state, action: PayloadAction<Toast[]>) => {
       state.queue.push(action.payload);
     },
     removeToast: (state, action: PayloadAction<ToastId>) => {
-      state.queue = state.queue.filter((toast) => toast.id !== action.payload);
+      state.queue[0] = state.queue[0].filter(
+        (toast) => toast.id !== action.payload,
+      );
     },
     clearToasts: (state) => {
       state.queue = [];

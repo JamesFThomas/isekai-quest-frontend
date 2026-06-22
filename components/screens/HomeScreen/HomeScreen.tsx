@@ -31,7 +31,7 @@ export default function HomeScreen() {
         {
           id: "test-1",
           characterName: "James",
-          message: "Toast system is working!",
+          message: "Toast!",
           type: "quest",
           duration: 3000,
           timestamp: Date.now(),

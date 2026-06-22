@@ -25,7 +25,7 @@ export const ToastComponent = ({ toast, isLast }: ToastProps) => {
   return (
     <div
       id={toast.id}
-      className="toast-slide-in bg-gray-800 text-white px-4 py-2 rounded-l-lg shadow-lg"
+      className="toast-slide-in min-w-[200px] bg-[url('/background_images/parchment_paper.png')] bg-cover bg-no-repeat bg-center text-[#2c1a0e] font-bold text-sm px-4 py-3 rounded-l-lg shadow-lg"
     >
       {toast.message}
     </div>

@@ -22,5 +22,12 @@ export const ToastComponent = ({ toast, isLast }: ToastProps) => {
     return () => clearTimeout(timer);
   }, [dispatch, toast.id, toast.duration, isLast]);
 
-  return <div className="toast">{toast.message}</div>;
+  return (
+    <div
+      id={toast.id}
+      className="toast-slide-in bg-gray-800 text-white px-4 py-2 rounded-l-lg shadow-lg"
+    >
+      {toast.message}
+    </div>
+  );
 };

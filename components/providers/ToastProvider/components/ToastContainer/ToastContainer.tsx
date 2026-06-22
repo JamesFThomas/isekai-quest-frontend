@@ -12,7 +12,10 @@ export const ToastContainer = () => {
   const currentGroup = toastQueue[0];
 
   return (
-    <div className="toast-container">
+    <div
+      id="toast-container"
+      className="fixed top-20 right-0 z-50 flex flex-col gap-2"
+    >
       {currentGroup.map((toast, index) => (
         <ToastComponent
           key={toast.id}

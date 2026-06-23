@@ -19,6 +19,7 @@ import CoinsPanel from "../../ui/CoinPanel/CoinsPanel";
 import { InventoryItemModal } from "./components/InventoryItemModal";
 import { ControlPanel } from "@/components/ui/ControlPanel/ContolPanel";
 import { SaveProgressButton } from "./components/SaveProgressButton";
+import { addToast } from "@/lib/features/toast/ToastSlice";
 
 export default function PartyScreen() {
   useProtectedRoute();
@@ -117,7 +118,26 @@ export default function PartyScreen() {
   const handleItemSelect = (item: BattleOption | InventoryItemBase) => {
     dispatch(utilizeInventoryItemThunk(item));
 
-    //TODO add item_used toast here
+    const effect = [
+      item.effect?.hp ? `${item.effect.hp} HP` : null,
+      item.effect?.mp ? `${item.effect.mp} MP` : null,
+    ]
+      .filter(Boolean)
+      .join(" and ");
+
+    dispatch(
+      addToast([
+        {
+          id: `item_used_${item.id}`,
+          characterName: activeCharacter?.name ?? "",
+          message: `${activeCharacter?.name} used ${item.title} and restored ${effect}`,
+          type: "quest",
+          duration: 3000,
+          timestamp: Date.now(),
+        },
+      ]),
+    );
+
     setIsItemModalOpen(false);
   };
 

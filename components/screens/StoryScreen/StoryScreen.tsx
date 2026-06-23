@@ -15,6 +15,8 @@ import {
 
 import { addCompletedQuestId } from "@/lib/features/character/CharacterSlice";
 
+import { addToast } from "@/lib/features/toast/ToastSlice";
+
 import {
   resetBattleState,
   setBattleStartContext,
@@ -66,7 +68,23 @@ export default function StoryScreen() {
       if (quest?.id) {
         dispatch(addCompletedQuestId(quest.id));
       }
+
       dispatch(markQuestCompletedAndClearState());
+
+      dispatch(
+        addToast([
+          {
+            id: `quest_completed_${quest.id}`,
+            characterName: activeCharacter?.name ?? "",
+            message: `${activeCharacter?.name} Completed ${quest.name}`,
+            type: "quest",
+            duration: 3000,
+            timestamp: Date.now(),
+          },
+          //TODO: add unlcock quest toast in same array once feature is impleted
+        ]),
+      );
+
       router.push("/homescreen");
       return;
     }

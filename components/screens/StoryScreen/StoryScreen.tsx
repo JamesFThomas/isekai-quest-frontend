@@ -97,6 +97,21 @@ export default function StoryScreen() {
 
     if (choice.outcome?.effect) {
       dispatch(applyQuestEffect(choice.outcome.effect));
+
+      if (choice.outcome.effect.items?.length) {
+        dispatch(
+          addToast(
+            choice.outcome.effect.items.map((item) => ({
+              id: `item_gained_${item.id}`,
+              characterName: activeCharacter?.name ?? "",
+              message: `${activeCharacter?.name} gained ${item.title}`,
+              type: "item" as const,
+              duration: 3000,
+              timestamp: Date.now(),
+            })),
+          ),
+        );
+      }
     }
 
     if (choice.nextPointId) {

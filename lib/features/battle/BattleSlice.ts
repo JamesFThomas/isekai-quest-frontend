@@ -69,14 +69,18 @@ export const performBattleAction = createAsyncThunk<
 
     dispatch(updateBattleState(battleAction)); // the thunk return
 
-    //TODO add battle_action toast here for activeCharacter
     // dispatch player toast
+    const playerMessage =
+      battleAction.details.type === "potion"
+        ? `${activeCharacter.name} used ${battleAction.details.title}`
+        : `${activeCharacter.name} used ${battleAction.details.title} on ${activeOpponent.name}`;
+
     dispatch(
       addToast([
         {
           id: `battle_action_${Date.now()}`,
           characterName: activeCharacter.name,
-          message: `${activeCharacter.name} used ${battleAction.details.title} on ${activeOpponent.name}`,
+          message: playerMessage,
           type: "battle" as const,
           duration: 2000,
           timestamp: Date.now(),
@@ -113,14 +117,14 @@ export const performBattleAction = createAsyncThunk<
 
       dispatch(updateBattleState(battleAction));
 
-      //TODO add battle_action toast here for activeOpponent
+      //dispatch activeOpponent toast
       dispatch(
         addToast([
           {
             id: `battle_action_${Date.now()}`,
             characterName: aO2.name,
             message: `${aO2.name} used ${opponentAttack.title} on ${aC2.name}`,
-            type: "battle" as const,
+            type: "battle",
             duration: 2000,
             timestamp: Date.now(),
           },

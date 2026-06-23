@@ -125,13 +125,19 @@ export default function PartyScreen() {
       .filter(Boolean)
       .join(" and ");
 
+    // build message for different item based on type
+    const message =
+      item.type === "weapon" || item.type === "equipment"
+        ? `${activeCharacter?.name} equipped ${item.title}`
+        : `${activeCharacter?.name} used ${item.title} and restored ${effect}`;
+
     dispatch(
       addToast([
         {
           id: `item_used_${item.id}`,
           characterName: activeCharacter?.name ?? "",
-          message: `${activeCharacter?.name} used ${item.title} and restored ${effect}`,
-          type: "quest",
+          message,
+          type: "item",
           duration: 3000,
           timestamp: Date.now(),
         },

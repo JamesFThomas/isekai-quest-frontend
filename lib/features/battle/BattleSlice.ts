@@ -1,14 +1,20 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
-import type { RootState } from '../../store';
-import { Character } from '@/types/character';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
+import type { PayloadAction } from "@reduxjs/toolkit";
+
+import type { RootState } from "../../store";
+
+import { Character } from "@/types/character";
+
 import {
   BattleAction,
   BattleResolution,
   BattleState,
   Opponent,
   BattleStartContext,
-} from '@/types/battle';
+} from "@/types/battle";
+
+import { addToast } from "@/lib/features/toast/ToastSlice";
 
 export const initialState: BattleState = {
   battleId: null,
@@ -26,12 +32,24 @@ export const initialState: BattleState = {
   nextPoints: null,
 };
 
+const waitForToastClear = (getState: () => RootState): Promise<void> => {
+  return new Promise((resolve) => {
+    const interval = setInterval(() => {
+      const queue = getState().toast.queue;
+      if (queue.length === 0 || queue[0].length === 0) {
+        clearInterval(interval);
+        resolve();
+      }
+    }, 100);
+  });
+};
+
 export const performBattleAction = createAsyncThunk<
   void, // return type
   BattleAction, // argument type
   { state: RootState } // thunkAPI typings
 >(
-  'battle/performBattleAction', // action type name
+  "battle/performBattleAction", // action type name
   async (battleAction, { dispatch, getState }) => {
     // thunk logic here
 
@@ -51,6 +69,23 @@ export const performBattleAction = createAsyncThunk<
 
     dispatch(updateBattleState(battleAction)); // the thunk return
 
+    //TODO add battle_action toast here for activeCharacter
+    // dispatch player toast
+    dispatch(
+      addToast([
+        {
+          id: `battle_action_${Date.now()}`,
+          characterName: activeCharacter.name,
+          message: `${activeCharacter.name} used ${battleAction.details.title} on ${activeOpponent.name}`,
+          type: "battle" as const,
+          duration: 2000,
+          timestamp: Date.now(),
+        },
+      ]),
+    );
+
+    await waitForToastClear(getState);
+
     // new state check
     const {
       result: r2,
@@ -60,9 +95,10 @@ export const performBattleAction = createAsyncThunk<
     } = getState().battle;
 
     // read fresh state for opponent auto response
-    if (r2 === null && p2 === 'idle' && aC2 && aO2) {
+    if (r2 === null && p2 === "idle" && aC2 && aO2) {
       // TODO: replace random selection with strategy-based logic (e.g. weighted by hp, mp, or opponent type)
-      const opponentAttack = aO2.attacks[Math.floor(Math.random() * aO2.attacks.length)];
+      const opponentAttack =
+        aO2.attacks[Math.floor(Math.random() * aO2.attacks.length)];
 
       const battleAction: BattleAction = {
         actorId: aO2.id,
@@ -76,13 +112,27 @@ export const performBattleAction = createAsyncThunk<
       };
 
       dispatch(updateBattleState(battleAction));
+
+      //TODO add battle_action toast here for activeOpponent
+      dispatch(
+        addToast([
+          {
+            id: `battle_action_${Date.now()}`,
+            characterName: aO2.name,
+            message: `${aO2.name} used ${opponentAttack.title} on ${aC2.name}`,
+            type: "battle" as const,
+            duration: 2000,
+            timestamp: Date.now(),
+          },
+        ]),
+      );
     }
   },
 );
 
 // Battle Slice Store
 export const battleSlice = createSlice({
-  name: 'battle',
+  name: "battle",
   initialState: initialState,
   reducers: {
     setActiveCharacter: (state, action: PayloadAction<Character | null>) => {
@@ -119,7 +169,7 @@ export const battleSlice = createSlice({
     },
     setBattleResult: (
       state,
-      action: PayloadAction<'win' | 'lose' | 'flee' | null>,
+      action: PayloadAction<"win" | "lose" | "flee" | null>,
     ) => {
       state.result = action.payload;
     },
@@ -130,8 +180,8 @@ export const battleSlice = createSlice({
     setRewardAndPenalty: (
       state,
       action: PayloadAction<{
-        reward?: BattleState['reward'];
-        escapePenalty?: BattleState['escapePenalty'];
+        reward?: BattleState["reward"];
+        escapePenalty?: BattleState["escapePenalty"];
       }>,
     ) => {
       state.reward = action.payload.reward;
@@ -167,11 +217,11 @@ export const battleSlice = createSlice({
       if (actor.hp <= 0 || target.hp <= 0) {
         // set battle result
         if (actor.hp <= 0 && actor.id === state.activeCharacter?.id) {
-          state.result = 'lose';
+          state.result = "lose";
         } else if (target.hp <= 0 && target.id === state.activeOpponent?.id) {
-          state.result = 'win';
+          state.result = "win";
         } else if (target.hp <= 0 && target.id === state.activeCharacter?.id) {
-          state.result = 'lose';
+          state.result = "lose";
         }
       }
 
@@ -183,7 +233,7 @@ export const battleSlice = createSlice({
       state.isPlayerTurn = !state.isPlayerTurn;
 
       // derive battle phase from current state
-      state.phase = state.isPlayerTurn ? 'chooseAction' : 'idle';
+      state.phase = state.isPlayerTurn ? "chooseAction" : "idle";
 
       // increment round if state.phase = "chooseAction"
       if (state.round && state.isPlayerTurn) state.round++;

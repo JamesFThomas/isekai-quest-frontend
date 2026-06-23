@@ -1,15 +1,17 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Image from 'next/image';
+import { useState } from "react";
+import Image from "next/image";
 
-import useProtectedRoute from '@/lib/hooks/useProtectedRoute';
-import questStories from '../../../data/screenOptions/questsOptions';
-import DetailsModal from '@/components/ui/DetailsModal/DetailsModal';
-import { QuestStory } from '@/types/quest';
-import { useAppDispatch, useAppSelector } from '@/lib/reduxHooks';
-import { setAcceptedQuest } from '@/lib/features/quest/QuestSlice';
-import { ControlPanel } from '@/components/ui/ControlPanel/ContolPanel';
+import useProtectedRoute from "@/lib/hooks/useProtectedRoute";
+import questStories from "../../../data/screenOptions/questsOptions";
+import DetailsModal from "@/components/ui/DetailsModal/DetailsModal";
+import { QuestStory } from "@/types/quest";
+import { useAppDispatch, useAppSelector } from "@/lib/reduxHooks";
+import { setAcceptedQuest } from "@/lib/features/quest/QuestSlice";
+import { selectActiveCharacter } from "@/lib/features/character/CharacterSlice";
+import { ControlPanel } from "@/components/ui/ControlPanel/ContolPanel";
+import { addToast } from "@/lib/features/toast/ToastSlice";
 
 export default function QuestBoardScreen() {
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
@@ -19,8 +21,23 @@ export default function QuestBoardScreen() {
 
   const acceptedQuest = useAppSelector((state) => state.quest.acceptedQuest);
 
+  const activeChar = useAppSelector(selectActiveCharacter);
+
   const handleAcceptClick = (quest: QuestStory) => {
     dispatch(setAcceptedQuest(quest));
+
+    dispatch(
+      addToast([
+        {
+          id: `quest_accepted_${quest.id}`,
+          characterName: activeChar?.name ?? "",
+          message: `${activeChar?.name} accepted ${quest.name}`,
+          type: "quest",
+          duration: 3000,
+          timestamp: Date.now(),
+        },
+      ]),
+    );
   };
 
   const handleQuestClick = (quest: QuestStory) => {
@@ -33,7 +50,7 @@ export default function QuestBoardScreen() {
       <ControlPanel pageKey="questboard" />
 
       <div
-        className='flex flex-1 w-full items-center justify-center'
+        className="flex flex-1 w-full items-center justify-center"
         style={{}}
       >
         <div className="questBoard-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4 w-[100%] max-w-[900px] min-h-[600px] bg-[url('/background_images/quest_board2.png')] bg-cover bg-no-repeat bg-center">
@@ -42,7 +59,7 @@ export default function QuestBoardScreen() {
             return (
               <button
                 key={quest.id}
-                className={`flex flex-col items-center justify-center ${quest.disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} transition-transform duration-200`}
+                className={`flex flex-col items-center justify-center ${quest.disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"} transition-transform duration-200`}
                 onClick={() => handleQuestClick(quest)}
                 disabled={quest.disabled}
               >
@@ -50,15 +67,15 @@ export default function QuestBoardScreen() {
                   key={quest.id}
                   className={`flex items-center justify-center ${
                     isAccepted
-                      ? 'opacity-60 ring-3 ring-yellow-300 scale-110'
-                      : 'hover:scale-125'
+                      ? "opacity-60 ring-3 ring-yellow-300 scale-110"
+                      : "hover:scale-125"
                   }`}
                   alt={`${quest.name} Quest Image`}
-                  src={'/guildscreen_icons/scrollimage.png'}
+                  src={"/guildscreen_icons/scrollimage.png"}
                   height={120}
                   width={120}
                 />
-                <span className='text-center text-sm text-white font-semibold z-1'>
+                <span className="text-center text-sm text-white font-semibold z-1">
                   {quest.name}
                 </span>
               </button>

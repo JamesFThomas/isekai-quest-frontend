@@ -1,4 +1,4 @@
-export type ToastType = "quest" | "item" | "battle";
+export type ToastType = "quest" | "item" | "battle" | "system";
 
 export type ToastId = string;
 

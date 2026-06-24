@@ -35,8 +35,8 @@ export const initialState: BattleState = {
 const waitForToastClear = (getState: () => RootState): Promise<void> => {
   return new Promise((resolve) => {
     const interval = setInterval(() => {
-      const queue = getState().toast.queue;
-      if (queue.length === 0 || queue[0].length === 0) {
+      const queue = getState().toast?.queue;
+      if (!queue || queue.length === 0 || queue[0]?.length === 0) {
         clearInterval(interval);
         resolve();
       }

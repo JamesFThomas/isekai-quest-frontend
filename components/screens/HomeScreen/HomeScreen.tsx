@@ -1,19 +1,17 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
 import InteractionPanel, {
   PanelOption,
-} from '@/components/ui/InteractionPanel/InteractionPanel';
+} from "@/components/ui/InteractionPanel/InteractionPanel";
 
+import startsVilleOptions from "@/data/screenOptions/startsVilleOptions";
 
-import startsVilleOptions from '@/data/screenOptions/startsVilleOptions';
-
-import useProtectedRoute from '@/lib/hooks/useProtectedRoute';
-import { ControlPanel } from '@/components/ui/ControlPanel/ContolPanel';
+import useProtectedRoute from "@/lib/hooks/useProtectedRoute";
+import { ControlPanel } from "@/components/ui/ControlPanel/ContolPanel";
 
 export default function HomeScreen() {
-
   useProtectedRoute();
 
   const [startsVilleArray] = useState<PanelOption[]>(startsVilleOptions);
@@ -22,12 +20,12 @@ export default function HomeScreen() {
     <div className='flex flex-col items-center justify-center p-8 min-h-screen bg-[url("/background_images/table_background.png")] bg-cover bg-no-repeat bg-center'>
       <ControlPanel pageKey="home" />
       <div
-        className='home-screen-container flex flex-col justify-center items-center gap-4'
+        className="home-screen-container flex flex-col justify-center items-center gap-4"
         style={{
-          flexGrow: 1
+          flexGrow: 1,
         }}
       >
-        <InteractionPanel title='StartsVille' optionArray={startsVilleArray} />
+        <InteractionPanel title="StartsVille" optionArray={startsVilleArray} />
       </div>
     </div>
   );

@@ -3,8 +3,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 import StoreProvider from "./StoreProvider";
-import { RefreshDataProvider } from "@/components/ui/RefreshDataProvider/RefreshDataProvider";
-import { GameDataProvider } from "@/components/ui/GameDataProvider/GameDataProvider";
+import { RefreshDataProvider } from "@/components/providers/RefreshDataProvider/RefreshDataProvider";
+import { GameDataProvider } from "@/components/providers/GameDataProvider/GameDataProvider";
+import { ToastProvider } from "@/components/providers/ToastProvider/ToastProvider";
+import { ToastContainer } from "@/components/providers/ToastProvider/components/ToastContainer/ToastContainer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,7 +33,12 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <StoreProvider>
           <GameDataProvider>
-            <RefreshDataProvider>{children}</RefreshDataProvider>
+            <RefreshDataProvider>
+              <ToastProvider>
+                <ToastContainer />
+                {children}
+              </ToastProvider>
+            </RefreshDataProvider>
           </GameDataProvider>
         </StoreProvider>
       </body>

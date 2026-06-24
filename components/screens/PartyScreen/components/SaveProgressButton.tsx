@@ -17,6 +17,7 @@ import {
   SessionRefreshData,
 } from "@/types/persistence";
 import { selectQuestState } from "@/lib/features/quest/QuestSlice";
+import { addToast } from "@/lib/features/toast/ToastSlice";
 
 export const SaveProgressButton = () => {
   const dispatch = useDispatch();
@@ -103,8 +104,19 @@ export const SaveProgressButton = () => {
       // Step 11: Update Redux snapshot to reflect latest saved state
       dispatch(setCharacterSnapshot(updatedCharacterSnapshot));
 
-      // Step 12: Confirm successful save
-      console.log("Progress saved successfully!");
+      //Step 12: save_progress toast
+      dispatch(
+        addToast([
+          {
+            id: `save_progress_${Date.now()}`,
+            characterName: activeCharacter?.name ?? "",
+            message: `${activeCharacter?.name}'s progress has been saved`,
+            type: "system",
+            duration: 3000,
+            timestamp: Date.now(),
+          },
+        ]),
+      );
     } catch (error) {
       // Step 13: Catch unexpected errors during save flow
       console.error("Unexpected error during save progress:", error);

@@ -18,7 +18,7 @@ const playerAction = (): BattleAction => ({
   effect: { hp: -5 },
 });
 
-// Mock addToast to prevent queue from filling during tests
+// Mock addToast action to prevent queue from filling during tests
 jest.mock("@/lib/features/toast/ToastSlice", () => {
   const actual = jest.requireActual("@/lib/features/toast/ToastSlice");
   return {

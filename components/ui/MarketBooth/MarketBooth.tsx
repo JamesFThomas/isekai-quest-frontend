@@ -66,15 +66,6 @@ export const MarketBooth = () => {
     setSelectedBoothItem(null);
   };
 
-  const playPurchaseSound = () => {
-    if (audioRef.current) {
-      audioRef.current.currentTime = 0;
-      audioRef.current.play().catch((error) => {
-        console.error("Error playing audio:", error);
-      });
-    }
-  };
-
   const handlePurchaseClick = (item: InventoryItemBase) => {
     // use purchaseItem thunk once made
     dispatch(purchaseBoothItemThunk(item));

@@ -30,7 +30,7 @@ export const ToastComponent = ({ toast, isLast }: ToastProps) => {
     }, toast.duration);
 
     return () => clearTimeout(timer);
-  }, [dispatch, toast.id, toast.duration, isLast]);
+  }, [dispatch, toast.id, toast.duration, toast.sound, isLast]);
 
   return (
     <div

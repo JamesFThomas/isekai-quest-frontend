@@ -138,6 +138,10 @@ export default function PartyScreen() {
           characterName: activeCharacter?.name ?? "",
           message,
           type: "item",
+          sound:
+            item.type === "weapon" || item.type === "equipment"
+              ? "item_equipped"
+              : "item_used",
           duration: 3000,
           timestamp: Date.now(),
         },

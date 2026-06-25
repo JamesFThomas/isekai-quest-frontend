@@ -76,9 +76,6 @@ export const MarketBooth = () => {
   };
 
   const handlePurchaseClick = (item: InventoryItemBase) => {
-    // play purchase sound
-    playPurchaseSound();
-
     // use purchaseItem thunk once made
     dispatch(purchaseBoothItemThunk(item));
 
@@ -90,6 +87,7 @@ export const MarketBooth = () => {
           characterName: activeCharacter?.name ?? "",
           message: `${activeCharacter?.name} purchased the ${item.title}`,
           type: "item",
+          sound: "item_purchased",
           duration: 3000,
           timestamp: Date.now(),
         },
@@ -108,7 +106,6 @@ export const MarketBooth = () => {
         flexGrow: 1,
       }}
     >
-      <audio ref={audioRef} src="/sounds/purchase_sound.wav" preload="auto" />
       <div
         id="Armor-booth-content"
         className='mt-4 bg-[url("/background_images/parchment_paper.png")] bg-cover bg-no-repeat bg-center'

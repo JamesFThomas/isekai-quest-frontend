@@ -63,6 +63,25 @@ const playQuestCompleted = (c: AudioContext) => {
   });
 };
 
+const playQuestFailed = (c: AudioContext) => {
+  [277, 233, 196, 155, 110].forEach((f, i) => {
+    const isLast = i === 4;
+    const o = c.createOscillator(),
+      g = c.createGain();
+    o.connect(g);
+    g.connect(c.destination);
+    o.type = "sawtooth";
+    o.frequency.setValueAtTime(f, c.currentTime + i * 0.1);
+    g.gain.setValueAtTime(0.28, c.currentTime + i * 0.1);
+    g.gain.exponentialRampToValueAtTime(
+      0.001,
+      c.currentTime + i * 0.1 + (isLast ? 0.7 : 0.1),
+    );
+    o.start(c.currentTime + i * 0.1);
+    o.stop(c.currentTime + i * 0.1 + (isLast ? 0.7 : 0.1));
+  });
+};
+
 const playItemGained = (c: AudioContext) => {
   [
     [1200, 0],
@@ -205,6 +224,9 @@ export const playSoundEffect = (event: ToastId) => {
       break;
     case "quest_completed":
       playQuestCompleted(audioCtx);
+      break;
+    case "quest_failed":
+      playQuestFailed(audioCtx);
       break;
     case "item_gained":
       playItemGained(audioCtx);

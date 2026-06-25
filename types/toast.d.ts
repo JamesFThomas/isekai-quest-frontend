@@ -5,6 +5,7 @@ export type ToastId = string;
 export type ToastSound =
   | "quest_accepted"
   | "quest_completed"
+  | "quest_failed"
   | "item_gained"
   | "item_equipped"
   | "item_purchased"

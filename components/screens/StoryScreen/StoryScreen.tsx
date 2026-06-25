@@ -92,6 +92,19 @@ export default function StoryScreen() {
 
     if (choice.outcome?.endState === "failed") {
       dispatch(markQuestFailedAndClearState());
+      dispatch(
+        addToast([
+          {
+            id: `quest_failed_${quest.id}`,
+            characterName: activeCharacter?.name ?? "",
+            message: `${activeCharacter?.name} Failed ${quest.name}`,
+            type: "quest",
+            sound: "quest_failed",
+            duration: 3000,
+            timestamp: Date.now(),
+          },
+        ]),
+      );
       router.push("/mapscreen");
       return;
     }

@@ -12,6 +12,8 @@ export type ToastSound =
   | "item_used"
   | "battle_damage_dealt"
   | "battle_damage_received"
+  | "battle_victory"
+  | "battle_defeat"
   | "save_progress";
 
 export type Toast = {

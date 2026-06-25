@@ -13,14 +13,14 @@ import { ToastId } from "@/types/toast";
 
 let ctx: AudioContext | null = null;
 
-// utilizing singleton pattern
+// ***** utilizing singleton pattern ***** //
 const getAudioContext = (): AudioContext => {
   if (!ctx) ctx = new AudioContext();
   if (ctx.state === "suspended") ctx.resume();
   return ctx;
 };
 
-// Sound effect synthesis
+// ***** Sound effect synthesis functions *****  //
 const playQuestAccepted = (c: AudioContext) => {
   [
     [440, 0],
@@ -199,6 +199,77 @@ const playBattleDamageReceived = (c: AudioContext) => {
   });
 };
 
+const playBattleVictory = (c: AudioContext) => {
+  const notes: [number, number, number][] = [
+    [392, 0, 0.07],
+    [392, 0.08, 0.07],
+    [392, 0.16, 0.07],
+    [523, 0.25, 0.5],
+  ];
+  notes.forEach(([freq, t, dur]) => {
+    const o1 = c.createOscillator(),
+      g1 = c.createGain();
+    const o2 = c.createOscillator(),
+      g2 = c.createGain();
+    o1.connect(g1);
+    g1.connect(c.destination);
+    o2.connect(g2);
+    g2.connect(c.destination);
+    o1.type = "sawtooth";
+    o2.type = "square";
+    o1.frequency.setValueAtTime(freq, c.currentTime + t);
+    o2.frequency.setValueAtTime(freq, c.currentTime + t);
+    g1.gain.setValueAtTime(0.0, c.currentTime + t);
+    g1.gain.linearRampToValueAtTime(0.25, c.currentTime + t + 0.02);
+    g1.gain.setValueAtTime(0.25, c.currentTime + t + dur - 0.04);
+    g1.gain.exponentialRampToValueAtTime(0.001, c.currentTime + t + dur);
+    g2.gain.setValueAtTime(0.0, c.currentTime + t);
+    g2.gain.linearRampToValueAtTime(0.075, c.currentTime + t + 0.02);
+    g2.gain.setValueAtTime(0.075, c.currentTime + t + dur - 0.04);
+    g2.gain.exponentialRampToValueAtTime(0.001, c.currentTime + t + dur);
+    o1.start(c.currentTime + t);
+    o1.stop(c.currentTime + t + dur);
+    o2.start(c.currentTime + t);
+    o2.stop(c.currentTime + t + dur);
+  });
+};
+
+const playBattleDefeat = (c: AudioContext) => {
+  const blats: [number, number, number, number][] = [
+    [370, 220, 0, 0.14],
+    [280, 160, 0.17, 0.14],
+    [200, 100, 0.34, 0.22],
+  ];
+  blats.forEach(([startFreq, endFreq, t, dur]) => {
+    const o1 = c.createOscillator(),
+      g1 = c.createGain();
+    const o2 = c.createOscillator(),
+      g2 = c.createGain();
+    o1.connect(g1);
+    g1.connect(c.destination);
+    o2.connect(g2);
+    g2.connect(c.destination);
+    o1.type = "sawtooth";
+    o2.type = "square";
+    o1.frequency.setValueAtTime(startFreq, c.currentTime + t);
+    o1.frequency.exponentialRampToValueAtTime(endFreq, c.currentTime + t + dur);
+    o2.frequency.setValueAtTime(startFreq, c.currentTime + t);
+    o2.frequency.exponentialRampToValueAtTime(endFreq, c.currentTime + t + dur);
+    g1.gain.setValueAtTime(0.0, c.currentTime + t);
+    g1.gain.linearRampToValueAtTime(0.28, c.currentTime + t + 0.02);
+    g1.gain.setValueAtTime(0.28, c.currentTime + t + dur - 0.05);
+    g1.gain.exponentialRampToValueAtTime(0.001, c.currentTime + t + dur);
+    g2.gain.setValueAtTime(0.0, c.currentTime + t);
+    g2.gain.linearRampToValueAtTime(0.07, c.currentTime + t + 0.02);
+    g2.gain.setValueAtTime(0.07, c.currentTime + t + dur - 0.05);
+    g2.gain.exponentialRampToValueAtTime(0.001, c.currentTime + t + dur);
+    o1.start(c.currentTime + t);
+    o1.stop(c.currentTime + t + dur);
+    o2.start(c.currentTime + t);
+    o2.stop(c.currentTime + t + dur);
+  });
+};
+
 const playSaveProgress = (c: AudioContext) => {
   const o = c.createOscillator(),
     g = c.createGain();
@@ -215,7 +286,7 @@ const playSaveProgress = (c: AudioContext) => {
   o.stop(c.currentTime + 0.75);
 };
 
-// Sound effect method switch
+// ***** Sound effect method switch ***** //
 export const playSoundEffect = (event: ToastId) => {
   const audioCtx = getAudioContext();
   switch (event) {
@@ -245,6 +316,12 @@ export const playSoundEffect = (event: ToastId) => {
       break;
     case "battle_damage_received":
       playBattleDamageReceived(audioCtx);
+      break;
+    case "battle_victory":
+      playBattleVictory(audioCtx);
+      break;
+    case "battle_defeat":
+      playBattleDefeat(audioCtx);
       break;
     case "save_progress":
       playSaveProgress(audioCtx);

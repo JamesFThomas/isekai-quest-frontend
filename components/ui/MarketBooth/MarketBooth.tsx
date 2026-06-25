@@ -17,13 +17,12 @@ import { allWeapons } from "@/data/gameData/weapons";
 import { InventoryItemBase } from "@/types/character";
 import { ItemPurchaseModal } from "./components/ItemPurchaseModal";
 import { canAffordItem, formatPriceDisplay } from "./utils/marketBooth.utils";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { addToast } from "@/lib/features/toast/ToastSlice";
 
 export const MarketBooth = () => {
   const pathname = usePathname();
   const dispatch = useAppDispatch();
-  const audioRef = useRef<HTMLAudioElement>(null);
   const activeCharacter = useAppSelector(selectActiveCharacter);
 
   //modal control state

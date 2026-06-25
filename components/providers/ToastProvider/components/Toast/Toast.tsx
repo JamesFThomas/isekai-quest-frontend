@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/reduxHooks";
 import { removeToast, shiftToastGroup } from "@/lib/features/toast/ToastSlice";
 
 import { selectActiveCharacter } from "@/lib/features/character/CharacterSlice";
+import { playSoundEffect } from "@/lib/utils/soundEffects";
 
 interface ToastProps {
   toast: Toast;
@@ -22,13 +23,14 @@ export const ToastComponent = ({ toast, isLast }: ToastProps) => {
     : "toast-slide-in-left";
 
   useEffect(() => {
+    if (toast.sound) playSoundEffect(toast.sound);
     const timer = setTimeout(() => {
       dispatch(removeToast(toast.id));
       if (isLast) dispatch(shiftToastGroup());
     }, toast.duration);
 
     return () => clearTimeout(timer);
-  }, [dispatch, toast.id, toast.duration, isLast]);
+  }, [dispatch, toast.id, toast.duration, toast.sound, isLast]);
 
   return (
     <div

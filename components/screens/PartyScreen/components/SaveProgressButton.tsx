@@ -112,6 +112,7 @@ export const SaveProgressButton = () => {
             characterName: activeCharacter?.name ?? "",
             message: `${activeCharacter?.name}'s progress has been saved`,
             type: "system",
+            sound: "save_progress",
             duration: 3000,
             timestamp: Date.now(),
           },

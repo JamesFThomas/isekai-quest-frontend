@@ -78,6 +78,7 @@ export default function StoryScreen() {
             characterName: activeCharacter?.name ?? "",
             message: `${activeCharacter?.name} Completed ${quest.name}`,
             type: "quest",
+            sound: "quest_completed",
             duration: 3000,
             timestamp: Date.now(),
           },
@@ -91,6 +92,19 @@ export default function StoryScreen() {
 
     if (choice.outcome?.endState === "failed") {
       dispatch(markQuestFailedAndClearState());
+      dispatch(
+        addToast([
+          {
+            id: `quest_failed_${quest.id}`,
+            characterName: activeCharacter?.name ?? "",
+            message: `${activeCharacter?.name} Failed ${quest.name}`,
+            type: "quest",
+            sound: "quest_failed",
+            duration: 3000,
+            timestamp: Date.now(),
+          },
+        ]),
+      );
       router.push("/mapscreen");
       return;
     }
@@ -105,7 +119,8 @@ export default function StoryScreen() {
               id: `item_gained_${item.id}`,
               characterName: activeCharacter?.name ?? "",
               message: `${activeCharacter?.name} gained ${item.title}`,
-              type: "item" as const,
+              type: "item",
+              sound: "item_gained",
               duration: 3000,
               timestamp: Date.now(),
             })),

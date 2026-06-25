@@ -17,13 +17,12 @@ import { allWeapons } from "@/data/gameData/weapons";
 import { InventoryItemBase } from "@/types/character";
 import { ItemPurchaseModal } from "./components/ItemPurchaseModal";
 import { canAffordItem, formatPriceDisplay } from "./utils/marketBooth.utils";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { addToast } from "@/lib/features/toast/ToastSlice";
 
 export const MarketBooth = () => {
   const pathname = usePathname();
   const dispatch = useAppDispatch();
-  const audioRef = useRef<HTMLAudioElement>(null);
   const activeCharacter = useAppSelector(selectActiveCharacter);
 
   //modal control state
@@ -66,19 +65,7 @@ export const MarketBooth = () => {
     setSelectedBoothItem(null);
   };
 
-  const playPurchaseSound = () => {
-    if (audioRef.current) {
-      audioRef.current.currentTime = 0;
-      audioRef.current.play().catch((error) => {
-        console.error("Error playing audio:", error);
-      });
-    }
-  };
-
   const handlePurchaseClick = (item: InventoryItemBase) => {
-    // play purchase sound
-    playPurchaseSound();
-
     // use purchaseItem thunk once made
     dispatch(purchaseBoothItemThunk(item));
 
@@ -90,6 +77,7 @@ export const MarketBooth = () => {
           characterName: activeCharacter?.name ?? "",
           message: `${activeCharacter?.name} purchased the ${item.title}`,
           type: "item",
+          sound: "item_purchased",
           duration: 3000,
           timestamp: Date.now(),
         },
@@ -108,7 +96,6 @@ export const MarketBooth = () => {
         flexGrow: 1,
       }}
     >
-      <audio ref={audioRef} src="/sounds/purchase_sound.wav" preload="auto" />
       <div
         id="Armor-booth-content"
         className='mt-4 bg-[url("/background_images/parchment_paper.png")] bg-cover bg-no-repeat bg-center'

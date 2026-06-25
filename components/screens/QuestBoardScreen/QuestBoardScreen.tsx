@@ -33,6 +33,7 @@ export default function QuestBoardScreen() {
           characterName: activeChar?.name ?? "",
           message: `${activeChar?.name} accepted ${quest.name}`,
           type: "quest",
+          sound: "quest_accepted",
           duration: 3000,
           timestamp: Date.now(),
         },

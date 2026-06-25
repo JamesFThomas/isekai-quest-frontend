@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import type { PayloadAction } from "@reduxjs/toolkit";
+import type { PayloadAction, ThunkDispatch } from "@reduxjs/toolkit";
 
-import type { RootState } from "../../store";
+import type { AppDispatch, RootState } from "../../store";
 
 import { Character } from "@/types/character";
 
@@ -44,6 +44,78 @@ const waitForToastClear = (getState: () => RootState): Promise<void> => {
   });
 };
 
+// Helper to dispatch battle action toast for character and opponent
+const dispatchBattleActionToast = (
+  dispatch: AppDispatch,
+  actor: { name: string },
+  target: { name: string },
+  battleAction: BattleAction,
+  isPlayer: boolean,
+): void => {
+  const message =
+    isPlayer && battleAction.details.type === "potion"
+      ? `${actor.name} used ${battleAction.details.title}`
+      : `${actor.name} used ${battleAction.details.title} on ${target.name}`;
+
+  dispatch(
+    addToast([
+      {
+        id: `battle_action_${Date.now()}`,
+        characterName: actor.name,
+        message,
+        type: "battle",
+        sound: isPlayer ? "battle_damage_dealt" : "battle_damage_received",
+        duration: 2000,
+        timestamp: Date.now(),
+      },
+    ]),
+  );
+};
+
+// Helper method to dispatch toast when battle is won or lost
+const checkBattleResult = (
+  getState: () => RootState,
+  dispatch: AppDispatch,
+): boolean => {
+  const { result, activeCharacter, activeOpponent } = getState().battle;
+
+  if (result === "win") {
+    dispatch(
+      addToast([
+        {
+          id: `battle_victory_${Date.now()}`,
+          characterName: activeCharacter?.name ?? "",
+          message: `${activeCharacter?.name} defeated ${activeOpponent?.name}!`,
+          type: "battle",
+          sound: "battle_victory",
+          duration: 3000,
+          timestamp: Date.now(),
+        },
+      ]),
+    );
+    return true; // battle over
+  }
+
+  if (result === "lose") {
+    dispatch(
+      addToast([
+        {
+          id: `battle_defeat_${Date.now()}`,
+          characterName: activeCharacter?.name ?? "",
+          message: `${activeCharacter?.name} was defeated by ${activeOpponent?.name}!`,
+          type: "battle",
+          sound: "battle_defeat",
+          duration: 3000,
+          timestamp: Date.now(),
+        },
+      ]),
+    );
+    return true; // battle over
+  }
+
+  return false; // battle continues
+};
+
 export const performBattleAction = createAsyncThunk<
   void, // return type
   BattleAction, // argument type
@@ -69,23 +141,17 @@ export const performBattleAction = createAsyncThunk<
 
     dispatch(updateBattleState(battleAction)); // the thunk return
 
-    // dispatch player toast
-    const playerMessage =
-      battleAction.details.type === "potion"
-        ? `${activeCharacter.name} used ${battleAction.details.title}`
-        : `${activeCharacter.name} used ${battleAction.details.title} on ${activeOpponent.name}`;
+    if (checkBattleResult(getState, dispatch as AppDispatch)) return;
 
-    dispatch(
-      addToast([
-        {
-          id: `battle_action_${Date.now()}`,
-          characterName: activeCharacter.name,
-          message: playerMessage,
-          type: "battle" as const,
-          duration: 2000,
-          timestamp: Date.now(),
-        },
-      ]),
+    await waitForToastClear(getState);
+
+    // dispatch player toast
+    dispatchBattleActionToast(
+      dispatch as AppDispatch,
+      activeCharacter,
+      activeOpponent,
+      battleAction,
+      true,
     );
 
     await waitForToastClear(getState);
@@ -117,18 +183,14 @@ export const performBattleAction = createAsyncThunk<
 
       dispatch(updateBattleState(battleAction));
 
-      //dispatch activeOpponent toast
-      dispatch(
-        addToast([
-          {
-            id: `battle_action_${Date.now()}`,
-            characterName: aO2.name,
-            message: `${aO2.name} used ${opponentAttack.title} on ${aC2.name}`,
-            type: "battle",
-            duration: 2000,
-            timestamp: Date.now(),
-          },
-        ]),
+      if (checkBattleResult(getState, dispatch as AppDispatch)) return;
+
+      dispatchBattleActionToast(
+        dispatch as AppDispatch,
+        aO2,
+        aC2,
+        battleAction,
+        false,
       );
     }
   },

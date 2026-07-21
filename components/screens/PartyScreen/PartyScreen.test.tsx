@@ -1,8 +1,8 @@
-import React from 'react';
-import '@testing-library/jest-dom';
-import { screen } from '@testing-library/react';
-import { renderWithStore } from '@/lib/test-utils';
-import PartyScreen from './PartyScreen';
+import React from "react";
+import "@testing-library/jest-dom";
+import { screen } from "@testing-library/react";
+import { renderWithStore } from "@/lib/test-utils";
+import PartyScreen from "./PartyScreen";
 
 global.ResizeObserver = jest.fn().mockImplementation(() => ({
   observe: jest.fn(),
@@ -10,25 +10,25 @@ global.ResizeObserver = jest.fn().mockImplementation(() => ({
   disconnect: jest.fn(),
 }));
 
-jest.mock('next/navigation', () => ({
+jest.mock("next/navigation", () => ({
   useRouter: jest.fn(() => ({ push: jest.fn() })),
-  usePathname: jest.fn(() => '/'),
+  usePathname: jest.fn(() => "/"),
 }));
 
-jest.mock('@/lib/hooks/useProtectedRoute', () => ({
+jest.mock("@/lib/hooks/useProtectedRoute", () => ({
   __esModule: true,
   default: jest.fn(),
 }));
 
 const mockCharacter = {
-  id: 'c1',
-  name: 'Aria',
+  id: "c1",
+  name: "Aria",
   hp: 50,
   maxHp: 50,
   mp: 20,
   maxMp: 20,
-  avatar: '/test-avatar.png',
-  class: 'elf' as const,
+  avatar: "/test-avatar.png",
+  class: "elf" as const,
   inventory: {
     attacks: [],
     skills: [],
@@ -39,6 +39,7 @@ const mockCharacter = {
     questItems: [],
     coins: { gold: 5, silver: 0, copper: 0 },
   },
+  completedQuestIds: [],
 };
 
 const preloadedState = {
@@ -46,7 +47,6 @@ const preloadedState = {
     ActiveCharacter: mockCharacter,
     party: [],
     characterLocation: null,
-    completedQuestIds: [],
     characterSnapshot: null,
   },
 };
@@ -62,18 +62,18 @@ const preloadedState = {
  *   Then I should see "Aria" as my character's name
  *   And I should see my character's HP and MP
  */
-describe('PartyScreen', () => {
-  it('renders without crashing when an active character exists', () => {
+describe("PartyScreen", () => {
+  it("renders without crashing when an active character exists", () => {
     renderWithStore(<PartyScreen />, preloadedState);
     expect(screen.getByText(/aria/i)).toBeInTheDocument();
   });
 
-  it('renders the active character HP from Redux state', () => {
+  it("renders the active character HP from Redux state", () => {
     renderWithStore(<PartyScreen />, preloadedState);
     expect(screen.getByText(/HP: 50/)).toBeInTheDocument();
   });
 
-  it('renders the active character MP from Redux state', () => {
+  it("renders the active character MP from Redux state", () => {
     renderWithStore(<PartyScreen />, preloadedState);
     expect(screen.getByText(/MP: 20/)).toBeInTheDocument();
   });

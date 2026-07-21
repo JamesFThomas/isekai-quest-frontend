@@ -10,13 +10,12 @@ import {
   InventoryItemBase,
 } from "@/types/character";
 import { BattleOption } from "@/types/battle";
-import { Effect } from "@/types/quest";
+import { Effect, QuestStoryId } from "@/types/quest";
 
 interface CharacterState {
   ActiveCharacter: Character | null;
   characterLocation: string | null;
   party: Character[];
-  completedQuestIds: string[];
   characterSnapshot: CharacterStateSnapshot | null;
 }
 
@@ -24,9 +23,10 @@ const initialState: CharacterState = {
   ActiveCharacter: null,
   characterLocation: null,
   party: [],
-  completedQuestIds: [],
   characterSnapshot: null,
 };
+
+const EMPTY_COMPLETED_QUEST_IDS: QuestStoryId[] = [];
 
 type InventorySelection = BattleOption | InventoryItemBase;
 
@@ -387,15 +387,15 @@ export const characterSlice = createSlice({
       }
     },
     addCompletedQuestId: (state, action: PayloadAction<string>) => {
-      if (!state.completedQuestIds.includes(action.payload)) {
-        state.completedQuestIds.push(action.payload);
+      if (!state.ActiveCharacter) return;
+      if (!state.ActiveCharacter.completedQuestIds.includes(action.payload)) {
+        state.ActiveCharacter.completedQuestIds.push(action.payload);
       }
     },
     resetCharacterState: (state) => {
       state.ActiveCharacter = null;
       state.characterLocation = null;
       state.party = [];
-      state.completedQuestIds = [];
       state.characterSnapshot = null;
     },
   },
@@ -429,7 +429,8 @@ export const selectCharacterLocation = (state: RootState) =>
   state.character.characterLocation;
 
 export const selectCompletedQuestIds = (state: RootState) =>
-  state.character.completedQuestIds;
+  state.character.ActiveCharacter?.completedQuestIds ??
+  EMPTY_COMPLETED_QUEST_IDS;
 
 export const selectCharacterSnapshot = (state: RootState) =>
   state.character.characterSnapshot;

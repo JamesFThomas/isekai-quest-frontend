@@ -4,8 +4,9 @@ import { goblin } from "../gameData/opponents";
 
 export const herbGatheringQuest: QuestStory = {
   id: "q1",
-  locationId: "startsville",
+  locationId: "startsVille",
   name: "Herb Gathering",
+  prerequisiteQuestIds: ["ambushReconQuest"],
   description:
     "The village healer needs herbs from the foothills. Follow the trails outside town and collect what you can from the wild.",
   coverImageSrc: "/quests/herb_gathering/cover_image.png",

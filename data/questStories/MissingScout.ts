@@ -4,8 +4,9 @@ import { goblin } from "../gameData/opponents";
 
 export const missingScoutQuest: QuestStory = {
   id: "missingScout",
-  locationId: "startsville",
+  locationId: "startsVille",
   name: "Missing Scout",
+  prerequisiteQuestIds: ["ambushReconQuest"],
   description:
     "One of the guild’s scouts went missing during a routine perimeter sweep. Your task is to investigate their last known location and uncover what led to their disappearance—be it accident, ambush, or something stranger.",
   coverImageSrc: "/quests/missing_scout/cover_image.png",

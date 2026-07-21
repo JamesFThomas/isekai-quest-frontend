@@ -9,7 +9,11 @@ import DetailsModal from "@/components/ui/DetailsModal/DetailsModal";
 import { QuestStory } from "@/types/quest";
 import { useAppDispatch, useAppSelector } from "@/lib/reduxHooks";
 import { setAcceptedQuest } from "@/lib/features/quest/QuestSlice";
-import { selectActiveCharacter } from "@/lib/features/character/CharacterSlice";
+import { isQuestAvailable } from "@/lib/utils/questAvailability";
+import {
+  selectActiveCharacter,
+  selectCompletedQuestIds,
+} from "@/lib/features/character/CharacterSlice";
 import { ControlPanel } from "@/components/ui/ControlPanel/ContolPanel";
 import { addToast } from "@/lib/features/toast/ToastSlice";
 
@@ -22,6 +26,8 @@ export default function QuestBoardScreen() {
   const acceptedQuest = useAppSelector((state) => state.quest.acceptedQuest);
 
   const activeChar = useAppSelector(selectActiveCharacter);
+
+  const completedQuestIds = useAppSelector(selectCompletedQuestIds);
 
   const handleAcceptClick = (quest: QuestStory) => {
     dispatch(setAcceptedQuest(quest));
@@ -57,12 +63,14 @@ export default function QuestBoardScreen() {
         <div className="questBoard-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4 w-[100%] max-w-[900px] min-h-[600px] bg-[url('/background_images/quest_board2.png')] bg-cover bg-no-repeat bg-center">
           {questStories.map((quest) => {
             const isAccepted = acceptedQuest?.id === quest.id;
+            const isAvailable = isQuestAvailable(quest, completedQuestIds);
+
             return (
               <button
                 key={quest.id}
-                className={`flex flex-col items-center justify-center ${quest.disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"} transition-transform duration-200`}
+                className={`flex flex-col items-center justify-center ${!isAvailable ? "opacity-50 cursor-not-allowed" : "cursor-pointer"} transition-transform duration-200`}
                 onClick={() => handleQuestClick(quest)}
-                disabled={quest.disabled}
+                disabled={!isAvailable}
               >
                 <Image
                   key={quest.id}

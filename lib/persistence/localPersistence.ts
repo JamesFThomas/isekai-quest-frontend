@@ -212,6 +212,7 @@ export const createAccountLocalStorage = async (
           questItems: [],
         },
         partyMembers: [],
+        completedQuestIds: [],
       },
       progression_data: initialProgressionData,
       schema_version: "1.0.0",

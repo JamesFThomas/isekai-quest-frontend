@@ -4,8 +4,9 @@ import { goblin } from "../gameData/opponents";
 
 export const orchardTroubleQuest: QuestStory = {
   id: "orchardTrouble",
-  locationId: "startsville",
+  locationId: "startsVille",
   name: "Orchard Trouble",
+  prerequisiteQuestIds: ["ambushReconQuest"],
   description:
     "Unusual creatures have been spotted raiding the village orchard after dark. Investigate the source of the disturbances and protect the harvest before more is lost.",
   coverImageSrc: "/quests/orchard_trouble/cover_image.png",

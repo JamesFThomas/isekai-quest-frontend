@@ -3,9 +3,10 @@ import { QuestStory } from "@/types/quest";
 import { goblin } from "../gameData/opponents";
 
 export const banditWatchQuest: QuestStory = {
-  locationId: "startsville",
   id: "banditWatch",
+  locationId: "startsVille",
   name: "Bandit Watch",
+  prerequisiteQuestIds: ["ambushReconQuest"],
   description:
     "A merchant seeks safe passage through a dangerous stretch of road known for bandit ambushes. Join the escort and ensure their goods and life arrive safely at the next village.",
   coverImageSrc: "/quests/bandit_watch/cover_image.png",

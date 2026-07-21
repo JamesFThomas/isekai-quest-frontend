@@ -27,6 +27,7 @@ const baseState = {
 
 const enabledQuest: QuestStory = {
   id: "ambushReconQuest",
+  locationId: "startsville",
   name: "Ambush Alley Recon",
   description: "Scout the bandit camp.",
   coverImageSrc: "/quests/ambush_cover.png",

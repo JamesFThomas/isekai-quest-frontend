@@ -26,6 +26,7 @@ const mockOpponent = {
 
 const mockQuest: QuestStory = {
   id: "q1",
+  locationId: "startsville",
   name: "Test Quest",
   description: "desc",
   coverImageSrc: "/cover.png",
@@ -130,6 +131,7 @@ describe("StoryScreen", () => {
         questItems: [],
         coins: { gold: 0, silver: 0, copper: 0 },
       },
+      completedQuestIds: [],
     };
     const { store } = renderWithStore(<StoryScreen />, {
       ...preloadedState,
@@ -202,6 +204,7 @@ describe("StoryScreen", () => {
         questItems: [],
         coins: { gold: 0, silver: 0, copper: 0 },
       },
+      completedQuestIds: [],
     };
     const effectState = {
       ...preloadedState,

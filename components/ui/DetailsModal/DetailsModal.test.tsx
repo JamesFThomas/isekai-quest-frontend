@@ -9,6 +9,7 @@ const mockAcceptQuest = jest.fn();
 
 const mockQuest: QuestStory = {
   id: "ambushReconQuest",
+  locationId: "startsville",
   name: "Ambush Alley Recon",
   description: "Scout the bandit camp.",
   coverImageSrc: "/quests/ambush_cover.png",

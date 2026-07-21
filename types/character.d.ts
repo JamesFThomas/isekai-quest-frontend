@@ -1,13 +1,14 @@
-import { BattleOption } from './battle';
-import { ProgressionData } from './persistence';
+import type { BattleOption } from "./battle";
+import type { ProgressionData } from "./persistence";
+import type { QuestStoryId } from "./quest";
 
 export type characterClass =
-  | 'paladin'
-  | 'elf'
-  | 'halfling'
-  | 'barbarian'
-  | 'necromancer'
-  | 'dwarf';
+  | "paladin"
+  | "elf"
+  | "halfling"
+  | "barbarian"
+  | "necromancer"
+  | "dwarf";
 
 export interface Character {
   id: string;
@@ -20,6 +21,7 @@ export interface Character {
   class?: characterClass;
   level?: number;
   inventory: Inventory;
+  completedQuestIds: QuestStoryId[];
   partyMembers?: Character[];
   equippedWeapon?: Weapon;
   equippedArmor?: Equipment;
@@ -49,13 +51,13 @@ export interface Coins {
 }
 
 export type InventoryItemType =
-  | 'weapon'
-  | 'equipment'
-  | 'potion'
-  | 'ration'
-  | 'coin'
-  | 'battleOption'
-  | 'quest';
+  | "weapon"
+  | "equipment"
+  | "potion"
+  | "ration"
+  | "coin"
+  | "battleOption"
+  | "quest";
 
 export interface EffectfulItem {
   effect: {

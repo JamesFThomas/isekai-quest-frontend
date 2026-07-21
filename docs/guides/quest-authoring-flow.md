@@ -104,6 +104,7 @@ When adding a new quest:
 ```ts
 export type QuestStory = {
   id: QuestStoryId;
+  locationId: string;
   name: string;
   description: string;
   coverImageSrc: string;
@@ -120,7 +121,7 @@ Below is a simplified example showing the basic structure of a quest.
 ```ts
 const exampleQuestStory = {
   id: "bandit_watch",
-  disabled: false,
+  locationId: "startsville",
   completed: false,
   name: "Bandit Watch",
   description: "Investigate reports of suspicious riders near the trade road.",

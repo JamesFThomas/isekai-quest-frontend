@@ -28,6 +28,7 @@ const mockBattleDetails: BattleDetails = {
 
 const mockQuest: QuestStory = {
   id: "quest-1",
+  locationId: "startsville",
   name: "Test Quest",
   description: "A test quest",
   coverImageSrc: "/cover.png",

@@ -1,44 +1,44 @@
-import { QuestStory } from '@/types/quest';
+import { QuestStory } from "@/types/quest";
 
-import { goblin } from '../gameData/opponents';
+import { goblin } from "../gameData/opponents";
 
 export const missingScoutQuest: QuestStory = {
-  disabled: true, // Set to true to disable this quest until it's fully implemented
-  id: 'missingScout',
-  name: 'Missing Scout',
+  id: "missingScout",
+  locationId: "startsville",
+  name: "Missing Scout",
   description:
-    'One of the guild’s scouts went missing during a routine perimeter sweep. Your task is to investigate their last known location and uncover what led to their disappearance—be it accident, ambush, or something stranger.',
-  coverImageSrc: '/quests/missing_scout/cover_image.png',
+    "One of the guild’s scouts went missing during a routine perimeter sweep. Your task is to investigate their last known location and uncover what led to their disappearance—be it accident, ambush, or something stranger.",
+  coverImageSrc: "/quests/missing_scout/cover_image.png",
   storyPoints: [
     {
-      id: 'ms-p1',
-      imageSrc: '/quests/missing_scout/cover_image.png',
-      text: 'You arrive at the last known location of the scout. The area is eerily quiet, with only the sound of rustling leaves.',
+      id: "ms-p1",
+      imageSrc: "/quests/missing_scout/cover_image.png",
+      text: "You arrive at the last known location of the scout. The area is eerily quiet, with only the sound of rustling leaves.",
       choices: [
         {
-          label: 'a',
-          text: 'Search the nearby bushes',
-          nextPointId: 'ms-p2',
+          label: "a",
+          text: "Search the nearby bushes",
+          nextPointId: "ms-p2",
         },
         {
-          label: 'b',
-          text: 'Climb a tree for a better view',
-          nextPointId: 'ms-p3',
+          label: "b",
+          text: "Climb a tree for a better view",
+          nextPointId: "ms-p3",
         },
         {
-          label: 'c',
-          text: 'Call out for the scout',
-          nextPointId: 'ms-p4',
+          label: "c",
+          text: "Call out for the scout",
+          nextPointId: "ms-p4",
         },
         {
-          label: 'd',
-          text: 'Battle the air',
-          nextPointId: 'bw-p5',
+          label: "d",
+          text: "Battle the air",
+          nextPointId: "bw-p5",
           outcome: {
             battle: {
               opponent: goblin,
               escapeAllowed: true,
-              nextPoints: { win: 'ms-p1', lose: 'ms-p1', flee: 'ms-p1' },
+              nextPoints: { win: "ms-p1", lose: "ms-p1", flee: "ms-p1" },
               escapePenalty: {
                 hp: -5,
                 mp: -5,

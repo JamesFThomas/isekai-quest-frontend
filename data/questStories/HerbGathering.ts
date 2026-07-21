@@ -1,44 +1,44 @@
-import { QuestStory } from '@/types/quest';
+import { QuestStory } from "@/types/quest";
 
-import { goblin } from '../gameData/opponents';
+import { goblin } from "../gameData/opponents";
 
 export const herbGatheringQuest: QuestStory = {
-  disabled: true, // Set to true to disable this quest until it's fully implemented
-  id: 'q1',
-  name: 'Herb Gathering',
+  id: "q1",
+  locationId: "startsville",
+  name: "Herb Gathering",
   description:
-    'The village healer needs herbs from the foothills. Follow the trails outside town and collect what you can from the wild.',
-  coverImageSrc: '/quests/herb_gathering/cover_image.png',
+    "The village healer needs herbs from the foothills. Follow the trails outside town and collect what you can from the wild.",
+  coverImageSrc: "/quests/herb_gathering/cover_image.png",
   storyPoints: [
     {
-      id: 'q1-p1',
-      imageSrc: '/quests/herb_gathering/cover_image.png',
-      text: 'You head out of town toward the nearby mountains in search of the herbs needed to complete the quest. You reach a sign on the path that points out the paths into the mountains in front of you.',
+      id: "q1-p1",
+      imageSrc: "/quests/herb_gathering/cover_image.png",
+      text: "You head out of town toward the nearby mountains in search of the herbs needed to complete the quest. You reach a sign on the path that points out the paths into the mountains in front of you.",
       choices: [
         {
-          label: 'a',
-          text: 'Choose path 1',
-          nextPointId: 'q1-p2',
+          label: "a",
+          text: "Choose path 1",
+          nextPointId: "q1-p2",
         },
         {
-          label: 'b',
-          text: 'Choose path 2',
-          nextPointId: 'q1-p2',
+          label: "b",
+          text: "Choose path 2",
+          nextPointId: "q1-p2",
         },
         {
-          label: 'c',
-          text: 'Choose path 3',
-          nextPointId: 'q1-p2',
+          label: "c",
+          text: "Choose path 3",
+          nextPointId: "q1-p2",
         },
         {
-          label: 'd',
-          text: 'Battle the air',
-          nextPointId: 'bw-p5',
+          label: "d",
+          text: "Battle the air",
+          nextPointId: "bw-p5",
           outcome: {
             battle: {
               opponent: goblin,
               escapeAllowed: true,
-              nextPoints: { win: 'q1-p1', lose: 'q1-p1', flee: 'q1-p1' },
+              nextPoints: { win: "q1-p1", lose: "q1-p1", flee: "q1-p1" },
               escapePenalty: {
                 hp: -5,
                 mp: -5,

@@ -1,5 +1,5 @@
-import { Opponent } from '@/types/battle';
-import { InventoryItemBase, Coins } from '@/types/character';
+import type { Opponent } from "@/types/battle";
+import type { InventoryItemBase, Coins } from "@/types/character";
 
 export type StoryPointId = string;
 
@@ -10,8 +10,9 @@ export type QuestStory = {
   name: string;
   description: string;
   storyPoints: StoryPoint[];
+  locationId: string;
+  prerequisiteQuestIds?: QuestStoryId[]; // all must be in the Character's completedQuestIds array
   coverImageSrc: string; // Optional cover image for the quest
-  disabled?: boolean; // Optional flag to indicate if the quest is currently unavailable
   completed?: boolean; // Optional flag to indicate if the quest has been completed
 };
 
@@ -24,7 +25,7 @@ export type StoryPoint = {
 };
 
 export type StoryPointChoice = {
-  label: 'a' | 'b' | 'c' | 'd';
+  label: "a" | "b" | "c" | "d";
   text: string;
   outcome?: StoryPointOutcome;
   nextPointId: StoryPointId | null; // null if it ends the quest
@@ -41,7 +42,7 @@ export type Effect = {
 export type StoryPointOutcome = {
   effect?: Effect;
   battle?: BattleDetails;
-  endState?: 'completed' | 'failed';
+  endState?: "completed" | "failed";
 };
 
 export type BattleNextPoints = {

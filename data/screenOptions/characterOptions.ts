@@ -1,4 +1,4 @@
-import { Character } from '@/types/character';
+import { Character } from "@/types/character";
 
 import {
   fistSmash,
@@ -7,7 +7,7 @@ import {
   quickJab,
   forstPalm,
   witherTouch,
-} from '../gameData/attacks';
+} from "../gameData/attacks";
 import {
   evade,
   block,
@@ -17,7 +17,7 @@ import {
   ragingSlam,
   lifeSiphon,
   earthshakerStomp,
-} from '../gameData/skills';
+} from "../gameData/skills";
 import {
   dwarfBasicHammer,
   necromancerBasicWand,
@@ -25,7 +25,7 @@ import {
   halflingBasicSling,
   elfBasicBow,
   paladinBasicMace,
-} from '../gameData/weapons';
+} from "../gameData/weapons";
 import {
   paladinStarterArmor,
   elfStarterCloak,
@@ -36,13 +36,13 @@ import {
   // travelersCloak,
   // leatherBracers,
   // sturdyBoots,
-} from '../gameData/equipment';
+} from "../gameData/equipment";
 import {
   driedRations,
   heartyStew,
   sweetTrailMix,
   waybreadLoaf,
-} from '../gameData/rations';
+} from "../gameData/rations";
 import {
   minorHealingPotion,
   majorHealingPotion,
@@ -50,17 +50,17 @@ import {
   greaterManaTonic,
   rejuvenationElixir,
   elixirOfVigor,
-} from '../gameData/potions';
+} from "../gameData/potions";
 
 const Tony: Character = {
-  id: 'char-1',
-  name: 'Tony',
-  avatar: '/character_avatars/barbarian_avatar3.png',
+  id: "char-1",
+  name: "Tony",
+  avatar: "/character_avatars/barbarian_avatar3.png",
   hp: 20,
   maxHp: 100,
   mp: 50,
   maxMp: 50,
-  class: 'barbarian',
+  class: "barbarian",
   inventory: {
     attacks: [fistSmash],
     skills: [evade, block, ragingSlam],
@@ -75,17 +75,18 @@ const Tony: Character = {
       copper: 150,
     },
   },
+  completedQuestIds: [],
 };
 
 const Barbosa: Character = {
-  id: 'char-1',
-  name: 'Barbosa',
-  avatar: '/character_avatars/barbarian_avatar3.png',
+  id: "char-1",
+  name: "Barbosa",
+  avatar: "/character_avatars/barbarian_avatar3.png",
   hp: 20,
   maxHp: 100,
   mp: 50,
   maxMp: 50,
-  class: 'barbarian',
+  class: "barbarian",
   inventory: {
     attacks: [fistSmash],
     skills: [evade, block, ragingSlam],
@@ -101,17 +102,19 @@ const Barbosa: Character = {
     },
   },
   partyMembers: [Tony],
+
+  completedQuestIds: [],
 };
 
 const Durgan: Character = {
-  id: 'char-2',
-  name: 'Durgan',
-  avatar: '/character_avatars/dwarf_avatar3.png',
+  id: "char-2",
+  name: "Durgan",
+  avatar: "/character_avatars/dwarf_avatar3.png",
   hp: 25,
   maxHp: 100,
   mp: 40,
   maxMp: 50,
-  class: 'dwarf',
+  class: "dwarf",
   inventory: {
     attacks: [headButt],
     skills: [evade, block, earthshakerStomp],
@@ -131,17 +134,19 @@ const Durgan: Character = {
     },
   },
   partyMembers: [Tony, Barbosa],
+
+  completedQuestIds: [],
 };
 
 const Perrin: Character = {
-  id: 'char-3',
-  name: 'Perrin',
-  avatar: '/character_avatars/paladin_avatar3.png',
+  id: "char-3",
+  name: "Perrin",
+  avatar: "/character_avatars/paladin_avatar3.png",
   hp: 20,
   maxHp: 100,
   mp: 60,
   maxMp: 100,
-  class: 'paladin',
+  class: "paladin",
   inventory: {
     attacks: [holyJab],
     skills: [evade, block, earthshakerStomp],
@@ -161,17 +166,19 @@ const Perrin: Character = {
     },
   },
   partyMembers: [Tony, Barbosa, Durgan],
+
+  completedQuestIds: [],
 };
 
 const Hobbin: Character = {
-  id: 'char-4',
-  name: 'Hobbin',
-  avatar: '/character_avatars/halfling_avatar3.png',
+  id: "char-4",
+  name: "Hobbin",
+  avatar: "/character_avatars/halfling_avatar3.png",
   hp: 25,
   maxHp: 100,
   mp: 25,
   maxMp: 50,
-  class: 'halfling',
+  class: "halfling",
   inventory: {
     attacks: [quickJab],
     skills: [evade, block, luckyHook],
@@ -191,17 +198,19 @@ const Hobbin: Character = {
     },
   },
   partyMembers: [Tony, Barbosa, Durgan, Perrin],
+
+  completedQuestIds: [],
 };
 
 const Nereza: Character = {
-  id: 'char-5',
-  name: 'Nereza',
-  avatar: '/character_avatars/necromancer_avatar3.png',
+  id: "char-5",
+  name: "Nereza",
+  avatar: "/character_avatars/necromancer_avatar3.png",
   hp: 20,
   maxHp: 100,
   mp: 120,
   maxMp: 150,
-  class: 'necromancer',
+  class: "necromancer",
   inventory: {
     attacks: [witherTouch],
     skills: [evade, block, lifeSiphon],
@@ -221,17 +230,19 @@ const Nereza: Character = {
     },
   },
   partyMembers: [Tony, Durgan, Perrin, Hobbin],
+
+  completedQuestIds: [],
 };
 
 const Seryn: Character = {
-  id: 'char-6',
-  name: 'Seryn',
-  avatar: '/character_avatars/snowElf_avatar3.png',
+  id: "char-6",
+  name: "Seryn",
+  avatar: "/character_avatars/snowElf_avatar3.png",
   hp: 20,
   maxHp: 100,
   mp: 90,
   maxMp: 200,
-  class: 'elf',
+  class: "elf",
   inventory: {
     attacks: [forstPalm],
     skills: [evade, block, iceGust],
@@ -251,6 +262,8 @@ const Seryn: Character = {
     },
   },
   partyMembers: [Barbosa, Nereza, Hobbin, Tony],
+
+  completedQuestIds: [],
 };
 
 const characterOptions: Character[] = [

@@ -20,6 +20,7 @@ const mockCharacter: Character = {
     potions: [],
     questItems: [],
   },
+  completedQuestIds: [],
 };
 
 /*

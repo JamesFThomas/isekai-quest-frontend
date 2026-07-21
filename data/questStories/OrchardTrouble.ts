@@ -1,24 +1,24 @@
-import { QuestStory } from '@/types/quest';
+import { QuestStory } from "@/types/quest";
 
-import { goblin } from '../gameData/opponents';
+import { goblin } from "../gameData/opponents";
 
 export const orchardTroubleQuest: QuestStory = {
-  disabled: true, // Set to true to disable this quest until it's fully implemented
-  id: 'orchardTrouble',
-  name: 'Orchard Trouble',
+  id: "orchardTrouble",
+  locationId: "startsville",
+  name: "Orchard Trouble",
   description:
-    'Unusual creatures have been spotted raiding the village orchard after dark. Investigate the source of the disturbances and protect the harvest before more is lost.',
-  coverImageSrc: '/quests/orchard_trouble/cover_image.png',
+    "Unusual creatures have been spotted raiding the village orchard after dark. Investigate the source of the disturbances and protect the harvest before more is lost.",
+  coverImageSrc: "/quests/orchard_trouble/cover_image.png",
   storyPoints: [
     {
-      id: 'ot-p1',
-      imageSrc: '/quests/orchard_trouble/cover_image.png',
-      text: 'You arrive at the orchard just as the sun sets. The air is filled with the sweet scent of ripe fruit, but something feels off.',
+      id: "ot-p1",
+      imageSrc: "/quests/orchard_trouble/cover_image.png",
+      text: "You arrive at the orchard just as the sun sets. The air is filled with the sweet scent of ripe fruit, but something feels off.",
       choices: [
         {
-          label: 'a',
-          text: 'Test apply effect thunk',
-          nextPointId: 'ot-p2',
+          label: "a",
+          text: "Test apply effect thunk",
+          nextPointId: "ot-p2",
           outcome: {
             effect: {
               hp: 5,
@@ -27,11 +27,11 @@ export const orchardTroubleQuest: QuestStory = {
               items: [
                 // test potion
                 {
-                  id: 'test-potion',
-                  icon: '/inventory_icons/fullBottle_icon.png',
-                  title: 'Test Potion',
-                  type: 'potion',
-                  description: 'A potion used for testing effect application.',
+                  id: "test-potion",
+                  icon: "/inventory_icons/fullBottle_icon.png",
+                  title: "Test Potion",
+                  type: "potion",
+                  description: "A potion used for testing effect application.",
                   effect: {
                     hp: 20,
                     mp: 10,
@@ -39,20 +39,20 @@ export const orchardTroubleQuest: QuestStory = {
                 },
                 // test weapon
                 {
-                  id: 'test-sword',
-                  icon: '/inventory_icons/sword_icon.png',
-                  title: 'Test Sword',
-                  type: 'weapon',
-                  description: 'A sword used for testing effect application.',
+                  id: "test-sword",
+                  icon: "/inventory_icons/sword_icon.png",
+                  title: "Test Sword",
+                  type: "weapon",
+                  description: "A sword used for testing effect application.",
                   effect: {},
                 },
                 // test ration
                 {
-                  id: 'test-ration',
-                  icon: '/inventory_icons/ration_icon.png',
-                  title: 'Test Ration',
-                  type: 'ration',
-                  description: 'A ration used for testing effect application.',
+                  id: "test-ration",
+                  icon: "/inventory_icons/ration_icon.png",
+                  title: "Test Ration",
+                  type: "ration",
+                  description: "A ration used for testing effect application.",
                   effect: {
                     hp: 15,
                     mp: 5,
@@ -63,25 +63,25 @@ export const orchardTroubleQuest: QuestStory = {
           },
         },
         {
-          label: 'b',
-          text: 'End with no reward added to test failed node logic',
-          nextPointId: 'ot-p2',
+          label: "b",
+          text: "End with no reward added to test failed node logic",
+          nextPointId: "ot-p2",
         },
         {
-          label: 'c',
-          text: 'Talk to the farmers about their observations',
-          nextPointId: 'ot-p4',
+          label: "c",
+          text: "Talk to the farmers about their observations",
+          nextPointId: "ot-p4",
         },
         {
-          label: 'd',
-          text: 'Test battle with Goblin',
-          nextPointId: 'ot-p3',
+          label: "d",
+          text: "Test battle with Goblin",
+          nextPointId: "ot-p3",
           outcome: {
             battle: {
               nextPoints: {
-                win: 'ot-p3-win',
-                lose: 'ot-p3-lose',
-                flee: 'ot-p3-flee',
+                win: "ot-p3-win",
+                lose: "ot-p3-lose",
+                flee: "ot-p3-flee",
               },
               opponent: goblin,
               escapeAllowed: true,
@@ -95,12 +95,12 @@ export const orchardTroubleQuest: QuestStory = {
                 coins: { gold: 5, silver: 0, copper: 0 },
                 items: [
                   {
-                    id: 'goblin-ear',
-                    icon: '/inventory_icons/armor_icon.png',
-                    title: 'Goblin Ear',
-                    type: 'equipment',
+                    id: "goblin-ear",
+                    icon: "/inventory_icons/armor_icon.png",
+                    title: "Goblin Ear",
+                    type: "equipment",
                     description:
-                      'The ear of a defeated goblin. It may be worth something to the right buyer.',
+                      "The ear of a defeated goblin. It may be worth something to the right buyer.",
                     effect: {},
                   },
                 ],
@@ -112,74 +112,74 @@ export const orchardTroubleQuest: QuestStory = {
     },
     // Additional story points can be added here
     {
-      id: 'ot-p2',
-      imageSrc: '/quests/placeholder_images/2.png',
-      text: 'Nothing else check to see if your items were added to inventory and coins were added to character state',
+      id: "ot-p2",
+      imageSrc: "/quests/placeholder_images/2.png",
+      text: "Nothing else check to see if your items were added to inventory and coins were added to character state",
       choices: [
         // create an ending node to test end state logic
         {
-          label: 'a',
-          text: 'Complete Quest',
+          label: "a",
+          text: "Complete Quest",
           nextPointId: null,
           outcome: {
-            endState: 'completed',
+            endState: "completed",
           },
         },
         // create failing ending node to test fail state logic
         {
-          label: 'b',
-          text: 'Fail Quest',
+          label: "b",
+          text: "Fail Quest",
           nextPointId: null,
           outcome: {
-            endState: 'failed',
+            endState: "failed",
           },
         },
       ],
     },
     // Create completed ending node for after winning battle
     {
-      id: 'ot-p3-win',
-      imageSrc: '/quests/placeholder_images/3.png',
-      text: 'You have defeated the goblin and protected the orchard! The farmers are grateful for your help.',
+      id: "ot-p3-win",
+      imageSrc: "/quests/placeholder_images/3.png",
+      text: "You have defeated the goblin and protected the orchard! The farmers are grateful for your help.",
       choices: [
         {
-          label: 'a',
-          text: 'Complete Quest',
+          label: "a",
+          text: "Complete Quest",
           nextPointId: null,
           outcome: {
-            endState: 'completed',
+            endState: "completed",
           },
         },
       ],
     },
     // Create failed ending node for after losing battle
     {
-      id: 'ot-p3-lose',
-      imageSrc: '/quests/placeholder_images/3.png',
-      text: 'You were defeated by the goblin. The orchard remains under threat, and the farmers are disappointed.',
+      id: "ot-p3-lose",
+      imageSrc: "/quests/placeholder_images/3.png",
+      text: "You were defeated by the goblin. The orchard remains under threat, and the farmers are disappointed.",
       choices: [
         {
-          label: 'a',
-          text: 'Complete Quest',
+          label: "a",
+          text: "Complete Quest",
           nextPointId: null,
           outcome: {
-            endState: 'failed',
+            endState: "failed",
           },
         },
       ],
     },
     // Create flee ending node for after fleeing battle
     {
-      id: 'ot-p3-flee',
-      imageSrc: '/quests/placeholder_images/3.png',
-      text: 'You fled from the battle. The orchard remains under threat, but at least you live to fight another day.',
+      id: "ot-p3-flee",
+      imageSrc: "/quests/placeholder_images/3.png",
+      text: "You fled from the battle. The orchard remains under threat, but at least you live to fight another day.",
       choices: [
         {
-          label: 'a',
-          text: 'Complete Quest',
+          label: "a",
+          text: "Complete Quest",
           nextPointId: null,
           outcome: {
-            endState: 'failed',
+            endState: "failed",
           },
         },
       ],

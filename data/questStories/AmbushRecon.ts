@@ -4,9 +4,10 @@ import { QuestStory } from "@/types/quest";
 import { unknownRider } from "../gameData/opponents";
 
 export const ambushReconQuest: QuestStory = {
-  disabled: false,
   completed: false,
+  locationId: "startsville",
   id: "ambushReconQuest",
+
   name: "Ambush Alley Recon",
   description:
     "A guild patrol contract sends you to Ambush Alley to gather intel on bandit tactics, numbers, and escape routes. The task is reconnaissance, not victory.",

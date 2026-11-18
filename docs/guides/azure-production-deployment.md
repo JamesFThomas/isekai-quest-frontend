@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document outlines the production deployment setup for the Isekai Quest frontend using Azure App Service and Azure SQL.
+This document outlines the production deployment setup for the Isekai Quest frontend using Azure App Service.
 
 ---
 
@@ -20,11 +20,6 @@ This document outlines the production deployment setup for the Isekai Quest fron
 - Next.js standalone build
 - Startup command: `node server.js`
 
-### Database
-
-- Azure SQL Database (Production)
-- Separate database for test environment
-
 ---
 
 ## Azure Resources
@@ -39,22 +34,8 @@ This document outlines the production deployment setup for the Isekai Quest fron
 - `ASP-IsekaiQuest-Production` (B1)
 - Test plan (separate)
 
-### SQL
-
-- `Isekai_Quest_Production`
-- `Isekai_Quest_Test`
-- Shared SQL Server (temporary)
-
 ---
 
-## Environment Variables
-
-Configured in Azure App Service:
-
-- `DATABASE_URL`
-- `NEXT_PUBLIC_PERSISTENCE_MODE=remote`
-
----
 
 ## CI/CD Pipeline
 
@@ -93,6 +74,6 @@ Azure App Service → Configuration → General Settings
 - Standalone build used for minimal runtime footprint
 - Manual GitHub Actions pipeline (no Azure auto-generated workflows)
 - Publish profile used for deployment auth
-- Test and production environments separated at app + DB level
+- Test and production environments separated at the app level
 
 ---

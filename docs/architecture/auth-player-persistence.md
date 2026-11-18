@@ -1,5 +1,21 @@
 # Auth / Player Persistence
 
+> **Status: localStorage only.**
+>
+> The server mediated, database backed half of this design was built and
+> then retired. The hosted database and its API routes have been removed
+> from the codebase, and `lib/persistence/persistence.ts` is pinned to the
+> localStorage implementation. Sections that describe a server layer,
+> relational tables or SQL storage are kept as the original design record
+> and as the blueprint for reconnecting a database later. They do not
+> describe how the application works today.
+>
+> What is still accurate and in use: the persistence interface, the entity
+> model (Account, Player, CharacterSave), the save payload shapes, the
+> versioning fields and the save timing rules. The localStorage
+> implementation satisfies all of them.
+
+
 ## 1. Overview
 
 This document defines the authentication and player persistence system for Isekai Quest.
@@ -256,7 +272,11 @@ This approach ensures developers can work on gameplay features independently of 
 
 ### 4.2 Deployed / Testing Environments
 
-In deployed and testing environments, persistence is handled through the Next.js server layer and a relational database.
+**Not implemented. Deployed environments now use the same localStorage
+implementation described in 4.1.** The design below is retained as the
+blueprint for reintroducing a server mediated backend.
+
+The original design routed persistence in deployed and testing environments through the Next.js server layer and a relational database.
 
 In this environment:
 

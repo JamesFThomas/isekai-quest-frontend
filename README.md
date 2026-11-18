@@ -8,7 +8,7 @@ This repository contains the frontend for Isekai Quest, built with **Next.js 15*
 
 ## 🔗 Live Demo
 
-👉 [isekai-quest.netlify.app](https://isekai-quest.netlify.app/)
+👉 _Deployment in progress. URL to be added once the Vercel project is live._
 
 ## 📜 Game Design Document
 
@@ -23,7 +23,8 @@ This repository contains the frontend for Isekai Quest, built with **Next.js 15*
 - **Forms**: React Hook Form
 - **Language**: TypeScript
 - **Assets**: Custom Pixel Art
-- **CI/CD**: Netlify
+- **Hosting**: Vercel
+- **CI**: GitHub Actions (tests and production build on pull request)
 
 ---
 
@@ -40,7 +41,7 @@ This repository contains the frontend for Isekai Quest, built with **Next.js 15*
 
 ## 🚧 Planned Enhancements
 
-- C#/.NET backend integration for account and character persistence
+- Optional backend for cross device persistence (currently browser localStorage only)
 - In-town interactions (market, guild, inn)
 - Quest board with task acceptance and rewards
 - Turn-based combat with class-specific skills

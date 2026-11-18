@@ -1,0 +1,40 @@
+# Continuous integration for Isekai Quest.
+#
+# Deployment is handled by Vercel's GitHub integration, not by Actions:
+# production builds from `main`, preview builds from every other branch
+# and pull request. This workflow exists only to gate merges into `main`
+# on a green test suite and a clean production build.
+#
+# The build step is deliberate. Lint and type errors have blocked
+# production builds on this project before while the unit tests stayed
+# green, so the suite alone is not a sufficient gate.
+
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js version
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24.x"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm run test:ci
+
+      - name: Build
+        run: npm run build

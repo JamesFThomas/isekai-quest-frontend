@@ -11,7 +11,7 @@
     "test:ci": "jest --ci"
   },
   "engines": {
-    "node": "20.x"
+    "node": "24.x"
   },
   "dependencies": {
     "@babel/preset-env": "^7.28.0",

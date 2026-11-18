@@ -10,11 +10,6 @@
 - runtime: Node 20 (Linux)
 - startup command: node server.js
 
-## Environment Variables
-
-- DATABASE_URL → Azure App Service setting
-- NEXT_PUBLIC_PERSISTENCE_MODE → remote
-
 ## Build & Deployment (GitHub Actions)
 
 - builds Next.js standalone output

@@ -1,54 +1,47 @@
 import { Persistence } from '../../types/persistence';
 
 import { localPersistence } from './localPersistence';
-import { remotePersistence } from './remotePersistence';
 
-/**
- * Defines the available persistence modes for the application.
+/* ------------------------------------------------------------------
+ * STORAGE BACKEND
+ * ------------------------------------------------------------------
+ * Isekai Quest persists everything in the browser via localStorage.
  *
- * - 'local'  → uses browser localStorage (development / offline testing)
- * - 'remote' → uses API routes backed by Azure SQL (production)
- */
-
-export type PERSISTENCE_MODE = 'local' | 'remote';
-
-/**
- * Reads the persistence mode from environment configuration.
+ * A second, database backed implementation used to sit behind this
+ * module, selected at build time by NEXT_PUBLIC_PERSISTENCE_MODE. It has
+ * been removed. The project no longer pays for a hosted database, and
+ * shipping an unreachable fetch client to every player was dead weight in
+ * the bundle.
  *
- * NEXT_PUBLIC_ prefix allows access on the client side.
- * Falls back to 'local' to ensure safe default behavior during development.
+ * Removed, and preserved in git history at commit 41e2dcc:
+ *   - lib/persistence/remotePersistence.ts  (fetch client)
+ *   - app/api/auth/login/route.ts
+ *   - app/api/auth/register/route.ts
+ *   - app/api/player/load/route.ts
+ *   - app/api/player/save/route.ts
+ *   - lib/server/db/azureSql.ts             (Azure SQL connection pool)
  *
- * Note: The type cast does NOT validate runtime values.
- * If an invalid value is provided, it will not be caught here.
- */
-
-const persistenceMode: PERSISTENCE_MODE =
-  (process.env.NEXT_PUBLIC_PERSISTENCE_MODE as PERSISTENCE_MODE) || 'local';
-
-/**
- * Selects the correct persistence implementation based on environment.
+ * Recover any of them with:
  *
- * This is the single decision point for storage behavior in the app.
- * Both implementations must satisfy the same Persistence interface.
+ *   git show 41e2dcc:lib/persistence/remotePersistence.ts
  *
- * This ensures:
- * - Components remain storage-agnostic
- * - Local and remote implementations are interchangeable
- * - No conditional logic is needed throughout the app
- */
-
-const implementation: Persistence =
-  persistenceMode === 'local' ? localPersistence : remotePersistence;
+ * The `mssql`, `@types/mssql` and `bcryptjs` packages went with them.
+ *
+ * To add a backend later, write an implementation that satisfies the
+ * `Persistence` interface in `types/persistence.d.ts` and swap it in
+ * below. Nothing else in the application needs to change: every consumer
+ * imports the `persistence` export and stays unaware of where the data
+ * lives. Preserving that boundary is the entire purpose of this file.
+ * ------------------------------------------------------------------ */
 
 /**
  * Public persistence interface used throughout the application.
  *
  * This is the ONLY export consumers should use.
- * It hides whether data is coming from localStorage or a remote API.
  *
  * Acts as the abstraction boundary between:
  * - UI / state management
  * - data persistence layer
  */
 
-export const persistence: Persistence = implementation;
+export const persistence: Persistence = localPersistence;

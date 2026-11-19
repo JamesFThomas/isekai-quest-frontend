@@ -86,7 +86,11 @@ enable branch protection on `main` in repository settings and require the
 
 ## Domain
 
-The site is served from its Vercel assigned `.vercel.app` subdomain. No
+Production is served from:
+
+- https://isekai-quest-frontend.vercel.app/
+
+This is the Vercel assigned `.vercel.app` subdomain. No
 custom domain is attached. Adding one later is done entirely in the Vercel
 dashboard under Project Settings, Domains, and requires no code change.
 

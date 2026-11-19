@@ -87,6 +87,33 @@ const mockRefreshData: PersistenceResponse = {
 };
 
 /*
+ * Session data written before the LoginModal fix carries a null
+ * acceptedQuestId at the top level while the character snapshot holds the
+ * real value. The provider must restore from the snapshot, so this fixture
+ * deliberately keeps the top level fields null.
+ */
+const mockRefreshDataWithAcceptedQuest: PersistenceResponse = {
+  ...mockRefreshData,
+  data: {
+    refreshSessionData: {
+      ...mockRefreshData.data!.refreshSessionData!,
+      acceptedQuestId: null,
+      currentStoryPointId: null,
+      characterSnapshot: {
+        characterData: mockCharacter,
+        progressionData: {
+          completedQuestIds: [],
+          acceptedQuestId: "ambushReconQuest",
+          currentTown: "StartsVille",
+          currentStoryPointId: "1",
+          lastEndedQuestId: null,
+        },
+      },
+    },
+  },
+};
+
+/*
  * Story: Player's session is restored after a browser refresh
  * In order to continue their adventure without logging in again,
  * a player's auth, character, and quest state should be rehydrated from local storage on mount.
@@ -100,6 +127,12 @@ const mockRefreshData: PersistenceResponse = {
  *   Given valid session refresh data exists
  *   When the RefreshDataProvider mounts
  *   Then the store should reflect an authenticated user
+ *
+ * Scenario: An accepted quest is restored from the character snapshot
+ *   Given session data whose snapshot holds an accepted quest
+ *   And the duplicated top level quest fields are null
+ *   When the RefreshDataProvider mounts
+ *   Then the accepted quest and story point should be restored to the store
  *
  * Scenario: Children render when no session data exists
  *   Given no session refresh data exists in local storage
@@ -137,6 +170,26 @@ describe("RefreshDataProvider", () => {
     await screen.findByText("Child Content");
 
     expect(store.getState().auth.isAuthenticated).toBe(true);
+  });
+
+  it("restores the accepted quest and story point from the character snapshot", async () => {
+    mockLoadSessionRefreshData.mockReturnValue(
+      mockRefreshDataWithAcceptedQuest,
+    );
+
+    const { store } = renderWithStore(
+      <RefreshDataProvider>
+        <div>Child Content</div>
+      </RefreshDataProvider>,
+      baseState,
+    );
+
+    await screen.findByText("Child Content");
+
+    const questState = store.getState().quest;
+
+    expect(questState.acceptedQuest?.id).toBe("ambushReconQuest");
+    expect(questState.currentStoryPointId).toBe("1");
   });
 
   it("renders children when no session refresh data exists", async () => {

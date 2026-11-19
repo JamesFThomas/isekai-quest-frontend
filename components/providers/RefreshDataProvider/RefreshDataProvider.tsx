@@ -83,13 +83,21 @@ export const RefreshDataProvider = ({ children }: RefreshDataProviderProps) => {
     dispatch(setCharacterSnapshot(characterSnapshot));
 
     // Step 8: Restore quest state in Redux
-    if (refreshSessionData.acceptedQuestId) {
-      dispatch(setAcceptedQuestById(refreshSessionData.acceptedQuestId));
-      dispatch(setCurrentStoryPointId(refreshSessionData.currentStoryPointId));
+    //
+    // Quest state is read from the character snapshot, not from the
+    // duplicate fields on the session refresh object itself. The snapshot's
+    // progressionData is the same payload written to the character save, so
+    // it is the authoritative record of where the player left off. The top
+    // level fields are written by three separate components and only have to
+    // disagree once to silently drop an accepted quest on refresh, which is
+    // exactly what happened when LoginModal wrote a hardcoded null there.
+    if (progressionData.acceptedQuestId) {
+      dispatch(setAcceptedQuestById(progressionData.acceptedQuestId));
+      dispatch(setCurrentStoryPointId(progressionData.currentStoryPointId));
     }
 
-    if (refreshSessionData.lastEndedQuestId) {
-      dispatch(setLastEndedQuestId(refreshSessionData.lastEndedQuestId));
+    if (progressionData.lastEndedQuestId) {
+      dispatch(setLastEndedQuestId(progressionData.lastEndedQuestId));
     }
 
     setIsLoading(false);

@@ -14,10 +14,38 @@ import { ToastId } from "@/types/toast";
 let ctx: AudioContext | null = null;
 
 // ***** utilizing singleton pattern ***** //
-const getAudioContext = (): AudioContext => {
+//
+// Browsers refuse to start an AudioContext that was not created during a
+// user gesture. One created outside of one is born suspended, and the
+// resume() below returns a promise that never settles. Because the context
+// is a module level singleton, a single bad birth silences every sound for
+// the life of the page.
+//
+// `playSoundEffect` runs from a React effect, which is detached from the
+// click that triggered it, so it cannot be relied on to create the context
+// safely. `primeAudioContext` below exists to create it from a real gesture
+// instead. Whether sound worked without it came down to timing, which is why
+// the failure looked intermittent.
+const getAudioContext = (): AudioContext | null => {
+  if (typeof window === "undefined" || typeof AudioContext === "undefined") {
+    return null;
+  }
+
   if (!ctx) ctx = new AudioContext();
-  if (ctx.state === "suspended") ctx.resume();
+  if (ctx.state === "suspended") void ctx.resume().catch(() => {});
+
   return ctx;
+};
+
+/**
+ * Creates and resumes the shared AudioContext.
+ *
+ * Call this from a genuine user gesture (see ToastProvider), before any
+ * toast has a chance to play a sound. Safe to call repeatedly and safe to
+ * call where there is no Web Audio support, including jsdom.
+ */
+export const primeAudioContext = (): void => {
+  getAudioContext();
 };
 
 // ***** Sound effect synthesis functions *****  //
@@ -289,6 +317,10 @@ const playSaveProgress = (c: AudioContext) => {
 // ***** Sound effect method switch ***** //
 export const playSoundEffect = (event: ToastId) => {
   const audioCtx = getAudioContext();
+
+  // No Web Audio support, or running outside a browser.
+  if (!audioCtx) return;
+
   switch (event) {
     case "quest_accepted":
       playQuestAccepted(audioCtx);

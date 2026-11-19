@@ -55,7 +55,13 @@ export const InventoryItemModal = ({
     return (
       inventoryItem && (
         <div>
-          <div>
+          {/*
+            ModalBase centers its content with `text-center`, which has no
+            effect on the icon: Tailwind's preflight renders images as block
+            level elements, and a block element ignores text alignment. The
+            flex column below centers the image and the copy together.
+          */}
+          <div className="flex flex-col items-center gap-2 px-4">
             <Image
               src={inventoryItem.icon}
               alt={inventoryItem.title}

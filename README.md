@@ -8,7 +8,7 @@ This repository contains the frontend for Isekai Quest, built with **Next.js 15*
 
 ## 🔗 Live Demo
 
-👉 _Deployment in progress. URL to be added once the Vercel project is live._
+👉 [isekai-quest-frontend.vercel.app](https://isekai-quest-frontend.vercel.app/)
 
 ## 📜 Game Design Document
 
@@ -30,22 +30,60 @@ This repository contains the frontend for Isekai Quest, built with **Next.js 15*
 
 ## 🎮 Current Features
 
-- Splash screen with quest introduction and animated call-to-action
-- Login modal to continue an existing quest
-- Create Character screen with responsive avatar grid
-- Character preview with dynamic name input
-- Mobile-first, responsive layout
+**Accounts and saves**
+
+- Account registration and login
+- Character and progression saves persisted in the browser
+- Session restored on refresh, returning you to your active quest and story point
+- Manual save with unsaved change detection
+
+**Character creation**
+
+- Responsive avatar grid of custom pixel art characters
+- Class selection, each class with its own starting loadout of attacks, skills, weapons and equipment
+- Live character preview with dynamic name input
+
+**Town and world**
+
+- Splash screen with quest introduction and animated call to action
+- StartsVille town hub with a guild, a market and an inn
+- World map with selectable locations and quest commencement
+
+**Quests**
+
+- Guild quest board listing available contracts
+- Multi stage quest stories with branching choices and distinct outcomes
+- Six quest stories authored, one playable end to end while the rest are built out
+
+**Combat**
+
+- Turn based battles using class specific attacks and skills
+- Damage resolution with victory and defeat handling
+- Battle outcome screen with rewards
+
+**Inventory and economy**
+
+- Party screen with character stats and inventory management
+- Equip and use items from inventory
+- Market with weapon, armor, potion and ration booths
+- Coin based purchasing with affordability checks
+
+**Interface**
+
+- Queued toast notification system, grouped by turn during battle
+- Mobile first, responsive layout
 - Themed experience with a consistent palette and nostalgic visual cues
 
 ---
 
 ## 🚧 Planned Enhancements
 
+- Remaining quest stories implemented and opened on the quest board
+- Quest and location unlocking driven by completed quest prerequisites
+- Character leveling and progression rewards
+- Sound effects for game events (built, currently being repaired)
+- Accessibility pass: semantic landmarks, focus management and keyboard navigation
 - Optional backend for cross device persistence (currently browser localStorage only)
-- In-town interactions (market, guild, inn)
-- Quest board with task acceptance and rewards
-- Turn-based combat with class-specific skills
-- Inventory, character leveling, and save/load support
 
 ---
 
